@@ -35,18 +35,6 @@ class AuthController extends Controller
         ]);
 
     
-        /* if($request->email != "admin@gmail.com"){
-            $user = User::where('email', $request->email)->whereNotNull('email_verified_at')->first();
-
-            if(!$user){
-                return response()->json([
-                    "message" => "Your email address is not verified.",
-                    "success" => false
-                ]);
-            }
-        } */
-
-
         if (method_exists($this, 'hasTooManyLoginAttempts') && $this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
             return $this->sendLockoutResponse($request);
@@ -59,7 +47,20 @@ class AuthController extends Controller
             //$authToken = $user->createToken('auth-token')->plainTextToken;
             //$token = $request->user()->createToken('auth-token');          
            
-            //
+           /*  if(auth("sanctum")->user()->role == "Student" || auth("sanctum")->user()->role == "Teacher"){
+                return response()->json([
+                    "message" => "Login Success",
+                    "verified" => true,
+                    "success" => true,
+                ]); 
+            }else{
+                Auth::logout();
+                return response()->json([
+                    "message" => "Login Failed",
+                    "verified" => false,
+                    "success" => false,
+                ]);
+            } */
             if($request->email != "isueorange@gmail.com"){
                 Auth::logoutOtherDevices($request->password);
                 $request->session()->regenerate();
@@ -77,6 +78,45 @@ class AuthController extends Controller
                 ]); 
             }
                       
+        }
+        else{
+            $this->incrementLoginAttempts($request);
+            return response()->json([
+                "message" => "Incorrect Email or Password. Please try again",
+                "success" => false
+            ]);
+        }
+        
+    }
+
+    public function AdminLogin(Request $request){
+
+        $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required']
+        ]);
+
+    
+        if (method_exists($this, 'hasTooManyLoginAttempts') && $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            return $this->sendLockoutResponse($request);
+        }
+        
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)){
+
+            if(auth("sanctum")->user()->role != "Administrator"){
+                Auth::logout();
+                return response()->json([
+                    "message" => "Login Failed",
+                    "verified" => false,
+                    "success" => false,
+                ]); 
+            }     
+            return response()->json([
+                "message" => "Login Success",
+                "verified" => true,
+                "success" => true,
+            ]);
         }
         else{
             $this->incrementLoginAttempts($request);
@@ -133,44 +173,16 @@ class AuthController extends Controller
     
     }
 
-// '$2y$10$cRl5lx14qOBXEh5tzJZZn.ajz5YzZCWE1si3ao7g7aCiIexktqlRG'
-    public function ChangePassword(Request $request){
-      /*   $validated = $request->validate([
-            'password' => ['required', 'min:6','max:30' ,'confirmed']
-        ]); */
 
+    public function ChangePassword(Request $request){
+     
         $request->validate([
             'current_password' => ['required', new CheckOldPassword],
             'new_password' => ['required','min:6','max:30'],
             'new_confirm_password' => ['same:new_password'],
         ]);
 
-
         User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
-
-       /*  if(Auth::attempt($request->only('password'))){
-            return auth()->user()->password;
-        }else{
-            return '123';
-        } */
-
-        
-        
-
-       /*  if(Hash::check(strval($request->current_password), auth()->user()->password)){
-            auth()->user()->password = Hash::make($request->new_password);
-            auth()->user()->update();
-            
-            $request->session()->forget('password_hash_web');
-
-            Auth::guard('web')->login(auth()->user());
-
-            
-            return 1;
-        }
-        else{
-            return 0;
-        }  */
     }
 
     public function ConfirmPassword(Request $request){
@@ -230,10 +242,6 @@ class AuthController extends Controller
                 "success" => false
             ]);
         }
-
-
-
-       
 
     }
 
@@ -309,6 +317,29 @@ class AuthController extends Controller
 
     }
 
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    
+    public function CheckAdmin(Request $request) {
+
+        $user = User::where('email', 'isueorange@gmail.com')->first();
+        if(Hash::check($request->password, $user->password)){
+            return response()->json([
+                "message" => "Success",
+                "success" => True
+            ]);
+        }
+
+        return response()->json([
+            "message" => "Failed",
+            "success" => false
+        ]);
+
+    }
  
 
     

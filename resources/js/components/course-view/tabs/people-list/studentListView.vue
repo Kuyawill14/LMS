@@ -47,7 +47,7 @@
                 </v-col>
 
                 <!-- Students -->
-                <v-col cols="12" class="mb-0 pb-0 mt-3 pt-0">
+                <v-col cols="12" class="mb-0 pb-0 mt-3 pt-0"> 
                     <div><h3 class="font-weight-medium">Classmates</h3></div>
                  </v-col>
                 <v-col class="ma-0 pa-0" cols="12" md="4" lg="3" v-for="item in students" :key="item.user_id">

@@ -13,9 +13,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
-/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _dialog_typedAnswerDialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dialog/typedAnswerDialog */ "./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -621,16 +622,71 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_dialog_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/dialog/attachLinkDialog.vue"));
 };
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
   components: {
-    attachlinkDiaglog: attachlinkDiaglog
+    attachlinkDiaglog: attachlinkDiaglog,
+    typeAnswerDialog: _dialog_typedAnswerDialog__WEBPACK_IMPORTED_MODULE_1__.default
   },
   data: function data() {
     var _this = this;
@@ -640,6 +696,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       isUpdatingComment_id: null,
       isUpdatingComment_old_data: null,
       AttachLink: false,
+      IsTypeAnswer: false,
+      isTypeAnswerType: 'add',
       FileList: [],
       file: [],
       fileSize: null,
@@ -686,10 +744,35 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
             'list': 'bullet'
           }], ['image']]
         }
-      }
+      },
+      editorOption: {
+        placeholder: 'type here ...',
+        theme: 'snow',
+        blur: true,
+        editorData: null,
+        modules: {
+          toolbar: {
+            container: [['bold', 'italic', 'underline'], [{
+              'color': []
+            }], [{
+              'list': 'bullet'
+            }]]
+          },
+          syntax: {
+            highlight: function highlight(text) {
+              return hljs.highlightAuto(text).value;
+            }
+          }
+        }
+      },
+      editTextData: {
+        title: '',
+        text: ''
+      },
+      editTextDataIndex: null
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'statusDetails'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['get_CurrentUser', 'statusDetails'])), {}, {
     extension: function extension() {
       return this.tempFile ? this.tempFile.name.split('.').pop() : '';
     },
@@ -705,7 +788,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       return attach.split('.').pop();
     }
   }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['checkClassworkStatus'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['checkClassworkStatus'])), {}, {
     handleScroll: function handleScroll(event) {
       this.ScrollPosistion = window.scrollY;
     },
@@ -718,6 +801,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
         return 'mdi-note-text-outline';
       } else if (ext == 'docx' || ext == 'doc') {
         return 'mdi-file-word';
+      } else if (ext == 'type_answer') {
+        return 'mdi-format-text';
       } else if (ext == 'link') {
         return 'mdi-file-link';
       }
@@ -733,6 +818,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
         return 'blue';
       } else if (ext == 'link') {
         return 'green';
+      } else if (ext == 'type_answer') {
+        return 'success';
       } else {
         return 'primary';
       }
@@ -740,18 +827,18 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     format_date1: function format_date1(value) {
       if (value) {
         //return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
-        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
       }
     },
     format_date: function format_date(value) {
       if (value) {
         /* return moment(String(value)).format('dddd, h:mm a') */
-        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('MMMM DD, YYYY, h:mm a');
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(String(value)).tz("Asia/Manila").format('MMMM DD, YYYY, h:mm a');
       }
     },
     comment_date: function comment_date(value) {
       if (value) {
-        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('MMMM, DD YYYY, h:mm a');
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(String(value)).tz("Asia/Manila").format('MMMM, DD YYYY, h:mm a');
       }
     },
     validate: function validate() {
@@ -770,8 +857,21 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
 
       return url.protocol === "http:" || url.protocol === "https:";
     },
-    OpenFile: function OpenFile(file) {
-      window.open(file, '_blank');
+    OpenFile: function OpenFile(name, file, ext, index) {
+      if (ext == 'type_answer') {
+        if (this.classworkDetails.status == 'Submitted') {
+          this.isTypeAnswerType = 'view';
+        } else {
+          this.isTypeAnswerType = 'edit';
+        }
+
+        this.editTextDataIndex = index;
+        this.editTextData.title = name;
+        this.editTextData.text = file;
+        this.IsTypeAnswer = true;
+      } else {
+        window.open(file, '_blank');
+      }
     },
     scrapeDocID: function scrapeDocID() {
       var path = this.linkFile;
@@ -788,32 +888,112 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     AddLinkInSubmittedAnswer: function AddLinkInSubmittedAnswer() {
       var _this2 = this;
 
-      var index = this.classworkDetails.Submitted_Answers.length - 1;
-      var sub_id = this.tempId == null ? 'empty' : this.tempId;
-      var fd = new FormData();
-      fd.append('Submission_id', sub_id);
-      fd.append('id', this.classworkDetails.id);
-      fd.append('class_classwork_id', this.classworkDetails.class_classwork_id);
-      fd.append('type', this.classworkDetails.type);
-      fd.append('fileName', this.classworkDetails.Submitted_Answers[index].name);
-      fd.append('fileSize', this.classworkDetails.Submitted_Answers[index].fileSize);
-      fd.append('fileExte', this.classworkDetails.Submitted_Answers[index].fileExte);
-      fd.append('file', this.classworkDetails.Submitted_Answers[index].link);
-      axios.post('/api/student/linkAndstatus', fd).then(function (res) {
-        _this2.AttachLink = false;
-        _this2.linkName = null;
-        _this2.linkFile = null;
-        _this2.tempId = res.data;
-        _this2.classworkDetails.status = "Submitting";
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var index, sub_id, fd;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                index = _this2.classworkDetails.Submitted_Answers.length - 1;
+                sub_id = _this2.tempId == null ? 'empty' : _this2.tempId;
+                fd = new FormData();
+                fd.append('Submission_id', sub_id);
+                fd.append('id', _this2.classworkDetails.id);
+                fd.append('class_classwork_id', _this2.classworkDetails.class_classwork_id);
+                fd.append('type', _this2.classworkDetails.type);
+                fd.append('fileName', _this2.classworkDetails.Submitted_Answers[index].name);
+                fd.append('fileSize', _this2.classworkDetails.Submitted_Answers[index].fileSize);
+                fd.append('fileExte', _this2.classworkDetails.Submitted_Answers[index].fileExte);
+                fd.append('file', _this2.classworkDetails.Submitted_Answers[index].link);
+                _context.next = 13;
+                return axios.post('/api/student/linkAndstatus', fd).then(function (res) {
+                  _this2.AttachLink = false;
+                  _this2.linkName = null;
+                  _this2.linkFile = null;
+                  _this2.tempId = res.data;
+                  _this2.classworkDetails.status = "Submitting";
+                });
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    AddTypeAnswer: function AddTypeAnswer() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var index, sub_id, fd;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this3.classworkDetails.Submitted_Answers.push({
+                  name: _this3.editTextData.title,
+                  fileSize: '',
+                  fileExte: 'type_answer',
+                  link: _this3.editTextData.text
+                });
+
+                index = _this3.classworkDetails.Submitted_Answers.length - 1;
+                sub_id = _this3.tempId == null ? 'empty' : _this3.tempId;
+                fd = new FormData();
+                fd.append('Submission_id', sub_id);
+                fd.append('id', _this3.classworkDetails.id);
+                fd.append('class_classwork_id', _this3.classworkDetails.class_classwork_id);
+                fd.append('type', _this3.classworkDetails.type);
+                fd.append('fileName', _this3.classworkDetails.Submitted_Answers[index].name);
+                fd.append('fileSize', _this3.classworkDetails.Submitted_Answers[index].fileSize);
+                fd.append('fileExte', _this3.classworkDetails.Submitted_Answers[index].fileExte);
+                fd.append('file', _this3.classworkDetails.Submitted_Answers[index].link);
+                _context2.next = 14;
+                return axios.post('/api/student/linkAndstatus', fd).then(function (res) {
+                  _this3.tempId = res.data;
+                  _this3.IsTypeAnswer = false;
+                  _this3.isTypeAnswerType = '';
+                });
+
+              case 14:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    UpdateTypeAnswer: function UpdateTypeAnswer() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this4.classworkDetails.Submitted_Answers[_this4.editTextDataIndex].link = _this4.editTextData.text;
+                _this4.classworkDetails.Submitted_Answers[_this4.editTextDataIndex].name = _this4.editTextData.title;
+                _context3.next = 4;
+                return axios.put('/api/student/update_answer/' + _this4.classworkDetails.Sub_id, {
+                  answers: _this4.classworkDetails.Submitted_Answers
+                }).then(function (res) {
+                  _this4.IsTypeAnswer = false;
+                  _this4.isTypeAnswerType = '';
+                });
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     },
     UploadFile: function UploadFile() {
-      ////console.log('test123');
-      //this.$refs.UploadAttachFile.click();
       this.$refs.UploadAttachFile.$refs.input.click();
     },
     UploadMoreFile: function UploadMoreFile() {
-      //console.log('test');
       if (this.file.length <= 4) {
         this.$refs.AttAchMoreFile.click();
       } else {}
@@ -830,25 +1010,13 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       window.open(link, '_blank');
     },
     onChange: function onChange(file) {
-      var _this3 = this;
+      var _this5 = this;
 
-      /* //console.log(this.FileList.length);
-      if(this.FileList.length > 1){
-        let count = 0;
-         this.FileList.forEach(item => {
-            if(this.FileList[this.FileList.length-1].name == item.name){
-              count++;
-            }
-        });
-        this.FileList[this.FileList.length-1].name = count != 0 ? this.FileList[this.FileList.length-1].name+'('+count+')' : this.FileList[this.FileList.length-1].name;
-      } */
       var fileData = this.FileList[this.FileList.length - 1];
       this.CheckeFileExtention = fileData;
-      /* b */
-
       var Checker = false;
       this.acceptedFileType.forEach(function (item) {
-        if (_this3.Checkextension == item) {
+        if (_this5.Checkextension == item) {
           Checker = true;
           return;
         }
@@ -898,221 +1066,30 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       this.UpdateSubmission(this.classworkDetails.Submitted_Answers.length - 1);
     },
     removeFile: function removeFile(index) {
-      var _this4 = this;
-
-      this.isDeleting_id = index;
-      this.isDeleting = true;
-      axios.put('/api/submission/file-remove/' + this.tempId, {
-        Fileindex: index
-      }).then(function (res) {
-        _this4.uploadPercentage = 0;
-
-        _this4.file.splice(index, 1);
-
-        _this4.tempId = null;
-        _this4.isUploading[index] = false;
-        _this4.isDeleting = false;
-        _this4.isDeleting_id = null;
-      });
-    },
-    test: function test() {
-      var data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="' + this.link + '"></iframe><div><br></div>'; ////console.log(data);
-    },
-
-    /*  async checkStatus(type){
-       axios.get('/api/submission/check-sbj/'+this.classworkDetails.id)
-       .then(res=>{
-           this.myClasssworkStatus = res.data;
-           this.tempId = res.data.Sub_id;
-           if(type != 'submit'){
-              this.isloading = !this.isloading;
-           }
-       })
-    }, */
-    checkStatus: function checkStatus(type) {
-      var _this5 = this;
-
-      var data = {};
-      data.id = this.$route.query.clwk;
-      data.type = this.classworkDetails.type;
-      this.$store.dispatch('checkClassworkStatus', data).then(function () {
-        _this5.myClasssworkStatus = _this5.statusDetails;
-        _this5.tempId = _this5.statusDetails.Sub_id;
-
-        if (type != 'submit') {
-          _this5.isloading = !_this5.isloading;
-        }
-      });
-    },
-    UpdateSubmission: function UpdateSubmission(index) {
       var _this6 = this;
-
-      var sub_id = this.tempId == null ? 'empty' : this.tempId;
-      var fd = new FormData();
-      fd.append('Submission_id', sub_id);
-      fd.append('id', this.classworkDetails.id);
-      fd.append('class_classwork_id', this.classworkDetails.class_classwork_id);
-      fd.append('type', this.classworkDetails.type);
-      fd.append('fileName', this.classworkDetails.Submitted_Answers[index].name);
-      fd.append('fileSize', this.classworkDetails.Submitted_Answers[index].fileSize);
-      fd.append('fileExte', this.classworkDetails.Submitted_Answers[index].fileExte);
-      fd.append('file', this.classworkDetails.Submitted_Answers[index].file);
-      axios.post('/api/student/update-status', fd, {
-        onUploadProgress: function onUploadProgress(progressEvent) {
-          var total = progressEvent.total;
-          var totalLength = progressEvent.lengthComputable ? total : null;
-
-          if (totalLength != null) {
-            _this6.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
-          }
-        }
-      }).then(function (res) {
-        /* if(this.classworkDetails.Submitted_Answers.length == 0){
-           this.file[this.isUpIndex].link = res.data.link;
-        }
-        else{ */
-        _this6.classworkDetails.Submitted_Answers[_this6.isUpIndex].link = res.data.link; //}
-
-        _this6.tempId = _this6.tempId == null ? res.data.id : _this6.tempId;
-        _this6.isUploadSaving = false;
-        _this6.isUpIndex = null;
-        _this6.classworkDetails.status = "Submitting";
-      });
-    },
-    DeleteUpload: function DeleteUpload(index) {
-      var _this7 = this;
-
-      this.isDeleting_id = index;
-      this.isDeleting = true;
-      var type = 'submit';
-      axios.put('/api/submission/file-remove/' + this.tempId, {
-        Fileindex: index
-      }).then(function (res) {
-        _this7.classworkDetails.Submitted_Answers.splice(index, 1);
-
-        if (_this7.FileList.length != 0) {
-          _this7.FileList.splice(index, 1);
-        }
-
-        if (_this7.classworkDetails.Submitted_Answers.length == 0) {
-          _this7.classworkDetails.Sub_id = null;
-          _this7.tempId = null;
-        }
-
-        _this7.uploadPercentage = 0;
-        _this7.isUploading[index] = false;
-        _this7.isDeleting = false;
-        _this7.isDeleting_id = null;
-      });
-    },
-    SubmitClasswork: function SubmitClasswork() {
-      var _this8 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var type;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _this8.IsSaving = true;
-                type = 'submit';
-                axios.put('/api/student/submit-classwork/' + _this8.tempId).then(function (res) {
-                  if (res.status == 200) {
-                    //this.checkStatus(type);
-                    _this8.classworkDetails.status = 'Submitted';
-                    _this8.IsSaving = false;
-                    _this8.isResubmit = false;
-                  }
-                });
-
-              case 3:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    addComment: function addComment(details) {
-      var _this9 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                data = {};
-                _this9.isCommenting = true;
-                data.classwork_id = details.id;
-                data.to_user = details.user_id;
-                data.type = 'Private';
-                data.course_id = _this9.$route.params.id;
-                data.comment = _this9.comment;
-                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
-                  ////console.log(res.data);
-                  if (res.status == 200) {
-                    _this9.classworkDetails.comments.push({
-                      content: res.data.comment,
-                      id: res.data.id,
-                      name: res.data.name,
-                      profile_pic: res.data.profile_pic,
-                      u_id: _this9.get_CurrentUser.user_id,
-                      comment_date: new Date()
-                    });
-
-                    _this9.comment = '';
-                  }
-                });
-                _this9.isCommenting = false;
-
-              case 9:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    DeleteComment: function DeleteComment(id, index) {
-      var _this10 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
-                  if (res.data.success == true) {
-                    _this10.classworkDetails.comments.splice(index, 1);
-                  }
-                });
-
-              case 1:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    UpdateComment: function UpdateComment(content, id) {
-      var _this11 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                axios.put('/api/post/comment/update/' + id, {
-                  comment: content
+                _this6.isDeleting_id = index;
+                _this6.isDeleting = true;
+                _context4.next = 4;
+                return axios.put('/api/submission/file-remove/' + _this6.tempId, {
+                  Fileindex: index
                 }).then(function (res) {
-                  _this11.isUpdatingComment = false;
-                  _this11.isUpdatingComment_id = null;
-                  _this11.isUpdatingComment_old_data = null;
+                  _this6.uploadPercentage = 0;
+
+                  _this6.file.splice(index, 1);
+
+                  _this6.tempId = null;
+                  _this6.isUploading[index] = false;
+                  _this6.isDeleting = false;
+                  _this6.isDeleting_id = null;
                 });
 
-              case 1:
+              case 4:
               case "end":
                 return _context4.stop();
             }
@@ -1120,20 +1097,256 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
         }, _callee4);
       }))();
     },
-    MarkAsSubmitting: function MarkAsSubmitting(id) {
+    test: function test() {
+      var data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="' + this.link + '"></iframe><div><br></div>'; ////console.log(data);
+    },
+    checkStatus: function checkStatus(type) {
+      var _this7 = this;
+
+      var data = {};
+      data.id = this.$route.query.clwk;
+      data.type = this.classworkDetails.type;
+      this.$store.dispatch('checkClassworkStatus', data).then(function () {
+        _this7.myClasssworkStatus = _this7.statusDetails;
+        _this7.tempId = _this7.statusDetails.Sub_id;
+
+        if (type != 'submit') {
+          _this7.isloading = !_this7.isloading;
+        }
+      });
+    },
+    UpdateSubmission: function UpdateSubmission(index) {
+      var _this8 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var sub_id, fd;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                axios.put('/api/student/markAsSubmitting/' + id).then(function () {});
+                sub_id = _this8.tempId == null ? 'empty' : _this8.tempId;
+                fd = new FormData();
+                fd.append('Submission_id', sub_id);
+                fd.append('id', _this8.classworkDetails.id);
+                fd.append('class_classwork_id', _this8.classworkDetails.class_classwork_id);
+                fd.append('type', _this8.classworkDetails.type);
+                fd.append('fileName', _this8.classworkDetails.Submitted_Answers[index].name);
+                fd.append('fileSize', _this8.classworkDetails.Submitted_Answers[index].fileSize);
+                fd.append('fileExte', _this8.classworkDetails.Submitted_Answers[index].fileExte);
+                fd.append('file', _this8.classworkDetails.Submitted_Answers[index].file);
+                _context5.next = 12;
+                return axios.post('/api/student/update-status', fd, {
+                  onUploadProgress: function onUploadProgress(progressEvent) {
+                    var total = progressEvent.total;
+                    var totalLength = progressEvent.lengthComputable ? total : null;
 
-              case 1:
+                    if (totalLength != null) {
+                      _this8.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
+                    }
+                  }
+                }).then(function (res) {
+                  /* if(this.classworkDetails.Submitted_Answers.length == 0){
+                     this.file[this.isUpIndex].link = res.data.link;
+                  }
+                  else{ */
+                  _this8.classworkDetails.Submitted_Answers[_this8.isUpIndex].link = res.data.link; //}
+
+                  //}
+                  _this8.tempId = _this8.tempId == null ? res.data.id : _this8.tempId;
+                  _this8.isUploadSaving = false;
+                  _this8.isUpIndex = null;
+                  _this8.classworkDetails.status = "Submitting";
+                });
+
+              case 12:
               case "end":
                 return _context5.stop();
             }
           }
         }, _callee5);
+      }))();
+    },
+    DeleteUpload: function DeleteUpload(index) {
+      var _this9 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        var type;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _this9.isDeleting_id = index;
+                _this9.isDeleting = true;
+                type = 'submit';
+                _context6.next = 5;
+                return axios.put('/api/submission/file-remove/' + _this9.tempId, {
+                  Fileindex: index
+                }).then(function (res) {
+                  _this9.classworkDetails.Submitted_Answers.splice(index, 1);
+
+                  if (_this9.FileList.length != 0) {
+                    _this9.FileList.splice(index, 1);
+                  }
+
+                  if (_this9.classworkDetails.Submitted_Answers.length == 0) {
+                    _this9.classworkDetails.Sub_id = null;
+                    _this9.tempId = null;
+                  }
+
+                  _this9.uploadPercentage = 0;
+                  _this9.isUploading[index] = false;
+                  _this9.isDeleting = false;
+                  _this9.isDeleting_id = null;
+                });
+
+              case 5:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    SubmitClasswork: function SubmitClasswork() {
+      var _this10 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+        var type;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _this10.IsSaving = true;
+                type = 'submit';
+                _context7.next = 4;
+                return axios.put('/api/student/submit-classwork/' + _this10.tempId).then(function (res) {
+                  if (res.status == 200) {
+                    //this.checkStatus(type);
+                    _this10.classworkDetails.status = 'Submitted';
+                    _this10.IsSaving = false;
+                    _this10.isResubmit = false;
+                  }
+                });
+
+              case 4:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
+      }))();
+    },
+    addComment: function addComment(details) {
+      var _this11 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                data = {};
+                _this11.isCommenting = true;
+                data.classwork_id = details.id;
+                data.to_user = details.user_id;
+                data.type = 'Private';
+                data.course_id = _this11.$route.params.id;
+                data.comment = _this11.comment;
+                _context8.next = 9;
+                return axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
+                  ////console.log(res.data);
+                  if (res.status == 200) {
+                    _this11.classworkDetails.comments.push({
+                      content: res.data.comment,
+                      id: res.data.id,
+                      name: res.data.name,
+                      profile_pic: res.data.profile_pic,
+                      u_id: _this11.get_CurrentUser.user_id,
+                      comment_date: new Date()
+                    });
+
+                    _this11.comment = '';
+                  }
+                });
+
+              case 9:
+                _this11.isCommenting = false;
+
+              case 10:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8);
+      }))();
+    },
+    DeleteComment: function DeleteComment(id, index) {
+      var _this12 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _context9.next = 2;
+                return axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
+                  if (res.data.success == true) {
+                    _this12.classworkDetails.comments.splice(index, 1);
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }))();
+    },
+    UpdateComment: function UpdateComment(content, id) {
+      var _this13 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                _context10.next = 2;
+                return axios.put('/api/post/comment/update/' + id, {
+                  comment: content
+                }).then(function (res) {
+                  _this13.isUpdatingComment = false;
+                  _this13.isUpdatingComment_id = null;
+                  _this13.isUpdatingComment_old_data = null;
+                });
+
+              case 2:
+              case "end":
+                return _context10.stop();
+            }
+          }
+        }, _callee10);
+      }))();
+    },
+    MarkAsSubmitting: function MarkAsSubmitting(id) {
+      var _this14 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee11() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                _context11.next = 2;
+                return axios.put('/api/student/markAsSubmitting/' + id).then(function () {
+                  _this14.classworkDetails.status = 'Submitting';
+                });
+
+              case 2:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11);
       }))();
     },
     clickResubmit: function clickResubmit() {
@@ -1147,16 +1360,16 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
   }),
   created: function created() {//this.checkStatus();
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee12() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee12$(_context12) {
         while (1) {
-          switch (_context6.prev = _context6.next) {
+          switch (_context12.prev = _context12.next) {
             case 0:
             case "end":
-              return _context6.stop();
+              return _context12.stop();
           }
         }
-      }, _callee6);
+      }, _callee12);
     }))();
   },
   mounted: function mounted() {
@@ -1165,6 +1378,128 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
   },
   destroyed: function destroyed() {
     window.removeEventListener('scroll', this.handleScroll);
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['Type', 'answerData'],
+  data: function data() {
+    return {
+      editorOption: {
+        placeholder: 'type here ...',
+        theme: 'snow',
+        blur: true,
+        editorData: null,
+        modules: {
+          toolbar: {
+            container: [['bold', 'italic', 'underline'], [{
+              'color': []
+            }], [{
+              'list': 'bullet'
+            }]]
+            /* handlers: {
+                image: this.imageHandler
+            } */
+
+          },
+          syntax: {
+            highlight: function highlight(text) {
+              return hljs.highlightAuto(text).value;
+            }
+          }
+        }
+      },
+      Answer: {
+        title: '',
+        text: ''
+      },
+      isAdding: false
+    };
+  },
+  watch: {
+    'Type': function Type(arMsg) {
+      if (arMsg == 'edit' || arMsg == 'view') {
+        this.Answer.title = this.answerData.title;
+        this.Answer.text = this.answerData.text;
+      } else {
+        this.Answer.title = '';
+        this.Answer.text = '';
+      }
+    }
+  },
+  methods: {
+    SaveAnswer: function SaveAnswer() {
+      var _this = this;
+
+      if (this.Type == 'add') {
+        this.isAdding = true;
+        this.$emit('SaveAnswer', this.Answer);
+        setTimeout(function () {
+          _this.isAdding = false;
+        }, 600);
+      } else if (this.Type == 'edit') {
+        this.isAdding = true;
+        this.$emit('UpdateAnswer', this.Answer);
+        setTimeout(function () {
+          _this.isAdding = false;
+        }, 600);
+      }
+    }
+  },
+  mounted: function mounted() {
+    if (this.Type == 'edit' || this.Type == 'view') {
+      this.Answer = this.answerData;
+    }
   }
 });
 
@@ -1186,7 +1521,30 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n        max-width: 100% !important;\n        max-height: 20rem !important;\n}\n.dropZone {\n  width: 100%;\n  height: 7rem;\n  position: relative;\n  border: 2px dashed #eee;\n  border-radius: .3rem;\n}\n\n/* .dropZone:hover {\n  border: 1px dashed #2196F3;\n} */\n\n/* .dropZone:hover .dropZone-title {\n  color: #2196F3;\n} */\n.dropZone-info {\n  color: #A8A8A8;\n  position: absolute;\n  top: 50%;\n  width: 100%;\n  transform: translate(0, -50%);\n  text-align: center;\n}\n.dropZone-title {\n  color: #787878;\n}\n.dropZone input {\n  position: absolute;\n  cursor: pointer;\n  top: 0px;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n}\n.dropZone-upload-limit-info {\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n}\n.dropZone-over {\n  background: #E0E0E0;\n  opacity: 0.8;\n}\n.dropZone-uploaded {\n  padding-top: 4rem;\n  height: auto;\n  position: relative;\n}\n.dropZone-uploaded-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  color: #A8A8A8;\n  position: absolute;\n  top: 50%;\n  width: 100%;\n  transform: translate(0, -50%);\n  text-align: center;\n}\n.filePreview{\n  width: 100%;\n}\n.removeFile {\n  width: 200px;\n}\n /* width */\n::-webkit-scrollbar {\n    width: 8px;\n}\n\n    /* Track */\n::-webkit-scrollbar-track {\n    background: #f1f1f1;\n}\n    \n    /* Handle */\n::-webkit-scrollbar-thumb {\n    background: #888;\n}\n\n    /* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\n    background: #555;\n}\n.commentContent  img{\n        max-width: 100% !important;\n        max-height: 20rem !important;\n}\n.commentContent img{\n            max-height: 10rem !important;\n}\n.CommentEditor >  iframe{\n        width: 100% !important;\n    height: 20rem !important;\n}\n.CommentEditor >  .ql-editor img{\n\n        max-height: 25rem !important;\n}\n.CommentEditor >  .ql-container{\n        max-height: 70rem;\n}\ndiv.ql-tooltip{\n        left: 0px !important;\n        top: -8px !important;\n}\ndiv>.ql-tooltip-arrow{\n        display: none !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n        max-width: 100% !important;\n        max-height: 20rem !important;\n}\n.dropZone {\n  width: 100%;\n  height: 7rem;\n  position: relative;\n  border: 2px dashed #eee;\n  border-radius: .3rem;\n}\n\n/* .dropZone:hover {\n  border: 1px dashed #2196F3;\n} */\n\n/* .dropZone:hover .dropZone-title {\n  color: #2196F3;\n} */\n.dropZone-info {\n  color: #A8A8A8;\n  position: absolute;\n  top: 50%;\n  width: 100%;\n  transform: translate(0, -50%);\n  text-align: center;\n}\n.dropZone-title {\n  color: #787878;\n}\n.dropZone input {\n  position: absolute;\n  cursor: pointer;\n  top: 0px;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n}\n.dropZone-upload-limit-info {\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n}\n.dropZone-over {\n  background: #E0E0E0;\n  opacity: 0.8;\n}\n.dropZone-uploaded {\n  padding-top: 4rem;\n  height: auto;\n  position: relative;\n}\n.dropZone-uploaded-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  color: #A8A8A8;\n  position: absolute;\n  top: 50%;\n  width: 100%;\n  transform: translate(0, -50%);\n  text-align: center;\n}\n.filePreview{\n  width: 100%;\n}\n.removeFile {\n  width: 200px;\n}\n /* width */\n::-webkit-scrollbar {\n    width: 8px;\n}\n\n    /* Track */\n::-webkit-scrollbar-track {\n    background: #f1f1f1;\n}\n    \n    /* Handle */\n::-webkit-scrollbar-thumb {\n    background: #888;\n}\n\n    /* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\n    background: #555;\n}\n.commentContent  img{\n        max-width: 100% !important;\n        max-height: 20rem !important;\n}\n.commentContent img{\n            max-height: 10rem !important;\n}\n.CommentEditor >  iframe{\n        width: 100% !important;\n    height: 20rem !important;\n}\n.CommentEditor >  .ql-editor img{\n\n        max-height: 25rem !important;\n}\n.CommentEditor >  .ql-container{\n        max-height: 70rem;\n}\ndiv.ql-tooltip{\n        left: 0px !important;\n        top: -8px !important;\n}\ndiv>.ql-tooltip-arrow{\n        display: none !important;\n}\n\n    \n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-in-enter-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-leave-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-enter, .fade-in-leave-to {\r\n  position: absolute; /* add for smooth transition between elements */\r\n  opacity: 0;\n}\n.centered{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n\r\n\r\n /* .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n }\r\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\r\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\r\n    ,.ql-image,.ql-video\r\n    {\r\n        outline: none !important;\r\n        border:none !important;\r\n    }  */\n.centered-input >>> input {\r\n    text-align: center\n}\n.editor .ql-editor img{\r\n   \r\n    max-height: 10rem !important;\n}\n.editor .ql-container{\r\n    max-height: 50rem;\n}\n.editor .ql-editor{\r\n    min-height: 400px !important;\r\n    max-height: 600px !important;\n}\r\n\r\n/* .editor .ql-editor input{\r\n    color: black !important;\r\n} */\r\n\r\n\r\n \r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1219,6 +1577,35 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SubjectiveComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=style&index=0&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=style&index=0&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_typedAnswerDialog_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./typedAnswerDialog.vue?vue&type=style&index=0&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=style&index=0&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_typedAnswerDialog_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_typedAnswerDialog_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -1262,6 +1649,46 @@ component.options.__file = "resources/js/components/Classwork_View/type/classwor
 
 /***/ }),
 
+/***/ "./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _typedAnswerDialog_vue_vue_type_template_id_99453dbe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typedAnswerDialog.vue?vue&type=template&id=99453dbe& */ "./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=template&id=99453dbe&");
+/* harmony import */ var _typedAnswerDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typedAnswerDialog.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=script&lang=js&");
+/* harmony import */ var _typedAnswerDialog_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./typedAnswerDialog.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
+  _typedAnswerDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _typedAnswerDialog_vue_vue_type_template_id_99453dbe___WEBPACK_IMPORTED_MODULE_0__.render,
+  _typedAnswerDialog_vue_vue_type_template_id_99453dbe___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Classwork_View/type/classworkType/SubjectiveComponent.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************!*\
   !*** ./resources/js/components/Classwork_View/type/classworkType/SubjectiveComponent.vue?vue&type=script&lang=js& ***!
@@ -1277,6 +1704,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_typedAnswerDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./typedAnswerDialog.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_typedAnswerDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Classwork_View/type/classworkType/SubjectiveComponent.vue?vue&type=style&index=0&lang=css&":
 /*!****************************************************************************************************************************!*\
   !*** ./resources/js/components/Classwork_View/type/classworkType/SubjectiveComponent.vue?vue&type=style&index=0&lang=css& ***!
@@ -1285,6 +1727,18 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SubjectiveComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SubjectiveComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/SubjectiveComponent.vue?vue&type=style&index=0&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_typedAnswerDialog_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./typedAnswerDialog.vue?vue&type=style&index=0&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=style&index=0&lang=css&");
 
 
 /***/ }),
@@ -1301,6 +1755,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SubjectiveComponent_vue_vue_type_template_id_5b2cbc49___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SubjectiveComponent_vue_vue_type_template_id_5b2cbc49___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SubjectiveComponent.vue?vue&type=template&id=5b2cbc49& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/SubjectiveComponent.vue?vue&type=template&id=5b2cbc49&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=template&id=99453dbe&":
+/*!*******************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=template&id=99453dbe& ***!
+  \*******************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_typedAnswerDialog_vue_vue_type_template_id_99453dbe___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_typedAnswerDialog_vue_vue_type_template_id_99453dbe___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_typedAnswerDialog_vue_vue_type_template_id_99453dbe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./typedAnswerDialog.vue?vue&type=template&id=99453dbe& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=template&id=99453dbe&");
 
 
 /***/ }),
@@ -1763,43 +2233,52 @@ var render = function() {
                                     ? _c(
                                         "div",
                                         [
-                                          _vm.classworkDetails.status ==
-                                            "Submitted" &&
-                                          !_vm.classworkDetails.graded &&
-                                          (_vm.classworkDetails.availability ==
-                                          1
-                                            ? _vm.format_date1(
-                                                _vm.classworkDetails.currentDate
-                                              ) <=
-                                              _vm.format_date1(
-                                                _vm.classworkDetails.to_date
-                                              )
-                                            : true)
-                                            ? _c(
-                                                "v-btn",
-                                                {
-                                                  staticClass: "blue--text",
-                                                  attrs: {
-                                                    rounded: "",
-                                                    text: ""
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.clickResubmit()
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      _vm.isResubmit
-                                                        ? "Cancel"
-                                                        : "Resubmit"
-                                                    )
+                                          _c(
+                                            "div",
+                                            [
+                                              _vm.classworkDetails.status ==
+                                                "Submitted" &&
+                                              !_vm.classworkDetails.graded &&
+                                              (_vm.classworkDetails
+                                                .availability == 1
+                                                ? _vm.format_date1(
+                                                    _vm.classworkDetails
+                                                      .currentDate
+                                                  ) <=
+                                                  _vm.format_date1(
+                                                    _vm.classworkDetails.to_date
                                                   )
-                                                ]
-                                              )
-                                            : _vm._e(),
+                                                : true)
+                                                ? _c(
+                                                    "v-btn",
+                                                    {
+                                                      staticClass: "blue--text",
+                                                      attrs: {
+                                                        rounded: "",
+                                                        text: ""
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.clickResubmit()
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.isResubmit
+                                                            ? ""
+                                                            : "Resubmit"
+                                                        )
+                                                      )
+                                                    ]
+                                                  )
+                                                : _vm._e()
+                                            ],
+                                            1
+                                          ),
                                           _vm._v(" "),
                                           _vm.classworkDetails.graded &&
                                           _vm.$vuetify.breakpoint.mdAndUp
@@ -1981,6 +2460,20 @@ var render = function() {
                                                           [
                                                             _c(
                                                               "v-list-item-avatar",
+                                                              {
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.OpenFile(
+                                                                      item.name,
+                                                                      item.link,
+                                                                      item.fileExte,
+                                                                      index
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
                                                               [
                                                                 _c(
                                                                   "v-icon",
@@ -2015,7 +2508,10 @@ var render = function() {
                                                                     $event
                                                                   ) {
                                                                     return _vm.OpenFile(
-                                                                      item.link
+                                                                      item.name,
+                                                                      item.link,
+                                                                      item.fileExte,
+                                                                      index
                                                                     )
                                                                   }
                                                                 }
@@ -2301,11 +2797,7 @@ var render = function() {
                                                                       ),
                                                                       [
                                                                         _vm._v(
-                                                                          "\r\n                                    " +
-                                                                            _vm._s(
-                                                                              attrs.expanded
-                                                                            ) +
-                                                                            "\r\n                                      " +
+                                                                          "\r\n                                      " +
                                                                             _vm._s(
                                                                               _vm.isUploadSaving
                                                                                 ? "Uploading.."
@@ -2336,7 +2828,7 @@ var render = function() {
                                                             ],
                                                             null,
                                                             false,
-                                                            3526746852
+                                                            2279035836
                                                           )
                                                         },
                                                         [
@@ -2350,6 +2842,47 @@ var render = function() {
                                                               }
                                                             },
                                                             [
+                                                              _c(
+                                                                "v-list-item",
+                                                                {
+                                                                  attrs: {
+                                                                    link: ""
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      ;(_vm.IsTypeAnswer = !_vm.IsTypeAnswer),
+                                                                        (_vm.editTextData.title =
+                                                                          ""),
+                                                                        (_vm.editTextData.text =
+                                                                          ""),
+                                                                        (_vm.isTypeAnswerType =
+                                                                          "add")
+                                                                    }
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-icon",
+                                                                    {
+                                                                      attrs: {
+                                                                        left: ""
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "mdi-format-text"
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(
+                                                                    "Typed Answer\r\n                                    "
+                                                                  )
+                                                                ],
+                                                                1
+                                                              ),
+                                                              _vm._v(" "),
                                                               _c(
                                                                 "v-list-item",
                                                                 {
@@ -2433,20 +2966,22 @@ var render = function() {
                                           _vm._v(" "),
                                           _vm.classworkDetails.availability == 1
                                             ? _c("div", [
-                                                !_vm.classworkDetails.graded &&
-                                                _vm.classworkDetails.publish ==
-                                                  null &&
-                                                (_vm.classworkDetails
-                                                  .availability == 1
-                                                  ? _vm.format_date1(
-                                                      _vm.classworkDetails
-                                                        .currentDate
-                                                    ) <=
-                                                    _vm.format_date1(
-                                                      _vm.classworkDetails
-                                                        .to_date
-                                                    )
-                                                  : true)
+                                                (!_vm.classworkDetails.graded &&
+                                                  _vm.classworkDetails
+                                                    .publish == null &&
+                                                  (_vm.classworkDetails
+                                                    .availability == 1
+                                                    ? _vm.format_date1(
+                                                        _vm.classworkDetails
+                                                          .currentDate
+                                                      ) <=
+                                                      _vm.format_date1(
+                                                        _vm.classworkDetails
+                                                          .to_date
+                                                      )
+                                                    : true)) ||
+                                                _vm.classworkDetails
+                                                  .allow_resubmit == 1
                                                   ? _c(
                                                       "div",
                                                       [
@@ -2571,6 +3106,49 @@ var render = function() {
                                                                     }
                                                                   },
                                                                   [
+                                                                    _c(
+                                                                      "v-list-item",
+                                                                      {
+                                                                        attrs: {
+                                                                          link:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            ;(_vm.IsTypeAnswer = !_vm.IsTypeAnswer),
+                                                                              (_vm.editTextData.title =
+                                                                                ""),
+                                                                              (_vm.editTextData.text =
+                                                                                ""),
+                                                                              (_vm.isTypeAnswerType =
+                                                                                "add")
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              left:
+                                                                                ""
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "mdi-format-text"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "Typed Answer\r\n                                    "
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    ),
+                                                                    _vm._v(" "),
                                                                     _c(
                                                                       "v-list-item",
                                                                       {
@@ -2790,6 +3368,49 @@ var render = function() {
                                                                     }
                                                                   },
                                                                   [
+                                                                    _c(
+                                                                      "v-list-item",
+                                                                      {
+                                                                        attrs: {
+                                                                          link:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            ;(_vm.IsTypeAnswer = !_vm.IsTypeAnswer),
+                                                                              (_vm.editTextData.title =
+                                                                                ""),
+                                                                              (_vm.editTextData.text =
+                                                                                ""),
+                                                                              (_vm.isTypeAnswerType =
+                                                                                "add")
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              left:
+                                                                                ""
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "mdi-format-text"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "Typed Answer\r\n                                      "
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    ),
+                                                                    _vm._v(" "),
                                                                     _c(
                                                                       "v-list-item",
                                                                       {
@@ -4024,6 +4645,141 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: {
+            scrollable: "",
+            persistent: _vm.isTypeAnswerType != "view",
+            "max-width": "700"
+          },
+          model: {
+            value: _vm.IsTypeAnswer,
+            callback: function($$v) {
+              _vm.IsTypeAnswer = $$v
+            },
+            expression: "IsTypeAnswer"
+          }
+        },
+        [
+          _vm.isTypeAnswerType != "view"
+            ? _c(
+                "v-card",
+                { staticClass: "pa-1" },
+                [
+                  _c("v-text-field", {
+                    staticClass: "mb-2 mt-1",
+                    attrs: { label: "Title", "hide-details": "", outlined: "" },
+                    model: {
+                      value: _vm.editTextData.title,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editTextData, "title", $$v)
+                      },
+                      expression: "editTextData.title"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    [
+                      _c("editor", {
+                        ref: "myTextEditor",
+                        staticClass: "editor",
+                        staticStyle: {
+                          "min-height": "400px !important",
+                          "max-height": "700px !important"
+                        },
+                        attrs: {
+                          theme: "snow",
+                          placeholder: "Typed answer",
+                          options: _vm.editorOption
+                        },
+                        model: {
+                          value: _vm.editTextData.text,
+                          callback: function($$v) {
+                            _vm.$set(_vm.editTextData, "text", $$v)
+                          },
+                          expression: "editTextData.text"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "d-flex pt-1 mb-1" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { text: "", color: "secondary" },
+                          on: {
+                            click: function($event) {
+                              ;(_vm.isTypeAnswerType = ""),
+                                (_vm.IsTypeAnswer = false),
+                                (_vm.editTextData.title = ""),
+                                (_vm.editTextData.text = "")
+                            }
+                          }
+                        },
+                        [_vm._v("  Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "primary" },
+                          on: {
+                            click: function($event) {
+                              _vm.isTypeAnswerType == "add"
+                                ? _vm.AddTypeAnswer()
+                                : _vm.UpdateTypeAnswer()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            " \r\n                  " +
+                              _vm._s(
+                                _vm.isTypeAnswerType == "add"
+                                  ? "Save"
+                                  : "Update"
+                              ) +
+                              "\r\n                "
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _c("v-card", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "pa-5",
+                    staticStyle: {
+                      "max-height": "650px",
+                      "overflow-y": "scroll"
+                    }
+                  },
+                  [
+                    _c("span", {
+                      staticStyle: { "font-size": "15px" },
+                      domProps: { innerHTML: _vm._s(_vm.editTextData.text) }
+                    })
+                  ]
+                )
+              ])
+        ],
+        1
+      ),
+      _vm._v(" "),
       !_vm.$vuetify.breakpoint.mdAndUp
         ? _c(
             "v-bottom-navigation",
@@ -4109,6 +4865,152 @@ var render = function() {
             1
           )
         : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=template&id=99453dbe&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/dialog/typedAnswerDialog.vue?vue&type=template&id=99453dbe& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _vm.Type != "view"
+        ? _c(
+            "v-card",
+            { staticClass: "pa-1" },
+            [
+              _c("v-text-field", {
+                staticClass: "mb-2 mt-1",
+                attrs: { label: "Title", "hide-details": "", outlined: "" },
+                model: {
+                  value: _vm.Answer.title,
+                  callback: function($$v) {
+                    _vm.$set(_vm.Answer, "title", $$v)
+                  },
+                  expression: "Answer.title"
+                }
+              }),
+              _vm._v(" "),
+              _c("editor", {
+                ref: "myTextEditor",
+                staticClass: "editor",
+                attrs: {
+                  theme: "snow",
+                  placeholder: "Typed answer",
+                  options: _vm.editorOption
+                },
+                model: {
+                  value: _vm.Answer.text,
+                  callback: function($$v) {
+                    _vm.$set(_vm.Answer, "text", $$v)
+                  },
+                  expression: "Answer.text"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "d-flex pt-1" },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "", color: "secondary" },
+                      on: {
+                        click: function($event) {
+                          return _vm.$emit("CloseDialog")
+                        }
+                      }
+                    },
+                    [_vm._v("  Cancel")]
+                  ),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { loading: _vm.isAdding, color: "primary" },
+                      on: {
+                        click: function($event) {
+                          return _vm.SaveAnswer()
+                        }
+                      }
+                    },
+                    [_vm._v(" Save")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "mb-0 pb-0" }, [
+                _c("span", { staticClass: "text-h4" }, [
+                  _vm._v(_vm._s(_vm.Answer.title))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                {
+                  staticStyle: { "max-height": "600px", "overflow-y": "scroll" }
+                },
+                [
+                  _c("span", {
+                    domProps: { innerHTML: _vm._s(_vm.Answer.text) }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { block: "", color: "secondary" },
+                      on: {
+                        click: function($event) {
+                          return _vm.$emit("CloseDialog")
+                        }
+                      }
+                    },
+                    [_vm._v("  Close")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
     ],
     1
   )

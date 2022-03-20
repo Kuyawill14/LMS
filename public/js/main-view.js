@@ -853,9 +853,33 @@ var notifications = function notifications() {
         _this.clear_current_user();
 
         _this.$router.push({
-          path: "/login"
+          name: "login"
         });
       })["catch"](function (e) {});
+      /*  if(this.role == 'Administrator'){
+           this.isLogout = true;
+           axios.post('/api/logout')
+               .then(() => {
+                   this.clear_current_user();
+                   this.$router.push({
+                       name: "admin_login"
+                   })
+               })
+               .catch((e) => {
+               })
+       }else{
+           this.$store.dispatch('clearClassesNames');
+           this.isLogout = true;
+           axios.post('/api/logout')
+               .then(() => {
+                   this.clear_current_user();
+                   this.$router.push({
+                       name: "login"
+                   })
+               })
+               .catch((e) => {
+               })
+       } */
     }
   }),
   mounted: function mounted() {
@@ -11507,7 +11531,7 @@ var render = function() {
                         ? _c("courseNavbar", { attrs: { role: _vm.role } })
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.role == "Admin"
+                      _vm.role == "Administrator"
                         ? _c("adminNavbar", { attrs: { role: _vm.role } })
                         : _vm._e(),
                       _vm._v(" "),

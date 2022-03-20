@@ -6,7 +6,7 @@
                 <v-col cols="12" class="mb-0 pb-0">
                      <div :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1':'line-height:1.5'" class="d-flex justify-space-between">
                           <span v-html="question.question" class="post-content"></span>
-                           <span >{{question.points}} point</span>
+                           <span class="primary--text" >({{question.points}} point)</span>
                      </div>
                 </v-col>
                 <v-col cols="12" v-if="question.type == 'Multiple Choice'">

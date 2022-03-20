@@ -31,6 +31,7 @@
          :ClassList="ClassList"
          :CheckDataSection="CheckDataSection"
          v-on:UpdateSubmission="MarkAsGraded"
+         v-on:markAsResubmit="MarkAsResubmitting"
          :CheckData="CheckData" 
          v-on:closeDialog="isNotViewing()"
          v-on:nextStudent="GotoNextStudent()"
@@ -669,10 +670,18 @@ export default {
         },
         async MarkAsGraded(id){
             this.studentSubmissionList.forEach(item => {
-                    if(id == item.user_id){
-                        item.graded = 1;
-                        item.status = "Submitted";
-                    }
+                if(id == item.user_id){
+                    item.graded = 1;
+                    item.status = "Submitted";
+                }
+            });
+        },
+        MarkAsResubmitting(id){
+            this.studentSubmissionList.forEach(item => {
+                if(id == item.user_id){
+                    item.graded = 0;
+                    item.status = "Submitting";
+                }
             });
         },
         ShowLoading(){

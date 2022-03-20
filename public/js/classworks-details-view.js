@@ -977,6 +977,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1011,6 +1029,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
   data: function data() {
     return {
       Question_type: ['Multiple Choice', 'Identification', 'True or False', 'Matching type', 'Essay'],
+      Question_type_all: ['All', 'Multiple Choice', 'Identification', 'True or False', 'Matching type', 'Essay'],
+      selected_sort: 'All',
       isloading: true,
       isLeaving: false,
       valid: false,
@@ -1218,7 +1238,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
             switch (_context5.prev = _context5.next) {
               case 0:
                 _this3.isAddingNewQuestion = true;
-                axios.post('/api/question/add_new_question', {
+                _context5.next = 3;
+                return axios.post('/api/question/add_new_question', {
                   classwork_id: _this3.$route.query.clwk,
                   new_number: _this3.getAll_questions.Question.length + 1
                 }).then(function (res) {
@@ -1228,7 +1249,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     _this3.getAll_questions.Question.push({
                       id: res.data.question_id,
                       question: '<p>' + 'New Question ' + (_this3.getAll_questions.Question.length + 1) + '</p>',
-                      answer: 'N/A Answer',
+                      answer: res.data.choices_id[0],
                       points: 1,
                       type: 'Multiple Choice',
                       isNew: true,
@@ -1265,6 +1286,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     }); //this.getAll_questions.Question.forEach(item => {
 
 
+                    //this.getAll_questions.Question.forEach(item => {
                     _this3.selectedData.push({
                       id: res.data.question_id,
                       selected: false,
@@ -1272,6 +1294,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     }); //});
 
 
+                    //});
                     _this3.$toasted.show('New Question Added', {
                       theme: "toasted-primary",
                       position: "top-center",
@@ -1285,7 +1308,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   }, 100);
                 });
 
-              case 2:
+              case 3:
               case "end":
                 return _context5.stop();
             }
@@ -1301,28 +1324,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                //this.isNewChanges = true;
-
-                /* if(this.getAll_questions.Answer[Mainindex].options.length == 0){
-                     this.getAll_questions.Answer[Mainindex].options.push({
-                        id : '',
-                        Choice : this.getAll_questions.Question[Mainindex].answer,
-                        question_id : id,
-                    })
-                     this.getAll_questions.Answer[Mainindex].options.push({
-                        id : '',
-                        Choice : '<p>'+'Answer '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
-                        question_id : id,
-                    })
-                }
-                else{
-                     this.getAll_questions.Answer[Mainindex].options.push({
-                        id : '',
-                        Choice : '<p>'+'Answer '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
-                        question_id : id,
-                    })
-                } */
-                axios.post('/api/question/addOption', {
+                _context6.next = 2;
+                return axios.post('/api/question/addOption', {
                   type: "Multiple Choice",
                   question_id: id
                 }).then(function (res) {
@@ -1341,7 +1344,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   });
                 });
 
-              case 1:
+              case 2:
               case "end":
                 return _context6.stop();
             }
@@ -1357,7 +1360,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                axios.post('/api/question/addOption', {
+                _context7.next = 2;
+                return axios.post('/api/question/addOption', {
                   type: type,
                   question_id: id
                 }).then(function (res) {
@@ -1376,7 +1380,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   });
                 });
 
-              case 1:
+              case 2:
               case "end":
                 return _context7.stop();
             }
@@ -1392,7 +1396,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                axios.post('/api/question/addOption', {
+                _context8.next = 2;
+                return axios.post('/api/question/addOption', {
                   type: type,
                   question_id: id
                 }).then(function (res) {
@@ -1416,7 +1421,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
                 });
 
-              case 1:
+              case 2:
               case "end":
                 return _context8.stop();
             }
@@ -1432,17 +1437,25 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                if (id == null || id == '') {
-                  _this7.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
-                } else {
-                  axios.put('/api/question/remove_question_option/' + id, {
-                    type: type
-                  }).then(function (res) {
-                    _this7.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
-                  });
+                if (!(id == null || id == '')) {
+                  _context9.next = 4;
+                  break;
                 }
 
-              case 1:
+                _this7.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
+
+                _context9.next = 6;
+                break;
+
+              case 4:
+                _context9.next = 6;
+                return axios.put('/api/question/remove_question_option/' + id, {
+                  type: type
+                }).then(function (res) {
+                  _this7.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
+                });
+
+              case 6:
               case "end":
                 return _context9.stop();
             }
@@ -1458,22 +1471,30 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                if (sub_quesId == '' || sub_quesId == null) {
+                if (!(sub_quesId == '' || sub_quesId == null)) {
+                  _context10.next = 5;
+                  break;
+                }
+
+                _this8.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
+
+                _this8.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
+
+                _context10.next = 7;
+                break;
+
+              case 5:
+                _context10.next = 7;
+                return axios.put('/api/question/remove_question_match/' + main_id, {
+                  sub_question_id: sub_quesId,
+                  answer_id: answer_id
+                }).then(function (res) {
                   _this8.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
 
                   _this8.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
-                } else {
-                  axios.put('/api/question/remove_question_match/' + main_id, {
-                    sub_question_id: sub_quesId,
-                    answer_id: answer_id
-                  }).then(function (res) {
-                    _this8.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
+                });
 
-                    _this8.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
-                  });
-                }
-
-              case 1:
+              case 7:
               case "end":
                 return _context10.stop();
             }
@@ -1489,12 +1510,13 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context11.prev = _context11.next) {
               case 0:
-                axios.put('/api/question/update_question_details/' + id, {
+                _context11.next = 2;
+                return axios.put('/api/question/update_question_details/' + id, {
                   question: _this9.getAll_questions.Question[Mainindex],
                   answer: _this9.getAll_questions.Answer[Mainindex]
                 }).then(function (res) {});
 
-              case 1:
+              case 2:
               case "end":
                 return _context11.stop();
             }
@@ -1505,82 +1527,88 @@ var studentViewForTeacher = function studentViewForTeacher() {
     CheckType: function CheckType(id, type, mainIndex) {
       var _this10 = this;
 
-      this.isNewChanges = true;
-
-      if (type == 'Multiple Choice') {
-        if (this.getAll_questions.Answer[mainIndex].options.length == 0) {
-          this.getAll_questions.Answer[mainIndex].options.push({
-            id: '',
-            Choice: '',
-            question_id: id
-          });
-        }
-      } else if (type == 'Matching type') {
-        var tmp = this.getAll_questions.Answer[mainIndex].SubQuestion;
-
-        if (tmp.length == 0) {
-          /*   if(this.getAll_questions.Answer[mainIndex].options.length != 0){
-                this.getAll_questions.Answer[mainIndex].options.forEach(item => {
-                     this.getAll_questions.Answer[mainIndex].SubQuestion.push({
-                        id: null,
-                        answer_id: null,
-                        sub_question: item.Choice
-                    })
-                      this.getAll_questions.Answer[mainIndex].SubAnswer.push({
-                        id : null, 
-                        Choice : item.Choice,
-                        question_id : id
-                    })
-                  });
-            }else{ */
-
-          /* this.getAll_questions.Answer[mainIndex].SubQuestion.push({
-             id: null,
-             answer_id: null,
-             sub_question: ''
-          })
-          this.getAll_questions.Answer[mainIndex].SubAnswer.push({
-             id : null, 
-             Choice : '',
-             question_id : id
-          }) */
-          //}
-          axios.post('/api/question/addOption', {
-            type: type,
-            question_id: id
-          }).then(function (res) {
-            _this10.getAll_questions.Answer[mainIndex].SubQuestion.push({
-              id: res.data.sub_question_id,
-              answer_id: null,
-              sub_question: ''
-            });
-
-            _this10.getAll_questions.Answer[mainIndex].SubAnswer.push({
-              id: res.data.answer_id,
-              Choice: '',
-              question_id: id
-            }); //this.SaveAllQuestion();
-
-          });
-        }
-      }
-    },
-    SaveAllQuestion: function SaveAllQuestion() {
-      var _this11 = this;
-
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee12() {
+        var tmp;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee12$(_context12) {
           while (1) {
             switch (_context12.prev = _context12.next) {
               case 0:
+                _this10.isNewChanges = true;
+
+                if (!(type == 'Multiple Choice')) {
+                  _context12.next = 5;
+                  break;
+                }
+
+                if (_this10.getAll_questions.Answer[mainIndex].options.length == 0) {
+                  _this10.getAll_questions.Answer[mainIndex].options.push({
+                    id: '',
+                    Choice: '',
+                    question_id: id
+                  });
+                }
+
+                _context12.next = 10;
+                break;
+
+              case 5:
+                if (!(type == 'Matching type')) {
+                  _context12.next = 10;
+                  break;
+                }
+
+                tmp = _this10.getAll_questions.Answer[mainIndex].SubQuestion;
+
+                if (!(tmp.length == 0)) {
+                  _context12.next = 10;
+                  break;
+                }
+
+                _context12.next = 10;
+                return axios.post('/api/question/addOption', {
+                  type: type,
+                  question_id: id
+                }).then(function (res) {
+                  _this10.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                    id: res.data.sub_question_id,
+                    answer_id: null,
+                    sub_question: ''
+                  });
+
+                  _this10.getAll_questions.Answer[mainIndex].SubAnswer.push({
+                    id: res.data.answer_id,
+                    Choice: '',
+                    question_id: id
+                  }); //this.SaveAllQuestion();
+
+                });
+
+              case 10:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12);
+      }))();
+    },
+    SaveAllQuestion: function SaveAllQuestion() {
+      var _this11 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee13() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee13$(_context13) {
+          while (1) {
+            switch (_context13.prev = _context13.next) {
+              case 0:
                 _this11.isAddingNewQuestion = true;
                 _this11.showSnackbar = true;
                 _this11.isSavingAllQuestion = true;
-                axios.put('/api/question/save_all_question/' + _this11.$route.query.clwk, _this11.getAll_questions).then(function (res) {
+                _context13.next = 5;
+                return axios.put('/api/question/save_all_question/' + _this11.$route.query.clwk, _this11.getAll_questions).then(function (res) {
                   if (res.data.success == true) {
                     _this11.isSavingAllQuestion = false;
                     _this11.isNewChanges = false; //this.GetQuestion();
 
+                    //this.GetQuestion();
                     setTimeout(function () {
                       _this11.showSnackbar = false;
                     }, 3000);
@@ -1589,12 +1617,12 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   _this11.isAddingNewQuestion = false;
                 });
 
-              case 4:
+              case 5:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee12);
+        }, _callee13);
       }))();
     },
     CheckSelectedCount: function CheckSelectedCount(check) {
@@ -1629,52 +1657,69 @@ var studentViewForTeacher = function studentViewForTeacher() {
     DeleteSelected: function DeleteSelected() {
       var _this13 = this;
 
-      this.isAddingNewQuestion = true;
-      var question_id_list = [];
-      var question_index = 0;
-      this.selectedData.forEach(function (item) {
-        if (item.selected == true) {
-          question_id_list.push({
-            question_id: item.id
-          });
-        }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee14() {
+        var question_id_list, question_index;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee14$(_context14) {
+          while (1) {
+            switch (_context14.prev = _context14.next) {
+              case 0:
+                _this13.isAddingNewQuestion = true;
+                question_id_list = [];
+                question_index = 0;
 
-        question_index++;
-      });
-      axios.put('/api/question/delete_selected_question/' + this.$route.query.clwk, {
-        question: question_id_list
-      }).then(function (res) {
-        if (res.data.success == true) {
-          _this13.Deletedialog = !_this13.Deletedialog;
-          question_id_list.forEach(function (item) {
-            var tmp_question = _this13.getAll_questions.Question;
+                _this13.selectedData.forEach(function (item) {
+                  if (item.selected == true) {
+                    question_id_list.push({
+                      question_id: item.id
+                    });
+                  }
 
-            for (var index = 0; index < tmp_question.length; index++) {
-              if (item.question_id == tmp_question[index].id) {
-                _this13.getAll_questions.Question.splice(index, 1);
+                  question_index++;
+                });
 
-                _this13.getAll_questions.Answer.splice(index, 1);
+                _context14.next = 6;
+                return axios.put('/api/question/delete_selected_question/' + _this13.$route.query.clwk, {
+                  question: question_id_list
+                }).then(function (res) {
+                  if (res.data.success == true) {
+                    _this13.Deletedialog = !_this13.Deletedialog;
+                    question_id_list.forEach(function (item) {
+                      var tmp_question = _this13.getAll_questions.Question;
 
-                _this13.selectedData.splice(index, 1);
-              }
+                      for (var index = 0; index < tmp_question.length; index++) {
+                        if (item.question_id == tmp_question[index].id) {
+                          _this13.getAll_questions.Question.splice(index, 1);
+
+                          _this13.getAll_questions.Answer.splice(index, 1);
+
+                          _this13.selectedData.splice(index, 1);
+                        }
+                      }
+                    });
+
+                    _this13.$toasted.show('Question has been deleted', {
+                      theme: "toasted-primary",
+                      position: "top-center",
+                      duration: 5000
+                    });
+
+                    _this13.selectedDataCount = 0;
+
+                    if (_this13.getAll_questions.Question.length == 0) {
+                      _this13.Qlength = 0;
+                    }
+
+                    _this13.isAddingNewQuestion = false;
+                  }
+                });
+
+              case 6:
+              case "end":
+                return _context14.stop();
             }
-          });
-
-          _this13.$toasted.show('Question has been deleted', {
-            theme: "toasted-primary",
-            position: "top-center",
-            duration: 5000
-          });
-
-          _this13.selectedDataCount = 0;
-
-          if (_this13.getAll_questions.Question.length == 0) {
-            _this13.Qlength = 0;
           }
-
-          _this13.isAddingNewQuestion = false;
-        }
-      });
+        }, _callee14);
+      }))();
     },
     openDeleteDialog: function openDeleteDialog(data, index) {
       this.DeleteIndex = index;
@@ -1684,12 +1729,13 @@ var studentViewForTeacher = function studentViewForTeacher() {
     deleteSingleQuestion: function deleteSingleQuestion() {
       var _this14 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee13() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee13$(_context13) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee15() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
-                axios["delete"]('/api/question/remove/' + _this14.DeleteDetails.id).then(function (res) {
+                _context15.next = 2;
+                return axios["delete"]('/api/question/remove/' + _this14.DeleteDetails.id).then(function (res) {
                   _this14.getAll_questions.Question.splice(_this14.DeleteIndex, 1);
 
                   _this14.getAll_questions.Answer.splice(_this14.DeleteIndex, 1);
@@ -1707,12 +1753,12 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   });
                 });
 
-              case 1:
+              case 2:
               case "end":
-                return _context13.stop();
+                return _context15.stop();
             }
           }
-        }, _callee13);
+        }, _callee15);
       }))();
     },
     singleDuplicate: function singleDuplicate(question, answer) {
@@ -1740,12 +1786,13 @@ var studentViewForTeacher = function studentViewForTeacher() {
     DuplicateQuestionAction: function DuplicateQuestionAction() {
       var _this15 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee14() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee14$(_context14) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee16() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee16$(_context16) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
-                axios.put('/api/question/store_duplicate_question/' + _this15.$route.query.clwk, {
+                _context16.next = 2;
+                return axios.put('/api/question/store_duplicate_question/' + _this15.$route.query.clwk, {
                   question: _this15.DuplicateQuestion,
                   answer: _this15.DuplicateAnswers
                 }).then(function (res) {
@@ -1834,12 +1881,12 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   }, 100);
                 });
 
-              case 1:
+              case 2:
               case "end":
-                return _context14.stop();
+                return _context16.stop();
             }
           }
-        }, _callee14);
+        }, _callee16);
       }))();
     },
     studenView: function studenView() {
@@ -1869,37 +1916,79 @@ var studentViewForTeacher = function studentViewForTeacher() {
     AddDestructor: function AddDestructor(mainIndex, id) {
       var _this16 = this;
 
-      axios.post('/api/question/add_new_destructor', {
-        question_id: id
-      }).then(function (res) {
-        if (res.data.success == true) {
-          _this16.getAll_questions.Answer[mainIndex].Destructors.push({
-            question_id: id,
-            id: res.data.newDestructor_id,
-            Choice: null
-          });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee17() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee17$(_context17) {
+          while (1) {
+            switch (_context17.prev = _context17.next) {
+              case 0:
+                _context17.next = 2;
+                return axios.post('/api/question/add_new_destructor', {
+                  question_id: id
+                }).then(function (res) {
+                  if (res.data.success == true) {
+                    _this16.getAll_questions.Answer[mainIndex].Destructors.push({
+                      question_id: id,
+                      id: res.data.newDestructor_id,
+                      Choice: null
+                    });
 
-          _this16.$toasted.show('New Desctrutor has been added', {
-            theme: "toasted-primary",
-            position: "top-center",
-            duration: 5000
-          });
-        } else {
-          _this16.toastError('Something went wrong while adding new destructor');
-        }
-      });
+                    _this16.$toasted.show('New Desctrutor has been added', {
+                      theme: "toasted-primary",
+                      position: "top-center",
+                      duration: 5000
+                    });
+                  } else {
+                    _this16.toastError('Something went wrong while adding new destructor');
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context17.stop();
+            }
+          }
+        }, _callee17);
+      }))();
     },
     removeDestructor: function removeDestructor(id, index, mainIndex) {
       var _this17 = this;
 
-      axios["delete"]('/api/question/remove_destructor/' + id).then(function () {
-        _this17.getAll_questions.Answer[mainIndex].Destructors.splice(index, 1);
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee18() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee18$(_context18) {
+          while (1) {
+            switch (_context18.prev = _context18.next) {
+              case 0:
+                _context18.next = 2;
+                return axios["delete"]('/api/question/remove_destructor/' + id).then(function () {
+                  _this17.getAll_questions.Answer[mainIndex].Destructors.splice(index, 1);
+                });
+
+              case 2:
+              case "end":
+                return _context18.stop();
+            }
+          }
+        }, _callee18);
+      }))();
     },
     UpdateDestructor: function UpdateDestructor(id, index, mainIndex, data) {
-      axios.put('/api/question/update_destructor/' + id, {
-        Choice: data
-      }).then(function (res) {});
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee19() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee19$(_context19) {
+          while (1) {
+            switch (_context19.prev = _context19.next) {
+              case 0:
+                _context19.next = 2;
+                return axios.put('/api/question/update_destructor/' + id, {
+                  Choice: data
+                }).then(function (res) {});
+
+              case 2:
+              case "end":
+                return _context19.stop();
+            }
+          }
+        }, _callee19);
+      }))();
     },
     CloseDialog: function CloseDialog() {
       this.studentViewData = null, this.isStudentView = false, this.$store.dispatch('isNotViewingSubmission');
@@ -36579,7 +36668,9 @@ var render = function() {
                                           { staticClass: "ml-2 mt-3" },
                                           [
                                             _c("h4", [
-                                              _vm._v(_vm._s(mainIndex + 1))
+                                              _vm._v(
+                                                "#" + _vm._s(mainIndex + 1)
+                                              )
                                             ])
                                           ]
                                         ),

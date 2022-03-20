@@ -79,7 +79,8 @@
                 <v-card-title class="text-lg-h5"
                     v-text="getcourseInfo.length !=0 ? getcourseInfo.course_code + ' - ' + getcourseInfo.course_name : 'Course Code - Course Name'">
                 </v-card-title>
-                <v-card-subtitle class="white--text">Instructor: {{getcourseInfo.name}}
+                <v-card-subtitle class="white--text">Faculty Name: {{getcourseInfo.name}}
+
 
                     <br v-if="getcourseInfo.v_classroom_link != null && getcourseInfo.v_classroom_link != ''">
                {{role == 'Student' ? 'Virtual Meeting Links' : ''}}
@@ -90,15 +91,12 @@
                             target="_blank">{{getcourseInfo.v_classroom_link}}</a>
                     </div>
 
-                         <div v-if="role == 'Student'">
-                    
+                    <div v-if="role == 'Student'">
                         <div v-if="getcourseInfo.class_v_link != null && getcourseInfo.class_v_link != ''">
                              {{getcourseInfo.class_name}}: <a link :href="link(getcourseInfo.class_v_link)"
                                 target="_blank">{{getcourseInfo.class_v_link}}</a>
                         </div>
                     </div>
-
-
                 </v-card-subtitle>
 
                 <v-btn v-if="getcourseInfo.course_guide != null" depressed color="primary" small

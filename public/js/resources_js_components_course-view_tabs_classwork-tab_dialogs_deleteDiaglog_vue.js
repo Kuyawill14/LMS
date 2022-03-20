@@ -45,8 +45,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['DeleteDetails'],
+  data: function data() {
+    return {
+      isDeleting: false
+    };
+  },
   methods: {
     toastSuccess: function toastSuccess() {
       return this.$toasted.success("Classwork Removed", {
@@ -64,13 +80,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _this.isDeleting = true;
                 axios["delete"]('/api/classwork/remove/' + _this.DeleteDetails.id).then(function (res) {
                   _this.$emit("ToggleRefresh");
+
+                  _this.isDeleting = false;
 
                   _this.toastNormal('Classwork Successfully Deleted');
                 });
 
-              case 1:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -168,52 +187,66 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-card",
+    "div",
     [
-      _c("v-card-title", { staticClass: "text-h5" }, [
-        _vm._v("\n      Delete"),
-        _c("span", { staticClass: "primary--text ml-1" }, [
-          _vm._v(' "' + _vm._s(_vm.DeleteDetails.title) + '"')
-        ])
-      ]),
-      _vm._v(" "),
-      _c("v-card-text", [
-        _c("p", [
-          _vm._v(
-            "This will permanently remove the classwork and all data related to it."
-          )
-        ])
-      ]),
+      _c(
+        "v-overlay",
+        { attrs: { value: _vm.isDeleting } },
+        [
+          _c("v-progress-circular", {
+            attrs: { indeterminate: "", size: "64" }
+          })
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
-        "v-card-actions",
+        "v-card",
         [
-          _c("v-spacer"),
+          _c("v-card-title", { staticClass: "text-h5" }, [
+            _vm._v("\r\n            Delete Classwork")
+          ]),
+          _vm._v(" "),
+          _c("v-card-text", [
+            _c("p", [_vm._v("Are you sure you want to delete this classwork?")])
+          ]),
           _vm._v(" "),
           _c(
-            "v-btn",
-            {
-              attrs: { text: "" },
-              on: {
-                click: function($event) {
-                  return _vm.$emit("toggleDialog")
-                }
-              }
-            },
-            [_vm._v("\n        Cancel\n      ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "primary", text: "" },
-              on: {
-                click: function($event) {
-                  return _vm.RemoveClasswork()
-                }
-              }
-            },
-            [_vm._v("\n        Confirm\n      ")]
+            "v-card-actions",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { text: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("toggleDialog")
+                    }
+                  }
+                },
+                [_vm._v("\r\n              Cancel\r\n            ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    loading: _vm.isDeleting,
+                    color: "primary",
+                    text: ""
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.RemoveClasswork()
+                    }
+                  }
+                },
+                [_vm._v("\r\n              Yes\r\n            ")]
+              )
+            ],
+            1
           )
         ],
         1

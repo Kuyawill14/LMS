@@ -44,7 +44,7 @@ class SendPasswordResetNotification extends Notification
     public function toMail($notifiable)
     {
         $url = "reset-password?id=".$this->user_id.'&token='.$this->token;
-        return (new MailMessage)->view('EmailTemplates.ForgotPassword', 
+        return (new MailMessage)->from('orangelms.isu@gmail.com')->view('EmailTemplates.ForgotPassword', 
             ['url'=> $url]
         );
     }

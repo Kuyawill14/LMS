@@ -146,8 +146,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 var selectBackgroundDialog = function selectBackgroundDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_SelectBackgroundDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./SelectBackgroundDialog */ "./resources/js/components/course-view/SelectBackgroundDialog.vue"));
 };
@@ -638,9 +636,9 @@ var render = function() {
                     { staticClass: "white--text" },
                     [
                       _vm._v(
-                        "Instructor: " +
+                        "Faculty Name: " +
                           _vm._s(_vm.getcourseInfo.name) +
-                          "\n\n                "
+                          "\n\n\n                "
                       ),
                       _vm.getcourseInfo.v_classroom_link != null &&
                       _vm.getcourseInfo.v_classroom_link != ""

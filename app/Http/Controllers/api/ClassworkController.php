@@ -71,15 +71,24 @@ class ClassworkController extends Controller
 
                 $publishIn = tbl_classClassworks::withTrashed()
                 ->where('tbl_class_classworks.classwork_id', $item->id)
-                ->select('tbl_class_classworks.id','tbl_classes.class_name','tbl_class_classworks.from_date', 'tbl_class_classworks.to_date','tbl_class_classworks.availability')
+                ->select('tbl_classes.id as class_id','tbl_class_classworks.id','tbl_classes.class_name','tbl_class_classworks.from_date', 'tbl_class_classworks.to_date','tbl_class_classworks.availability')
                 ->leftJoin('tbl_classes', 'tbl_classes.id','=','tbl_class_classworks.class_id')
                 ->get();
                 //return $publishIn;
                 $item->publish_in = $publishIn;
                 $totalSubmission = 0;
                 foreach($publishIn as $pub){
-                    $submissionCount = tbl_Submission::where('tbl_submissions.class_classwork_id', $pub->id)
-                    ->where('tbl_submissions.status', 'Submitted')->count();
+
+                    $submissionCount = tbl_userclass::where('tbl_userclasses.class_id', $pub->class_id)
+                    ->leftjoin('users', 'users.id','=', 'tbl_userclasses.user_id')
+                    ->leftJoin("tbl_submissions", function($join) use ($pub){
+                        $join->on("tbl_submissions.user_id", "=", "users.id");
+                        $join->on('tbl_submissions.class_classwork_id','=',DB::raw("'".$pub->id."'"));
+                    })
+                    ->where('tbl_submissions.status', 'Submitted')->count(); 
+                   /*  $submissionCount = tbl_Submission::where('tbl_submissions.class_classwork_id', $pub->id)
+                    ->where('tbl_submissions.status', 'Submitted')->whereNull('tbl_submissions.deleted_at')->count(); */
+
                     $pub->submission =  $submissionCount;
                     $totalSubmission += $submissionCount;
                 }
@@ -361,14 +370,10 @@ class ClassworkController extends Controller
                 $shareClasswork->save();
                 $sharedClassworks[$count] = $shareClasswork;
             }
-
-            
             $count++;
         }
 
-
         return $sharedClassworks;
-  
     }
 
 
@@ -557,7 +562,7 @@ class ClassworkController extends Controller
             ->select('tbl_classworks.*', 'tbl_class_classworks.id as class_classwork_id',
             'tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date','tbl_class_classworks.showAnswer','tbl_class_classworks.reviewAnswer',
             'tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo', 'tbl_class_classworks.response_late',
-            'tbl_submissions.id as Sub_id','tbl_submissions.status','tbl_submissions.graded', 'tbl_submissions.points as score','tbl_submissions.Submitted_Answers', 'tbl_submissions.updated_at as Submitted_at','tbl_userclasses.user_id',
+            'tbl_submissions.id as Sub_id','tbl_submissions.status','tbl_submissions.graded','tbl_submissions.allow_resubmit', 'tbl_submissions.points as score','tbl_submissions.Submitted_Answers', 'tbl_submissions.updated_at as Submitted_at','tbl_userclasses.user_id',
             'tbl_class_classworks.deleted_at as publish')
             ->leftJoin("tbl_classworks", function($join) use ($id){
                 $join->on('tbl_classworks.id','=',DB::raw("'".$id."'"));
@@ -733,8 +738,11 @@ class ClassworkController extends Controller
     public function destroy($id)
     {
         $userId = auth('sanctum')->id();
+        
         $DelCLasswork = tbl_classwork::find($id);
+
         if($DelCLasswork){
+            DB::beginTransaction();
             if($DelCLasswork->type == "Objective Type"){
                 $DelClass_Classwork = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
                 ->leftJoin('tbl_questions', 'tbl_questions.classwork_id','=','tbl_class_classworks.classwork_id')
@@ -750,17 +758,24 @@ class ClassworkController extends Controller
                     $DeleteQuestion = tbl_Questions::where('id', $item['id'])->delete();
                 }
 
+                $Del_rubrics = tbl_subjective_rubrics::where('classwork_id', $id)
+                ->forceDelete();
+
             }
             elseif($DelCLasswork->type == "Subjective Type"){
                 $DelClass_Classwork = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
                 ->forceDelete();
+
+                $Del_rubrics = tbl_subjective_rubrics::where('classwork_id', $id)
+                ->forceDelete();
                 //Storage::delete('public/'.$DelCLasswork->attachment);
-
-
 
             }
             $DelCLasswork->forceDelete();
+            DB::commit();
             return "Successfully Remove";
+        }else{
+            return "Classwork not found!";
         }
     }
 
@@ -972,6 +987,17 @@ class ClassworkController extends Controller
         $DuplicateClasswork->save();
 
 
+        $fetchCriteria = tbl_subjective_rubrics::where('classwork_id', $checkClasswork->id)->get();
+
+        foreach($fetchCriteria as $criteria){
+            $duplicateCriteria = new tbl_subjective_rubrics;
+            $duplicateCriteria->classwork_id = $DuplicateClasswork->id;
+            $duplicateCriteria->points = $criteria['points'];
+            $duplicateCriteria->criteria_name = $criteria['criteria_name'];
+            $duplicateCriteria->description = $criteria['description'];
+            $duplicateCriteria->save();
+        }
+        
         if($checkClasswork->type == 'Objective Type'){
             $QuestionList =  tbl_Questions::where('tbl_questions.classwork_id', $checkClasswork->id)->get();
 
@@ -980,39 +1006,69 @@ class ClassworkController extends Controller
                 $newQuestion = new tbl_Questions;
                 $newQuestion->classwork_id = $DuplicateClasswork->id;
                 $newQuestion->question = $item['question'];
-                $newQuestion->answer = $item['answer'];
                 $newQuestion->type = $item['type'];
                 $newQuestion->points = $item['points'];
                 $newQuestion->sensitivity = $item['sensitivity'];
+                $newQuestion->isNew = $item['isNew'];
                 $newQuestion->required = $item['required'];
                 $newQuestion->save();
 
                 $QuestionChoiceList = tbl_choice::where('tbl_choices.question_id', $item['id'])->get();
                 foreach($QuestionChoiceList as $ques_choice){
-                    $newChoice = new tbl_choice;
-                    $newChoice->question_id = $newQuestion->id;
-                    $newChoice->Choice = $ques_choice['Choice'];
-                    $newChoice->isDestructor = $ques_choice['isDestructor'];
-                    $newChoice->save();
 
-                    $checkSubQuestion = tbl_SubQuestion::where('answer_id', $ques_choice['id'])
-                    ->where('mainQuestion_id', $item['id'])
-                    ->first();
-                    if($checkSubQuestion){
-                        $newSubques = new tbl_SubQuestion;
-                        $newSubques->mainQuestion_id = $newQuestion->id;
-                        $newSubques->answer_id = $ques_choice['id'];
-                        $newSubques->sub_question = $checkSubQuestion->sub_question;
-                        $newSubques->save();
+                    if($item['type'] != 'Matching type'){
+                        $newChoice = new tbl_choice;
+                        $newChoice->question_id = $newQuestion->id;
+                        $newChoice->Choice = $ques_choice['Choice'];
+                        $newChoice->isDestructor = $ques_choice['isDestructor'];
+                        $newChoice->save();
+
+                        if($item['isNew']){
+                            if($item['answer'] == $ques_choice['id']){
+                                $newQuestion->answer = $newChoice->id;
+                                $newQuestion->save();
+                            }
+                        }else{
+                            $newQuestion->answer = $item['answer'];
+                            $newQuestion->save();
+                        }
+
+                    }else{
+
+                        $newChoice = new tbl_choice;
+                        $newChoice->question_id = $newQuestion->id;
+                        $newChoice->Choice = $ques_choice['Choice'];
+                        $newChoice->isDestructor = $ques_choice['isDestructor'];
+                        $newChoice->save();
+
+                        $checkSubQuestion = tbl_SubQuestion::where('answer_id', $ques_choice['id'])
+                        ->where('mainQuestion_id', $item['id'])
+                        ->first();
+                        if($checkSubQuestion){
+                            $newSubques = new tbl_SubQuestion;
+                            $newSubques->mainQuestion_id = $newQuestion->id;
+                            $newSubques->answer_id = $newChoice->id;
+                            $newSubques->sub_question = $checkSubQuestion->sub_question;
+                            $newSubques->save();
+                        }
+
                     }
 
                 }
             }
+
+            $fetchCriteria = tbl_subjective_rubrics::where('classwork_id', $checkClasswork->id)->get();
+            foreach($fetchCriteria as $criteria){
+                $duplicateCriteria = new tbl_subjective_rubrics;
+                $duplicateCriteria->classwork_id = $DuplicateClasswork->id;
+                $duplicateCriteria->points = $criteria['points'];
+                $duplicateCriteria->criteria_name = $criteria['criteria_name'];
+                $duplicateCriteria->description = $criteria['description'];
+                $duplicateCriteria->save();
+            }
         }
 
         DB::commit();
-        return $DuplicateClasswork;
-
         return response()->json([
             "message" => "Classwork Successfully Duplicated!",
             "success" => true,

@@ -1,10 +1,5 @@
 <template>
     <v-app>
-        <div id="fb-root"></div>
-
-        <!-- Your Chat Plugin code -->
-        <div id="fb-customer-chat" class="fb-customerchat">
-        </div>
         <v-container :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'fill-height'" fluid>
 
             <v-row align="center" justify="center">
@@ -25,12 +20,8 @@
                                             <v-row align="center" justify="center">
                                                 <v-col class="ma-0 pa-0 text-left" cols="12" md="8">
                                                     <div class=" text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold">
-                                                        Login to your <span class="font-weight-regular">Account</span>
+                                                        Administrator Login<span class="font-weight-regular"></span>
                                                     </div>
-                                                    <p class="mt-2">Don't have an account? <router-link
-                                                            class="blue--text" :to="{name: 'register'}">Create one here
-                                                        </router-link>
-                                                    </p>
                                                 </v-col>
 
                                                 <v-col class="ma-0 pa-0 mt-4" cols="12" md="8">
@@ -52,19 +43,6 @@
                                                     <HasError class="error--text" :form="form" field="password" />
                                                 </v-col>
 
-
-                                                <v-col class="ma-0 pa-0  d-flex" cols="12" md="8">
-                                                    <span>
-                                                        <v-checkbox class="ma-0 pa-0" hide-spin-buttons v-model="form.remember" label="Remember me"></v-checkbox>
-                                                    </span>
-                                                <v-spacer></v-spacer>
-                                                    <span class="mt-0">
-                                                         <a href="#"
-                                                         style="text-decoration:none"
-                                                        @click.prevent="isForgotPassword = !isForgotPassword, IsloadingComponent = !IsloadingComponent"
-                                                        >Forgot Password?</a>
-                                                    </span>
-                                                </v-col>
                                                 <v-col
                                                     :class="$vuetify.breakpoint.mdAndUp ? 'ma-0 pa-0 text-left' : 'ml-0 pl-0 pr-0 mr-0 mt-1'"
                                                     cols="12" md="8">
@@ -87,34 +65,11 @@
                                                 indeterminate></v-progress-circular>
                                         </div>
 
-                                        <forgotPassword v-on:toggleIsloading="IsloadingComponent = !IsloadingComponent"
-                                            v-on:toggleLogin="isForgotPassword = !isForgotPassword"></forgotPassword>
                                     </v-card-text>
                                 </v-col>
                             </v-row>
 
-
-
-
                         </v-col>
-
-<!-- 
-                        <div style="position:absolute;bottom: 5px; right: 5px">
-                         
-                          <v-btn
-                            style=" text-transform: unset !important;"
-                                @click="openFbPage()"
-                                id="help-btn" active-class="act-btn" depressed rounded text>
-                          <v-icon left>mdi-facebook</v-icon>    @ISUE-Orange 
-                            </v-btn>
-                         
-                            <v-btn
-                            style=" text-transform: unset !important;"
-                                @click=" openFbMessage()"
-                                id="help-btn" active-class="act-btn" depressed rounded text>
-                           <v-icon left>mdi-account-question</v-icon>  Help 
-                            </v-btn>
-                        </div> -->
                         <loginRegisterFooter></loginRegisterFooter>
 
                     </v-row>
@@ -125,7 +80,6 @@
 </template>
 
 <script>
-    const forgotPassword = () => import( /* webpackChunkName: "forgot_password" */ "./forgot-password")
     const loginRegisterFooter = () => import( /* webpackChunkName: "login_layout" */ "../layout/LoginRegisterLayout/LoginRegisterFooter")
     const loginRegisterImageConatiner = () => import( /* webpackChunkName: "login_layout" */ "../layout/LoginRegisterLayout/LoginRegisterImageConatiner")
 
@@ -139,7 +93,6 @@
     export default {
         title: 'Orange',
         components: {
-            forgotPassword,
             loginRegisterFooter,
             loginRegisterImageConatiner
         },
@@ -181,12 +134,6 @@
             }
         },
         methods: {
-            openFbMessage() {
- window.open('https://www.messenger.com/t/102514265611526/', '_blank').focus();
-            },
-            openFbPage() {
-  window.open('https://www.facebook.com/ISUE-Orange-102514265611526', '_blank').focus();
-            },
             validate() {
                 if (this.$refs.loginForm.validate()) {
                     this.login();
@@ -202,7 +149,7 @@
             login() {
                 this.isLoggin = true;
                 axios.get('/sanctum/csrf-cookie').then(response => {
-                    this.form.post('/api/login')
+                    this.form.post('/api/admin_Login')
                         .then((res) => {
                           
                             if (res.data.success == true) {
@@ -210,16 +157,12 @@
                                 this.$router.push({
                                     path: "/"
                                 })
-                                if ($('#fb-root')) {
-                                    $('#fb-root').css('display', 'none');
-                                }
-                                this.StartFireBasePushNotification();
+                                //this.StartFireBasePushNotification();
                             } else {
                                 this.isLoggin = false;
                                 this.toastError(res.data.message);
                             }
-                            
-
+                        
                              //this.isLoggin = false;
                         })
                         .catch(err => {
@@ -274,37 +217,35 @@
              */
 
         },
-        created() {
-            // window.open("", "_self");
-            // window.close();
+        beforeRouteEnter(to, from,next) {
+            let confirmed = window.localStorage.getItem('isConfirmedPassword')
 
-            var chatbox = document.getElementById('fb-customer-chat');
-            chatbox.setAttribute("page_id", "102514265611526");
-            chatbox.setAttribute("attribution", "biz_inbox");
-
-            window.fbAsyncInit = function () {
-                FB.init({
-                    xfbml: true,
-                    version: 'v12.0'
-                });
-            };
-
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s);
-                js.id = id;
-                js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-
-         
-
+            if(confirmed){
+                next();
+            }else{
+                let password = prompt('This page is secure enter password');
+                if(password == '123123'){
+                     next();
+                }else{
+                    return next({
+                        path: "/"
+                    });
+                }
+                /* axios.post('/api/check_password',{password: password})
+                .then((res)=>{
+                    if(res.data.success){
+                         next();
+                         window.localStorage.setItem('isConfirmedPassword',true)
+                    }else{
+                         window.localStorage.removeItem('isConfirmedPassword');
+                        return next({
+                            path: "/"
+                        });
+                    }
+                }) */
+            }
         },
-mounted() {
-         $('#fb-root').css('display', 'block');
-         window.localStorage.removeItem('isConfirmedPassword');
-}
+    
     };
 
 </script>

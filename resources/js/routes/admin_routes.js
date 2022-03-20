@@ -7,7 +7,7 @@ const routes = [
             import ("../components/admin/manage-users/manage-programChairComponent"),
         name: "manageProgramChair",
         beforeEnter: (to, from, next) => {
-            if (store.state.CurrentUser.UserRole == 'Admin') next()
+            if (store.state.CurrentUser.UserRole == 'Administrator') next()
             else next({ path: '/', replace: true })
         }
 
@@ -18,7 +18,7 @@ const routes = [
             import ("../components/admin/manage-users/manage-teachersComponent"),
         name: "manageteachers",
         beforeEnter: (to, from, next) => {
-            if (store.state.CurrentUser.UserRole == 'Admin') next()
+            if (store.state.CurrentUser.UserRole == 'Administrator') next()
             else next({ path: '/', replace: true })
         }
     },
@@ -28,7 +28,7 @@ const routes = [
             import ("../components/admin/manage-users/manage-studentsComponent"),
         name: "managestudents",
         beforeEnter: (to, from, next) => {
-            if (store.state.CurrentUser.UserRole == 'Admin') next()
+            if (store.state.CurrentUser.UserRole == 'Administrator') next()
             else next({ path: '/', replace: true })
         }
     },
@@ -38,7 +38,7 @@ const routes = [
             import ("../components/admin/manage-users/manage-campusDirectorComponent"),
         name: "manageCampusDirector",
         beforeEnter: (to, from, next) => {
-            if (store.state.CurrentUser.UserRole == 'Admin') next()
+            if (store.state.CurrentUser.UserRole == 'Administrator') next()
             else next({ path: '/', replace: true })
         }
     },
@@ -48,7 +48,7 @@ const routes = [
             import ("../components/admin/manage-users/manage-SecurityGuardComponent"),
         name: "manageSecurityGuard",
         beforeEnter: (to, from, next) => {
-            if (store.state.CurrentUser.UserRole == 'Admin') next()
+            if (store.state.CurrentUser.UserRole == 'Administrator') next()
             else next({ path: '/', replace: true })
         }
     },
@@ -58,7 +58,7 @@ const routes = [
             import ("../components/admin/schoolyear-semester/schoolyear-semesterComponent"),
         name: "schoolyear_semester",
         beforeEnter: (to, from, next) => {
-            if (store.state.CurrentUser.UserRole == 'Admin') next()
+            if (store.state.CurrentUser.UserRole == 'Administrator') next()
             else next({ path: '/', replace: true })
         }
 
@@ -70,7 +70,7 @@ const routes = [
             import ("../components/admin/departments/department"),
         name: "manage_departments",
         beforeEnter: (to, from, next) => {
-            if (store.state.CurrentUser.UserRole == 'Admin') next()
+            if (store.state.CurrentUser.UserRole == 'Administrator') next()
             else next({ path: '/', replace: true })
         }
     },
@@ -80,11 +80,26 @@ const routes = [
         component: () =>
             import ("../components/vaccine/vaccineComponents-upload"),
         beforeEnter: (to, from, next) => {
-            if (store.state.CurrentUser.UserRole == 'Admin') next()
+            if (store.state.CurrentUser.UserRole == 'Administrator') next()
             else next({ path: '/', replace: true })
         }
 
     },
+
+    {
+        path: '/admin/login',
+        name: "admin-login",
+        component: () =>
+            import ("../components/login/AdminLoginPage"),
+      /*   beforeEnter: (to, from, next) => {
+            if (store.state.CurrentUser.UserRole == 'Administrator') next()
+            else next({ path: '/', replace: true })
+        }
+ */
+    },
+
+
+    
 
 ]
 export default routes

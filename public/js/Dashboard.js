@@ -232,7 +232,7 @@ var render = function() {
         ? _c("teacherDashboard", { attrs: { role: _vm.role } })
         : _vm._e(),
       _vm._v(" "),
-      _vm.role == "Admin"
+      _vm.role == "Administrator"
         ? _c("adminDashboard", { attrs: { role: _vm.role } })
         : _vm._e(),
       _vm._v(" "),

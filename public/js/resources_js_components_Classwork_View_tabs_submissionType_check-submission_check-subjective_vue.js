@@ -437,6 +437,84 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -460,6 +538,7 @@ var pdfviewer = function pdfviewer() {
       isUpdatingComment_id: null,
       isUpdatingComment_old_data: null,
       dialog: false,
+      AllowResubmitDialog: false,
       notifications: false,
       sound: true,
       widgets: false,
@@ -495,11 +574,23 @@ var pdfviewer = function pdfviewer() {
       info: true,
       rotation: 0,
       scale: 1,
-      isLoaded: false
+      isLoaded: false,
+      isPointChange: false,
+      nextConfirmDialog: false,
+      CloseConfirmDialog: false,
+      checkDataOldPoints: null
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
   methods: {
+    CheckBeforeClose: function CheckBeforeClose() {
+      if (this.isPointChange) {
+        this.CloseConfirmDialog = true;
+      } else {
+        this.$emit('closeDialog');
+        this.CheckData.points = this.checkDataOldPoints;
+      }
+    },
     CheckFileIcon: function CheckFileIcon(ext) {
       if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
         return 'mdi-image';
@@ -509,6 +600,8 @@ var pdfviewer = function pdfviewer() {
         return 'mdi-note-text-outline';
       } else if (ext == 'docx' || ext == 'doc') {
         return 'mdi-file-word';
+      } else if (ext == 'type_answer') {
+        return 'mdi-format-text';
       } else if (ext == 'link') {
         return 'mdi-file-link';
       }
@@ -524,6 +617,8 @@ var pdfviewer = function pdfviewer() {
         return 'blue';
       } else if (ext == 'link') {
         return 'green';
+      } else if (ext == 'type_answer') {
+        return 'success';
       } else {
         return 'primary';
       }
@@ -594,32 +689,52 @@ var pdfviewer = function pdfviewer() {
                 studentDetails.classwork_id = _this2.CheckData.classwork_id;
                 studentDetails.class_id = _this2.CheckData.class_id;
 
-                if (_this2.score <= _this2.classworkDetails.points && _this2.score >= 0) {
-                  axios.put('/api/submission/update-score/' + _this2.CheckData.id, {
-                    score: _this2.score,
-                    data: _this2.CheckData.rubrics_score,
-                    details: studentDetails
-                  }).then(function (res) {
-                    if (res.status == 200) {
-                      _this2.toastSuccess("Score Updated");
+                if (!(_this2.score <= _this2.classworkDetails.points && _this2.score >= 0)) {
+                  _context.next = 9;
+                  break;
+                }
 
-                      _this2.isSavingScore = !_this2.isSavingScore;
-                      _this2.CheckData.id = res.data.submission_id;
+                _context.next = 7;
+                return axios.put('/api/submission/update-score/' + _this2.CheckData.id, {
+                  score: _this2.score,
+                  data: _this2.CheckData.rubrics_score,
+                  details: studentDetails
+                }).then(function (res) {
+                  if (res.status == 200) {
+                    _this2.toastSuccess("Score Updated");
 
-                      _this2.$emit('UpdateSubmission', _this2.CheckData.user_id);
+                    _this2.isSavingScore = !_this2.isSavingScore;
+                    _this2.CheckData.id = res.data.submission_id;
 
+                    _this2.$emit('UpdateSubmission', _this2.CheckData.user_id);
+
+                    _this2.isPointChange = false;
+
+                    if (_this2.CloseConfirmDialog) {
+                      _this2.$emit('closeDialog');
+
+                      _this2.CloseConfirmDialog = false;
+                    } else {
                       if (_this2.currentIndex != _this2.SubmittedLength - 1) {
+                        //this.validate();
+                        _this2.nextConfirmDialog = false;
+
                         _this2.NextStudent();
                       }
                     }
-                  });
-                } else {
-                  _this2.isSavingScore = !_this2.isSavingScore;
+                  }
+                });
 
-                  _this2.toastError('The set points is invalid!');
-                }
+              case 7:
+                _context.next = 11;
+                break;
 
-              case 5:
+              case 9:
+                _this2.isSavingScore = !_this2.isSavingScore;
+
+                _this2.toastError('The set points is invalid!');
+
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -627,31 +742,22 @@ var pdfviewer = function pdfviewer() {
         }, _callee);
       }))();
     },
-    alertStudent: function alertStudent() {
+    MarkAsSubmitting: function MarkAsSubmitting(id) {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                data = {};
-                _this3.isAlerting = true;
-                data.user_id = _this3.CheckData.user_id;
-                data.classwork_name = _this3.classworkDetails.title;
-                data.classwork_id = _this3.classworkDetails.id;
-                data.course_id = _this3.classworkDetails.course_id;
-                data.firstName = _this3.CheckData.firstName;
-                axios.post('/api/teacher/alert-student', data).then(function (res) {
-                  if (res.data.success == true) {
-                    _this3.toastSuccess(res.data.message);
+                _context2.next = 2;
+                return axios.put('/api/teacher/allow_resubmit/' + id).then(function () {
+                  _this3.AllowResubmitDialog = false;
 
-                    _this3.isAlerting = false;
-                  }
+                  _this3.$emit('markAsResubmit', _this3.CheckData.user_id);
                 });
 
-              case 8:
+              case 2:
               case "end":
                 return _context2.stop();
             }
@@ -659,12 +765,44 @@ var pdfviewer = function pdfviewer() {
         }, _callee2);
       }))();
     },
+    alertStudent: function alertStudent() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                data = {};
+                _this4.isAlerting = true;
+                data.user_id = _this4.CheckData.user_id;
+                data.classwork_name = _this4.classworkDetails.title;
+                data.classwork_id = _this4.classworkDetails.id;
+                data.course_id = _this4.classworkDetails.course_id;
+                data.firstName = _this4.CheckData.firstName;
+                axios.post('/api/teacher/alert-student', data).then(function (res) {
+                  if (res.data.success == true) {
+                    _this4.toastSuccess(res.data.message);
+
+                    _this4.isAlerting = false;
+                  }
+                });
+
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
     show: function show() {
       var viewer = this.$el.querySelector('.images').$viewer;
       viewer.show();
     },
     OpenFile: function OpenFile(extension, link) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.SelectedNav = 1;
       this.isOpening = true;
@@ -676,7 +814,7 @@ var pdfviewer = function pdfviewer() {
         this.images[0] = this.path; //this.show();
 
         setTimeout(function () {
-          return _this4.isOpening = false;
+          return _this5.isOpening = false;
         }, 500);
       } else if (extension == 'link') {
         this.OpenFileExtension = extension;
@@ -700,71 +838,55 @@ var pdfviewer = function pdfviewer() {
         }
 
         setTimeout(function () {
-          return _this4.isOpening = false;
+          return _this5.isOpening = false;
+        }, 500);
+      } else if (extension == 'type_answer') {
+        this.OpenFileType = 'type_answer';
+        this.path = link;
+        setTimeout(function () {
+          return _this5.isOpening = false;
         }, 500);
       } else {
         this.OpenFileExtension = extension;
         this.OpenFileType = 'document';
         this.path = link.replace('.cdn', '');
         setTimeout(function () {
-          return _this4.isOpening = false;
+          return _this5.isOpening = false;
         }, 500);
       }
     },
     addComment: function addComment(details) {
-      var _this5 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                data = {};
-                _this5.isCommenting = true;
-                data.classwork_id = details.classwork_id;
-                data.course_id = _this5.$route.params.id;
-                data.to_user = details.user_id;
-                data.comment = _this5.comment;
-                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
-                  if (res.status == 200) {
-                    _this5.CheckData.comments.push({
-                      content: res.data.comment,
-                      id: res.data.id,
-                      name: res.data.name,
-                      profile_pic: res.data.profile_pic,
-                      u_id: _this5.get_CurrentUser.user_id,
-                      comment_date: new Date()
-                    });
-
-                    _this5.comment = '';
-                  }
-                });
-                _this5.isCommenting = false;
-
-              case 8:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    DeleteComment: function DeleteComment(id, index) {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
-                  if (res.data.success == true) {
-                    _this6.CheckData.comments.splice(index, 1);
+                data = {};
+                _this6.isCommenting = true;
+                data.classwork_id = details.classwork_id;
+                data.course_id = _this6.$route.params.id;
+                data.to_user = details.user_id;
+                data.comment = _this6.comment;
+                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
+                  if (res.status == 200) {
+                    _this6.CheckData.comments.push({
+                      content: res.data.comment,
+                      id: res.data.id,
+                      name: res.data.name,
+                      profile_pic: res.data.profile_pic,
+                      u_id: _this6.get_CurrentUser.user_id,
+                      comment_date: new Date()
+                    });
+
+                    _this6.comment = '';
                   }
                 });
+                _this6.isCommenting = false;
 
-              case 1:
+              case 8:
               case "end":
                 return _context4.stop();
             }
@@ -772,7 +894,7 @@ var pdfviewer = function pdfviewer() {
         }, _callee4);
       }))();
     },
-    UpdateComment: function UpdateComment(content, id) {
+    DeleteComment: function DeleteComment(id, index) {
       var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
@@ -780,12 +902,10 @@ var pdfviewer = function pdfviewer() {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                axios.put('/api/post/comment/update/' + id, {
-                  comment: content
-                }).then(function (res) {
-                  _this7.isUpdatingComment = false;
-                  _this7.isUpdatingComment_id = null;
-                  _this7.isUpdatingComment_old_data = null;
+                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
+                  if (res.data.success == true) {
+                    _this7.CheckData.comments.splice(index, 1);
+                  }
                 });
 
               case 1:
@@ -796,14 +916,39 @@ var pdfviewer = function pdfviewer() {
         }, _callee5);
       }))();
     },
-    checkRubrics: function checkRubrics() {
+    UpdateComment: function UpdateComment(content, id) {
       var _this8 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return axios.put('/api/post/comment/update/' + id, {
+                  comment: content
+                }).then(function (res) {
+                  _this8.isUpdatingComment = false;
+                  _this8.isUpdatingComment_id = null;
+                  _this8.isUpdatingComment_old_data = null;
+                });
+
+              case 2:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    checkRubrics: function checkRubrics() {
+      var _this9 = this;
 
       if (this.classworkDetails.rubrics.length != 0) {
         if (this.CheckData.rubrics_score == false) {
           this.CheckData.rubrics_score = [];
           this.classworkDetails.rubrics.forEach(function (item) {
-            _this8.CheckData.rubrics_score.push({
+            _this9.CheckData.rubrics_score.push({
               id: item.id,
               points: null
             });
@@ -812,13 +957,13 @@ var pdfviewer = function pdfviewer() {
       }
     },
     reRunRubrics: function reRunRubrics() {
-      var _this9 = this;
+      var _this10 = this;
 
       //if(this.classworkDetails.rubrics.length != 0){
       if (this.CheckData.rubrics_score == null || this.CheckData.rubrics_score == false) {
         this.CheckData.rubrics_score = [];
         this.classworkDetails.rubrics.forEach(function (item) {
-          _this9.CheckData.rubrics_score.push({
+          _this10.CheckData.rubrics_score.push({
             id: item.id,
             points: null
           });
@@ -838,32 +983,6 @@ var pdfviewer = function pdfviewer() {
       }
     },
     ResetSubmission: function ResetSubmission() {
-      var _this10 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                axios.put('/api/teacher/reset-sbj/' + _this10.CheckData.id, {
-                  files: _this10.CheckData.Submitted_Answers
-                }).then(function () {
-                  _this10.$emit('SubmissionReset', _this10.CheckData.id);
-
-                  _this10.$store.dispatch('setCurrectClassworkSubmission', 1);
-
-                  _this10.dialog = false;
-                });
-
-              case 1:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
-      }))();
-    },
-    NextStudent: function NextStudent() {
       var _this11 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
@@ -871,17 +990,18 @@ var pdfviewer = function pdfviewer() {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                _this11.isLoaded = false;
-                _this11.isReloadRubrics = true;
-                _this11.path = null;
+                _context7.next = 2;
+                return axios.put('/api/teacher/reset-sbj/' + _this11.CheckData.id, {
+                  files: _this11.CheckData.Submitted_Answers
+                }).then(function () {
+                  _this11.$emit('SubmissionReset', _this11.CheckData.id);
 
-                _this11.$emit("nextStudent");
+                  _this11.$store.dispatch('setCurrectClassworkSubmission', 1);
 
-                setTimeout(function () {
-                  return _this11.RegetSubmittedAnswer();
-                }, 300);
+                  _this11.dialog = false;
+                });
 
-              case 5:
+              case 2:
               case "end":
                 return _context7.stop();
             }
@@ -889,7 +1009,7 @@ var pdfviewer = function pdfviewer() {
         }, _callee7);
       }))();
     },
-    PrevStudent: function PrevStudent() {
+    NextStudent: function NextStudent() {
       var _this12 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
@@ -897,22 +1017,52 @@ var pdfviewer = function pdfviewer() {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                _this12.isLoaded = false;
-                _this12.isReloadRubrics = true;
-                _this12.path = null;
+                if (!_this12.isPointChange) {
+                  _this12.isLoaded = false;
+                  _this12.isReloadRubrics = true;
+                  _this12.path = null;
 
-                _this12.$emit("prevStudent");
+                  _this12.$emit("nextStudent");
 
-                setTimeout(function () {
-                  return _this12.RegetSubmittedAnswer();
-                }, 300);
+                  setTimeout(function () {
+                    return _this12.RegetSubmittedAnswer();
+                  }, 300);
+                } else {
+                  _this12.nextConfirmDialog = true; //this.validate();
+                }
 
-              case 5:
+              case 1:
               case "end":
                 return _context8.stop();
             }
           }
         }, _callee8);
+      }))();
+    },
+    PrevStudent: function PrevStudent() {
+      var _this13 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _this13.isLoaded = false;
+                _this13.isReloadRubrics = true;
+                _this13.path = null;
+
+                _this13.$emit("prevStudent");
+
+                setTimeout(function () {
+                  return _this13.RegetSubmittedAnswer();
+                }, 300);
+
+              case 5:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
       }))();
     },
     rotateRight: function rotateRight() {
@@ -923,32 +1073,6 @@ var pdfviewer = function pdfviewer() {
       this.rotation += 90;
     },
     getSubmittedAnswer: function getSubmittedAnswer() {
-      var _this13 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
-          while (1) {
-            switch (_context9.prev = _context9.next) {
-              case 0:
-                _context9.next = 2;
-                return axios.get('/api/submission/submitted_answer/' + _this13.CheckData.id).then(function (res) {
-                  _this13.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
-                  _this13.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
-                  _this13.CheckData.comments = res.data.comment;
-                  _this13.isLoaded = true;
-
-                  _this13.checkRubrics();
-                });
-
-              case 2:
-              case "end":
-                return _context9.stop();
-            }
-          }
-        }, _callee9);
-      }))();
-    },
-    RegetSubmittedAnswer: function RegetSubmittedAnswer() {
       var _this14 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
@@ -956,27 +1080,20 @@ var pdfviewer = function pdfviewer() {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                _this14.CheckData.Submitted_Answers = [];
-                _this14.CheckData.rubrics_score = [];
-                _this14.CheckData.comments = [];
-
-                if (_this14.CheckData.status != null && _this14.CheckData.status != '') {
-                  axios.get('/api/submission/submitted_answer/' + _this14.CheckData.id).then(function (res) {
-                    _this14.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
-                    _this14.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
-                    _this14.CheckData.comments = res.data.comment;
-
-                    _this14.reRunRubrics();
-
-                    _this14.isLoaded = true;
-                  });
-                } else {
-                  _this14.reRunRubrics();
-
+                _context10.next = 2;
+                return axios.get('/api/submission/submitted_answer/' + _this14.CheckData.id).then(function (res) {
+                  _this14.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
+                  _this14.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
+                  _this14.CheckData.comments = res.data.comment;
+                  _this14.checkDataOldPoints = _this14.CheckData.points;
                   _this14.isLoaded = true;
-                }
 
-              case 4:
+                  _this14.checkRubrics();
+
+                  _this14.getFileExtension();
+                });
+
+              case 2:
               case "end":
                 return _context10.stop();
             }
@@ -984,55 +1101,110 @@ var pdfviewer = function pdfviewer() {
         }, _callee10);
       }))();
     },
-    getFileExtension: function getFileExtension() {
+    RegetSubmittedAnswer: function RegetSubmittedAnswer() {
       var _this15 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee11() {
-        var path, extension, str, res, id, embeddedUrl, d, pathLink;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {
               case 0:
-                path = _this15.CheckData.Submitted_Answers[0].link;
-                extension = _this15.CheckData.Submitted_Answers[0].fileExte;
+                _this15.CheckData.Submitted_Answers = [];
+                _this15.CheckData.rubrics_score = [];
+                _this15.CheckData.comments = [];
+
+                if (!(_this15.CheckData.status != null && _this15.CheckData.status != '')) {
+                  _context11.next = 8;
+                  break;
+                }
+
+                _context11.next = 6;
+                return axios.get('/api/submission/submitted_answer/' + _this15.CheckData.id).then(function (res) {
+                  _this15.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
+                  _this15.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
+                  _this15.CheckData.comments = res.data.comment;
+                  _this15.checkDataOldPoints = _this15.CheckData.points;
+
+                  _this15.reRunRubrics();
+
+                  _this15.isLoaded = true;
+
+                  _this15.getFileExtension();
+                });
+
+              case 6:
+                _context11.next = 10;
+                break;
+
+              case 8:
+                _this15.reRunRubrics();
+
+                _this15.isLoaded = true;
+
+              case 10:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11);
+      }))();
+    },
+    getFileExtension: function getFileExtension() {
+      var _this16 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee12() {
+        var path, extension, str, res, id, embeddedUrl, d, pathLink;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                path = _this16.CheckData.Submitted_Answers[0].link;
+                extension = _this16.CheckData.Submitted_Answers[0].fileExte;
 
                 if (extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp') {
-                  _this15.OpenFileExtension = extension;
-                  _this15.OpenFileType = 'media';
-                  _this15.path = path;
-                  _this15.isOpening = false;
+                  _this16.OpenFileExtension = extension;
+                  _this16.OpenFileType = 'media';
+                  _this16.path = path;
+                  _this16.isOpening = false;
                 } else if (extension == 'link') {
-                  _this15.OpenFileType = 'link';
-                  _this15.OpenFileExtension = extension;
+                  _this16.OpenFileType = 'link';
+                  _this16.OpenFileExtension = extension;
                   str = path;
 
                   if (str.includes('www.youtube.com')) {
                     res = str.split("=");
                     id = res[1].split("&");
                     embeddedUrl = "https://www.youtube.com/embed/" + id[0];
-                    _this15.path = embeddedUrl;
+                    _this16.path = embeddedUrl;
                   } else if (str.includes('drive.google.com')) {
                     d = str.replace(/.*\/d\//, '').replace(/\/.*/, '');
                     pathLink = "https://drive.google.com/file/d/" + d + "/preview";
-                    _this15.path = pathLink;
+                    _this16.path = pathLink;
                   } else {
-                    _this15.path = path;
+                    _this16.path = path;
                   }
 
-                  _this15.isOpening = false;
+                  _this16.isOpening = false;
+                } else if (extension == 'type_answer') {
+                  _this16.OpenFileExtension = extension;
+                  _this16.OpenFileType = 'type_answer';
+                  _this16.path = path;
+                  setTimeout(function () {
+                    return _this16.isOpening = false;
+                  }, 500);
                 } else {
-                  _this15.OpenFileExtension = extension;
-                  _this15.OpenFileType = 'document';
-                  _this15.path = path;
-                  _this15.isOpening = false;
+                  _this16.OpenFileExtension = extension;
+                  _this16.OpenFileType = 'document';
+                  _this16.path = path;
+                  _this16.isOpening = false;
                 }
 
               case 3:
               case "end":
-                return _context11.stop();
+                return _context12.stop();
             }
           }
-        }, _callee11);
+        }, _callee12);
       }))();
     }
   },
@@ -1042,7 +1214,6 @@ var pdfviewer = function pdfviewer() {
   created: function created() {
     if (this.CheckData.status != null && this.CheckData.status != '') {
       this.getSubmittedAnswer();
-      this.getFileExtension();
     }
 
     this.$emit('isMounted'); //setTimeout(() => (this.info = false), 5000);
@@ -1367,6 +1538,88 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "400" },
+          model: {
+            value: _vm.AllowResubmitDialog,
+            callback: function($$v) {
+              _vm.AllowResubmitDialog = $$v
+            },
+            expression: "AllowResubmitDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            { staticClass: "pa-2" },
+            [
+              _c("v-card-title", { staticClass: "text-h5 mb-3" }, [
+                _vm._v("\n          Allow Resubmit\n          ")
+              ]),
+              _vm._v(" "),
+              _c("v-card-text", { staticClass: "font-weight-bold" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "subtitle-1 ",
+                    staticStyle: { "line-height": "1.1" }
+                  },
+                  [
+                    _vm._v("\n                  Clicking confirm will allow "),
+                    _c("span", { staticClass: "font-weight-bold" }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.CheckData.firstName + " " + _vm.CheckData.lastName
+                        )
+                      )
+                    ]),
+                    _vm._v(" to make new submission for this classwork?")
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.AllowResubmitDialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("\n              Cancel\n          ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.MarkAsSubmitting(_vm.CheckData.id)
+                        }
+                      }
+                    },
+                    [_vm._v("\n              Confirm\n          ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-row",
         { attrs: { "no-gutters": "", align: "center", justify: "center" } },
         [
@@ -1396,7 +1649,7 @@ var render = function() {
                                 { attrs: { color: "white", size: "30" } },
                                 [
                                   _vm._v(
-                                    " \n                                     mdi-book-open-variant\n                                 "
+                                    " \n                                     mdi-book-open-variant\n                                     \n                                 "
                                   )
                                 ]
                               )
@@ -1435,7 +1688,7 @@ var render = function() {
                                             )
                                           : "No due date"
                                       ) +
-                                      "\n                                 "
+                                      "\n\n                                 \n                                 "
                                   )
                                 ]
                               )
@@ -1460,7 +1713,7 @@ var render = function() {
                                       },
                                       on: {
                                         click: function($event) {
-                                          return _vm.$emit("closeDialog")
+                                          return _vm.CheckBeforeClose()
                                         }
                                       }
                                     },
@@ -1580,31 +1833,66 @@ var render = function() {
                                                 { staticClass: "d-flex mb-2 " },
                                                 [
                                                   _c(
-                                                    "v-btn",
+                                                    "v-tooltip",
                                                     {
-                                                      attrs: {
-                                                        disabled:
-                                                          _vm.SubmittedLength ==
-                                                            1 ||
-                                                          _vm.currentIndex == 0,
-                                                        icon: ""
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.PrevStudent()
+                                                      attrs: { top: "" },
+                                                      scopedSlots: _vm._u([
+                                                        {
+                                                          key: "activator",
+                                                          fn: function(ref) {
+                                                            var on = ref.on
+                                                            var attrs =
+                                                              ref.attrs
+                                                            return [
+                                                              _c(
+                                                                "v-btn",
+                                                                _vm._g(
+                                                                  _vm._b(
+                                                                    {
+                                                                      attrs: {
+                                                                        disabled:
+                                                                          _vm.SubmittedLength ==
+                                                                            1 ||
+                                                                          _vm.currentIndex ==
+                                                                            0,
+                                                                        icon: ""
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.PrevStudent()
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    "v-btn",
+                                                                    attrs,
+                                                                    false
+                                                                  ),
+                                                                  on
+                                                                ),
+                                                                [
+                                                                  _c("v-icon", [
+                                                                    _vm._v(
+                                                                      "mdi-chevron-left"
+                                                                    )
+                                                                  ])
+                                                                ],
+                                                                1
+                                                              )
+                                                            ]
+                                                          }
                                                         }
-                                                      }
+                                                      ])
                                                     },
                                                     [
-                                                      _c("v-icon", [
+                                                      _vm._v(" "),
+                                                      _c("span", [
                                                         _vm._v(
-                                                          "mdi-chevron-left"
+                                                          "Previous Student"
                                                         )
                                                       ])
-                                                    ],
-                                                    1
+                                                    ]
                                                   ),
                                                   _vm._v(" "),
                                                   _c("v-spacer"),
@@ -1654,31 +1942,63 @@ var render = function() {
                                                   _c("v-spacer"),
                                                   _vm._v(" "),
                                                   _c(
-                                                    "v-btn",
+                                                    "v-tooltip",
                                                     {
-                                                      attrs: {
-                                                        disabled:
-                                                          _vm.currentIndex ==
-                                                          _vm.SubmittedLength -
-                                                            1,
-                                                        icon: ""
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.NextStudent()
+                                                      attrs: { top: "" },
+                                                      scopedSlots: _vm._u([
+                                                        {
+                                                          key: "activator",
+                                                          fn: function(ref) {
+                                                            var on = ref.on
+                                                            var attrs =
+                                                              ref.attrs
+                                                            return [
+                                                              _c(
+                                                                "v-btn",
+                                                                _vm._g(
+                                                                  _vm._b(
+                                                                    {
+                                                                      attrs: {
+                                                                        disabled:
+                                                                          _vm.currentIndex ==
+                                                                          _vm.SubmittedLength -
+                                                                            1,
+                                                                        icon: ""
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.NextStudent()
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    "v-btn",
+                                                                    attrs,
+                                                                    false
+                                                                  ),
+                                                                  on
+                                                                ),
+                                                                [
+                                                                  _c("v-icon", [
+                                                                    _vm._v(
+                                                                      "mdi-chevron-right"
+                                                                    )
+                                                                  ])
+                                                                ],
+                                                                1
+                                                              )
+                                                            ]
+                                                          }
                                                         }
-                                                      }
+                                                      ])
                                                     },
                                                     [
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "mdi-chevron-right"
-                                                        )
+                                                      _vm._v(" "),
+                                                      _c("span", [
+                                                        _vm._v("Next Student")
                                                       ])
-                                                    ],
-                                                    1
+                                                    ]
                                                   )
                                                 ],
                                                 1
@@ -1820,7 +2140,7 @@ var render = function() {
                                                                       _vm.format_date(
                                                                         _vm
                                                                           .CheckData
-                                                                          .updated_at
+                                                                          .submitted_at
                                                                       )
                                                                   : _vm
                                                                       .CheckData
@@ -1931,6 +2251,11 @@ var render = function() {
                                                           min: "0"
                                                         },
                                                         on: {
+                                                          keyup: function(
+                                                            $event
+                                                          ) {
+                                                            _vm.isPointChange = true
+                                                          },
                                                           focus: function(
                                                             $event
                                                           ) {
@@ -1972,54 +2297,187 @@ var render = function() {
                                           )
                                         ],
                                         1
-                                      )
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-divider")
                                     ],
                                     1
                                   ),
                                   _vm._v(" "),
-                                  _vm.CheckData.status != null &&
-                                  _vm.CheckData.status != "" &&
-                                  _vm.CheckData.status != "Submitting"
-                                    ? _c(
-                                        "v-col",
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "ma-0 pa-0 pb-4 pt-3 d-flex",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-tooltip",
                                         {
-                                          staticClass: "ma-0 pa-0 pb-4 pt-3",
-                                          attrs: { cols: "12" }
+                                          attrs: {
+                                            color: "green",
+                                            "max-width": "350",
+                                            bottom: ""
+                                          },
+                                          scopedSlots: _vm._u([
+                                            {
+                                              key: "activator",
+                                              fn: function(ref) {
+                                                var on = ref.on
+                                                var attrs = ref.attrs
+                                                return [
+                                                  _vm.CheckData.status ==
+                                                  "Submitted"
+                                                    ? _c(
+                                                        "v-btn",
+                                                        _vm._g(
+                                                          _vm._b(
+                                                            {
+                                                              attrs: {
+                                                                rounded: "",
+                                                                dark: "",
+                                                                small: "",
+                                                                color: "green"
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  _vm.AllowResubmitDialog = true
+                                                                }
+                                                              }
+                                                            },
+                                                            "v-btn",
+                                                            attrs,
+                                                            false
+                                                          ),
+                                                          on
+                                                        ),
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                left: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-file-document-edit-outline"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(
+                                                            " Allow Resubmit\n                                              "
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    : _vm._e()
+                                                ]
+                                              }
+                                            }
+                                          ])
                                         },
                                         [
-                                          _vm.CheckData.status != null &&
-                                          _vm.CheckData.status != "" &&
-                                          _vm.CheckData.status != "Submitting"
-                                            ? _c(
-                                                "v-btn",
-                                                {
-                                                  attrs: {
-                                                    rounded: "",
-                                                    text: "",
-                                                    block: "",
-                                                    color: "primary"
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      _vm.dialog = !_vm.dialog
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-icon",
-                                                    { attrs: { left: "" } },
-                                                    [_vm._v("mdi-restart")]
-                                                  ),
-                                                  _vm._v(" Reset Submission")
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e()
-                                        ],
-                                        1
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm._v("Allow Resubmit"),
+                                            _c("br"),
+                                            _vm._v(
+                                              "\n                                              Student will be mark as submitting and will able to add and change attachment to his/her submission.\n                                          "
+                                            )
+                                          ])
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-tooltip",
+                                        {
+                                          attrs: {
+                                            color: "red",
+                                            "max-width": "350",
+                                            bottom: ""
+                                          },
+                                          scopedSlots: _vm._u([
+                                            {
+                                              key: "activator",
+                                              fn: function(ref) {
+                                                var on = ref.on
+                                                var attrs = ref.attrs
+                                                return [
+                                                  _vm.CheckData.status !=
+                                                    null &&
+                                                  _vm.CheckData.status != "" &&
+                                                  _vm.CheckData.status !=
+                                                    "Submitting"
+                                                    ? _c(
+                                                        "v-btn",
+                                                        _vm._g(
+                                                          _vm._b(
+                                                            {
+                                                              attrs: {
+                                                                rounded: "",
+                                                                dark: "",
+                                                                small: "",
+                                                                color: "red"
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  _vm.dialog = !_vm.dialog
+                                                                }
+                                                              }
+                                                            },
+                                                            "v-btn",
+                                                            attrs,
+                                                            false
+                                                          ),
+                                                          on
+                                                        ),
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                left: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-restart"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(
+                                                            " Reset Submission"
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    : _vm._e()
+                                                ]
+                                              }
+                                            }
+                                          ])
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm._v("Reset Submission"),
+                                            _c("br"),
+                                            _vm._v(
+                                              "\n                                              Note: You can't undo this once you've reset the student submission\n                                              all submitted answer of this student will be remove.\n                                          "
+                                            )
+                                          ])
+                                        ]
                                       )
-                                    : _vm._e(),
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "v-col",
@@ -2128,103 +2586,106 @@ var render = function() {
                                                                   1
                                                                 ),
                                                                 _vm._v(" "),
-                                                                _c(
-                                                                  "v-list-item-action",
-                                                                  [
-                                                                    _c(
-                                                                      "v-tooltip",
-                                                                      {
-                                                                        attrs: {
-                                                                          top:
-                                                                            ""
-                                                                        },
-                                                                        scopedSlots: _vm._u(
-                                                                          [
-                                                                            {
-                                                                              key:
-                                                                                "activator",
-                                                                              fn: function(
-                                                                                ref
-                                                                              ) {
-                                                                                var on =
-                                                                                  ref.on
-                                                                                var attrs =
-                                                                                  ref.attrs
-                                                                                return [
-                                                                                  _c(
-                                                                                    "v-btn",
-                                                                                    _vm._g(
-                                                                                      _vm._b(
-                                                                                        {
-                                                                                          attrs: {
-                                                                                            rounded:
-                                                                                              "",
-                                                                                            small:
-                                                                                              "",
-                                                                                            icon:
-                                                                                              "",
-                                                                                            text:
-                                                                                              ""
-                                                                                          },
-                                                                                          on: {
-                                                                                            click: function(
-                                                                                              $event
-                                                                                            ) {
-                                                                                              return _vm.DownloadFile(
-                                                                                                item.link
-                                                                                              )
-                                                                                            }
-                                                                                          }
-                                                                                        },
-                                                                                        "v-btn",
-                                                                                        attrs,
-                                                                                        false
-                                                                                      ),
-                                                                                      on
-                                                                                    ),
-                                                                                    [
-                                                                                      _c(
-                                                                                        "v-icon",
-                                                                                        {
-                                                                                          attrs: {
-                                                                                            color:
-                                                                                              "blue"
-                                                                                          }
-                                                                                        },
-                                                                                        [
-                                                                                          _vm._v(
-                                                                                            "mdi-download"
-                                                                                          )
-                                                                                        ]
-                                                                                      )
-                                                                                    ],
-                                                                                    1
-                                                                                  )
-                                                                                ]
-                                                                              }
-                                                                            }
-                                                                          ],
-                                                                          null,
-                                                                          true
-                                                                        )
-                                                                      },
+                                                                item.fileExte !=
+                                                                "type_answer"
+                                                                  ? _c(
+                                                                      "v-list-item-action",
                                                                       [
-                                                                        _vm._v(
-                                                                          " "
-                                                                        ),
                                                                         _c(
-                                                                          "span",
+                                                                          "v-tooltip",
+                                                                          {
+                                                                            attrs: {
+                                                                              top:
+                                                                                ""
+                                                                            },
+                                                                            scopedSlots: _vm._u(
+                                                                              [
+                                                                                {
+                                                                                  key:
+                                                                                    "activator",
+                                                                                  fn: function(
+                                                                                    ref
+                                                                                  ) {
+                                                                                    var on =
+                                                                                      ref.on
+                                                                                    var attrs =
+                                                                                      ref.attrs
+                                                                                    return [
+                                                                                      _c(
+                                                                                        "v-btn",
+                                                                                        _vm._g(
+                                                                                          _vm._b(
+                                                                                            {
+                                                                                              attrs: {
+                                                                                                rounded:
+                                                                                                  "",
+                                                                                                small:
+                                                                                                  "",
+                                                                                                icon:
+                                                                                                  "",
+                                                                                                text:
+                                                                                                  ""
+                                                                                              },
+                                                                                              on: {
+                                                                                                click: function(
+                                                                                                  $event
+                                                                                                ) {
+                                                                                                  return _vm.DownloadFile(
+                                                                                                    item.link
+                                                                                                  )
+                                                                                                }
+                                                                                              }
+                                                                                            },
+                                                                                            "v-btn",
+                                                                                            attrs,
+                                                                                            false
+                                                                                          ),
+                                                                                          on
+                                                                                        ),
+                                                                                        [
+                                                                                          _c(
+                                                                                            "v-icon",
+                                                                                            {
+                                                                                              attrs: {
+                                                                                                color:
+                                                                                                  "blue"
+                                                                                              }
+                                                                                            },
+                                                                                            [
+                                                                                              _vm._v(
+                                                                                                "mdi-download"
+                                                                                              )
+                                                                                            ]
+                                                                                          )
+                                                                                        ],
+                                                                                        1
+                                                                                      )
+                                                                                    ]
+                                                                                  }
+                                                                                }
+                                                                              ],
+                                                                              null,
+                                                                              true
+                                                                            )
+                                                                          },
                                                                           [
                                                                             _vm._v(
-                                                                              "Download"
+                                                                              " "
+                                                                            ),
+                                                                            _c(
+                                                                              "span",
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "Download"
+                                                                                )
+                                                                              ]
                                                                             )
                                                                           ]
                                                                         )
-                                                                      ]
+                                                                      ],
+                                                                      1
                                                                     )
-                                                                  ],
-                                                                  1
-                                                                )
+                                                                  : _vm._e()
                                                               ],
                                                               1
                                                             )
@@ -2883,28 +3344,71 @@ var render = function() {
                                         "v-list-item-action",
                                         [
                                           _c(
-                                            "v-btn",
+                                            "v-tooltip",
                                             {
                                               attrs: {
-                                                loading: _vm.isCommenting,
-                                                icon: ""
+                                                "max-width": "350",
+                                                top: ""
                                               },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.addComment(
-                                                    _vm.CheckData
-                                                  )
+                                              scopedSlots: _vm._u([
+                                                {
+                                                  key: "activator",
+                                                  fn: function(ref) {
+                                                    var on = ref.on
+                                                    var attrs = ref.attrs
+                                                    return [
+                                                      _c(
+                                                        "v-btn",
+                                                        _vm._g(
+                                                          _vm._b(
+                                                            {
+                                                              attrs: {
+                                                                loading:
+                                                                  _vm.isCommenting,
+                                                                icon: ""
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.addComment(
+                                                                    _vm.CheckData
+                                                                  )
+                                                                }
+                                                              }
+                                                            },
+                                                            "v-btn",
+                                                            attrs,
+                                                            false
+                                                          ),
+                                                          on
+                                                        ),
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                color: "primary"
+                                                              }
+                                                            },
+                                                            [_vm._v("mdi-send")]
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ]
+                                                  }
                                                 }
-                                              }
+                                              ])
                                             },
                                             [
-                                              _c(
-                                                "v-icon",
-                                                { attrs: { color: "primary" } },
-                                                [_vm._v("mdi-send")]
-                                              )
-                                            ],
-                                            1
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                _vm._v(
+                                                  "Add Comment\n                                          "
+                                                )
+                                              ])
+                                            ]
                                           )
                                         ],
                                         1
@@ -3173,6 +3677,28 @@ var render = function() {
                                           : _vm._e(),
                                         _vm._v(" "),
                                         !_vm.isOpening &&
+                                        _vm.OpenFileType == "type_answer"
+                                          ? _c(
+                                              "div",
+                                              {
+                                                staticClass: "pa-2",
+                                                staticStyle: {
+                                                  "max-width": "100%",
+                                                  "max-height": "80vh",
+                                                  "overflow-y": "scroll"
+                                                }
+                                              },
+                                              [
+                                                _c("span", {
+                                                  domProps: {
+                                                    innerHTML: _vm._s(_vm.path)
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        !_vm.isOpening &&
                                         _vm.OpenFileType == "media"
                                           ? _c("div", [
                                               _c(
@@ -3304,6 +3830,144 @@ var render = function() {
                 1
               )
             : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "350" },
+          model: {
+            value: _vm.nextConfirmDialog,
+            callback: function($$v) {
+              _vm.nextConfirmDialog = $$v
+            },
+            expression: "nextConfirmDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "text-h5" }, [
+                _vm._v("\n                  Save Score\n                  ")
+              ]),
+              _vm._v(" "),
+              _c("v-card-text", [
+                _vm._v(
+                  "You have change's the score of the student, do you want to go to next studet and save the score?"
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "secondary", dark: "" },
+                      on: {
+                        click: function($event) {
+                          ;(_vm.CheckData.points = _vm.checkDataOldPoints),
+                            (_vm.isPointChange = false),
+                            (_vm.nextConfirmDialog = false),
+                            _vm.NextStudent()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                      No\n                  ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "green darken-1", dark: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.validate()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                      Yes\n                  ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "350" },
+          model: {
+            value: _vm.CloseConfirmDialog,
+            callback: function($$v) {
+              _vm.CloseConfirmDialog = $$v
+            },
+            expression: "CloseConfirmDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "text-h5" }, [
+                _vm._v("\n                  Save Score\n                  ")
+              ]),
+              _vm._v(" "),
+              _c("v-card-text", [
+                _vm._v(
+                  "You have change's the score of the student, do you want save before close?"
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "secondary", dark: "" },
+                      on: {
+                        click: function($event) {
+                          ;(_vm.CheckData.points = _vm.checkDataOldPoints),
+                            _vm.$emit("closeDialog"),
+                            (_vm.isPointChange = false),
+                            (_vm.CloseConfirmDialog = false)
+                        }
+                      }
+                    },
+                    [_vm._v("\n                      No\n                  ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "green darken-1", dark: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.validate()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                      Yes\n                  ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       )

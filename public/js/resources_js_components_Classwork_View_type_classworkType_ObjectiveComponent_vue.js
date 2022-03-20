@@ -439,13 +439,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -560,8 +553,25 @@ var viewSubmission = function viewSubmission() {
 
       if (this.totalQuestion != 0 && (this.status == null || this.status == '')) {
         //this.UpdateStatus( this.classworkDetails.id);
-        //  this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
-        var routeData = this.$router.resolve({
+
+        /*   let routeData = this.$router.resolve({
+              name: 'quizstart',
+              params: {
+                  id: this.$route.params.id
+              },
+              query: {
+                  clwk: this.classworkDetails.id
+              }
+          })
+         
+          window.open(routeData.href, 'winname',
+              "directories=0,titlebar=0,toolbar=no,location=0,status=0,menubar=no,scrollbars=yes,resizable=no,width=" +
+              screen.availWidth + ",height=" + screen.availHeight,
+              "screenX=1,screenY=1,left=1,top=1,fullscreen=yes"); */
+        this.confirmStartDialog = false;
+        this.saveActivityLog('Student started taking the exam').then(function () {//location.reload();
+        });
+        this.$router.push({
           name: 'quizstart',
           params: {
             id: this.$route.params.id
@@ -570,18 +580,13 @@ var viewSubmission = function viewSubmission() {
             clwk: this.classworkDetails.id
           }
         });
-        window.open(routeData.href, 'winname', "directories=0,titlebar=0,toolbar=no,location=0,status=0,menubar=no,scrollbars=yes,resizable=no,width=" + screen.availWidth + ",height=" + screen.availHeight, "screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
-        this.saveActivityLog('Student started taking the exam').then(function () {
-          location.reload();
-        });
       } else {
         this.isOpenQuiz = false;
       }
     },
     continueQuiz: function continueQuiz(id) {
-      this.isOpenQuiz = true; // this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: id}})
-
-      var routeData = this.$router.resolve({
+      this.isOpenQuiz = true;
+      this.$router.push({
         name: 'quizstart',
         params: {
           id: this.$route.params.id
@@ -590,10 +595,22 @@ var viewSubmission = function viewSubmission() {
           clwk: id
         }
       });
-      window.open(routeData.href, 'winname', "directories=0,titlebar=0,toolbar=no,location=0,status=0,menubar=no,scrollbars=yes,resizable=no,width=" + screen.availWidth + ",height=" + screen.availHeight, "screenX=1,screenY=1,left=1,top=1,fullscreen=1");
-      this.saveActivityLog('Student continue taking the exam').then(function () {
-        location.reload();
-      });
+      /*  let routeData = this.$router.resolve({
+           name: 'quizstart',
+           params: {
+               id: this.$route.params.id
+           },
+           query: {
+               clwk: id
+           }
+       })
+        window.open(routeData.href, 'winname',
+           "directories=0,titlebar=0,toolbar=no,location=0,status=0,menubar=no,scrollbars=yes,resizable=no,width=" +
+           screen.availWidth + ",height=" + screen.availHeight,
+           "screenX=1,screenY=1,left=1,top=1,fullscreen=1");
+       this.saveActivityLog('Student continue taking the exam').then(() => {
+           location.reload();
+       }); */
     },
     checkStatus: function checkStatus() {
       var _this2 = this;
@@ -981,6 +998,7 @@ var render = function() {
         attrs: {
           active: _vm.isOpenQuiz,
           duration: "0.7",
+          text: "Loading Quiz",
           spinner: "line-scale",
           color: "#EF6C00",
           size: "50",

@@ -17,7 +17,7 @@
             </v-app-bar>
         </div>
 
-        <vue-element-loading :active="isOpenQuiz" duration="0.7" spinner="line-scale" color="#EF6C00" size="50"
+        <vue-element-loading :active="isOpenQuiz" duration="0.7" text="Loading Quiz" spinner="line-scale" color="#EF6C00" size="50"
             is-full-screen />
 
         <v-row justify="center" align-content="center" no-gutters
@@ -346,14 +346,7 @@
                                                 View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                                             </v-btn>
                                         </div>
-
                                     </v-col>
-                                  <!--   <v-col cols="12">
-                                        <v-btn v-if="classworkDetails.publish == null"
-                                            :block="!$vuetify.breakpoint.mdAndUp " rounded color="primary" disabled>
-                                            Not Yet Available<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                                        </v-btn>
-                                    </v-col> -->
                                 </v-row>
                             </v-col>
                         </v-row>
@@ -530,8 +523,8 @@
                 if (this.totalQuestion != 0 && (this.status == null || this.status == '')) {
                     //this.UpdateStatus( this.classworkDetails.id);
 
-                    //  this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
-                    let routeData = this.$router.resolve({
+                    
+                  /*   let routeData = this.$router.resolve({
                         name: 'quizstart',
                         params: {
                             id: this.$route.params.id
@@ -544,13 +537,14 @@
                     window.open(routeData.href, 'winname',
                         "directories=0,titlebar=0,toolbar=no,location=0,status=0,menubar=no,scrollbars=yes,resizable=no,width=" +
                         screen.availWidth + ",height=" + screen.availHeight,
-                        "screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
+                        "screenX=1,screenY=1,left=1,top=1,fullscreen=yes"); */
 
-
+                    this.confirmStartDialog = false;
                     this.saveActivityLog('Student started taking the exam').then(() => {
-                        location.reload();
+                        //location.reload();
                         
                     });
+                     this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
 
                 } else {
                     this.isOpenQuiz = false;
@@ -559,8 +553,8 @@
 
             continueQuiz(id) {
                 this.isOpenQuiz = true;
-                // this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: id}})
-                let routeData = this.$router.resolve({
+                this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: id}})
+               /*  let routeData = this.$router.resolve({
                     name: 'quizstart',
                     params: {
                         id: this.$route.params.id
@@ -576,7 +570,7 @@
                     "screenX=1,screenY=1,left=1,top=1,fullscreen=1");
                 this.saveActivityLog('Student continue taking the exam').then(() => {
                     location.reload();
-                });
+                }); */
 
             },
             checkStatus() {

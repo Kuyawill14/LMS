@@ -351,8 +351,7 @@ class TeacherController extends Controller
                                 
                             }
                             else{
-                                $item['check'] = false;
-                                //$item['Answer'] = "Wrong answer";
+                                $item['Answer'] = "Wrong answer";
                             }
                         
                             array_push($TempAnswers, $item);
@@ -374,6 +373,11 @@ class TeacherController extends Controller
                         $updateObj->points = ($updateObj->points + $request->essay_points);
                     }
                 }
+               /*  else if($item['type'] == 'Identification'){
+                    $item['Answer'] = null;
+                    
+                    
+                } */
                 else{
                     $updateObj->points = ($updateObj->points + $request->points);
                 }
@@ -387,8 +391,7 @@ class TeacherController extends Controller
                             $item['score'] = $request->essay_points;
                         }
                         else{
-                            $item['check'] = true;
-                            //$item['Answer'] =  $request->answer;
+                            $item['Answer'] =  $request->answer;
                         }
                         array_push($TempAnswers, $item);
                     }
@@ -477,7 +480,7 @@ class TeacherController extends Controller
         if($ResetSubmission){
             if($request["files"]){
                 foreach($request["files"] as $item){
-                    if($item["fileExte"] != "link" && $item["fileExte"] != "type_answer"){
+                    if($item["fileExte"] != "link"){
                         $path =  str_replace(\Config::get('app.do_url').'/', "", $item['link']);
                         Storage::disk('DO_spaces')->delete($path);
                     }
@@ -635,15 +638,5 @@ class TeacherController extends Controller
         }
     }
 
-    public function AllowResubmit($id){
-        $Submission = tbl_Submission::find($id);
-        if( $Submission){
-            $Submission->status = 'Submitting';
-            $Submission->allow_resubmit = true;
-            $Submission->graded = false;
-            $Submission->points = 0;
-            $Submission->save();
-        }
-    }
     
 }

@@ -2,7 +2,7 @@
 <div>
     <studentDashboard v-if="role == 'Student'" :role="role" />
     <teacherDashboard v-if="role == 'Teacher'" :role="role" />
-    <adminDashboard v-if="role == 'Admin'" :role="role" />
+    <adminDashboard v-if="role == 'Administrator'" :role="role" />
     <programChairDashboard v-if="role == 'ProgramChair'" :role="role" />
 </div>
 </template>

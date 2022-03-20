@@ -316,6 +316,24 @@ class StudentController extends Controller
 
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function UpdateSubmittedAnswer(Request $request, $id){
+        $Classwork = tbl_Submission::find($id);
+        if($Classwork){
+            $Classwork->Submitted_Answers = serialize($request->answers);
+            $Classwork->save();
+            return 'Submission Updated';
+        }
+
+        return 'Classwork not found!';
+    }
+
 
     /**
      * Display the specified resource.
@@ -328,6 +346,8 @@ class StudentController extends Controller
         $Classwork = tbl_Submission::find($id);
         if( $Classwork){
             $Classwork->status = 'Submitting';
+            $Classwork->graded = false;
+            $Classwork->points = 0;
             $Classwork->save();
         }
             
@@ -346,6 +366,7 @@ class StudentController extends Controller
         $SubmitSubj = tbl_Submission::find($id);
         if($SubmitSubj){
             $SubmitSubj->status = "Submitted";
+            $SubmitSubj->allow_resubmit = false;
             $SubmitSubj->submitted_at = date('Y-m-d H:i:s');
             $SubmitSubj->save();
 
@@ -446,7 +467,6 @@ class StudentController extends Controller
         $CheckStatus = tbl_Submission::where('tbl_submissions.classwork_id', $id)
         ->select('tbl_submissions.status','tbl_submissions.points as score','tbl_class_classworks.id as class_classwork_id'
         ,'tbl_class_classworks.showAnswer', 'tbl_class_classworks.reviewAnswer','tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo','tbl_class_classworks.response_late',
-
         'tbl_classworks.title','tbl_classworks.points as totalPoints','tbl_classworks.id as cl_id','tbl_classworks.course_id'
         ,'tbl_submissions.Submitted_Answers','tbl_submissions.updated_at')
         ->leftJoin('tbl_classworks', 'tbl_classworks.id','=','tbl_submissions.classwork_id')
@@ -460,6 +480,7 @@ class StudentController extends Controller
             ->select('class_id')
             ->where('user_id', $userId)
             ->first();
+
             $CheckStatus->name =  $UserFullName;
             $CheckStatus->class_id =  $ClassId->class_id;
             $CheckStatus->id = $userId;
@@ -493,11 +514,11 @@ class StudentController extends Controller
         ->where('tbl_submissions.classwork_id',$id)
         ->select('tbl_submissions.id','tbl_submissions.classwork_id','tbl_submissions.status','tbl_submissions.Submitted_Answers','tbl_submissions.created_at')
         ->first();
-        
+
         $dateToday = date('Y-m-d H:i:s');
         if($CheckStatus){
             $checkClasswork = tbl_classwork::find($CheckStatus->classwork_id);
-            if($checkClasswork->isNew == null){
+            //if($checkClasswork->isNew == null){
                 $tempAnswer = $CheckStatus->Submitted_Answers != null ? unserialize($CheckStatus->Submitted_Answers) : null;
                 if($CheckStatus->created_at == null || $CheckStatus->created_at == ''){
                     $CheckStatus->created_at  = $dateToday;
@@ -513,8 +534,8 @@ class StudentController extends Controller
                     'Submitted_Answers'=>$tempAnswer,
                     'success'=>true
                 ]);
-            }
-            else{
+            //}
+           /*  else{
                 $submitted_answers = tbl_Submitted_Answer::where('classwork_id', $id)
                 ->select('answer as Answer', 'question_id as Question_id',  'type','Choices_id')
                 ->where('user_id', $userId)
@@ -537,7 +558,7 @@ class StudentController extends Controller
                     'Submitted_Answers'=>$submitted_answers,
                     'success'=>true
                 ]);
-            }
+            } */
 
         }
         else{

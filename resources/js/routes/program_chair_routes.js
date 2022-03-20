@@ -9,7 +9,7 @@ const routes = [{
                 import ("../components/.monitor-teachers/teacherProfile/teacherProfile"),
             name: "monitorTeacher_id",
             beforeEnter: (to, from, next) => {
-                if (store.state.CurrentUser.UserRole == 'ProgramChair' || store.state.CurrentUser.UserRole == 'Admin') next()
+                if (store.state.CurrentUser.UserRole == 'ProgramChair' || store.state.CurrentUser.UserRole == 'Administrator') next()
                 else next({ path: '/page-access-denied', replace: true })
             }
         }, ]
@@ -21,7 +21,7 @@ const routes = [{
             import ("../components/.program-chair/announcement/programChair-announcement"),
         name: "program_chair-announcement",
         beforeEnter: (to, from, next) => {
-            if (store.state.CurrentUser.UserRole == 'ProgramChair' || store.state.CurrentUser.UserRole == 'Admin') next()
+            if (store.state.CurrentUser.UserRole == 'ProgramChair' || store.state.CurrentUser.UserRole == 'Administrator') next()
             else next({ path: '/page-access-denied', replace: true })
         }
     },

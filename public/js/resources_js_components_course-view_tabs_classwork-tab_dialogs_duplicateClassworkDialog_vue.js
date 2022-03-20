@@ -48,12 +48,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['duplicateId'],
   data: function data() {
     return {
-      selectedCourse: null
+      selectedCourse: null,
+      isDuplicating: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allCourse']),
@@ -67,6 +77,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _this.isDuplicating = true;
                 Details = {};
                 Details.course_id = _this.selectedCourse;
                 Details.classwork_id = _this.duplicateId;
@@ -74,9 +85,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.$emit("ToggleRefresh", _this.selectedCourse);
 
                   _this.toastSuccess('Classwork Successfully Duplicated');
+
+                  _this.isDuplicating = false;
                 });
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -182,6 +195,17 @@ var render = function() {
     "div",
     [
       _c(
+        "v-overlay",
+        { attrs: { value: _vm.isDuplicating } },
+        [
+          _c("v-progress-circular", {
+            attrs: { indeterminate: "", size: "64" }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-card",
         [
           _c(
@@ -226,6 +250,7 @@ var render = function() {
                       _c("v-select", {
                         attrs: {
                           "hide-details": "",
+                          readonly: _vm.isDuplicating,
                           "item-text": "course_name",
                           "item-value": "course_id",
                           items: _vm.allCourse,
@@ -251,7 +276,13 @@ var render = function() {
                       _c(
                         "v-btn",
                         {
-                          attrs: { rounded: "", color: "primary", block: "" },
+                          attrs: {
+                            disabled: _vm.selectedCourse == null,
+                            loading: _vm.isDuplicating,
+                            rounded: "",
+                            color: "primary",
+                            block: ""
+                          },
                           on: {
                             click: function($event) {
                               return _vm.DuplicateClasswork()

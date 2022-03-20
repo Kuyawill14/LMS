@@ -207,7 +207,7 @@
                     </v-list-item-content>
 
                     <v-list-item-action>
-                            <v-btn @click="addComment" icon><v-icon>mdi-send</v-icon></v-btn>
+                            <v-btn color="primary" @click="addComment" icon><v-icon>mdi-send</v-icon></v-btn>
                     </v-list-item-action>
                 </v-list-item>
             </v-list>

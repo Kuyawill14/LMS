@@ -48,9 +48,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ArchiveDetails'],
+  data: function data() {
+    return {
+      isArchiving: false
+    };
+  },
   methods: {
     ArchiveClasswork: function ArchiveClasswork() {
       var _this = this;
@@ -60,6 +64,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _this.isArchiving = true;
                 axios["delete"]('/api/classwork/archive/' + _this.ArchiveDetails.id).then(function (res) {
                   if (res.data.success == true) {
                     _this.toastSuccess(res.data.message);
@@ -68,9 +73,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   } else {
                     _this.toastError(res.data.message);
                   }
+
+                  _this.isArchiving = false;
                 });
 
-              case 1:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -168,43 +175,68 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-card",
+    "div",
     [
-      _c("v-card-title", [_vm._v("\n \n      Archive CLasswork\n    ")]),
-      _vm._v(" "),
-      _c("v-card-text", [
-        _c("p", [_vm._v("This will put the classwork in archives.")])
-      ]),
+      _c(
+        "v-overlay",
+        { attrs: { value: _vm.isArchiving } },
+        [
+          _c("v-progress-circular", {
+            attrs: { indeterminate: "", size: "64" }
+          })
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
-        "v-card-actions",
+        "v-card",
         [
-          _c("v-spacer"),
+          _c("v-card-title", [
+            _vm._v("\r\n        Archive CLasswork\r\n      ")
+          ]),
+          _vm._v(" "),
+          _c("v-card-text", [
+            _c("p", [
+              _vm._v("Are you sure want to put this classwork in archive?")
+            ])
+          ]),
           _vm._v(" "),
           _c(
-            "v-btn",
-            {
-              attrs: { text: "" },
-              on: {
-                click: function($event) {
-                  return _vm.$emit("toggleDialog")
-                }
-              }
-            },
-            [_vm._v("\n        Cancel\n      ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "primary", text: "" },
-              on: {
-                click: function($event) {
-                  return _vm.ArchiveClasswork()
-                }
-              }
-            },
-            [_vm._v("\n        Confirm\n      ")]
+            "v-card-actions",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { text: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("toggleDialog")
+                    }
+                  }
+                },
+                [_vm._v("\r\n          Cancel\r\n        ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    loading: _vm.isArchiving,
+                    color: "primary",
+                    text: ""
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.ArchiveClasswork()
+                    }
+                  }
+                },
+                [_vm._v("\r\n          Yes\r\n        ")]
+              )
+            ],
+            1
           )
         ],
         1
