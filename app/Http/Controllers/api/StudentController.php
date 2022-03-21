@@ -522,7 +522,7 @@ class StudentController extends Controller
             //if($checkClasswork->isNew == null){
                 $tempAnswer = $CheckStatus->Submitted_Answers != null ? unserialize($CheckStatus->Submitted_Answers) : null;
 
-                if($CheckStatus->allow_resubmit == 1){
+                if($CheckStatus->allow_resubmit == 1 && ($CheckStatus->status == null || $CheckStatus->status == '')){
                     $CheckStatus->created_at  = $dateToday;
                     $CheckStatus->save();
                 }else{
