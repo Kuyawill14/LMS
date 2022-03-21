@@ -524,6 +524,7 @@ class StudentController extends Controller
 
                 if($CheckStatus->allow_resubmit == 1 && ($CheckStatus->status == null || $CheckStatus->status == '')){
                     $CheckStatus->created_at  = $dateToday;
+                    $CheckStatus->status = "Taking";
                     $CheckStatus->save();
                 }else{
                     if($CheckStatus->created_at == null || $CheckStatus->created_at == ''){
