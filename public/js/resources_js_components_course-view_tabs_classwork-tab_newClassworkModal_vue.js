@@ -215,7 +215,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       pointsRules: [function (v) {
         return !!v || 'Points is required';
       }, function (v) {
-        return v && v >= 1 || "Points should be above or 0";
+        return v && v >= 0 || "Points should be above or 0";
       }],
       file_name: [],
       counter: 0,
@@ -410,6 +410,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   beforeMount: function beforeMount() {
     /* this.form.type = 'Objective Type'; */
+    //this.form.points = '0';
   }
 });
 

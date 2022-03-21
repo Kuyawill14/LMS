@@ -238,7 +238,7 @@ class StudentController extends Controller
         $StatusUpdate = tbl_Submission::find($request->Submission_id);
 
         if($StatusUpdate){
-            $TempOldAttach = $StatusUpdate->Submitted_Answers = unserialize($StatusUpdate->Submitted_Answers);
+            $TempOldAttach = $StatusUpdate->Submitted_Answers = $StatusUpdate->Submitted_Answers != null ? unserialize($StatusUpdate->Submitted_Answers) : [];
             $tempAnswer = ["link"=> $request->file , 
             "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
             array_push($TempOldAttach, $tempAnswer);
@@ -512,7 +512,8 @@ class StudentController extends Controller
         $userId = auth('sanctum')->id();
         $CheckStatus = tbl_Submission::where("tbl_submissions.user_id", $userId)
         ->where('tbl_submissions.classwork_id',$id)
-        ->select('tbl_submissions.id','tbl_submissions.classwork_id','tbl_submissions.status','tbl_submissions.Submitted_Answers','tbl_submissions.created_at')
+        ->select('tbl_submissions.id','tbl_submissions.classwork_id','tbl_submissions.status','tbl_submissions.Submitted_Answers','tbl_submissions.created_at',
+        'tbl_submissions.allow_resubmit')
         ->first();
 
         $dateToday = date('Y-m-d H:i:s');
@@ -520,10 +521,17 @@ class StudentController extends Controller
             $checkClasswork = tbl_classwork::find($CheckStatus->classwork_id);
             //if($checkClasswork->isNew == null){
                 $tempAnswer = $CheckStatus->Submitted_Answers != null ? unserialize($CheckStatus->Submitted_Answers) : null;
-                if($CheckStatus->created_at == null || $CheckStatus->created_at == ''){
+
+                if($CheckStatus->allow_resubmit == 1){
                     $CheckStatus->created_at  = $dateToday;
                     $CheckStatus->save();
+                }else{
+                    if($CheckStatus->created_at == null || $CheckStatus->created_at == ''){
+                        $CheckStatus->created_at  = $dateToday;
+                        $CheckStatus->save();
+                    }
                 }
+               
                 
                 return response()->json([
                     'submission_id'=> $CheckStatus->id, 
@@ -534,32 +542,6 @@ class StudentController extends Controller
                     'Submitted_Answers'=>$tempAnswer,
                     'success'=>true
                 ]);
-            //}
-           /*  else{
-                $submitted_answers = tbl_Submitted_Answer::where('classwork_id', $id)
-                ->select('answer as Answer', 'question_id as Question_id',  'type','Choices_id')
-                ->where('user_id', $userId)
-                ->get();
-
-
-                foreach($submitted_answers as $item){
-                    if($item['type'] == 'Matching type'){
-                        $item['Answer'] =  unserialize($item['Answer']);
-                        $item['Choices_id'] =  unserialize($item['Choices_id']);
-                    }
-                }
-                
-                return response()->json([
-                    'submission_id'=> $CheckStatus->id, 
-                    'status' => $CheckStatus->status,
-                    'currentTime' =>  (Carbon::now('Asia/Manila')->timestamp * 1000),
-                    'testDate' =>  Carbon::now('Asia/Manila')->toDateTimeString(),
-                    'startTime' => (Carbon::parse($CheckStatus->created_at)->timestamp * 1000),
-                    'Submitted_Answers'=>$submitted_answers,
-                    'success'=>true
-                ]);
-            } */
-
         }
         else{
             $class = tbl_userclass::where('user_id', $userId)->get();

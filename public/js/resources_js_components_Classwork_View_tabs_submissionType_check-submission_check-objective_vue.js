@@ -783,6 +783,66 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -792,12 +852,13 @@ var resetConfirmation = function resetConfirmation() {
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex", "CheckDataSection"],
+  props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex", "CheckDataSection", 'Class_id'],
   components: {
     resetConfirmation: resetConfirmation
   },
   data: function data() {
     return {
+      DateToday: new Date(),
       loading_activity: false,
       student_activity_logs: [],
       tab: null,
@@ -835,11 +896,17 @@ var resetConfirmation = function resetConfirmation() {
       StudentScore: 0,
       EssayOldPoints: [],
       Question_Type: ['All Type', 'Multiple Choice', 'Identification', 'True or False', 'Matching Type', 'Essay'],
-      selected_type: 'All Type'
+      selected_type: 'All Type',
+      AllowResubmitDialog: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['get_CurrentUser', 'getAll_questions']),
   methods: {
+    CheckFormatDue: function CheckFormatDue(value) {
+      if (value) {
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+      }
+    },
     format_date_log: function format_date_log(value) {
       if (value) {
         return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('MMMM DD YYYY, h:mm:ss a');
@@ -1042,7 +1109,9 @@ var resetConfirmation = function resetConfirmation() {
                 _this.ViewDetails.Submitted_Answers[_j].Answer.forEach(function (item) {
                   for (var x = 0; x < _this.getAll_questions.Answer[i].SubQuestion.length; x++) {
                     if (_this.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
-                      if (_this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
+                      match_check[_counter2] = true;
+
+                      if (_this.getAll_questions.Answer[i].SubQuestion[x].answer_id == item.Ans_id) {
                         match_check[_counter2] = true; //this.ViewDetails.points += matchpoints;
                       } else {
                         match_check[_counter2] = false;
@@ -1325,8 +1394,18 @@ var resetConfirmation = function resetConfirmation() {
 
               _this2.ViewDetails.Submitted_Answers[_j2].Answer.forEach(function (item) {
                 for (var x = 0; x < _this2.getAll_questions.Answer[i].SubQuestion.length; x++) {
+                  /*  if (this.getAll_questions.Answer[i].SubQuestion[x].id ==
+                       item.subquestion_id) {
+                       if (this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
+                           match_check[counter] = true;
+                        } else {
+                           match_check[counter] = false;
+                       }
+                   } */
                   if (_this2.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
-                    if (_this2.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
+                    match_check[_counter4] = true;
+
+                    if (_this2.getAll_questions.Answer[i].SubQuestion[x].answer_id == item.Ans_id) {
                       match_check[_counter4] = true; //this.ViewDetails.points += matchpoints;
                     } else {
                       match_check[_counter4] = false;
@@ -1751,7 +1830,7 @@ var resetConfirmation = function resetConfirmation() {
       if (sub_id != null) {
         if (this.ViewDetails.status == 'Submitted') {
           axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/question/StudentScore/' + sub_id).then(function (res) {
-            _this14.ViewDetails.points = res.data; //this.ReSaveScore(res.data);
+            _this14.ViewDetails.points = res.data.toFixed(); //this.ReSaveScore(res.data);
           });
         }
       }
@@ -1813,6 +1892,40 @@ var resetConfirmation = function resetConfirmation() {
             }
           }
         }, _callee12);
+      }))();
+    },
+    MarkAsSubmitting: function MarkAsSubmitting(id) {
+      var _this17 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee13() {
+        var details;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee13$(_context13) {
+          while (1) {
+            switch (_context13.prev = _context13.next) {
+              case 0:
+                details = {};
+                details.type = _this17.classworkDetails.type;
+                details.classwork_id = _this17.classworkDetails.id;
+                details.course_id = _this17.classworkDetails.course_id;
+                details.user_id = _this17.ViewDetails.user_id;
+                details.class_id = _this17.Class_id;
+                _context13.next = 8;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/allow_resubmit/' + id, details).then(function () {
+                  _this17.AllowResubmitDialog = false;
+
+                  if (id != null) {
+                    _this17.$emit('RestSubmission');
+
+                    _this17.$store.dispatch('setCurrectClassworkSubmission', 1);
+                  }
+                });
+
+              case 8:
+              case "end":
+                return _context13.stop();
+            }
+          }
+        }, _callee13);
       }))();
     }
   },
@@ -2082,6 +2195,92 @@ var render = function() {
                 }
               })
             : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "400" },
+          model: {
+            value: _vm.AllowResubmitDialog,
+            callback: function($$v) {
+              _vm.AllowResubmitDialog = $$v
+            },
+            expression: "AllowResubmitDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            { staticClass: "pa-2" },
+            [
+              _c("v-card-title", { staticClass: "text-h5 mb-3" }, [
+                _vm._v("\n            Allow Resubmit\n            ")
+              ]),
+              _vm._v(" "),
+              _c("v-card-text", { staticClass: "font-weight-bold" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "subtitle-1 ",
+                    staticStyle: { "line-height": "1.1" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Clicking confirm will allow "
+                    ),
+                    _c("span", { staticClass: "font-weight-bold" }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.ViewDetails.firstName +
+                            " " +
+                            _vm.ViewDetails.lastName
+                        )
+                      )
+                    ]),
+                    _vm._v(" to make new submission for this classwork?")
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.AllowResubmitDialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("\n                Cancel\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.MarkAsSubmitting(_vm.ViewDetails.id)
+                        }
+                      }
+                    },
+                    [_vm._v("\n                Confirm\n            ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       ),
@@ -2617,40 +2816,246 @@ var render = function() {
                               _c(
                                 "v-col",
                                 {
-                                  staticClass: "ma-0 pa-0 pb-2 mt-1",
+                                  staticClass: "ma-0 pa-0 pb-2 mt-1 d-flex",
                                   attrs: { cols: "12" }
                                 },
                                 [
-                                  _vm.ViewDetails.status != null
-                                    ? _c(
-                                        "v-btn",
+                                  _c(
+                                    "v-tooltip",
+                                    {
+                                      attrs: {
+                                        color: "green",
+                                        "max-width": "350",
+                                        bottom: ""
+                                      },
+                                      scopedSlots: _vm._u([
                                         {
-                                          attrs: {
-                                            block: "",
-                                            text: "",
-                                            rounded: "",
-                                            loading: _vm.isReseting,
-                                            color: "primary"
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.dialog = !_vm.dialog
-                                            }
+                                          key: "activator",
+                                          fn: function(ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _vm.ViewDetails.status ==
+                                              "Submitted"
+                                                ? _c(
+                                                    "v-btn",
+                                                    _vm._g(
+                                                      _vm._b(
+                                                        {
+                                                          attrs: {
+                                                            rounded: "",
+                                                            dark: "",
+                                                            small: "",
+                                                            color: "green"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.AllowResubmitDialog = true
+                                                            }
+                                                          }
+                                                        },
+                                                        "v-btn",
+                                                        attrs,
+                                                        false
+                                                      ),
+                                                      on
+                                                    ),
+                                                    [
+                                                      _c(
+                                                        "v-icon",
+                                                        { attrs: { left: "" } },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-file-document-edit-outline"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(
+                                                        " Allow Retake\n                                        "
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                : _vm._e()
+                                            ]
                                           }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { left: "" } },
-                                            [_vm._v("mdi-restart")]
-                                          ),
-                                          _vm._v(
-                                            " Reset Submission\n                                "
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e()
+                                        }
+                                      ])
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v("Allow Retake"),
+                                        _c("br"),
+                                        _vm._v(
+                                          "\n                                        This student will able to take the quiz again.\n                                    "
+                                        )
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tooltip",
+                                    {
+                                      attrs: {
+                                        color: "info",
+                                        "max-width": "350",
+                                        bottom: ""
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "activator",
+                                          fn: function(ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _vm.ViewDetails.status == null &&
+                                              _vm.ViewDetails.availability ==
+                                                1 &&
+                                              _vm.CheckFormatDue(
+                                                _vm.DateToday
+                                              ) >
+                                                _vm.CheckFormatDue(
+                                                  _vm.ViewDetails.to_date
+                                                ) &&
+                                              (_vm.ViewDetails.allow_resubmit ==
+                                                0 ||
+                                                _vm.ViewDetails
+                                                  .allow_resubmit == null)
+                                                ? _c(
+                                                    "v-btn",
+                                                    _vm._g(
+                                                      _vm._b(
+                                                        {
+                                                          attrs: {
+                                                            block: "",
+                                                            rounded: "",
+                                                            dark: "",
+                                                            small: "",
+                                                            color: "info"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.AllowResubmitDialog = true
+                                                            }
+                                                          }
+                                                        },
+                                                        "v-btn",
+                                                        attrs,
+                                                        false
+                                                      ),
+                                                      on
+                                                    ),
+                                                    [
+                                                      _c(
+                                                        "v-icon",
+                                                        { attrs: { left: "" } },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-file-document-edit-outline"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(
+                                                        " Allow Submission\n                                        "
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                : _vm._e()
+                                            ]
+                                          }
+                                        }
+                                      ])
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v("Allow Submission"),
+                                        _c("br"),
+                                        _vm._v(
+                                          "\n                                        This student will able to take the quiz again even if the due is already past.\n                                    "
+                                        )
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tooltip",
+                                    {
+                                      attrs: {
+                                        color: "red",
+                                        "max-width": "350",
+                                        bottom: ""
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "activator",
+                                          fn: function(ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _vm.ViewDetails.status != null
+                                                ? _c(
+                                                    "v-btn",
+                                                    _vm._g(
+                                                      _vm._b(
+                                                        {
+                                                          attrs: {
+                                                            rounded: "",
+                                                            dark: "",
+                                                            small: "",
+                                                            loading:
+                                                              _vm.isReseting,
+                                                            color: "red"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.dialog = !_vm.dialog
+                                                            }
+                                                          }
+                                                        },
+                                                        "v-btn",
+                                                        attrs,
+                                                        false
+                                                      ),
+                                                      on
+                                                    ),
+                                                    [
+                                                      _c("v-icon", [
+                                                        _vm._v("mdi-restart")
+                                                      ]),
+                                                      _vm._v(
+                                                        " Reset Submission\n                                        "
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                : _vm._e()
+                                            ]
+                                          }
+                                        }
+                                      ])
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v("Reset Submission"),
+                                        _c("br"),
+                                        _vm._v(
+                                          "\n                                        Note: You can't undo this once you've reset the student submission,\n                                        the submitted answer of this student will be remove.\n                                    "
+                                        )
+                                      ])
+                                    ]
+                                  )
                                 ],
                                 1
                               )
@@ -5162,7 +5567,11 @@ var render = function() {
                                                                                                       "div",
                                                                                                       {
                                                                                                         staticClass:
-                                                                                                          "d-flex flex-row mt-2 pl-2"
+                                                                                                          "d-flex flex-row mt-2 pl-2",
+                                                                                                        staticStyle: {
+                                                                                                          width:
+                                                                                                            "100%"
+                                                                                                        }
                                                                                                       },
                                                                                                       [
                                                                                                         _c(
@@ -5247,7 +5656,11 @@ var render = function() {
                                                                                                       "div",
                                                                                                       {
                                                                                                         staticClass:
-                                                                                                          "d-flex flex-row mt-2 pl-4"
+                                                                                                          "d-flex flex-row mt-2 pl-4",
+                                                                                                        staticStyle: {
+                                                                                                          width:
+                                                                                                            "100%"
+                                                                                                        }
                                                                                                       },
                                                                                                       [
                                                                                                         _c(

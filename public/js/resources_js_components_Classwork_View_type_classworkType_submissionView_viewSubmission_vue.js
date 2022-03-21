@@ -274,8 +274,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -414,9 +412,20 @@ __webpack_require__.r(__webpack_exports__);
 
                 _this.classworkDetails.Submitted_Answers[j].Answer.forEach(function (item) {
                   for (var x = 0; x < _this.QuestionAndAnswer.Answer[_i].SubQuestion.length; x++) {
+                    /*  if(this.QuestionAndAnswer.Answer[i].SubQuestion[x].id == item.subquestion_id){
+                         if(this.QuestionAndAnswer.Answer[i].SubAnswer[x].Choice == item.Answers){
+                             match_check[counter] = true;
+                         }
+                         else{
+                             match_check[counter] = false;
+                         }
+                     }
+                      */
                     if (_this.QuestionAndAnswer.Answer[_i].SubQuestion[x].id == item.subquestion_id) {
-                      if (_this.QuestionAndAnswer.Answer[_i].SubAnswer[x].Choice == item.Answers) {
-                        match_check[counter] = true;
+                      match_check[counter] = true;
+
+                      if (_this.QuestionAndAnswer.Answer[_i].SubQuestion[x].answer_id == item.Ans_id) {
+                        match_check[counter] = true; //this.ViewDetails.points += matchpoints;
                       } else {
                         match_check[counter] = false;
                       }
@@ -1413,7 +1422,7 @@ var render = function() {
                                                   "v-container",
                                                   {
                                                     staticClass:
-                                                      "mb-0 pb-0 mt-2"
+                                                      "pl-0 mb-0 pb-0 mt-2"
                                                   },
                                                   [
                                                     _c(
@@ -1456,52 +1465,59 @@ var render = function() {
                                                                       }
                                                                     },
                                                                     [
-                                                                      _c(
-                                                                        "div",
-                                                                        {
-                                                                          staticClass:
-                                                                            "mt-0 pt-0 mb-0 pb-0 pa-0"
-                                                                        },
-                                                                        [
-                                                                          _c(
-                                                                            "v-checkbox",
+                                                                      _vm
+                                                                        .classworkDetails
+                                                                        .showAnswer ==
+                                                                      true
+                                                                        ? _c(
+                                                                            "div",
                                                                             {
                                                                               staticClass:
-                                                                                "ma-0 pa-0 mt-2",
-                                                                              attrs: {
-                                                                                "hide-details":
-                                                                                  "",
-                                                                                color:
-                                                                                  "success"
-                                                                              },
-                                                                              model: {
-                                                                                value:
-                                                                                  _vm
-                                                                                    .Check[
-                                                                                    index
-                                                                                  ][
-                                                                                    i
-                                                                                  ],
-                                                                                callback: function(
-                                                                                  $$v
-                                                                                ) {
-                                                                                  _vm.$set(
-                                                                                    _vm
-                                                                                      .Check[
-                                                                                      index
-                                                                                    ],
-                                                                                    i,
-                                                                                    $$v
-                                                                                  )
-                                                                                },
-                                                                                expression:
-                                                                                  "Check[index][i]"
-                                                                              }
-                                                                            }
+                                                                                "mt-0 pt-0 mb-0 pb-0 pa-0"
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "v-checkbox",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "ma-0 pa-0 mt-2",
+                                                                                  attrs: {
+                                                                                    vz:
+                                                                                      "",
+                                                                                    "hide-details":
+                                                                                      "",
+                                                                                    color:
+                                                                                      "success"
+                                                                                  },
+                                                                                  model: {
+                                                                                    value:
+                                                                                      _vm
+                                                                                        .Check[
+                                                                                        index
+                                                                                      ][
+                                                                                        i
+                                                                                      ],
+                                                                                    callback: function(
+                                                                                      $$v
+                                                                                    ) {
+                                                                                      _vm.$set(
+                                                                                        _vm
+                                                                                          .Check[
+                                                                                          index
+                                                                                        ],
+                                                                                        i,
+                                                                                        $$v
+                                                                                      )
+                                                                                    },
+                                                                                    expression:
+                                                                                      "Check[index][i]"
+                                                                                  }
+                                                                                }
+                                                                              )
+                                                                            ],
+                                                                            1
                                                                           )
-                                                                        ],
-                                                                        1
-                                                                      ),
+                                                                        : _vm._e(),
                                                                       _vm._v(
                                                                         " "
                                                                       ),
@@ -1522,7 +1538,7 @@ var render = function() {
                                                                                 .breakpoint
                                                                                 .mdAndUp
                                                                                 ? "max-width:60px"
-                                                                                : "max-width:50px",
+                                                                                : "max-width:80px",
                                                                               attrs: {
                                                                                 "hide-details":
                                                                                   "",
@@ -1560,7 +1576,13 @@ var render = function() {
                                                                         "div",
                                                                         {
                                                                           staticClass:
-                                                                            "d-flex flex-row mt-2 pl-2"
+                                                                            "d-flex flex-row mt-2 pl-2",
+                                                                          style: !_vm
+                                                                            .$vuetify
+                                                                            .breakpoint
+                                                                            .mdAndUp
+                                                                            ? "width:100%;font-size:15px;"
+                                                                            : "width:100%;"
                                                                         },
                                                                         [
                                                                           _c(
@@ -1639,7 +1661,13 @@ var render = function() {
                                                                         "div",
                                                                         {
                                                                           staticClass:
-                                                                            "d-flex flex-row mt-2 pl-4"
+                                                                            "d-flex flex-row mt-2 pl-4",
+                                                                          style: !_vm
+                                                                            .$vuetify
+                                                                            .breakpoint
+                                                                            .mdAndUp
+                                                                            ? "width:100%;font-size:15px;"
+                                                                            : "width:100%;"
                                                                         },
                                                                         [
                                                                           _c(

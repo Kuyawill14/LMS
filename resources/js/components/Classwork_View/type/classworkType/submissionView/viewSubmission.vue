@@ -166,33 +166,31 @@
                                     </v-container>
                                     <v-divider></v-divider>
 
-                                     <v-container class="mb-0 pb-0 mt-2" >
+                                     <v-container class="pl-0 mb-0 pb-0 mt-2" >
                                         <v-row class="mb-0 pb-0">
                                             <v-col cols="7" >
                                                 <v-row>
                                                     <v-col :class="$vuetify.breakpoint.mdAndUp ? 'd-flex flex-row pa-0 pl-12' : 'd-flex flex-row pa-0 pl-5'" 
                                                     cols="12" v-for="(item, i) in SubmittedAnswer[index].SubQuestion" :key="item.id">
-                                                        <div class="mt-0 pt-0 mb-0 pb-0 pa-0">
-                                                            <v-checkbox hide-details
+                                                        <div v-if="classworkDetails.showAnswer == true" class="mt-0 pt-0 mb-0 pb-0 pa-0">
+                                                            <v-checkbox vz hide-details
                                                             class="ma-0 pa-0 mt-2" color="success"
                                                             v-model="Check[index][i]">
-                                                        </v-checkbox>
+                                                            </v-checkbox>
                                                         </div> 
                                             
-                                                        
                                                         <div class="mt-0 pt-0 mb-0 pb-0 pa-0">
-                            
                                                             <v-text-field 
-                                                            :style="$vuetify.breakpoint.mdAndUp ? 'max-width:60px' : 'max-width:50px'"
-                                                            hide-details
-                                                            outlined
-                                                            readonly
-                                                            dense
-                                                            v-model="item.Ans_Letter"
-                                                            class="centered-input pt-0 mt-0">
+                                                                :style="$vuetify.breakpoint.mdAndUp ? 'max-width:60px' : 'max-width:80px'"
+                                                                hide-details
+                                                                outlined
+                                                                readonly
+                                                                dense
+                                                                v-model="item.Ans_Letter"
+                                                                class="centered-input pt-0 mt-0">
                                                             </v-text-field>
                                                         </div>
-                                                        <div class="d-flex flex-row mt-2 pl-2"> 
+                                                        <div :style="!$vuetify.breakpoint.mdAndUp ? 'width:100%;font-size:15px;' : 'width:100%;'" class="d-flex flex-row mt-2 pl-2"> 
                                                             <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
                                                             <span v-html="item.SubQuestion" class="subquestion-content"></span>
                                                         </div>
@@ -202,7 +200,7 @@
                                             <v-col cols="5">
                                                 <v-row>
                                                     <v-col cols="12" v-for="(pairList, i) in SubmittedAnswer[index].SubAnswer" :key="i" class="d-flex flex-row pa-0">
-                                                        <div class="d-flex flex-row mt-2 pl-4"> 
+                                                        <div :style="!$vuetify.breakpoint.mdAndUp ? 'width:100%;font-size:15px;' : 'width:100%;'" class="d-flex flex-row mt-2 pl-4"> 
                                                             <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
                                                             <span v-html="pairList.SubChoice" class="subchoices-content"></span>
                                                         </div>
@@ -412,14 +410,25 @@ import moment from 'moment/src/moment';
                                     let counter = 0;
                                      this.classworkDetails.Submitted_Answers[j].Answer.forEach(item => {
                                         for (let x = 0; x < this.QuestionAndAnswer.Answer[i].SubQuestion.length; x++) {
-                                            if(this.QuestionAndAnswer.Answer[i].SubQuestion[x].id == item.subquestion_id){
+                                           /*  if(this.QuestionAndAnswer.Answer[i].SubQuestion[x].id == item.subquestion_id){
                                                 if(this.QuestionAndAnswer.Answer[i].SubAnswer[x].Choice == item.Answers){
                                                     match_check[counter] = true;
                                                 }
                                                 else{
                                                     match_check[counter] = false;
                                                 }
-                                            }                           
+                                            }
+                                             */
+                                            if (this.QuestionAndAnswer.Answer[i].SubQuestion[x].id == item.subquestion_id) {
+                                                match_check[counter] = true;
+                                                if (this.QuestionAndAnswer.Answer[i].SubQuestion[x].answer_id == item.Ans_id) {
+                                                    match_check[counter] = true;
+                                                    //this.ViewDetails.points += matchpoints;
+
+                                                } else {
+                                                    match_check[counter] = false;
+                                                }
+                                            }
                                         }
                                         counter+=1;   
                                      });  

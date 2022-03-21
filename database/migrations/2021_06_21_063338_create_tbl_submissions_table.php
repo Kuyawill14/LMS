@@ -22,7 +22,7 @@ class CreateTblSubmissionsTable extends Migration
             $table->mediumText('rubrics_score')->nullable();
             $table->integer('points')->default(0);
             $table->boolean("graded")->default(0);
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->integer('timeSpent')->nullable();
             $table->softDeletes();
             $table->timestamps();

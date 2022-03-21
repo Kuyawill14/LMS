@@ -18,6 +18,7 @@
         <v-row v-if="dialog">
             <v-col cols="12">
                 <checkobjective :currentIndex="selected_index" :CheckDataSection="CheckDataSection" :SubmittedLength="studentSubmissionList.length"
+                    :Class_id="Class"
                     v-show="!isStarting" v-if="dialog" v-on:isMounted="isStarting = false"
                     v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails"
                     :ViewDetails="ViewDetails" v-on:UpdateSubmission="$emit('UpdateSubmission')"
@@ -573,7 +574,6 @@
                         item.status = null;
                         item.points = 0;
                         item.Submitted_Answers = null;
-                        
                     }
                 });
                

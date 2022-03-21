@@ -26861,7 +26861,7 @@ var render = function() {
                                                                                                       .breakpoint
                                                                                                       .mdAndUp
                                                                                                       ? "max-width:110px"
-                                                                                                      : "max-width:70px",
+                                                                                                      : "max-width:65px",
                                                                                                     attrs: {
                                                                                                       "hide-details":
                                                                                                         "",
@@ -26921,7 +26921,11 @@ var render = function() {
                                                                                               "div",
                                                                                               {
                                                                                                 staticClass:
-                                                                                                  "d-flex flex-row mt-2 pl-2"
+                                                                                                  "d-flex flex-row mt-2 pl-2",
+                                                                                                staticStyle: {
+                                                                                                  width:
+                                                                                                    "100%"
+                                                                                                }
                                                                                               },
                                                                                               [
                                                                                                 _c(
@@ -27007,7 +27011,11 @@ var render = function() {
                                                                                               "div",
                                                                                               {
                                                                                                 staticClass:
-                                                                                                  "d-flex flex-row mt-2 pl-4"
+                                                                                                  "d-flex flex-row mt-2 pl-4",
+                                                                                                staticStyle: {
+                                                                                                  width:
+                                                                                                    "100%"
+                                                                                                }
                                                                                               },
                                                                                               [
                                                                                                 _c(

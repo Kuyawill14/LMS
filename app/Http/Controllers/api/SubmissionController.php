@@ -72,9 +72,9 @@ class SubmissionController extends Controller
         $SubmissionList = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)->withTrashed()
             ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic','tbl_user_details.firstName', 'tbl_user_details.lastName',
             'tbl_class_classworks.availability', 'tbl_class_classworks.to_date', 
-            'tbl_submissions.id', 'tbl_submissions.status', 'tbl_submissions.points','tbl_submissions.graded','tbl_submissions.timeSpent',
-            'tbl_submissions.updated_at', 'tbl_submissions.submitted_at', 'tbl_submissions.created_at as Submitted_Answers', 
-            'tbl_submissions.created_at as rubrics_score', 'tbl_submissions.created_at as comments')
+            'tbl_submissions.id', 'tbl_submissions.status', 'tbl_submissions.points','tbl_submissions.graded','tbl_submissions.timeSpent','tbl_submissions.allow_resubmit',
+            'tbl_submissions.updated_at', 'tbl_submissions.submitted_at', 'tbl_submissions.deleted_at as Submitted_Answers', 
+            'tbl_submissions.deleted_at as rubrics_score', 'tbl_submissions.deleted_at as comments')
             ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
             ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
             ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')

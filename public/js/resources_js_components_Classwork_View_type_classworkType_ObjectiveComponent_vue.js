@@ -439,6 +439,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -748,7 +749,7 @@ var viewSubmission = function viewSubmission() {
     CheckScore: function CheckScore() {
       var _this7 = this;
 
-      if (this.classworkDetails.Sub_id != null) {
+      if (this.classworkDetails.Sub_id != null && this.classworkDetails.status == 'Submitted') {
         axios.get('/api/question/StudentScore/' + this.classworkDetails.Sub_id).then(function (res) {
           _this7.classworkDetails.score = res.data;
         });
@@ -978,7 +979,7 @@ var render = function() {
                         _c("span", {}, [
                           _vm._v(
                             _vm._s(
-                              _vm.classworkDetails.score +
+                              _vm.classworkDetails.score.toFixed() +
                                 " / " +
                                 _vm.classworkDetails.points
                             )
@@ -1832,12 +1833,21 @@ var render = function() {
                                                       _vm._v(
                                                         " \n                                        " +
                                                           _vm._s(
-                                                            _vm.format_date(
-                                                              _vm
-                                                                .classworkDetails
-                                                                .Submitted_at
-                                                            )
-                                                          )
+                                                            _vm.classworkDetails
+                                                              .Submitted_at !=
+                                                              null
+                                                              ? _vm.format_date(
+                                                                  _vm
+                                                                    .classworkDetails
+                                                                    .Submitted_at
+                                                                )
+                                                              : _vm.format_date(
+                                                                  _vm
+                                                                    .classworkDetails
+                                                                    .updated_at
+                                                                )
+                                                          ) +
+                                                          "\n                                    "
                                                       )
                                                     ]
                                                   )
@@ -2349,7 +2359,7 @@ var render = function() {
                                                 "v-col",
                                                 { attrs: { cols: "12" } },
                                                 [
-                                                  _vm.format_date1(
+                                                  (_vm.format_date1(
                                                     _vm.classworkDetails
                                                       .currentDate
                                                   ) >=
@@ -2357,14 +2367,16 @@ var render = function() {
                                                       _vm.classworkDetails
                                                         .from_date
                                                     ) &&
-                                                  _vm.format_date1(
-                                                    _vm.classworkDetails
-                                                      .currentDate
-                                                  ) <=
                                                     _vm.format_date1(
                                                       _vm.classworkDetails
-                                                        .to_date
-                                                    )
+                                                        .currentDate
+                                                    ) <=
+                                                      _vm.format_date1(
+                                                        _vm.classworkDetails
+                                                          .to_date
+                                                      )) ||
+                                                  _vm.classworkDetails
+                                                    .allow_resubmit == 1
                                                     ? _c(
                                                         "div",
                                                         [
@@ -2493,7 +2505,7 @@ var render = function() {
                                                         1
                                                       )
                                                     : _c("div", [
-                                                        _vm.format_date1(
+                                                        (_vm.format_date1(
                                                           _vm.classworkDetails
                                                             .currentDate
                                                         ) >
@@ -2501,8 +2513,11 @@ var render = function() {
                                                             _vm.classworkDetails
                                                               .to_date
                                                           ) &&
+                                                          _vm.classworkDetails
+                                                            .response_late ==
+                                                            1) ||
                                                         _vm.classworkDetails
-                                                          .response_late == 1
+                                                          .allow_resubmit == 1
                                                           ? _c(
                                                               "div",
                                                               [

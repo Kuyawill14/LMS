@@ -12,7 +12,7 @@
             v-if="dialog"></resetConfirmation>
         </v-dialog>
 
-         <v-dialog v-model="AllowResubmitDialog" persistent max-width="400">
+        <v-dialog v-model="AllowResubmitDialog" persistent max-width="400">
             <v-card class="pa-2">
                 <v-card-title class="text-h5 mb-3">
                 Allow Resubmit
@@ -125,7 +125,7 @@
                                                 </v-row>
                                                 <div>
                                                     <v-alert v-model="info" type="info" class="mb-0 mt-0" dense  dismissible>
-                                                       To grade students, just put score and pressed the <span style="font-size: 20px" class="font-weight-bold">Enter</span> key to save and go to next student.
+                                                       To grade students, just enter the score and press the <span style="font-size: 20px" class="font-weight-bold">Enter</span> key to save and proceed to the next student.
                                                     </v-alert>
                                                 </div>
                                                 <v-list class="ma-0 pa-0">
@@ -158,11 +158,7 @@
                                             </v-list>
                                             <v-divider></v-divider>
                                         </v-col>
-                                        <v-col   cols="12" class="ma-0 pa-0 pb-4 pt-3 d-flex">
-
-                                            
-                                            
-
+                                        <v-col   cols="12" class="ma-0 pa-0 pb-4 pt-3 d-flex">                   
                                             <v-tooltip color="green" max-width="350" bottom>
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-btn v-bind="attrs" v-on="on" rounded dark small  v-if="CheckData.status == 'Submitted'"
@@ -173,6 +169,18 @@
                                                     Student will be mark as submitting and will able to add and change attachment to his/her submission.
                                                 </span>
                                             </v-tooltip>
+
+                                             <v-tooltip color="info" max-width="350" bottom>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-btn block v-bind="attrs" v-on="on" rounded dark small  v-if="CheckData.status == null && CheckData.availability == 1 
+                                                        && (CheckFormatDue(DateToday) > CheckFormatDue(CheckData.to_date)) && (CheckData.allow_resubmit == 0 || CheckData.allow_resubmit == null)"
+                                                            @click="AllowResubmitDialog = true" color="info" ><v-icon left>mdi-file-document-edit-outline</v-icon> Allow Submission
+                                                        </v-btn>
+                                                    </template>
+                                                    <span>Allow Submission<br>
+                                                        This student will able to make submission even if the due of classwork is already past.
+                                                    </span>
+                                                </v-tooltip>
 
                                             <v-spacer></v-spacer>
                                             <v-tooltip color="red"  max-width="350" bottom>
@@ -493,7 +501,7 @@ const pdfviewer = () => import('./pdfviewer');
  
 
   export default {
-    props:['CheckData','classworkDetails','SubmittedLength', 'currentIndex','CheckDataSection'],
+    props:['CheckData','classworkDetails','SubmittedLength', 'currentIndex','CheckDataSection','Class_id'],
     components:{
         resetConfirmation,
         pdfviewer,
@@ -546,7 +554,8 @@ const pdfviewer = () => import('./pdfviewer');
         isPointChange: false,
         nextConfirmDialog: false,
         CloseConfirmDialog: false,
-        checkDataOldPoints: null
+        checkDataOldPoints: null,
+        DateToday: new Date()
 
       }
     },
@@ -554,6 +563,11 @@ const pdfviewer = () => import('./pdfviewer');
         ...mapGetters(['get_CurrentUser']),
     },
     methods:{
+        CheckFormatDue(value){
+            if (value) {
+                return moment(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+            }
+        },
         CheckBeforeClose(){
             if(this.isPointChange){
                 this.CloseConfirmDialog = true;
@@ -700,11 +714,31 @@ const pdfviewer = () => import('./pdfviewer');
             
         },
         async MarkAsSubmitting(id){
-          await axios.put('/api/teacher/allow_resubmit/'+id)
+          /* await axios.put('/api/teacher/allow_resubmit/'+id)
            .then(()=>{
                this.AllowResubmitDialog = false;
                this.$emit('markAsResubmit', this.CheckData.user_id);
-           })
+           }) */
+
+            let details = {};
+                details.type = this.classworkDetails.type;
+                details.classwork_id = this.classworkDetails.id;
+                details.course_id = this.classworkDetails.course_id;
+                details.user_id = this.CheckData.user_id;
+                details.class_id = this.Class_id;
+
+                await axios.put('/api/teacher/allow_resubmit/'+id, details)
+                .then(()=>{
+                    this.AllowResubmitDialog = false;
+                    if(id != null){
+                        this.$emit('markAsResubmit', this.CheckData.user_id);
+                        this.toastSuccess('Student allowed to resubmit');
+                    }else{
+                        this.$emit('SubmissionReset', this.CheckData.id);
+                        this.$store.dispatch('setCurrectClassworkSubmission',1)
+                        this.toastSuccess('Student allowed to make submission');
+                    }
+                })
          },
         async alertStudent(){
               let data = {};

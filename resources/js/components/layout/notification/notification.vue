@@ -33,10 +33,10 @@
 
                     <v-divider></v-divider>
                        <v-list-item v-if="isGetting">
-                        <v-list-item-content>
-                            <v-skeleton-loader v-for="n in 3" :key="n" max-width="600" type="list-item-avatar-two-line"></v-skeleton-loader>
-                        </v-list-item-content>
-                    </v-list-item>
+                            <v-list-item-content>
+                                <v-skeleton-loader v-for="n in 3" :key="n" max-width="600" type="list-item-avatar-two-line"></v-skeleton-loader>
+                            </v-list-item-content>
+                        </v-list-item>
 
                      <div v-if="!isGetting">
                         <v-list-item v-if="get_notification.length == 0">
@@ -163,6 +163,7 @@ import axios from 'axios';
             AttachData: {},
             isClose: false,
             divider:[],
+            isLoaded: false
             
      
         }),
@@ -177,7 +178,7 @@ import axios from 'axios';
             ...mapActions(['ShowLess']),
             ...mapActions(['LessNotificationCount']),
             ...mapActions(['UnreadMessage']),
-           async connect() {
+            connect() {
                 let newVm = this;
                 
                 this.fetchNotificationCount();
@@ -339,7 +340,7 @@ import axios from 'axios';
                 }
             },
             async markAllasRead(){
-                axios.post('/api/notification/mark-all')
+               await axios.post('/api/notification/mark-all')
                 .then((res)=>{
                     this.get_notification.forEach(item => {
                             if(item.status== null){

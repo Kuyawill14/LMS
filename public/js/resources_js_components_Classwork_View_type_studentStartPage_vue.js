@@ -345,14 +345,16 @@ var render = function() {
                             "v-row",
                             { attrs: { align: "center", justify: "center" } },
                             [
+                              (_vm.classworkDetails.allow_resubmit == null ||
+                                _vm.classworkDetails.allow_resubmit == 0) &&
                               _vm.classworkDetails.response_late == 0 &&
-                              _vm.CheckFormatDue(
-                                _vm.classworkDetails.to_date
-                              ) <=
                                 _vm.CheckFormatDue(
-                                  _vm.classworkDetails.currentDate
-                                ) &&
-                              _vm.classworkDetails.status == null
+                                  _vm.classworkDetails.to_date
+                                ) <=
+                                  _vm.CheckFormatDue(
+                                    _vm.classworkDetails.currentDate
+                                  ) &&
+                                _vm.classworkDetails.status == null
                                 ? _c(
                                     "v-col",
                                     {
@@ -458,116 +460,7 @@ var render = function() {
                             ],
                             1
                           )
-                        : _c(
-                            "v-row",
-                            { attrs: { align: "center", justify: "center" } },
-                            [
-                              _vm.classworkDetails.status == null
-                                ? _c(
-                                    "v-col",
-                                    {
-                                      attrs: {
-                                        cols: "12",
-                                        md: "7",
-                                        lg: "6",
-                                        xl: "6"
-                                      }
-                                    },
-                                    [
-                                      _c("responseLatePageWarning", {
-                                        attrs: {
-                                          course_id:
-                                            _vm.classworkDetails.course_id
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                : _c(
-                                    "v-col",
-                                    { attrs: { cols: "12" } },
-                                    [
-                                      _c(
-                                        "v-row",
-                                        {
-                                          attrs: {
-                                            align: "center",
-                                            justify: "center"
-                                          }
-                                        },
-                                        [
-                                          _vm.classworkDetails.type ==
-                                          "Objective Type"
-                                            ? _c(
-                                                "v-col",
-                                                {
-                                                  attrs: {
-                                                    sm: "12",
-                                                    md: "12",
-                                                    lg: "10",
-                                                    xl: "10",
-                                                    cols: "12"
-                                                  }
-                                                },
-                                                [
-                                                  _vm.classworkDetails.type ==
-                                                  "Objective Type"
-                                                    ? _c("objectiveType", {
-                                                        attrs: {
-                                                          classworkDetails:
-                                                            _vm.classworkDetails,
-                                                          totalPoints:
-                                                            _vm.totalPoints,
-                                                          totalQuestion:
-                                                            _vm.totalQuestion
-                                                        }
-                                                      })
-                                                    : _vm._e()
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e(),
-                                          _vm._v(" "),
-                                          _vm.classworkDetails.type ==
-                                          "Subjective Type"
-                                            ? _c(
-                                                "v-col",
-                                                {
-                                                  attrs: {
-                                                    cols: "12",
-                                                    sm: "12",
-                                                    md: "12",
-                                                    lg: "10",
-                                                    xl: "10"
-                                                  }
-                                                },
-                                                [
-                                                  _vm.classworkDetails.type ==
-                                                  "Subjective Type"
-                                                    ? _c("subjectiveType", {
-                                                        attrs: {
-                                                          classworkDetails:
-                                                            _vm.classworkDetails,
-                                                          totalPoints:
-                                                            _vm.totalPoints,
-                                                          totalQuestion:
-                                                            _vm.totalQuestion
-                                                        }
-                                                      })
-                                                    : _vm._e()
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e()
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                            ],
-                            1
-                          )
+                        : _vm._e()
                     ],
                     1
                   )

@@ -303,8 +303,8 @@
         },
 mounted() {
          $('#fb-root').css('display', 'block');
-         window.localStorage.removeItem('isConfirmedPassword');
-}
+            window.localStorage.removeItem('isConfirmedPassword');
+        }
     };
 
 </script>

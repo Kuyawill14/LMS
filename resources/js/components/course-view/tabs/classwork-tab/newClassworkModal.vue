@@ -192,7 +192,7 @@ export default {
             ],
             pointsRules:[
                 v => !!v || 'Points is required',
-                v => ( v && v >= 1 ) || "Points should be above or 0",
+                v => ( v && v >= 0 ) || "Points should be above or 0",
             ],
             file_name: [],
             counter: 0,
@@ -370,6 +370,7 @@ export default {
     },
     beforeMount(){
         /* this.form.type = 'Objective Type'; */
+        //this.form.points = '0';
     }
     
 }

@@ -562,7 +562,8 @@ class ClassworkController extends Controller
             ->select('tbl_classworks.*', 'tbl_class_classworks.id as class_classwork_id',
             'tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date','tbl_class_classworks.showAnswer','tbl_class_classworks.reviewAnswer',
             'tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo', 'tbl_class_classworks.response_late',
-            'tbl_submissions.id as Sub_id','tbl_submissions.status','tbl_submissions.graded','tbl_submissions.allow_resubmit', 'tbl_submissions.points as score','tbl_submissions.Submitted_Answers', 'tbl_submissions.updated_at as Submitted_at','tbl_userclasses.user_id',
+            'tbl_submissions.id as Sub_id','tbl_submissions.status','tbl_submissions.graded','tbl_submissions.allow_resubmit', 'tbl_submissions.points as score','tbl_submissions.Submitted_Answers', 'tbl_submissions.updated_at',
+            'tbl_submissions.Submitted_at','tbl_userclasses.user_id',
             'tbl_class_classworks.deleted_at as publish')
             ->leftJoin("tbl_classworks", function($join) use ($id){
                 $join->on('tbl_classworks.id','=',DB::raw("'".$id."'"));

@@ -43,7 +43,32 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'auth_mode' => null,
+            'from' => [
+                'address' => env(
+                    'MAIL_FROM_ADDRESS',
+                    'hello@example.com'),
+                'name' => env('MAIL_FROM_NAME', 'CCSLMS'),
+            ],
         ],
+
+       /*  'reset_pass' => [
+            'transport' => 'smtp',
+            'host' => env('RESET_MAIL_HOST', 'smtp.mailgun.org'),
+            'port' => env('RESET_MAIL_PORT', 587),
+            'encryption' => env('RESET_MAIL_ENCRYPTION', 'tls'),
+            'username' => env('RESET_MAIL_USERNAME'),
+            'password' => env('RESET_MAIL_PASSWORD'),
+            'timeout' => null,
+            'auth_mode' => null,
+            'from' => [
+                'address' => env(
+                      'hello@example.com'),
+            'name' => env('MAIL_FROM_NAME', 'CCSLMS'),
+            ]   'RESET_MAIL_FROM_ADDRESS',
+               
+        ], */
+
+
 
         'ses' => [
             'transport' => 'ses',

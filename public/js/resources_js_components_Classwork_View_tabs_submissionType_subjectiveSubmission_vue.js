@@ -301,6 +301,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 var checksubjective = function checksubjective() {
@@ -1083,7 +1084,8 @@ var render = function() {
                           classworkDetails: _vm.classworkDetails,
                           ClassList: _vm.ClassList,
                           CheckDataSection: _vm.CheckDataSection,
-                          CheckData: _vm.CheckData
+                          CheckData: _vm.CheckData,
+                          Class_id: _vm.Class
                         },
                         on: {
                           SubmissionReset: _vm.ResetSubmission,

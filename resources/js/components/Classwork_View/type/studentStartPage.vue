@@ -20,7 +20,7 @@
       
       <v-col v-else cols="12" sm="12"   justify="center">
         <v-row v-if="classworkDetails.publish == null" align="center" justify="center">
-          <v-col v-if="classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) <= CheckFormatDue(classworkDetails.currentDate)  && classworkDetails.status == null" cols="12" md="7" lg="6" xl="6">
+          <v-col v-if="(classworkDetails.allow_resubmit == null || classworkDetails.allow_resubmit == 0) && (classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) <= CheckFormatDue(classworkDetails.currentDate)  && classworkDetails.status == null)" cols="12" md="7" lg="6" xl="6">
                 <responseLatePageWarning :course_id="classworkDetails.course_id" ></responseLatePageWarning>
           </v-col>
             <v-col v-else cols="12" >
@@ -40,7 +40,7 @@
           </v-col>
         </v-row>
 
-        <v-row v-else align="center" justify="center">
+       <!--  <v-row v-else align="center" justify="center">
           <v-col v-if="classworkDetails.status == null"  cols="12" md="7" lg="6" xl="6">
                 <responseLatePageWarning :course_id="classworkDetails.course_id" ></responseLatePageWarning>
           </v-col>
@@ -60,7 +60,7 @@
               </v-row>
           </v-col>
            
-        </v-row>
+        </v-row> -->
 
 
       </v-col>

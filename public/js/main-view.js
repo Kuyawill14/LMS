@@ -365,7 +365,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       notifType: 'all',
       AttachData: {},
       isClose: false,
-      divider: []
+      divider: [],
+      isLoaded: false
     };
   },
   components: {//seeAllNotification
@@ -373,37 +374,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(["get_notification", "get_notification_count", "ShowPage", "ShowLoadMore", "LastPage", "isGetting"]),
   methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['fetchNotification'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['fetchNotificationCount'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['ShowMore'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['ShowLess'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['LessNotificationCount'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['UnreadMessage'])), {}, {
     connect: function connect() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var newVm;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                newVm = _this;
-
-                _this.fetchNotificationCount();
-                /*  window.Echo.private("notification")
-                 .listen('NewNotification', e => {
-                      newVm.fetchNotificationCount();              
-                 });  */
-
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
+      var newVm = this;
+      this.fetchNotificationCount();
+      /*  window.Echo.private("notification")
+       .listen('NewNotification', e => {
+            newVm.fetchNotificationCount();              
+       });  */
     },
     NotificationHide: function NotificationHide(id) {
-      var _this2 = this;
+      var _this = this;
 
       this.$store.dispatch("HideNotification", id).then(function (res) {
         if (res == 200) {
-          _this2.get_notification.forEach(function (item) {
+          _this.get_notification.forEach(function (item) {
             if (item.n_id == id) {
               item.hide_notif = 1;
             }
@@ -412,66 +395,66 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     markAsread: function markAsread(id) {
-      var _this3 = this;
+      var _this2 = this;
 
       this.AttachData.id = id;
       this.AttachData.accepted = this.isAccepted;
       this.$store.dispatch("markAsReadNotification", this.AttachData).then(function (res) {
         if (res == 200) {
-          _this3.get_notification.forEach(function (item) {
+          _this2.get_notification.forEach(function (item) {
             if (item.n_id == id) {
               item.status = 1;
 
-              if (_this3.isAccepted) {
+              if (_this2.isAccepted) {
                 item.notification_accepted = 1;
               }
             }
           });
 
-          _this3.$store.dispatch("LessNotificationCount");
+          _this2.$store.dispatch("LessNotificationCount");
         }
       });
     },
     acceptJoin: function acceptJoin(class_code, id, index) {
-      var _this4 = this;
+      var _this3 = this;
 
       this.form.class_code = class_code;
       this.$store.dispatch("joinClass", this.form).then(function (res) {
         if (res.status == 200) {
-          _this4.isAccepted = true;
+          _this3.isAccepted = true;
 
-          _this4.toastSuccess(res.data.message);
+          _this3.toastSuccess(res.data.message);
 
-          _this4.$store.dispatch('removeNotification', id);
+          _this3.$store.dispatch('removeNotification', id);
 
-          _this4.$store.dispatch("LessNotificationCount");
+          _this3.$store.dispatch("LessNotificationCount");
 
-          _this4.$router.push({
+          _this3.$router.push({
             name: 'announcement',
             params: {
               id: res.data.course_id
             }
           });
         } else if (res.status == 202) {
-          _this4.isAccepted = true;
+          _this3.isAccepted = true;
 
-          _this4.toastError(res.data.message);
+          _this3.toastError(res.data.message);
 
-          _this4.$store.dispatch('removeNotification', id);
+          _this3.$store.dispatch('removeNotification', id);
 
-          _this4.$store.dispatch("LessNotificationCount");
+          _this3.$store.dispatch("LessNotificationCount");
 
-          _this4.$router.push({
+          _this3.$router.push({
             name: 'announcement',
             params: {
               id: res.data.course_id
             }
           });
         } else {
-          _this4.toastError('Something went wrong while joining the class!');
+          _this3.toastError('Something went wrong while joining the class!');
         }
 
-        _this4.get_notification.splice(index, 1);
+        _this3.get_notification.splice(index, 1);
       });
     },
     format_date: function format_date(value) {
@@ -565,7 +548,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     fetchNotificationall: function fetchNotificationall(on) {
-      var _this5 = this;
+      var _this4 = this;
 
       var checker = on['aria-expanded'] == 'false' ? false : true;
 
@@ -574,7 +557,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           if (res == 200) {//this.isGetting = false;
           } else {
             //this.isGetting = false;
-            _this5.toastError('Something went wrong while loading notifications!');
+            _this4.toastError('Something went wrong while loading notifications!');
           }
         });
       } else {
@@ -586,6 +569,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     MarkAsRead: function MarkAsRead() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (_this5.get_notification_count != 0) {
+                  _this5.markAllasRead();
+                }
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    markAllasRead: function markAllasRead() {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -593,46 +596,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (_this6.get_notification_count != 0) {
-                  _this6.markAllasRead();
-                }
-
-              case 1:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    markAllasRead: function markAllasRead() {
-      var _this7 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/notification/mark-all').then(function (res) {
-                  _this7.get_notification.forEach(function (item) {
+                _context2.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/notification/mark-all').then(function (res) {
+                  _this6.get_notification.forEach(function (item) {
                     if (item.status == null) {
                       item.status = 1;
                     }
                   });
 
                   for (var i = 0; i < res.data; i++) {
-                    _this7.$store.dispatch("LessNotificationCount");
+                    _this6.$store.dispatch("LessNotificationCount");
                   }
 
-                  _this7.$store.dispatch("ClearNotification");
+                  _this6.$store.dispatch("ClearNotification");
                 });
 
-              case 1:
+              case 2:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3);
+        }, _callee2);
       }))();
     }
   }),
@@ -1091,7 +1075,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -2451,7 +2451,7 @@ var rubrics = function rubrics() {
       pointsrules: [function (v) {
         return !!v || 'Points is required';
       }, function (v) {
-        return v && v >= 1 || "Points should be above or equal to 1";
+        return v && v >= 0 || "Points should be above or 0";
       }],
       durationrules: [function (v) {
         return !!v || 'Duration is required';
@@ -2774,6 +2774,7 @@ var rubrics = function rubrics() {
   },
   beforeMount: function beforeMount() {
     this.Details = this.classworkDetails;
+    this.Details.points = this.Details.points == 0 ? '0' : this.Details.points;
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
     this.isLeaving = true;

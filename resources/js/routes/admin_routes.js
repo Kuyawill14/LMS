@@ -86,17 +86,6 @@ const routes = [
 
     },
 
-    {
-        path: '/admin/login',
-        name: "admin-login",
-        component: () =>
-            import ("../components/login/AdminLoginPage"),
-      /*   beforeEnter: (to, from, next) => {
-            if (store.state.CurrentUser.UserRole == 'Administrator') next()
-            else next({ path: '/', replace: true })
-        }
- */
-    },
 
 
     

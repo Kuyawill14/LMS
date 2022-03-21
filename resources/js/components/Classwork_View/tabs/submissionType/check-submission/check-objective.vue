@@ -15,6 +15,27 @@
                 :ViewDetails="ViewDetails" v-if="dialog"></resetConfirmation>
         </v-dialog>
 
+        <v-dialog v-model="AllowResubmitDialog" persistent max-width="400">
+            <v-card class="pa-2">
+                <v-card-title class="text-h5 mb-3">
+                Allow Resubmit
+                </v-card-title>
+                <v-card-text class="font-weight-bold">
+                    <div class="subtitle-1 " style="line-height:1.1">
+                        Clicking confirm will allow <span class="font-weight-bold">{{ViewDetails.firstName+' '+ViewDetails.lastName}}</span> to make new submission for this classwork?</div>
+                    </v-card-text>
+                <v-card-actions >
+                <v-spacer></v-spacer>
+                <v-btn text @click="AllowResubmitDialog = false">
+                    Cancel
+                </v-btn>
+                <v-btn color="primary"  text @click="MarkAsSubmitting(ViewDetails.id)">
+                    Confirm
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
 
 
         <v-row no-gutters align="center" justify="center">
@@ -138,11 +159,50 @@
                                     <span class="font-weight-bold">Time Spent:
                                     </span><span>{{ViewDetails.timeSpent != null ? ViewDetails.timeSpent+' minutes': ''}}</span>
                                 </v-col> -->
-                                <v-col cols="12" class="ma-0 pa-0 pb-2 mt-1">
+                               <!--  <v-col cols="12" class="ma-0 pa-0 pb-2 mt-1">
                                     <v-btn block text rounded v-if="ViewDetails.status != null"
                                         :loading="isReseting" @click="dialog = !dialog" color="primary">
                                         <v-icon left>mdi-restart</v-icon> Reset Submission
                                     </v-btn>
+                                </v-col> -->
+
+                                 <v-col  cols="12" class="ma-0 pa-0 pb-2 mt-1 d-flex">                   
+                                    <v-tooltip color="green" max-width="350" bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn v-bind="attrs" v-on="on" rounded dark small  v-if="ViewDetails.status == 'Submitted'"
+                                                @click="AllowResubmitDialog = true" color="green" ><v-icon left>mdi-file-document-edit-outline</v-icon> Allow Retake
+                                            </v-btn>
+                                        </template>
+                                        <span>Allow Retake<br>
+                                            This student will able to take the quiz again.
+                                        </span>
+                                    </v-tooltip>
+
+                                    <v-tooltip color="info" max-width="350" bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn block v-bind="attrs" v-on="on" rounded dark small  v-if="ViewDetails.status == null && ViewDetails.availability == 1 
+                                            && (CheckFormatDue(DateToday) > CheckFormatDue(ViewDetails.to_date)) && (ViewDetails.allow_resubmit == 0 || ViewDetails.allow_resubmit == null)"
+                                                @click="AllowResubmitDialog = true" color="info" ><v-icon left>mdi-file-document-edit-outline</v-icon> Allow Submission
+                                            </v-btn>
+                                        </template>
+                                        <span>Allow Submission<br>
+                                            This student will able to take the quiz again even if the due is already past.
+                                        </span>
+                                    </v-tooltip>
+
+                                    <v-spacer></v-spacer>
+                                    <v-tooltip color="red"  max-width="350" bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn v-bind="attrs" v-on="on"  rounded dark small v-if="ViewDetails.status != null"
+                                                :loading="isReseting" @click="dialog = !dialog" color="red">
+                                                <v-icon >mdi-restart</v-icon> Reset Submission
+                                            </v-btn>
+                                        </template>
+                                        <span>Reset Submission<br>
+                                            Note: You can't undo this once you've reset the student submission,
+                                            the submitted answer of this student will be remove.
+                                        </span>
+                                    </v-tooltip>
                                 </v-col>
                             </v-card>
 
@@ -604,7 +664,7 @@
                                                                                     class="centered-input pt-0 mt-0">
                                                                                     </v-text-field>
                                                                                 </div>
-                                                                                <div class="d-flex flex-row mt-2 pl-2"> 
+                                                                                <div style="width:100%" class="d-flex flex-row mt-2 pl-2"> 
                                                                                     <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
                                                                                     <span v-html="item.SubQuestion" class="subquestion-content"></span>
                                                                                 </div>
@@ -614,7 +674,7 @@
                                                                     <v-col cols="5">
                                                                         <v-row>
                                                                             <v-col cols="12" v-for="(pairList, i) in SubmittedAnswer[index].SubAnswer" :key="i" class="d-flex flex-row pa-0">
-                                                                                <div class="d-flex flex-row mt-2 pl-4"> 
+                                                                                <div  style="width:100%"  class="d-flex flex-row mt-2 pl-4"> 
                                                                                     <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
                                                                                     <span v-html="pairList.SubChoice" class="subchoices-content"></span>
                                                                                 </div>
@@ -767,12 +827,13 @@
 import axios from 'axios';
 
     export default {
-        props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex","CheckDataSection"],
+        props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex","CheckDataSection", 'Class_id'],
         components: {
             resetConfirmation
         },
         data() {
             return {
+                DateToday: new Date(),
                 loading_activity : false,
                 student_activity_logs: [],
                 tab: null,
@@ -814,12 +875,18 @@ import axios from 'axios';
                 StudentScore: 0,
                 EssayOldPoints: [],
                 Question_Type:['All Type', 'Multiple Choice', 'Identification', 'True or False', 'Matching Type', 'Essay'],
-                selected_type: 'All Type'
+                selected_type: 'All Type',
+                AllowResubmitDialog: false
                 
             }
         },
         computed: mapGetters(['get_CurrentUser', 'getAll_questions']),
         methods: {
+            CheckFormatDue(value){
+                if (value) {
+                    return moment(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+                }
+            },
               format_date_log(value) {
                 if (value) {
                     return moment(String(value)).tz("Asia/Manila").format('MMMM DD YYYY, h:mm:ss a');
@@ -1065,12 +1132,13 @@ import axios from 'axios';
                                     let match_check = new Array();
                                     let counter = 0;
                                     let matchpoints = Math.round((this.getAll_questions.Question[i].points / this.getAll_questions.Answer[i].SubQuestion.length));
+
                                     this.ViewDetails.Submitted_Answers[j].Answer.forEach(item => {
                                         for (let x = 0; x < this.getAll_questions.Answer[i].SubQuestion
                                             .length; x++) {
-                                            if (this.getAll_questions.Answer[i].SubQuestion[x].id ==
-                                                item.subquestion_id) {
-                                                if (this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
+                                            if (this.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
+                                                match_check[counter] = true;
+                                                if (this.getAll_questions.Answer[i].SubQuestion[x].answer_id == item.Ans_id) {
                                                     match_check[counter] = true;
                                                     //this.ViewDetails.points += matchpoints;
 
@@ -1394,9 +1462,19 @@ import axios from 'axios';
                                     this.ViewDetails.Submitted_Answers[j].Answer.forEach(item => {
                                         for (let x = 0; x < this.getAll_questions.Answer[i].SubQuestion
                                             .length; x++) {
-                                            if (this.getAll_questions.Answer[i].SubQuestion[x].id ==
+                                           /*  if (this.getAll_questions.Answer[i].SubQuestion[x].id ==
                                                 item.subquestion_id) {
                                                 if (this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
+                                                    match_check[counter] = true;
+
+                                                } else {
+                                                    match_check[counter] = false;
+                                                }
+                                            } */
+
+                                             if (this.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
+                                                match_check[counter] = true;
+                                                if (this.getAll_questions.Answer[i].SubQuestion[x].answer_id == item.Ans_id) {
                                                     match_check[counter] = true;
                                                     //this.ViewDetails.points += matchpoints;
 
@@ -1674,7 +1752,7 @@ import axios from 'axios';
                     if(this.ViewDetails.status == 'Submitted'){
                         axios.get('/api/question/StudentScore/'+sub_id)
                         .then(res=>{
-                            this.ViewDetails.points = res.data;
+                            this.ViewDetails.points = res.data.toFixed();
                             //this.ReSaveScore(res.data);
                         })  
                     }
@@ -1707,7 +1785,24 @@ import axios from 'axios';
                 }else{
                     this.isLoaded = true;
                 }
-            }
+            },
+            async MarkAsSubmitting(id){               
+                let details = {};
+                details.type = this.classworkDetails.type;
+                details.classwork_id = this.classworkDetails.id;
+                details.course_id = this.classworkDetails.course_id;
+                details.user_id = this.ViewDetails.user_id;
+                details.class_id = this.Class_id;
+
+                await axios.put('/api/teacher/allow_resubmit/'+id, details)
+                .then(()=>{
+                    this.AllowResubmitDialog = false;
+                    if(id != null){
+                        this.$emit('RestSubmission')
+                        this.$store.dispatch('setCurrectClassworkSubmission',1)
+                    }
+                })
+            },
         },
         beforeDestroy() {
             this.$emit('closeDialog');

@@ -427,9 +427,9 @@
                                                                     <v-col cols="7" >
                                                                         <v-row>
                                                                             <v-col class="d-flex flex-row pa-0" cols="12" v-for="(List, i) in getAll_questions.Answer[index].SubQuestion" :key="List.id" >
-                                                                                <div class="mt-0 pt-0 mb-0 pb-0 pa-0">
+                                                                                <div  class="mt-0 pt-0 mb-0 pb-0 pa-0">
                                                                                     <v-text-field 
-                                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'max-width:110px' : 'max-width:70px'"
+                                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'max-width:110px' : 'max-width:65px'"
                                                                                     hide-details
                                                                                     outlined
                                                                                     dense
@@ -438,7 +438,7 @@
                                                                                     class="centered-input pt-0 mt-0">
                                                                                     </v-text-field>
                                                                                 </div>
-                                                                                <div class="d-flex flex-row mt-2 pl-2"> 
+                                                                                <div style="width:100%" class="d-flex flex-row mt-2 pl-2"> 
                                                                                     <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
                                                                                     <span v-html="List.sub_question" class="subquestion-content"></span>
                                                                                 </div>
@@ -448,7 +448,7 @@
                                                                     <v-col cols="5">
                                                                         <v-row>
                                                                             <v-col cols="12" v-for="(pairList, i) in getAll_questions.Answer[index].SubAnswer" :key="i" class="d-flex flex-row pa-0">
-                                                                                <div class="d-flex flex-row mt-2 pl-4"> 
+                                                                                <div style="width:100%" class="d-flex flex-row mt-2 pl-4"> 
                                                                                     <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
                                                                                     <span v-html="pairList.Choice" class="subchoices-content"></span>
                                                                                 </div>

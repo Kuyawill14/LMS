@@ -223,9 +223,9 @@ class ObjectiveController extends Controller
 
                             if($data){
                                 $tempData1[] = $data;
-                                if(auth('sanctum')->user()->role == 'Student'){
+                             /*    if(auth('sanctum')->user()->role == 'Student'){
                                     $item->answer_id = null;
-                                }
+                                } */
                             }else{
                                 $tempSubQuestion->splice($count, 1);
                             }
@@ -302,9 +302,9 @@ class ObjectiveController extends Controller
 
                                 if($data){
                                     $tempData1[] = $data;
-                                    if(auth('sanctum')->user()->role == 'Student'){
+                                   /*  if(auth('sanctum')->user()->role == 'Student'){
                                         $item->answer_id = null;
-                                    }
+                                    } */
                                 }else{
                                     $tempSubQuestion->splice($count, 1);
                                 }

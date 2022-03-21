@@ -12,7 +12,7 @@
                 <v-spacer></v-spacer>
                 <div v-if="classworkDetails.status == 'Submitted'" class="white--text Subtitle-1">
                     <span class="font-weight-bold">Score: </span>
-                    <span class="">{{classworkDetails.score+' / '+classworkDetails.points}}</span>
+                    <span class="">{{classworkDetails.score.toFixed()+' / '+classworkDetails.points}}</span>
                 </div>
             </v-app-bar>
         </div>
@@ -190,7 +190,8 @@
                                             {{ classworkDetails.availability ? format_date(classworkDetails.to_date) : 'always Available'}}
                                         </div>
                                         <div v-else class="caption ml-2 pr-1"><span class="font-weight-medium">Submitted:</span> 
-                                            {{format_date(classworkDetails.Submitted_at)}}</div>
+                                            {{classworkDetails.Submitted_at != null ? format_date(classworkDetails.Submitted_at) : format_date(classworkDetails.updated_at)}}
+                                        </div>
                                     </div>
                                 </v-container>
                             </v-col>
@@ -286,7 +287,7 @@
                                 <v-row>
                                     <v-col cols="12">
                                         
-                                        <div  v-if="format_date1(classworkDetails.currentDate) >= format_date1(classworkDetails.from_date) && format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date)">
+                                        <div  v-if="(format_date1(classworkDetails.currentDate) >= format_date1(classworkDetails.from_date) && format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date)) || classworkDetails.allow_resubmit == 1">
                                              <v-btn :block="!$vuetify.breakpoint.mdAndUp "
                                                 v-if="((classworkDetails.status == null || classworkDetails.status == '') && classworkDetails.status != 'Submitted') && classworkDetails.publish == null"
                                                 rounded :loading="isOpenQuiz" color="primary" :dark="totalQuestion != 0"
@@ -303,7 +304,7 @@
                                             </v-btn>
                                         </div>
                                         <div v-else>
-                                            <div v-if="format_date1(classworkDetails.currentDate) > format_date1(classworkDetails.to_date) && classworkDetails.response_late == 1">
+                                            <div v-if="(format_date1(classworkDetails.currentDate) > format_date1(classworkDetails.to_date) && classworkDetails.response_late == 1) || classworkDetails.allow_resubmit == 1">
                                                 <v-btn :block="!$vuetify.breakpoint.mdAndUp "
                                                     v-if="((classworkDetails.status == null || classworkDetails.status == '') && classworkDetails.status != 'Submitted') && classworkDetails.publish == null"
                                                     rounded :loading="isOpenQuiz" color="primary" :dark="totalQuestion != 0"
@@ -651,7 +652,7 @@
                 window.open(file, '_blank');
             },
              CheckScore(){
-                 if(this.classworkDetails.Sub_id != null){
+                 if(this.classworkDetails.Sub_id != null && this.classworkDetails.status == 'Submitted'){
                      axios.get('/api/question/StudentScore/'+this.classworkDetails.Sub_id)
                     .then(res=>{
                         this.classworkDetails.score = res.data;
@@ -666,12 +667,11 @@
             //this.isLoaded = false;
         },
         mounted() {
-           
             this.isLoaded = false;
-            
             const newDate = new Date();
             this.DateToday = moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
-             this.CheckScore();
+            
+            this.CheckScore();
         },
 
         /*   beforeRouteEnter(to, from, next) {

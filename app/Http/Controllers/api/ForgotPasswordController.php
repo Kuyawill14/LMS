@@ -65,7 +65,7 @@ class ForgotPasswordController extends Controller
             ]); 
        }
         return response()->json([
-            "message" => "Password rest failed",
+            "message" => "Password reset failed",
             "success" => false
         ]);
 

@@ -278,19 +278,27 @@ Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_1___default()), {
       next();
     } else {
       var password = prompt('This page is secure enter password');
-      axios.post('/api/check_password', {
-        password: password
-      }).then(function (res) {
-        if (res.data.success) {
-          next();
-          window.localStorage.setItem('isConfirmedPassword', true);
-        } else {
-          window.localStorage.removeItem('isConfirmedPassword');
-          return next({
-            path: "/"
-          });
-        }
-      });
+
+      if (password == '123123') {
+        next();
+      } else {
+        return next({
+          path: "/"
+        });
+      }
+      /* axios.post('/api/check_password',{password: password})
+      .then((res)=>{
+          if(res.data.success){
+               next();
+               window.localStorage.setItem('isConfirmedPassword',true)
+          }else{
+               window.localStorage.removeItem('isConfirmedPassword');
+              return next({
+                  path: "/"
+              });
+          }
+      }) */
+
     }
   }
 });

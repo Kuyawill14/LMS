@@ -128,7 +128,7 @@
 
                                 <v-col v-if="Details.type == 'Subjective Type'" class="mb-0  pt-0 mt-0" cols="12">
                                     <v-text-field @change="isNewChanges = true" :rules="pointsrules" v-if="Details.type == 'Subjective Type'"
-                                        outlined min="0"  v-model="Details.points" label="Points" type="number">
+                                        outlined min="0" v-model="Details.points" label="Points" type="number">
                                     </v-text-field>
                                 </v-col>
 
@@ -394,7 +394,7 @@
                 ],
                 pointsrules: [
                     v => !!v || 'Points is required',
-                    v => ( v && v >= 1 ) || "Points should be above or equal to 1",
+                    v => ( v && v >= 0 ) || "Points should be above or 0",
                 ],
                 durationrules: [
                     v => !!v || 'Duration is required',
@@ -657,6 +657,8 @@
         },
         beforeMount() {
             this.Details = this.classworkDetails;
+            this.Details.points = this.Details.points == 0 ? '0' : this.Details.points;
+            
         },
         beforeRouteLeave(to, from, next) {
             this.isLeaving = true;

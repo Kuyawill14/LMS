@@ -515,6 +515,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -527,7 +535,7 @@ var pdfviewer = function pdfviewer() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['CheckData', 'classworkDetails', 'SubmittedLength', 'currentIndex', 'CheckDataSection'],
+  props: ['CheckData', 'classworkDetails', 'SubmittedLength', 'currentIndex', 'CheckDataSection', 'Class_id'],
   components: {
     resetConfirmation: resetConfirmation,
     pdfviewer: pdfviewer
@@ -578,11 +586,17 @@ var pdfviewer = function pdfviewer() {
       isPointChange: false,
       nextConfirmDialog: false,
       CloseConfirmDialog: false,
-      checkDataOldPoints: null
+      checkDataOldPoints: null,
+      DateToday: new Date()
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
   methods: {
+    CheckFormatDue: function CheckFormatDue(value) {
+      if (value) {
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+      }
+    },
     CheckBeforeClose: function CheckBeforeClose() {
       if (this.isPointChange) {
         this.CloseConfirmDialog = true;
@@ -746,18 +760,40 @@ var pdfviewer = function pdfviewer() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var details;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return axios.put('/api/teacher/allow_resubmit/' + id).then(function () {
+                /* await axios.put('/api/teacher/allow_resubmit/'+id)
+                 .then(()=>{
+                     this.AllowResubmitDialog = false;
+                     this.$emit('markAsResubmit', this.CheckData.user_id);
+                 }) */
+                details = {};
+                details.type = _this3.classworkDetails.type;
+                details.classwork_id = _this3.classworkDetails.id;
+                details.course_id = _this3.classworkDetails.course_id;
+                details.user_id = _this3.CheckData.user_id;
+                details.class_id = _this3.Class_id;
+                _context2.next = 8;
+                return axios.put('/api/teacher/allow_resubmit/' + id, details).then(function () {
                   _this3.AllowResubmitDialog = false;
 
-                  _this3.$emit('markAsResubmit', _this3.CheckData.user_id);
+                  if (id != null) {
+                    _this3.$emit('markAsResubmit', _this3.CheckData.user_id);
+
+                    _this3.toastSuccess('Student allowed to resubmit');
+                  } else {
+                    _this3.$emit('SubmissionReset', _this3.CheckData.id);
+
+                    _this3.$store.dispatch('setCurrectClassworkSubmission', 1);
+
+                    _this3.toastSuccess('Student allowed to make submission');
+                  }
                 });
 
-              case 2:
+              case 8:
               case "end":
                 return _context2.stop();
             }
@@ -2034,7 +2070,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                                 To grade students, just put score and pressed the "
+                                                "\n                                                 To grade students, just enter the score and press the "
                                               ),
                                               _c(
                                                 "span",
@@ -2048,7 +2084,7 @@ var render = function() {
                                                 [_vm._v("Enter")]
                                               ),
                                               _vm._v(
-                                                " key to save and go to next student.\n                                              "
+                                                " key to save and proceed to the next student.\n                                              "
                                               )
                                             ]
                                           )
@@ -2386,6 +2422,99 @@ var render = function() {
                                             _c("br"),
                                             _vm._v(
                                               "\n                                              Student will be mark as submitting and will able to add and change attachment to his/her submission.\n                                          "
+                                            )
+                                          ])
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-tooltip",
+                                        {
+                                          attrs: {
+                                            color: "info",
+                                            "max-width": "350",
+                                            bottom: ""
+                                          },
+                                          scopedSlots: _vm._u([
+                                            {
+                                              key: "activator",
+                                              fn: function(ref) {
+                                                var on = ref.on
+                                                var attrs = ref.attrs
+                                                return [
+                                                  _vm.CheckData.status ==
+                                                    null &&
+                                                  _vm.CheckData.availability ==
+                                                    1 &&
+                                                  _vm.CheckFormatDue(
+                                                    _vm.DateToday
+                                                  ) >
+                                                    _vm.CheckFormatDue(
+                                                      _vm.CheckData.to_date
+                                                    ) &&
+                                                  (_vm.CheckData
+                                                    .allow_resubmit == 0 ||
+                                                    _vm.CheckData
+                                                      .allow_resubmit == null)
+                                                    ? _c(
+                                                        "v-btn",
+                                                        _vm._g(
+                                                          _vm._b(
+                                                            {
+                                                              attrs: {
+                                                                block: "",
+                                                                rounded: "",
+                                                                dark: "",
+                                                                small: "",
+                                                                color: "info"
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  _vm.AllowResubmitDialog = true
+                                                                }
+                                                              }
+                                                            },
+                                                            "v-btn",
+                                                            attrs,
+                                                            false
+                                                          ),
+                                                          on
+                                                        ),
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                left: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-file-document-edit-outline"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(
+                                                            " Allow Submission\n                                                  "
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    : _vm._e()
+                                                ]
+                                              }
+                                            }
+                                          ])
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm._v("Allow Submission"),
+                                            _c("br"),
+                                            _vm._v(
+                                              "\n                                                  This student will able to make submission even if the due of classwork is already past.\n                                              "
                                             )
                                           ])
                                         ]

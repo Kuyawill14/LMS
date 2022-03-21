@@ -23765,10 +23765,9 @@ var render = function() {
                                                                 "ma-0",
                                                               attrs: {
                                                                 rounded: "",
-                                                                color:
-                                                                  "primary",
-                                                                small: "",
-                                                                text: ""
+                                                                dark: "",
+                                                                color: "blue",
+                                                                small: ""
                                                               },
                                                               on: {
                                                                 click: function(
@@ -23806,11 +23805,10 @@ var render = function() {
                                                               staticClass:
                                                                 "ma-0",
                                                               attrs: {
+                                                                dark: "",
                                                                 rounded: "",
-                                                                color:
-                                                                  "primary",
-                                                                small: "",
-                                                                text: ""
+                                                                color: "blue",
+                                                                small: ""
                                                               },
                                                               on: {
                                                                 click: function(

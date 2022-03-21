@@ -2424,18 +2424,6 @@ var routes = [{
       replace: true
     });
   }
-}, {
-  path: '/admin/login',
-  name: "admin-login",
-  component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_components_login_AdminLoginPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/login/AdminLoginPage */ "./resources/js/components/login/AdminLoginPage.vue"));
-  }
-  /*   beforeEnter: (to, from, next) => {
-        if (store.state.CurrentUser.UserRole == 'Administrator') next()
-        else next({ path: '/', replace: true })
-    }
-  */
-
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 

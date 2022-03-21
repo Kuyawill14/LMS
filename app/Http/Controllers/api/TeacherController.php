@@ -14,6 +14,7 @@ use App\Models\tbl_student_course_subject_grades;
 use App\Models\tbl_subject_course;
 use App\Models\tbl_userclass;
 use App\Models\tbl_classwork;
+use App\Models\tbl_classClassworks;
 use App\Models\tbl_Submitted_Answer;
 use App\Models\tbl_userDetails;
 use App\Models\tbl_join_request;
@@ -635,14 +636,43 @@ class TeacherController extends Controller
         }
     }
 
-    public function AllowResubmit($id){
+    public function AllowResubmit(Request $request, $id){
+
+        //return $request;
         $Submission = tbl_Submission::find($id);
-        if( $Submission){
-            $Submission->status = 'Submitting';
-            $Submission->allow_resubmit = true;
-            $Submission->graded = false;
-            $Submission->points = 0;
-            $Submission->save();
+        if($Submission){
+            if($request->type == "Subjective Type"){
+                $Submission->status = 'Submitting';
+                $Submission->allow_resubmit = true;
+                $Submission->graded = false;
+                $Submission->points = 0;
+                $Submission->save();
+                return 'Allowed Retake';
+            }
+            elseif($request->type == "Objective Type"){
+                $Submission->status = null;
+                $Submission->points = 0;
+                $Submission->Submitted_Answers = null;
+                $Submission->allow_resubmit = true;
+                $Submission->save();
+                return 'Allowed Resubmit';
+            }
+        }else{
+            //if($request->type == "Objective Type"){
+                $checkCLasswork = tbl_classClassworks::where('tbl_class_classworks.class_id', $request->class_id)
+                ->where('tbl_class_classworks.classwork_id', $request->classwork_id)->first();
+                if($checkCLasswork){
+                    $StatusUpdate = new tbl_Submission;
+                    $StatusUpdate->classwork_id = $request->classwork_id;
+                    $StatusUpdate->class_classwork_id = $checkCLasswork->id;
+                    $StatusUpdate->user_id =  $request->user_id;
+                    $StatusUpdate->status = null;
+                    $StatusUpdate->allow_resubmit = true;
+                    $StatusUpdate->save();
+                    return 'Allowed Submission';
+                }
+            //}
+
         }
     }
     

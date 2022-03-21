@@ -207,11 +207,11 @@
                                     </v-col>
                                     <v-col class="pt-3" cols="12">
                                         <v-btn v-if="item.publish_in.length == 0" class="ma-0" @click="$router.push({name: 'publish-to',params: {id: $route.params.id},query: {clwk: item.id}})"
-                                            rounded color="primary" small text>Publish Classwork
+                                            rounded dark color="blue" small >Publish Classwork
                                         </v-btn>
 
-                                        <v-btn v-else class="ma-0" @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})"
-                                            rounded color="primary" small text>View Submission
+                                        <v-btn v-else dark class="ma-0" @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})"
+                                            rounded color="blue" small >View Submission
                                         </v-btn>
                                     </v-col>
                                 </v-row>
