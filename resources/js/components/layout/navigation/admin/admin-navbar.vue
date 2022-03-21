@@ -41,7 +41,7 @@
                 </v-list-item-content>
             </v-list-item> -->
 
-            <v-list-group color="none" :value="false" link prepend-icon="mdi-account-group">
+            <v-list-group color="none" :value="true" link prepend-icon="mdi-account-group">
                 <template v-slot:activator>
                     <v-list-item-title>Manage Users</v-list-item-title>
                 </template>

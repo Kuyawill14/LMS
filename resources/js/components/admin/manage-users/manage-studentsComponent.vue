@@ -574,6 +574,7 @@
                 axios.post('/api/admin/users/reset-password/' + this.IsResetting_id)
                     .then(res => {
                         this.toastSuccess(res.data);
+                        alert(res.data);
                         this.isConfirmReset = false;
                         this.IsResetting = false;
                         this.ResetPassworddialog = false;

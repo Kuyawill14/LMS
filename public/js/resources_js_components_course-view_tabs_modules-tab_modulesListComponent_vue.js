@@ -1551,6 +1551,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1773,7 +1790,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     showHandler: function showHandler() {
-      localStorage.setItem("tip_module_show", !this.tipCheckBox);
+      localStorage.setItem("tip_module_show_1", !this.tipCheckBox);
     },
     format_date: function format_date(value, publish_format) {
       if (publish_format == true) {
@@ -1846,14 +1863,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.itemType = 'add_link';
     },
     editItemBtn: function editItemBtn(itemModule, sub_module_id, type, isPublished) {
-      if (isPublished == 1) {
-        this.toastInfo("Unable to edit this item. Please unpublished the module to proceed");
-      } else {
-        this.pass_submodule = itemModule;
-        this.itemDialog = !this.itemDialog;
-        this.sub_module_id = sub_module_id;
-        this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
-      }
+      // if (isPublished == 1) {
+      //     this.toastInfo("Unable to edit this item. Please unpublished the module to proceed");
+      // } else {
+      //     this.pass_submodule = itemModule;
+      //     this.itemDialog = !this.itemDialog;
+      //     this.sub_module_id = sub_module_id;
+      //     this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
+      // }
+      this.pass_submodule = itemModule;
+      this.itemDialog = !this.itemDialog;
+      this.sub_module_id = sub_module_id;
+      this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
+    },
+    downloadItemBtn: function downloadItemBtn(itemModule) {
+      window.open(itemModule.type == 'Document' ? itemModule.file_attachment : itemModule.link);
     },
     classworkBtn: function classworkBtn() {
       $('#itemTypeModal').modal('hide');
@@ -1936,10 +1960,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               _this5.$emit('closeModuleDialog');
 
-              if (localStorage.getItem("tip_module_show") === null) {
+              if (localStorage.getItem("tip_module_show_1") === null) {
                 _this5.tip = true;
               } else {
-                _this5.tip = localStorage.getItem("tip_module_show") == true;
+                _this5.tip = localStorage.getItem("tip_module_show_1") == true;
               }
 
             case 3:
@@ -38451,9 +38475,46 @@ var render = function() {
           }
         },
         [
-          _vm._v(
-            "\n        Tips: You can change your modules arrangement by dragging your modules into a certain position.\n\n        "
-          ),
+          _vm._v("\n        Tips:\n        "),
+          _c("ul", [
+            _c("li", [
+              _vm._v(
+                " You can change your modules arrangement by dragging your modules into a certain position. "
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v(
+                " You can now change your module's download settings on the publish settings. Click the "
+              ),
+              _c("b", [_vm._v("publish settings")]),
+              _vm._v(
+                " to change the module's download settings.\n                "
+              ),
+              _c("br"),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  attrs: {
+                    target: "_blank",
+                    href:
+                      "https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/download.png"
+                  }
+                },
+                [
+                  _c("img", {
+                    staticStyle: { height: "150px", width: "100%" },
+                    attrs: {
+                      src:
+                        "https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/download.png"
+                    }
+                  })
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
           _c("v-checkbox", {
             staticClass: "pa-0 mb-0",
             attrs: { label: "Don't show me again." },
@@ -39227,6 +39288,34 @@ var render = function() {
                                         attrs: { link: "" },
                                         on: {
                                           click: function($event) {
+                                            return _vm.downloadItemBtn(
+                                              itemSubModule
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("v-list-item-title", [
+                                          _vm._v(
+                                            "\n                                        " +
+                                              _vm._s(
+                                                itemSubModule.type == "Document"
+                                                  ? "Download"
+                                                  : "Open in New tab"
+                                              ) +
+                                              "\n                                    "
+                                          )
+                                        ])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-list-item",
+                                      {
+                                        attrs: { link: "" },
+                                        on: {
+                                          click: function($event) {
                                             return _vm.editItemBtn(
                                               itemSubModule,
                                               itemSubModule.id,
@@ -39849,6 +39938,52 @@ var render = function() {
                                 1
                               )
                             ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.availability != "Unpublish"
+                    ? _c(
+                        "v-col",
+                        [
+                          _vm._v(
+                            "\n                    Download Settings\n                    "
+                          ),
+                          _c(
+                            "v-radio-group",
+                            {
+                              staticClass: "ml-2 mt-0 pt-0 mb-0 pb-0",
+                              attrs: { "hide-details": "" },
+                              model: {
+                                value: _vm.download_availability,
+                                callback: function($$v) {
+                                  _vm.download_availability = $$v
+                                },
+                                expression: "download_availability"
+                              }
+                            },
+                            _vm._l(_vm.radioDownloadAvailability, function(
+                              n,
+                              index
+                            ) {
+                              return _c("v-radio", {
+                                key: index,
+                                attrs: {
+                                  label: _vm.radioDownloadAvailability[index],
+                                  value: _vm.radioDownloadAvailability[index]
+                                },
+                                on: {
+                                  change: function($event) {
+                                    return _vm.download_settingsSelection(
+                                      _vm.radioDownloadAvailability[index]
+                                    )
+                                  }
+                                }
+                              })
+                            }),
                             1
                           )
                         ],

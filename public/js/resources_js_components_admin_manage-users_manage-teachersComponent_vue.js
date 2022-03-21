@@ -536,6 +536,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/users/reset-password/' + id).then(function (res) {
         _this4.toastSuccess(res.data);
 
+        alert(res.data);
         _this4.IsResetting = false;
       });
     },

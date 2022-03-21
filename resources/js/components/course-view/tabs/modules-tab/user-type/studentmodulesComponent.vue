@@ -87,6 +87,28 @@
                             <v-tab href="#description" @click="scrollToElement({behavior: 'smooth'});">
                                 Description
                             </v-tab>
+                            <v-tooltip top :disabled="isDownloadable " v-if=" role != 'Teacher'">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <span v-on="on">
+                                        <v-btn v-bind="attrs" v-on="on" class="ml-1 mt-1" style="float:right"
+                                            v-if=" role != 'Teacher'" @click="downloadModule(subModuleData)"
+                                            target="_blank" :disabled="!isDownloadable" color="primary">
+                                            Download
+                                        </v-btn>
+                                    </span>
+                                </template>
+                                <span>{{allow_download == 0 || allow_download == null ? 'Unable to download this module. Ask your teacher for permission' : allow_download == 2 ? 'Your Time spent does not meet the required time' : '' }}</span>
+                            </v-tooltip>
+
+
+
+                            <v-btn class="ml-1 mt-1" style="float:right" v-if=" role == 'Teacher'"
+                                @click="downloadModule(subModuleData)" target="_blank" color="primary">
+                                Download
+                            </v-btn>
+
+
+
 
                             <v-tab-item id="overview">
                                 <v-card-title>
@@ -214,11 +236,15 @@
                 isChangeSize: false,
                 screenWidth: window.innerWidth,
                 isDownloadable: false,
+                main_module_selected: null,
+                allow_download: null,
             }
         },
         methods: {
 
-
+            downloadModule(submodule) {
+                window.open(submodule.type == 'Document' ? submodule.file_attachment : submodule.link);
+            },
             scrapeDocID(link) {
 
                 var d = link.replace(/.*\/d\//, '').replace(/\/.*/, '');
@@ -230,6 +256,7 @@
             getMainModulebyId(id) {
                 for (var i = 0; this.getmain_module.length; i++) {
                     if (this.getmain_module[i].id == id) {
+                        this.main_module_selected = this.getmain_module[i];
                         return this.getmain_module[i];
                     }
                 }
@@ -250,11 +277,6 @@
             },
             getsubModuleData(sub_module, student_progress) {
 
-                console.log(sub_module.required_time);
-                console.log(student_progress.time_spent);
-
-                 this.isDownloadable = student_progress.time_spent >=  sub_module.required_time? true : false,
-               
                 this.isSelectedModule = true;
                 this.subModuleData = sub_module;
                 this.ext = this.getFileExt(sub_module.file_attachment);
@@ -262,12 +284,25 @@
                 this.type = this.subModuleData.type;
                 this.documentUrl(sub_module.file_attachment)
                 this.pdfdialog = true;
+
+
+                console.log('sub module', this.subModuleData);
+
+
+
+                this.getMainModulebyId(sub_module.main_module_id);
+                console.log(this.main_module_selected, 'main module selected')
+                //download settings
+                this.allow_download = this.main_module_selected.allow_download;
+                if (this.allow_download == 0 || this.allow_download == null) {
+                    this.isDownloadable = false;
+                } else if (this.allow_download == 1) {
+                    this.isDownloadable = true;
+                } else if (this.allow_download == 2) {
+                    this.isDownloadable = student_progress.time_spent >= sub_module.required_time ? true : false;
+                }
             },
 
-
-         
-
-        
             documentUrl(file) {
                 var origin_url = window.location.origin;
                 var base_src = 'https://drive.google.com/viewerng/viewer?url=' + origin_url;
