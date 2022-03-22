@@ -573,6 +573,7 @@
                     if (item.id == this.selected_id) {
                         item.status = null;
                         item.points = 0;
+                        item.allow_resubmit = null;
                         item.Submitted_Answers = null;
                     }
                 });

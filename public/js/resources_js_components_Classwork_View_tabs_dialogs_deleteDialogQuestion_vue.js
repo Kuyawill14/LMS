@@ -37,8 +37,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['DeleteDetails']
+  props: ['DeleteDetails'],
+  data: function data() {
+    return {
+      isDeleting: false
+    };
+  }
 });
 
 /***/ }),
@@ -166,10 +172,10 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", text: "" },
+              attrs: { loading: _vm.isDeleting, color: "primary", text: "" },
               on: {
                 click: function($event) {
-                  return _vm.$emit("confirmRemove")
+                  _vm.$emit("confirmRemove"), (_vm.isDeleting = true)
                 }
               }
             },

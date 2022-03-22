@@ -995,6 +995,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1033,6 +1057,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       selected_sort: 'All',
       isloading: true,
       isLeaving: false,
+      isDuplicating: false,
       valid: false,
       inputCheck: ['True', 'False'],
       rules: [function (v) {
@@ -1054,10 +1079,36 @@ var studentViewForTeacher = function studentViewForTeacher() {
               'color': []
             }], [{
               'list': 'bullet'
-            }], ['image']]
+            }]
+            /*  ['image'] */
+            ]
             /* handlers: {
                 image: this.imageHandler
             } */
+
+          },
+          syntax: {
+            highlight: function highlight(text) {
+              return hljs.highlightAuto(text).value;
+            }
+          }
+        }
+      },
+      QuestioEditorOption: {
+        placeholder: 'type here ...',
+        theme: 'snow',
+        blur: true,
+        editorData: null,
+        modules: {
+          toolbar: {
+            container: [['bold', 'italic', 'underline'], [{
+              'color': []
+            }], [{
+              'list': 'bullet'
+            }], ['image']]
+            /*  handlers: {
+                 image: this.imageHandler
+             } */
 
           },
           syntax: {
@@ -1129,10 +1180,11 @@ var studentViewForTeacher = function studentViewForTeacher() {
                 file = input.files[0];
                 formData = new FormData();
                 formData.append('file', file);
-                formData.append('type', 'Announcement');
+                formData.append('classwork_id', thi.$route.query.clwk);
+                formData.append('type', 'classwork');
                 range = editor.getSelection(true);
                 editor.setSelection(range.index + 1);
-                _context2.next = 8;
+                _context2.next = 9;
                 return axios.post('/api/classwork/newAttachment', formData).then( /*#__PURE__*/function () {
                   var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(_ref2) {
                     var data;
@@ -1157,7 +1209,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   };
                 }());
 
-              case 8:
+              case 9:
               case "end":
                 return _context2.stop();
             }
@@ -1663,6 +1715,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context14.prev = _context14.next) {
               case 0:
+                _this13.Deletedialog = false;
+                _this13.isDuplicating = true;
                 _this13.isAddingNewQuestion = true;
                 question_id_list = [];
                 question_index = 0;
@@ -1677,12 +1731,12 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   question_index++;
                 });
 
-                _context14.next = 6;
+                _context14.next = 8;
                 return axios.put('/api/question/delete_selected_question/' + _this13.$route.query.clwk, {
                   question: question_id_list
                 }).then(function (res) {
                   if (res.data.success == true) {
-                    _this13.Deletedialog = !_this13.Deletedialog;
+                    _this13.Deletedialog = false;
                     question_id_list.forEach(function (item) {
                       var tmp_question = _this13.getAll_questions.Question;
 
@@ -1710,10 +1764,13 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     }
 
                     _this13.isAddingNewQuestion = false;
+                    _this13.isDuplicating = false;
+                  } else {
+                    _this13.isDuplicating = false;
                   }
                 });
 
-              case 6:
+              case 8:
               case "end":
                 return _context14.stop();
             }
@@ -1734,7 +1791,9 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context15.prev = _context15.next) {
               case 0:
-                _context15.next = 2;
+                _this14.DeleteSingledialog = false;
+                _this14.isDuplicating = true;
+                _context15.next = 4;
                 return axios["delete"]('/api/question/remove/' + _this14.DeleteDetails.id).then(function (res) {
                   _this14.getAll_questions.Question.splice(_this14.DeleteIndex, 1);
 
@@ -1751,9 +1810,11 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     position: "top-center",
                     duration: 5000
                   });
+
+                  _this14.isDuplicating = false;
                 });
 
-              case 2:
+              case 4:
               case "end":
                 return _context15.stop();
             }
@@ -1791,7 +1852,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context16.prev = _context16.next) {
               case 0:
-                _context16.next = 2;
+                _this15.isDuplicating = true;
+                _context16.next = 3;
                 return axios.put('/api/question/store_duplicate_question/' + _this15.$route.query.clwk, {
                   question: _this15.DuplicateQuestion,
                   answer: _this15.DuplicateAnswers
@@ -1876,12 +1938,13 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
                   _this15.UnselectAll();
 
+                  _this15.isDuplicating = false;
                   setTimeout(function () {
                     return window.scrollTo(0, document.body.scrollHeight);
                   }, 100);
                 });
 
-              case 2:
+              case 3:
               case "end":
                 return _context16.stop();
             }
@@ -36540,6 +36603,17 @@ var render = function() {
               1
             ),
             _vm._v(" "),
+            _c(
+              "v-overlay",
+              { attrs: { value: _vm.isDuplicating } },
+              [
+                _c("v-progress-circular", {
+                  attrs: { indeterminate: "", size: "64" }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
             _vm.Qlength == 0 && !_vm.isloading
               ? _c(
                   "v-row",
@@ -36969,7 +37043,7 @@ var render = function() {
                                                               "v-col",
                                                               {
                                                                 staticClass:
-                                                                  "pa-0 ma-0 mt-2 mb-2",
+                                                                  "pa-0 ma-0 mt-2 mb-2 d-flex",
                                                                 attrs: {
                                                                   cols: "12"
                                                                 }
@@ -36997,13 +37071,15 @@ var render = function() {
                                                                         attrs: {
                                                                           disabled:
                                                                             _vm.quill_disabled,
+                                                                          theme:
+                                                                            "snow",
                                                                           placeholder:
                                                                             item.type !=
                                                                             "Matching type"
                                                                               ? "Enter Question"
                                                                               : "Enter Instuction",
                                                                           options:
-                                                                            _vm.editorOption
+                                                                            _vm.QuestioEditorOption
                                                                         },
                                                                         on: {
                                                                           blur: function(

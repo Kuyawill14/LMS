@@ -843,6 +843,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -1614,10 +1624,13 @@ var resetConfirmation = function resetConfirmation() {
                       _this6.dialog = !_this6.dialog;
                       _this6.isReseting = false;
                       _this6.student_activity_logs = [];
+                      _this6.ViewDetails.allow_resubmit = null;
 
                       _this6.$emit('RestSubmission');
 
                       _this6.$store.dispatch('setCurrectClassworkSubmission', 1);
+
+                      _this6.toastSuccess('Submission successfully reset!');
                     }
                   });
                 }
@@ -1910,14 +1923,26 @@ var resetConfirmation = function resetConfirmation() {
                 details.user_id = _this17.ViewDetails.user_id;
                 details.class_id = _this17.Class_id;
                 _context13.next = 8;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/allow_resubmit/' + id, details).then(function () {
+                return axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/allow_resubmit/' + id, details).then(function (res) {
                   _this17.AllowResubmitDialog = false;
 
                   if (id != null) {
+                    _this17.ViewDetails.allow_resubmit = 1;
+
                     _this17.$emit('RestSubmission');
 
                     _this17.$store.dispatch('setCurrectClassworkSubmission', 1);
+
+                    _this17.toastSuccess('Student allowed retake classwork!');
+                  } else {
+                    _this17.ViewDetails.status = null;
+                    _this17.ViewDetails.points = 0;
+                    _this17.ViewDetails.allow_resubmit = 1;
+
+                    _this17.toastSuccess('Student allowed make submission!');
                   }
+
+                  _this17.ViewDetails.id = res.data.sub_id;
                 });
 
               case 8:
@@ -2961,7 +2986,7 @@ var render = function() {
                                                         ]
                                                       ),
                                                       _vm._v(
-                                                        " Allow Submission\n                                        "
+                                                        " Allow to make Submission\n                                        "
                                                       )
                                                     ],
                                                     1
@@ -2978,7 +3003,80 @@ var render = function() {
                                         _vm._v("Allow Submission"),
                                         _c("br"),
                                         _vm._v(
-                                          "\n                                        This student will able to take the quiz again even if the due is already past.\n                                    "
+                                          "\n                                        This student will able to take the quiz even if the classwork is already due.\n                                    "
+                                        )
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tooltip",
+                                    {
+                                      attrs: {
+                                        color: "success",
+                                        "max-width": "350",
+                                        bottom: ""
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "activator",
+                                          fn: function(ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _vm.ViewDetails.allow_resubmit ==
+                                              1
+                                                ? _c(
+                                                    "v-btn",
+                                                    _vm._g(
+                                                      _vm._b(
+                                                        {
+                                                          staticStyle: {
+                                                            cursor: "crosshair"
+                                                          },
+                                                          attrs: {
+                                                            disabled: "",
+                                                            block: "",
+                                                            rounded: "",
+                                                            small: "",
+                                                            color: "success"
+                                                          }
+                                                        },
+                                                        "v-btn",
+                                                        attrs,
+                                                        false
+                                                      ),
+                                                      on
+                                                    ),
+                                                    [
+                                                      _c(
+                                                        "v-icon",
+                                                        { attrs: { left: "" } },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-file-document-edit-outline"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(
+                                                        " Allowed for retake\n                                        "
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                : _vm._e()
+                                            ]
+                                          }
+                                        }
+                                      ])
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v("Allowed for retake"),
+                                        _c("br"),
+                                        _vm._v(
+                                          "\n                                        This student is allowed to retake the quiz.\n                                    "
                                         )
                                       ])
                                     ]
@@ -4828,7 +4926,7 @@ var render = function() {
                                                                                                   },
                                                                                                   [
                                                                                                     _vm._v(
-                                                                                                      "(correct\n                                                                            answer)"
+                                                                                                      "(correct\n                                                                        answer)"
                                                                                                     )
                                                                                                   ]
                                                                                                 )

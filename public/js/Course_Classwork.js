@@ -160,9 +160,10 @@ var newClassworkModal = function newClassworkModal() {
             _this.ClassworkLength += element.length;
           });
         } else if (_this.role == 'Student') {
-          _this.get_Classworks.ClassworksList.forEach(function (element) {
-            _this.ClassworkLength += element.length;
-          });
+          /*    this.get_Classworks.ClassworksList.forEach(element => {
+                this.ClassworkLength+= element.length;
+            }); */
+          _this.ClassworkLength = _this.get_Classworks.ClassworksList.length;
         }
       });
     },
@@ -178,9 +179,10 @@ var newClassworkModal = function newClassworkModal() {
             _this2.ClassworkLength += element.length;
           });
         } else if (_this2.role == 'Student') {
-          _this2.get_Classworks.ClassworksList.forEach(function (element) {
-            _this2.ClassworkLength += element.length;
-          });
+          /*  this.get_Classworks.ClassworksList.forEach(element => {
+              this.ClassworkLength+= element.length;
+          }); */
+          _this2.ClassworkLength = _this2.get_Classworks.ClassworksList.length;
         }
       });
     }

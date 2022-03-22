@@ -178,18 +178,30 @@
                                         </span>
                                     </v-tooltip>
 
+    
                                     <v-tooltip color="info" max-width="350" bottom>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn block v-bind="attrs" v-on="on" rounded dark small  v-if="ViewDetails.status == null && ViewDetails.availability == 1 
                                             && (CheckFormatDue(DateToday) > CheckFormatDue(ViewDetails.to_date)) && (ViewDetails.allow_resubmit == 0 || ViewDetails.allow_resubmit == null)"
-                                                @click="AllowResubmitDialog = true" color="info" ><v-icon left>mdi-file-document-edit-outline</v-icon> Allow Submission
+                                                @click="AllowResubmitDialog = true" color="info" ><v-icon left>mdi-file-document-edit-outline</v-icon> Allow to make Submission
                                             </v-btn>
                                         </template>
                                         <span>Allow Submission<br>
-                                            This student will able to take the quiz again even if the due is already past.
+                                            This student will able to take the quiz even if the classwork is already due.
                                         </span>
                                     </v-tooltip>
 
+                                    <v-tooltip color="success" max-width="350" bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn disabled style="cursor: crosshair" block v-bind="attrs" v-on="on" rounded  small  v-if="ViewDetails.allow_resubmit == 1"
+                                                color="success" ><v-icon left>mdi-file-document-edit-outline</v-icon> Allowed for retake
+                                            </v-btn>
+                                        </template>
+                                        <span>Allowed for retake<br>
+                                            This student is allowed to retake the quiz.
+                                        </span>
+                                    </v-tooltip>
+                                   
                                     <v-spacer></v-spacer>
                                     <v-tooltip color="red"  max-width="350" bottom>
                                         <template v-slot:activator="{ on, attrs }">
@@ -368,14 +380,12 @@
                                                         v-for="(item, index) in getAll_questions.Question" :key="index">
                                                         <v-list-item-title>
                                                             <v-btn
-                                                                
                                                                 text rounded @click="questionIndex = index">
                                                                 <v-icon :color="!Check[index]  ? '' : 'success'" left>
                                                                 {{item.type != 'Matching type' ? !Check[index] ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked' : 'mdi-checkbox-blank-outline'}}
                                                                 </v-icon>
                                                                 {{index+1}}{{item.type == 'Matching type' ? ' Matching Type' : ' '+item.type}}
                                                             </v-btn>
-
                                                         </v-list-item-title>
                                                     </v-list-item>
                                                 </v-list>
@@ -529,9 +539,9 @@
                                                                                 answer)</span>
                                                                         </span>
                                                                         <span v-else>
-                                                                             <span class="caption primary--text ml-1"
-                                                                                v-if="item.answer == Ans.Choice">(correct
-                                                                                answer)</span>
+                                                                            <span class="caption primary--text ml-1"
+                                                                            v-if="item.answer == Ans.Choice">(correct
+                                                                            answer)</span>
                                                                         </span>
                                                                   
                                                                 </div>
@@ -1640,8 +1650,10 @@ import axios from 'axios';
                                 this.dialog = !this.dialog;
                                 this.isReseting = false;
                                 this.student_activity_logs = [];
-                                this.$emit('RestSubmission')
-                                this.$store.dispatch('setCurrectClassworkSubmission',1)
+                                this.ViewDetails.allow_resubmit = null;
+                                this.$emit('RestSubmission');
+                                this.$store.dispatch('setCurrectClassworkSubmission',1);
+                                this.toastSuccess('Submission successfully reset!');
                             }
 
                         })
@@ -1795,12 +1807,21 @@ import axios from 'axios';
                 details.class_id = this.Class_id;
 
                 await axios.put('/api/teacher/allow_resubmit/'+id, details)
-                .then(()=>{
+                .then((res)=>{
                     this.AllowResubmitDialog = false;
                     if(id != null){
+                        this.ViewDetails.allow_resubmit = 1;
                         this.$emit('RestSubmission')
                         this.$store.dispatch('setCurrectClassworkSubmission',1)
+                        this.toastSuccess('Student allowed retake classwork!');
+                    }else{
+                        this.ViewDetails.status = null;
+                        this.ViewDetails.points = 0;
+                        this.ViewDetails.allow_resubmit = 1;
+                        this.toastSuccess('Student allowed make submission!');
                     }
+
+                    this.ViewDetails.id = res.data.sub_id;
                 })
             },
         },

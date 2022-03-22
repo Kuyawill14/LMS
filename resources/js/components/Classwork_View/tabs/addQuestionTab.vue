@@ -180,27 +180,14 @@
     ></v-progress-circular>
 </v-overlay>
 
-<!-- <v-container class="fill-height" v-if="isloading" style="height: 570px;"> -->
-    <!-- <v-row class="centered" v-if="isloading" align-content="center" justify="center">
-        <v-col cols="12" class="text-center">
-            <vue-element-loading :active="isloading" 
-            text="Loading"
-            duration="0.7"
-            :textStyle="{fontSize: '20px'}"
-            spinner="line-scale" color="#EF6C00"  size="60" />
-        </v-col>
-    </v-row>
- -->
-    <!-- <v-row v-if="isAddingNewQuestion" align-content="center" justify="center">
-        <v-col cols="12" class="text-center">
-            <vue-element-loading :active="isAddingNewQuestion" 
-            duration="0.7"
-             :is-full-screen="true"
-            :textStyle="{fontSize: '20px'}"
-            spinner="line-scale" color="#EF6C00"  size="60" />
-        </v-col>
-    </v-row> -->
-<!-- </v-container> -->
+
+<v-overlay :value="isDuplicating">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+</v-overlay>
+
 
 <v-row class="centered" :style="$vuetify.breakpoint.mdAndUp ? '' : 'width:330px !important'" justify="center" v-if="Qlength== 0 && !isloading">
     <v-col cols="12"  class="text-center">
@@ -299,10 +286,11 @@
                                 <v-container fluid class="pa-0 ma-0" ma-0 pa-0> 
                                     <div class="font-weight-medium">{{item.type != 'Matching type' ? 'Question' : 'Instuction'}}</div>
                                     <v-row class="pa-0 ma-0">
-                                        <v-col class="pa-0 ma-0 mt-2 mb-2" cols="12">
+                                        <v-col class="pa-0 ma-0 mt-2 mb-2 d-flex" cols="12">
                                             <div style="width:100%" class="mb-3">
                                                     <editor
                                                     :disabled="quill_disabled"
+                                                    theme="snow"
                                                     class="editor"
                                                     @blur="isNewChanges == true ? SaveAllQuestion() : ''" 
                                                     @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
@@ -310,9 +298,45 @@
                                                     ref="myTextEditor"
                                                     :placeholder="item.type != 'Matching type' ? 'Enter Question' : 'Enter Instuction'" 
                                                     v-model="item.question"
-                                                    :options="editorOption"/>
+                                                    :options="QuestioEditorOption"/>
                                                     <small v-if="!valid && item.question == ''" class="error--text">*This field is required</small>
+
+
+                                                    <!-- <div class="pt-2 d-flex">
+                                                         <v-tooltip  max-width="350" top>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn v-bind="attrs" v-on="on" icon small>
+                                                                    <v-icon color="red">
+                                                                        mdi-image
+                                                                    </v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Attach Image</span>
+                                                        </v-tooltip>
+                                                        <span class="pl-1 pr-1"></span>
+
+                                                         <v-tooltip  max-width="350" top>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn v-bind="attrs" v-on="on" icon small>
+                                                                    <v-icon color="blue">
+                                                                        mdi-link
+                                                                    </v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Attach Link</span>
+                                                        </v-tooltip>
+                                                    </div> -->
                                             </div>
+                                          <!--   <div class="pt-2 pl-2">
+                                                 <v-tooltip top>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                         <v-btn v-bind="attrs" v-on="on" icon>
+                                                            <v-icon>mdi-image</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <span>Add Image</span>
+                                                </v-tooltip>
+                                            </div> -->
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -794,6 +818,7 @@ export default {
             selected_sort: 'All',
             isloading: true,
             isLeaving: false,
+            isDuplicating: false,
             valid: false,
             inputCheck:['True','False'],
             rules: [
@@ -815,10 +840,34 @@ export default {
                                ['bold', 'italic', 'underline'],
                                [{ 'color': [] }],
                                [{ 'list': 'bullet' }],
-                               ['image']
+                              /*  ['image'] */
                                
                             ],
                             /* handlers: {
+                                image: this.imageHandler
+                            } */
+                        },
+                    syntax: {
+                        highlight: text => hljs.highlightAuto(text).value
+                    },
+                    
+                }
+            },
+
+             QuestioEditorOption: {
+                placeholder: 'type here ...',
+                theme:'snow',
+                blur: true,
+                editorData:null,
+                modules: {
+                     toolbar: {
+                            container:[
+                               ['bold', 'italic', 'underline'],
+                               [{ 'color': [] }],
+                               [{ 'list': 'bullet' }],
+                               ['image']
+                            ],
+                           /*  handlers: {
                                 image: this.imageHandler
                             } */
                         },
@@ -883,15 +932,13 @@ export default {
             input.setAttribute('accept', 'image/*');
             input.click();
 
-      
-
             input.onchange = async () => {
                 const file = input.files[0];
 
                 const formData = new FormData();
                 formData.append('file', file);
-                formData.append('type', 'Announcement');
-
+                formData.append('classwork_id', thi.$route.query.clwk);
+                formData.append('type', 'classwork');
 
                 const range = editor.getSelection(true);
                 editor.setSelection(range.index + 1);
@@ -1242,6 +1289,8 @@ export default {
             this.selectedDataCount = 0;
         },
         async DeleteSelected(){
+            this.Deletedialog = false;
+            this.isDuplicating = true;
             this.isAddingNewQuestion = true;
             let question_id_list = [];
             let question_index = 0;
@@ -1257,7 +1306,7 @@ export default {
             await axios.put('/api/question/delete_selected_question/'+this.$route.query.clwk, {question: question_id_list})
             .then((res)=>{
                 if(res.data.success == true){
-                    this.Deletedialog = !this.Deletedialog;
+                    this.Deletedialog = false;
                     question_id_list.forEach(item => {
                         let tmp_question = this.getAll_questions.Question;
                         for (let index = 0; index <  tmp_question.length; index++) {
@@ -1280,6 +1329,9 @@ export default {
                         this.Qlength = 0;
                     }
                     this.isAddingNewQuestion = false;
+                    this.isDuplicating = false;
+                }else{
+                    this.isDuplicating = false;
                 }
             })
         },
@@ -1289,6 +1341,8 @@ export default {
             this.DeleteSingledialog = true;
         },
         async deleteSingleQuestion(){
+            this.DeleteSingledialog = false
+            this.isDuplicating = true;
             await axios.delete('/api/question/remove/'+this.DeleteDetails.id)
             .then(res=>{
                 this.getAll_questions.Question.splice(this.DeleteIndex, 1);
@@ -1302,6 +1356,7 @@ export default {
                         position: "top-center",
                         duration: 5000,
                     });
+                this.isDuplicating = false;
             })
         },
         singleDuplicate(question, answer){
@@ -1327,6 +1382,7 @@ export default {
 
         },
         async DuplicateQuestionAction(){
+            this.isDuplicating = true;
             await axios.put('/api/question/store_duplicate_question/'+this.$route.query.clwk, {
                 question: this.DuplicateQuestion,
                 answer: this.DuplicateAnswers
@@ -1407,7 +1463,10 @@ export default {
                 }
                 this.isAddingNewQuestion = false;
                 this.UnselectAll();
+                this.isDuplicating = false;
                 setTimeout(() => (window.scrollTo(0,document.body.scrollHeight)), 100);
+
+                
             })
         },
         studenView(){

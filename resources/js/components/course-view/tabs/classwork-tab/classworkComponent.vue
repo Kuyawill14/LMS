@@ -134,9 +134,11 @@
                             this.ClassworkLength+= element.length;
                         });
                     }else if(this.role == 'Student'){
-                         this.get_Classworks.ClassworksList.forEach(element => {
+                      /*    this.get_Classworks.ClassworksList.forEach(element => {
                             this.ClassworkLength+= element.length;
-                        });
+                        }); */
+
+                        this.ClassworkLength =  this.get_Classworks.ClassworksList.length;
                     }
                 
                 })
@@ -151,12 +153,12 @@
                             this.ClassworkLength+= element.length;
                         });
                     }else if(this.role == 'Student'){
-                         this.get_Classworks.ClassworksList.forEach(element => {
+                        /*  this.get_Classworks.ClassworksList.forEach(element => {
                             this.ClassworkLength+= element.length;
-                        });
+                        }); */
+                        this.ClassworkLength =  this.get_Classworks.ClassworksList.length;
+                        
                     }
-                    
-                   
                 });
             }
         },

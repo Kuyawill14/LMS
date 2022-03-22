@@ -21,31 +21,14 @@
                     v-if="TimesUpDialog"></timesUpDialog>
             </v-dialog>
 
-            <!-- <v-container class="fill-height" v-if="isLoading" style="height: 600px;">
-    <v-row  align-content="center" justify="center">
-        <v-col class="text-subtitle-1 text-center" cols="12">
-            {{isSubmitting? 'Submitting Questions':'Loading Questions'}}
-        </v-col>
-        <v-col cols="6">
-            <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
-        </v-col>
-    </v-row>
-</v-container> -->
 
             <vue-element-loading :active="isLoading" :text="!isSubmitting ? 'Loading Questions' : 'Submitting..'" duration="0.7"
                 :textStyle="{fontSize: '18px'}" spinner="line-scale" color="#EF6C00" size="50" is-full-screen />
 
-            <!--  <vue-element-loading :active="isSubmitting" 
-    text="Submitting..."
-    duration="0.7"
-    :textStyle="{fontSize: '18px'}"
-    spinner="line-scale" color="#EF6C00"  size="50" is-full-screen /> -->
+
 
             <vue-element-loading :active="isLeavingPage" duration="0.7" spinner="line-scale" color="#EF6C00" size="50"
                 is-full-screen />
-
-
-
 
             <v-container class="ma-0 pa-0" fluid :class="!$vuetify.breakpoint.mdAndUp ? '' : ''"
                 v-if="!isLoading || !isSubmitting">
@@ -494,31 +477,27 @@
             </div>
 
             <div>
-
-                <v-app-bar color="white" outlined elevation="0" v-if="!$vuetify.breakpoint.mdAndUp" app
+                <v-app-bar class="pl-0 pr-0" color="white" outlined elevation="0" v-if="!$vuetify.breakpoint.mdAndUp" app
                     :dense="$vuetify.breakpoint.mdAndUp" bottom flat>
-
-                    <v-btn icon @click="prev" :disabled="questionIndex <= 0">
-                        <v-icon>mdi-arrow-left</v-icon>
+                    <v-btn rounded text @click="prev" :disabled="questionIndex <= 0">
+                        <v-icon left>mdi-arrow-left</v-icon>
+                        <small>Previous</small>
                     </v-btn>
-
                     <v-spacer></v-spacer>
                     <div class="d-flex justify-center">
                         <small>{{questionIndex+1 }} of {{getAll_questions.Question.length}}</small>
                     </div>
 
                     <v-spacer></v-spacer>
-
-                    <v-btn icon v-if="questionIndex != Qlength-1" :loading="isSavingAnswer" color="primary"
+                    <v-btn rounded text v-if="questionIndex != Qlength-1" :loading="isSavingAnswer" color="primary"
                         @click="next(questionIndex)">
-                        <v-icon>mdi-arrow-right</v-icon>
+                        <small>Next</small>
+                        <v-icon right>mdi-arrow-right</v-icon>
                     </v-btn>
-
                     <v-btn text :loading="isSavingAnswer" v-if="questionIndex == Qlength-1" rounded color="success"
                         @click="SubmitPromp">
                         Submit
                     </v-btn>
-
                 </v-app-bar>
             </div>
 
@@ -604,7 +583,7 @@
                 CurrentTime: null,
                 isReloadTime: false,
                 unAnsweredQuestion: 0,
-                saveIndex: 3,
+                saveIndex: 2,
 
             }
         },
@@ -671,16 +650,16 @@
             async updateAnswer() {
                 let num = this.getAll_questions.Question.length;
                 if(num > 4){
-                    let SaveCount = parseInt((num/4))*4;
+                    let SaveCount = parseInt((num/2))*2;
                     let TmpfinalSave = (num - SaveCount)-1;
                     let finalSave = ((SaveCount + TmpfinalSave)-1);
-                    console.log(finalSave+'-');
+
                     if(this.saveIndex == this.questionIndex){
                         await axios.put('/api/question/store-answer/' + this.submission_id, {
                             type: "multiple",
                             data: this.FinalAnswers
                         })
-                        this.saveIndex += 4;
+                        this.saveIndex += 2;
                     }else if(finalSave == this.questionIndex){
                           await axios.put('/api/question/store-answer/' + this.submission_id, {
                             type: "multiple",
@@ -729,14 +708,14 @@
                             // this.isSubmitting = !this.isSubmitting;
 
                             //self.opener.location.reload();
-                            this.saveActivityLog(
+                           /*  this.saveActivityLog(
                                     `Student submitted the exam`)
                                 .then(() => {
                                     setTimeout(() => {
                                         this.isLoading = false;
                                         window.close();
                                     }, 300)
-                                });
+                                }); */
 
                             this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
                         })
@@ -964,7 +943,10 @@
                             }
                         }
                     }
-                    this.isLoading = false;
+                    /* this.isLoading = false; */
+                      setTimeout(() => {
+                            this.isLoading = false;
+                        }, 300);
                     this.questionIsLoaded = true;
                 });
 

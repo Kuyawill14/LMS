@@ -647,7 +647,9 @@ class TeacherController extends Controller
                 $Submission->graded = false;
                 $Submission->points = 0;
                 $Submission->save();
-                return 'Allowed Retake';
+                return response()->json([
+                    'sub_id'=> $Submission->id, 
+                    'message'=>"Allowed Resubmit"],200);
             }
             elseif($request->type == "Objective Type"){
                 $Submission->status = null;
@@ -655,7 +657,10 @@ class TeacherController extends Controller
                 $Submission->Submitted_Answers = null;
                 $Submission->allow_resubmit = true;
                 $Submission->save();
-                return 'Allowed Resubmit';
+                return response()->json([
+                    'sub_id'=> $Submission->id, 
+                    'message'=>"Allowed Retake"],200);
+                
             }
         }else{
             //if($request->type == "Objective Type"){
@@ -669,7 +674,9 @@ class TeacherController extends Controller
                     $StatusUpdate->status = null;
                     $StatusUpdate->allow_resubmit = true;
                     $StatusUpdate->save();
-                    return 'Allowed Submission';
+                    return response()->json([
+                        'sub_id'=> $StatusUpdate->id, 
+                        'message'=>"Allow Submission"],200);
                 }
             //}
 

@@ -117,35 +117,6 @@ class ClassworkController extends Controller
             ]); 
         }
 
-
-        $classworkAll = tbl_classClassworks::withTrashed()
-            ->where('tbl_userclasses.course_id','=', $id)
-            ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
-            ,'tbl_classworks.instruction','tbl_classworks.duration','tbl_class_classworks.deleted_at as publish',
-            'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.graded','tbl_submissions.updated_at as Sub_date','tbl_submissions.submitted_at')
-            ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
-            ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
-            ->leftJoin("tbl_submissions", function($join) use ($userId){
-                $join->on("tbl_submissions.classwork_id", "=", "tbl_class_classworks.classwork_id");
-                $join->on('tbl_submissions.user_id','=',DB::raw("'".$userId."'"));
-            })
-            ->leftJoin('tbl_main_grade_categories', 'tbl_main_grade_categories.id', '=', 'tbl_class_classworks.grading_criteria')
-            ->where('tbl_userclasses.user_id','=', $userId)
-            ->where('tbl_class_classworks.from_date', '<=', date('Y-m-d H:i:s'))
-            ->where('tbl_class_classworks.availability', '!=',2)
-            ->orderBy('created_at', 'DESC')
-            ->get();
-
-            $GradingCategory = tbl_main_gradeCategory::where('tbl_main_grade_categories.course_id', $id)
-            ->select('tbl_main_grade_categories.id','tbl_main_grade_categories.name','tbl_main_grade_categories.percentage')->get();
-            //return $classworkAll;
-
-            return [ "ClassworksList"=>$classworkAll, 'gradinCriteria'=> $GradingCategory, 'currentDate' => Carbon::now('Asia/Manila')];
-
-
-
-
-
         $GradingCategory = tbl_main_gradeCategory::where('tbl_main_grade_categories.course_id', $id)->get();
         $ClassworksList = array();
         $ClassworkTitle = array();
@@ -942,17 +913,7 @@ class ClassworkController extends Controller
         if($request->type == "Announcement"){
 
             $file = $request->file;
-            $upload_file = Storage::disk('DO_spaces')->putFile('announcement/'.$request->course_id, $file, 'public');
-            $path = \Config::get('app.do_url').'/'.$upload_file;
-            //return $path;
-            return response()->json([
-                "message" => "File Uploaded!",
-                "success" => true,
-                "link" => $path,
-            ]);
-        }elseif($request->type == "classwork"){
-            $file = $request->file;
-            $upload_file = Storage::disk('DO_spaces')->putFile('QuestionAttachment/'.$request->classwork_id, $file, 'public');
+            $upload_file = Storage::disk('DO_spaces')->putFile('announcement'.$request->course_id, $file, 'public');
             $path = \Config::get('app.do_url').'/'.$upload_file;
             //return $path;
             return response()->json([

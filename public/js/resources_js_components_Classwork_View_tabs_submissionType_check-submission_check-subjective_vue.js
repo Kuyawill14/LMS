@@ -781,10 +781,14 @@ var pdfviewer = function pdfviewer() {
                   _this3.AllowResubmitDialog = false;
 
                   if (id != null) {
+                    _this3.CheckData.allow_resubmit = 1;
+
                     _this3.$emit('markAsResubmit', _this3.CheckData.user_id);
 
                     _this3.toastSuccess('Student allowed to resubmit');
                   } else {
+                    _this3.CheckData.allow_resubmit = 1;
+
                     _this3.$emit('SubmissionReset', _this3.CheckData.id);
 
                     _this3.$store.dispatch('setCurrectClassworkSubmission', 1);
@@ -2497,7 +2501,7 @@ var render = function() {
                                                             ]
                                                           ),
                                                           _vm._v(
-                                                            " Allow Submission\n                                                  "
+                                                            " Allow to make Submission\n                                                  "
                                                           )
                                                         ],
                                                         1

@@ -1555,6 +1555,7 @@ class ObjectiveController extends Controller
             $UpdateStatus->status = 'Submitted';
             $UpdateStatus->points = $score;
             $UpdateStatus->timeSpent = $request->timeSpent;
+            $UpdateStatus->allow_resubmit = false;
             $UpdateStatus->Submitted_Answers = serialize($submittedAnswer);
             $UpdateStatus->submitted_at = date('Y-m-d H:i:s');
             $UpdateStatus->update();

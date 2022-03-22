@@ -174,7 +174,7 @@
                                                     <template v-slot:activator="{ on, attrs }">
                                                         <v-btn block v-bind="attrs" v-on="on" rounded dark small  v-if="CheckData.status == null && CheckData.availability == 1 
                                                         && (CheckFormatDue(DateToday) > CheckFormatDue(CheckData.to_date)) && (CheckData.allow_resubmit == 0 || CheckData.allow_resubmit == null)"
-                                                            @click="AllowResubmitDialog = true" color="info" ><v-icon left>mdi-file-document-edit-outline</v-icon> Allow Submission
+                                                            @click="AllowResubmitDialog = true" color="info" ><v-icon left>mdi-file-document-edit-outline</v-icon> Allow to make Submission
                                                         </v-btn>
                                                     </template>
                                                     <span>Allow Submission<br>
@@ -731,9 +731,11 @@ const pdfviewer = () => import('./pdfviewer');
                 .then(()=>{
                     this.AllowResubmitDialog = false;
                     if(id != null){
+                        this.CheckData.allow_resubmit = 1;
                         this.$emit('markAsResubmit', this.CheckData.user_id);
                         this.toastSuccess('Student allowed to resubmit');
                     }else{
+                        this.CheckData.allow_resubmit = 1;
                         this.$emit('SubmissionReset', this.CheckData.id);
                         this.$store.dispatch('setCurrectClassworkSubmission',1)
                         this.toastSuccess('Student allowed to make submission');

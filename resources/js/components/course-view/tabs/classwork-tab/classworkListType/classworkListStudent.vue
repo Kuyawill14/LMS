@@ -32,12 +32,22 @@
                     @click="setFilterItems()"
                      :items="FilterItems"
                      item-text="title"
+                     item-value="id"
                     dense
                     v-model="SelectedFilter"
                     outlined
                     class="ma-0 pa-0"
-                    ></v-select>
+                    >
+                     <template slot="selection" slot-scope="data">
+                            {{ data.item.title }} {{ data.item.percentage == null ? '' : '- '+data.item.percentage+'%'}}
+                        </template>
+                        <template slot="item" slot-scope="data">
+                            {{ data.item.title }} {{ data.item.percentage == null ? '' : '- '+data.item.percentage+'%'}}
+                        </template>
+                    </v-select>
             </v-col>
+
+
 
              <!-- <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-start">
                      <div class="d-flex justify-start ma-0"  :style="$vuetify.breakpoint.xs ? 'width: 100%' : 'width: 30%'">
@@ -66,86 +76,65 @@
                      </div>
                 </v-col> -->
         </v-row>
-
-    
-        
-    
-        <!-- <v-row class=" mt-0 pt-0">
-            <v-divider></v-divider>
-        </v-row> -->
-
-        <v-row class="mt-3"  justify="center" align-content="center">
-            <v-col cols="12" v-show="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" class="mt-1 ml-0  mr-0" v-for="(data, i) in classworks.ClassworkTitle" :key="i">
-              
-            <v-row v-if="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" >
-                <v-col v-if="classworks.ClassworksList[i].length != 0" cols="12"  class="ma-0 pa-0 "><h2 class="font-weight-regular text-body-1">{{data.title}} <small class="font-weight-medium">({{data.percent}}%)</small> </h2></v-col>
-                <v-col cols="12"  md="6" lg="4" xl="4" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
+            <v-row>
+                <v-col v-show="classworks.length != 0 && (SelectedFilter == 'All' || SelectedFilter == item.grading_criteria)" cols="12"  md="6" lg="4" xl="4" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList" :key="index">
                    
                     <v-hover v-slot="{ hover }">
-                        <v-card   @click="OpenClaswork(item)" 
+                        <v-card  @click="OpenClaswork(item)" 
                             link :elevation="hover ? 4 : 3" class="pt-2 pb-2">
-                                <v-list>
-                                    <v-list-item>
-                                        <v-list-item-avatar size="45" :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 
+                            <v-list>
+                                <v-list-item>
+                                    <v-list-item-avatar size="45" :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 
                                         item.status == 'Taking' ?  'primary' :  'blue'  : 
-                                                CheckFormatDue(item.to_date) > CheckFormatDue(classworks.currentDate) ? item.status == 'Submitted' ? 'success' : item.status == 'Taking' ?  'primary' :'blue'
-                                                : item.status == 'Submitted' ? 'success': 'red darken-4'"  >
-                                                <v-icon 
-                                               
-                                                class="pl-2 pr-2" color="white" >
-                                                    {{item.status == 'Submitted' ? 'mdi-check': item.status == 'Taking' ? 'mdi-clock' : 'mdi-book-open-variant'}}
-                                                </v-icon>
-                                       
-                                        </v-list-item-avatar>
-                                        <v-list-item-content>
-                                            <v-list-item-title >
-                                                <v-tooltip top>
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                    <div v-bind="attrs" v-on="on"  ma-0 pa-0 class="h1 ml-1"> 
-                                                        <span class="font-weight-bold">{{item.title}} <small class="primary--text font-weight-regular" v-if="item.points != null">({{item.points}} points)</small></span> 
-                                                    </div> 
-                                                </template>
-                                                    <span>{{item.title}}</span>
-                                                </v-tooltip>
+                                        CheckFormatDue(item.to_date) > CheckFormatDue(classworks.currentDate) ? item.status == 'Submitted' ? 'success' : item.status == 'Taking' ?  'primary' :'blue'
+                                        : item.status == 'Submitted' ? 'success': 'red darken-4'"  >
+                                        <v-icon class="pl-2 pr-2" color="white" >
+                                            {{item.status == 'Submitted' ? 'mdi-check': item.status == 'Taking' ? 'mdi-clock' : 'mdi-book-open-variant'}}
+                                        </v-icon>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content>
+                                        <v-list-item-title >
+                                            <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                <div v-bind="attrs" v-on="on"  ma-0 pa-0 class="h1 ml-1"> 
+                                                    <span class="font-weight-bold">{{item.title}} <small class="primary--text font-weight-regular" v-if="item.points != null">({{item.points}} points)</small></span> 
+                                                </div> 
+                                            </template>
+                                                <span>{{item.title}}<small  v-if="item.points != null">({{item.points}} points)</small></span>
+                                            </v-tooltip>
+                                        </v-list-item-title>
+                                        
+                                        <v-list-item-subtitle>
+                                                <small
+                                                v-if="item.status == null || item.status == 'Submitting'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > CheckFormatDue(classworks.currentDate) ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
+                                                <v-icon :color="item.availability != 0 ? CheckFormatDue(item.to_date) > CheckFormatDue(classworks.currentDate) ? '': item.status == 'Submitted' ? '':'red darken-4':''" small>mdi-clock</v-icon> 
+                                                {{item.availability != 0 ? CheckFormatDue(item.to_date) > CheckFormatDue(classworks.currentDate) ? '' : "Late" :''}}
+                                                {{item.availability != 0 ? ' Due Date:' : 'No Due Date'}}
+                                                {{item.availability != 0 ? format_date(item.to_date) : ''}} 
+                                            </small>
+                                                
+                                            <small v-if="item.status == 'Submitted'" class="card-subtitle text-50 success--text">
+                                                <v-icon color="" small>mdi-clock</v-icon> 
+                                                Submitted: {{format_date(item.Sub_date)}} 
+                                            </small>
 
-                                            </v-list-item-title>
-                                            
-                                            <v-list-item-subtitle>
-                                                 <small
-                                                    v-if="item.status == null || item.status == 'Submitting'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > CheckFormatDue(classworks.currentDate) ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
-                                                    <v-icon :color="item.availability != 0 ? CheckFormatDue(item.to_date) > CheckFormatDue(classworks.currentDate) ? '': item.status == 'Submitted' ? '':'red darken-4':''" small>mdi-clock</v-icon> 
-                                                    {{item.availability != 0 ? CheckFormatDue(item.to_date) > CheckFormatDue(classworks.currentDate) ? '' : "Late" :''}}
-                                                    {{item.availability != 0 ? ' Due Date:' : 'No Due Date'}}
-                                                    {{item.availability != 0 ? format_date(item.to_date) : ''}} 
-                                                </small>
-                                                    
-                                                <small v-if="item.status == 'Submitted'" class="card-subtitle text-50 success--text">
-                                                    <v-icon color="" small>mdi-clock</v-icon> 
-                                                    Submitted: {{format_date(item.Sub_date)}} 
-                                                </small>
-
-                                                 <small v-if="item.status == 'Taking'" class="card-subtitle text-50 primary--text">
-                                                    <v-icon color="primary" small>mdi-clock</v-icon> 
-                                                    Taking
-                                                </small>
-                                            </v-list-item-subtitle>
-                                        </v-list-item-content>
-                                        <v-list-item-action>
-                                             <v-chip color="green" class="mt-1 " outlined v-if="item.status == 'Submitted' && item.score != null">
-                                                <span class="success--text" >{{ item.type == "Subjective Type" ? item.graded ? item.score : '?' : item.score}} <span class="black--text">/ </span>{{item.points}}</span>
-                                            </v-chip>
-                                        </v-list-item-action>
-                                    </v-list-item>
-                                </v-list>
+                                                <small v-if="item.status == 'Taking'" class="card-subtitle text-50 primary--text">
+                                                <v-icon color="primary" small>mdi-clock</v-icon> 
+                                                Taking
+                                            </small>
+                                        </v-list-item-subtitle>
+                                    </v-list-item-content>
+                                    <v-list-item-action>
+                                            <v-chip color="green" class="mt-1 " outlined v-if="item.status == 'Submitted' && item.score != null">
+                                            <span class="success--text" >{{ item.type == "Subjective Type" ? item.graded ? item.score : '?' : item.score}} <span class="black--text">/ </span>{{item.points}}</span>
+                                        </v-chip>
+                                    </v-list-item-action>
+                                </v-list-item>
+                            </v-list>
                         </v-card>
                     </v-hover>
-               
                 </v-col>
-               
             </v-row>
-            </v-col>
-             
-        </v-row>
     </v-container>
 
 </div>
@@ -168,7 +157,9 @@
                 SelectedFilter: "All",
                 FilterItems:[
                     {
-                        title: 'All'
+                        title: 'All',
+                        id: 'All',
+                        percentage: null,
                     }
                 ],
                 isSearching: false,
@@ -211,10 +202,12 @@
 
             },
             setFilterItems(){
-                if((this.FilterItems.length-1) != this.classworks.ClassworkTitle.length){
-                      this.classworks.ClassworkTitle.forEach(item => {
-                        this.FilterItems.push({title : item.title});
+                if((this.FilterItems.length-1) != this.classworks.gradinCriteria.length){
+                      this.classworks.gradinCriteria.forEach(item => {
+                        this.FilterItems.push({title : item.name, id: item.id, percentage: item.percentage});
                     });
+
+                    console.log(this.FilterItems);
                 }
               
             },

@@ -286,7 +286,6 @@
 
                                 <v-row>
                                     <v-col cols="12">
-                                        
                                         <div  v-if="(format_date1(classworkDetails.currentDate) >= format_date1(classworkDetails.from_date) && format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date)) || classworkDetails.allow_resubmit == 1">
                                              <v-btn :block="!$vuetify.breakpoint.mdAndUp "
                                                 v-if="((classworkDetails.status == null || classworkDetails.status == '') && classworkDetails.status != 'Submitted') && classworkDetails.publish == null"
@@ -304,9 +303,10 @@
                                             </v-btn>
                                         </div>
                                         <div v-else>
-                                            <div v-if="(format_date1(classworkDetails.currentDate) > format_date1(classworkDetails.to_date) && classworkDetails.response_late == 1) || classworkDetails.allow_resubmit == 1">
+                                            <!-- v-if="(format_date1(classworkDetails.currentDate) > format_date1(classworkDetails.to_date) && classworkDetails.response_late == 1) || classworkDetails.allow_resubmit == 1" -->
+                                            <div >
                                                 <v-btn :block="!$vuetify.breakpoint.mdAndUp "
-                                                    v-if="((classworkDetails.status == null || classworkDetails.status == '') && classworkDetails.status != 'Submitted') && classworkDetails.publish == null"
+                                                    v-if="(classworkDetails.status == null || classworkDetails.status == '') && classworkDetails.publish == null"
                                                     rounded :loading="isOpenQuiz" color="primary" :dark="totalQuestion != 0"
                                                     :disabled="totalQuestion == 0"
                                                     @click="classworkDetails.status != 'Submitted' ? confirmStartDialog = !confirmStartDialog: ''">

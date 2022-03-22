@@ -17,12 +17,22 @@
             Cancel
           </v-btn>
           <v-btn
+            :loading="isDeleting"
             color="primary"
             text
-            @click="$emit('confirmRemove')"
+            @click="$emit('confirmRemove'),isDeleting = true;"
           >
             Confirm
           </v-btn>
         </v-card-actions>
       </v-card>
 </template>
+<script>
+export default {
+  data(){
+    return{
+      isDeleting: false,
+    }
+  }
+}
+</script>

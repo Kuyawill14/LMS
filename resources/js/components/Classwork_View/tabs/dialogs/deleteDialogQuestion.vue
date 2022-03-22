@@ -15,9 +15,10 @@
             Cancel
           </v-btn>
           <v-btn
+          :loading="isDeleting"
             color="primary"
             text
-            @click="$emit('confirmRemove')"
+            @click="$emit('confirmRemove'),isDeleting = true"
           >
             Confirm
           </v-btn>
@@ -27,5 +28,10 @@
 <script>
 export default {
     props:['DeleteDetails'],
+     data(){
+      return{
+        isDeleting: false,
+    }
+  }
 }
 </script>

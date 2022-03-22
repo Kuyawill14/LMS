@@ -681,6 +681,7 @@ export default {
             this.studentSubmissionList.forEach(item => {
                 if(id == item.user_id){
                     item.graded = 0;
+                    item.allow_resubmit = 1
                     item.status = "Submitting";
                 }
             });

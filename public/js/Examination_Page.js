@@ -970,27 +970,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -1056,7 +1035,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       CurrentTime: null,
       isReloadTime: false,
       unAnsweredQuestion: 0,
-      saveIndex: 3
+      saveIndex: 2
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions", "get_classwork_show_details"]),
@@ -1136,55 +1115,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 num = _this4.getAll_questions.Question.length;
 
                 if (!(num > 4)) {
-                  _context.next = 17;
+                  _context.next = 16;
                   break;
                 }
 
-                SaveCount = parseInt(num / 4) * 4;
+                SaveCount = parseInt(num / 2) * 2;
                 TmpfinalSave = num - SaveCount - 1;
                 finalSave = SaveCount + TmpfinalSave - 1;
-                console.log(finalSave + '-');
 
                 if (!(_this4.saveIndex == _this4.questionIndex)) {
-                  _context.next = 12;
+                  _context.next = 11;
                   break;
                 }
 
-                _context.next = 9;
+                _context.next = 8;
                 return axios.put('/api/question/store-answer/' + _this4.submission_id, {
                   type: "multiple",
                   data: _this4.FinalAnswers
                 });
 
-              case 9:
-                _this4.saveIndex += 4;
-                _context.next = 15;
+              case 8:
+                _this4.saveIndex += 2;
+                _context.next = 14;
                 break;
 
-              case 12:
+              case 11:
                 if (!(finalSave == _this4.questionIndex)) {
-                  _context.next = 15;
+                  _context.next = 14;
                   break;
                 }
 
-                _context.next = 15;
+                _context.next = 14;
                 return axios.put('/api/question/store-answer/' + _this4.submission_id, {
                   type: "multiple",
                   data: _this4.FinalAnswers
                 });
 
-              case 15:
-                _context.next = 19;
+              case 14:
+                _context.next = 18;
                 break;
 
-              case 17:
-                _context.next = 19;
+              case 16:
+                _context.next = 18;
                 return axios.put('/api/question/store-answer/' + _this4.submission_id, {
                   type: "multiple",
                   data: _this4.FinalAnswers
                 });
 
-              case 19:
+              case 18:
               case "end":
                 return _context.stop();
             }
@@ -1253,13 +1231,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   //this.isLoading = !this.isLoading;
                   // this.isSubmitting = !this.isSubmitting;
                   //self.opener.location.reload();
-                  _this6.saveActivityLog("Student submitted the exam").then(function () {
-                    setTimeout(function () {
-                      _this6.isLoading = false;
-                      window.close();
-                    }, 300);
-                  });
 
+                  /*  this.saveActivityLog(
+                           `Student submitted the exam`)
+                       .then(() => {
+                           setTimeout(() => {
+                               this.isLoading = false;
+                               window.close();
+                           }, 300)
+                       }); */
                   _this6.$router.push({
                     name: 'clwk',
                     params: {
@@ -1510,8 +1490,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
           }
         }
+        /* this.isLoading = false; */
 
-        _this8.isLoading = false;
+
+        setTimeout(function () {
+          _this8.isLoading = false;
+        }, 300);
         _this8.questionIsLoaded = true;
       });
     },
@@ -24852,7 +24836,7 @@ var render = function() {
                                                                 },
                                                                 [
                                                                   _vm._v(
-                                                                    "\n                                                        mdi-book-open-variant\n                                                    "
+                                                                    "\n                                                    mdi-book-open-variant\n                                                "
                                                                   )
                                                                 ]
                                                               )
@@ -24879,7 +24863,7 @@ var render = function() {
                                                                     .classworkDetails
                                                                     .title
                                                                 ) +
-                                                                  "\n                                                "
+                                                                  "\n                                            "
                                                               )
                                                             ]
                                                           ),
@@ -24894,7 +24878,7 @@ var render = function() {
                                                                       .classworkDetails
                                                                       .points
                                                                   ) +
-                                                                  "\n                                                "
+                                                                  "\n                                            "
                                                               )
                                                             ]
                                                           )
@@ -24986,7 +24970,7 @@ var render = function() {
                                                                             "v-icon",
                                                                             [
                                                                               _vm._v(
-                                                                                "\n                                                                " +
+                                                                                "\n                                                            " +
                                                                                   _vm._s(
                                                                                     !_vm
                                                                                       .$vuetify
@@ -24995,7 +24979,7 @@ var render = function() {
                                                                                       ? "mdi-format-list-numbered"
                                                                                       : "mdi-chevron-down"
                                                                                   ) +
-                                                                                  "\n                                                            "
+                                                                                  "\n                                                        "
                                                                               )
                                                                             ]
                                                                           )
@@ -25008,7 +24992,7 @@ var render = function() {
                                                               ],
                                                               null,
                                                               false,
-                                                              2263091013
+                                                              1815553349
                                                             )
                                                           },
                                                           [
@@ -25086,7 +25070,7 @@ var render = function() {
                                                                                     },
                                                                                     [
                                                                                       _vm._v(
-                                                                                        "\n                                                                        " +
+                                                                                        "\n                                                                    " +
                                                                                           _vm._s(
                                                                                             _vm
                                                                                               .FinalAnswers[
@@ -25103,17 +25087,17 @@ var render = function() {
                                                                                               ? "mdi-checkbox-blank-outline"
                                                                                               : "mdi-checkbox-marked"
                                                                                           ) +
-                                                                                          "\n                                                                    "
+                                                                                          "\n                                                                "
                                                                                       )
                                                                                     ]
                                                                                   ),
                                                                                   _vm._v(
-                                                                                    "\n                                                                    " +
+                                                                                    "\n                                                                " +
                                                                                       _vm._s(
                                                                                         index +
                                                                                           1
                                                                                       ) +
-                                                                                      "\n                                                                "
+                                                                                      "\n                                                            "
                                                                                   )
                                                                                 ],
                                                                                 1
@@ -25170,7 +25154,7 @@ var render = function() {
                                                                                     },
                                                                                     [
                                                                                       _vm._v(
-                                                                                        "\n                                                                        " +
+                                                                                        "\n                                                                    " +
                                                                                           _vm._s(
                                                                                             _vm
                                                                                               .FinalAnswers[
@@ -25189,17 +25173,17 @@ var render = function() {
                                                                                               ? "mdi-checkbox-blank-outline"
                                                                                               : "mdi-checkbox-marked"
                                                                                           ) +
-                                                                                          "\n                                                                    "
+                                                                                          "\n                                                                "
                                                                                       )
                                                                                     ]
                                                                                   ),
                                                                                   _vm._v(
-                                                                                    "\n                                                                    " +
+                                                                                    "\n                                                                " +
                                                                                       _vm._s(
                                                                                         index +
                                                                                           1
                                                                                       ) +
-                                                                                      "\n                                                                "
+                                                                                      "\n                                                            "
                                                                                   )
                                                                                 ],
                                                                                 1
@@ -25459,7 +25443,7 @@ var render = function() {
                                                                     },
                                                                     [
                                                                       _vm._v(
-                                                                        "\n                                                        " +
+                                                                        "\n                                                    " +
                                                                           _vm._s(
                                                                             _vm
                                                                               .FinalAnswers[
@@ -25476,17 +25460,17 @@ var render = function() {
                                                                               ? "mdi-checkbox-blank-outline"
                                                                               : "mdi-checkbox-marked"
                                                                           ) +
-                                                                          "\n                                                    "
+                                                                          "\n                                                "
                                                                       )
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    "\n                                                    " +
+                                                                    "\n                                                " +
                                                                       _vm._s(
                                                                         index +
                                                                           1
                                                                       ) +
-                                                                      "\n                                                "
+                                                                      "\n                                            "
                                                                   )
                                                                 ],
                                                                 1
@@ -25538,7 +25522,7 @@ var render = function() {
                                                                     },
                                                                     [
                                                                       _vm._v(
-                                                                        "\n                                                        " +
+                                                                        "\n                                                    " +
                                                                           _vm._s(
                                                                             _vm
                                                                               .FinalAnswers[
@@ -25557,17 +25541,17 @@ var render = function() {
                                                                               ? "mdi-checkbox-blank-outline"
                                                                               : "mdi-checkbox-marked"
                                                                           ) +
-                                                                          "\n                                                    "
+                                                                          "\n                                                "
                                                                       )
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    "\n                                                    " +
+                                                                    "\n                                                " +
                                                                       _vm._s(
                                                                         index +
                                                                           1
                                                                       ) +
-                                                                      "\n                                                "
+                                                                      "\n                                            "
                                                                   )
                                                                 ],
                                                                 1
@@ -25603,7 +25587,7 @@ var render = function() {
                                                   _vm.questionIndex
                                                 ].points
                                               ) +
-                                                "\n                                    points"
+                                                "\n                                points"
                                             )
                                           ]
                                         ),
@@ -25803,7 +25787,7 @@ var render = function() {
                                                         ]
                                                       ),
                                                       _vm._v(
-                                                        "\n                                                Previous\n                                            "
+                                                        "\n                                            Previous\n                                        "
                                                       )
                                                     ],
                                                     1
@@ -25841,7 +25825,7 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\n                                                Next\n                                                "
+                                                            "\n                                            Next\n                                            "
                                                           ),
                                                           _c(
                                                             "v-icon",
@@ -25883,7 +25867,7 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\n                                                Submit\n                                                "
+                                                            "\n                                            Submit\n                                            "
                                                           ),
                                                           _c(
                                                             "v-icon",
@@ -26319,7 +26303,7 @@ var render = function() {
                                                                     },
                                                                     [
                                                                       _vm._v(
-                                                                        "Reset\n                                                            selection"
+                                                                        "Reset\n                                                        selection"
                                                                       )
                                                                     ]
                                                                   )
@@ -26464,7 +26448,7 @@ var render = function() {
                                                                     },
                                                                     [
                                                                       _vm._v(
-                                                                        "Clear\n                                                            Answer"
+                                                                        "Clear\n                                                        Answer"
                                                                       )
                                                                     ]
                                                                   )
@@ -26671,7 +26655,7 @@ var render = function() {
                                                                     },
                                                                     [
                                                                       _vm._v(
-                                                                        "Reset\n                                                            selection"
+                                                                        "Reset\n                                                        selection"
                                                                       )
                                                                     ]
                                                                   )
@@ -26757,7 +26741,7 @@ var render = function() {
                                                                                 },
                                                                                 [
                                                                                   _vm._v(
-                                                                                    "\n                                                                        Column A\n                                                                    "
+                                                                                    "\n                                                                    Column A\n                                                                "
                                                                                   )
                                                                                 ]
                                                                               ),
@@ -26776,7 +26760,7 @@ var render = function() {
                                                                                 },
                                                                                 [
                                                                                   _vm._v(
-                                                                                    "\n                                                                        Column B\n                                                                    "
+                                                                                    "\n                                                                    Column B\n                                                                "
                                                                                   )
                                                                                 ]
                                                                               )
@@ -27194,7 +27178,7 @@ var render = function() {
                                                                         },
                                                                         [
                                                                           _vm._v(
-                                                                            "\n                                                                Clear Answer"
+                                                                            "\n                                                            Clear Answer"
                                                                           )
                                                                         ]
                                                                       )
@@ -27245,6 +27229,7 @@ var render = function() {
                 ? _c(
                     "v-app-bar",
                     {
+                      staticClass: "pl-0 pr-0",
                       attrs: {
                         color: "white",
                         outlined: "",
@@ -27259,10 +27244,20 @@ var render = function() {
                       _c(
                         "v-btn",
                         {
-                          attrs: { icon: "", disabled: _vm.questionIndex <= 0 },
+                          attrs: {
+                            rounded: "",
+                            text: "",
+                            disabled: _vm.questionIndex <= 0
+                          },
                           on: { click: _vm.prev }
                         },
-                        [_c("v-icon", [_vm._v("mdi-arrow-left")])],
+                        [
+                          _c("v-icon", { attrs: { left: "" } }, [
+                            _vm._v("mdi-arrow-left")
+                          ]),
+                          _vm._v(" "),
+                          _c("small", [_vm._v("Previous")])
+                        ],
                         1
                       ),
                       _vm._v(" "),
@@ -27285,7 +27280,8 @@ var render = function() {
                             "v-btn",
                             {
                               attrs: {
-                                icon: "",
+                                rounded: "",
+                                text: "",
                                 loading: _vm.isSavingAnswer,
                                 color: "primary"
                               },
@@ -27295,7 +27291,13 @@ var render = function() {
                                 }
                               }
                             },
-                            [_c("v-icon", [_vm._v("mdi-arrow-right")])],
+                            [
+                              _c("small", [_vm._v("Next")]),
+                              _vm._v(" "),
+                              _c("v-icon", { attrs: { right: "" } }, [
+                                _vm._v("mdi-arrow-right")
+                              ])
+                            ],
                             1
                           )
                         : _vm._e(),
@@ -27314,7 +27316,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                        Submit\n                    "
+                                "\n                    Submit\n                "
                               )
                             ]
                           )
