@@ -944,9 +944,7 @@
                         }
                     }
                     /* this.isLoading = false; */
-                      setTimeout(() => {
-                            this.isLoading = false;
-                        }, 300);
+                    setTimeout(() => {this.isLoading = false}, 100);
                     this.questionIsLoaded = true;
                 });
 

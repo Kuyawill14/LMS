@@ -1495,7 +1495,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         setTimeout(function () {
           _this8.isLoading = false;
-        }, 300);
+        }, 100);
         _this8.questionIsLoaded = true;
       });
     },

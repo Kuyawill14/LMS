@@ -1875,9 +1875,7 @@ import axios from 'axios';
 
 </script>
 <style scoped>
-    .post-content img {
-        max-height: 15rem !important;
-    }
+
 
     .fixed-bar {
         position: sticky;
@@ -1970,6 +1968,15 @@ import axios from 'axios';
 
     div>.ql-tooltip-arrow {
         display: none !important;
+    }
+
+
+    .post-content  img{
+        max-height: 15rem !important;
+    }
+    .Essayeditor{
+        height: 10rem !important;
+     
     }
 
 </style>
