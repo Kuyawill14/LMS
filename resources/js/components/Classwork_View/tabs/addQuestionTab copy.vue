@@ -224,7 +224,25 @@
 
 
 <v-container v-if="!isloading && Qlength != 0" pa-0 ma-0 class="pa-0 ma-0" fluid>
+
+
         <v-row align="center" justify="center">
+        <!-- <v-col cols="12" md="8" lg="9" xl="9">
+            <v-card color="pa-3 d-flex justify-space-between">
+                <div class="font-weight-bold">
+                        Total Question: {{Qlength}}
+                </div>
+                <div >
+                    <v-select
+                    v-model="selected_sort"
+                    hide-details
+                    :items="Question_type_all"
+                    label="Question Type"
+                    outlined
+                    ></v-select>
+                </div>
+            </v-card>
+        </v-col> -->
 
         
           <v-col cols="12" md="8" lg="9" xl="9" :class="mainIndex < 1 ? 'mb-0' : 'mb-0 pt-1'" v-for="(item, mainIndex) in getAll_questions.Question" :key="item.id">
@@ -235,7 +253,7 @@
        <!--   justify-end  -->
                     <v-row>
                         <v-col cols="12" class="mb-0 pb-0 pt-0  mt-0 d-flex justify-space-between ">
-                            <span class="ml-2 mt-3"><h4>{{mainIndex+1}}</h4> </span>
+                            <span class="ml-2 mt-3"><h4>#{{mainIndex+1}}</h4> </span>
                             <v-checkbox v-if="!isHaveSubmission" v-model="selectedData[mainIndex].selected" @click="CheckSelectedCount(selectedData[mainIndex].selected)" hide-details></v-checkbox>
                         </v-col>
                          <v-col cols="12" class="mb-0 pb-0 pt-0 pr-6 mt-3 text-right ">
@@ -281,20 +299,30 @@
                                 <v-container fluid class="pa-0 ma-0" ma-0 pa-0> 
                                     <div class="font-weight-medium">{{item.type != 'Matching type' ? 'Question' : 'Instuction'}}</div>
                                     <v-row class="pa-0 ma-0">
-                                        <v-col class="pa-0 ma-0 mt-2 mb-2" cols="12">
+                                        <v-col class="pa-0 ma-0 mt-2 mb-2 d-flex" cols="12">
                                             <div style="width:100%" class="mb-3">
                                                     <editor
                                                     :disabled="quill_disabled"
                                                     class="editor"
                                                     @blur="isNewChanges == true ? SaveAllQuestion() : ''" 
                                                     @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
-                                                     @change="isNewChanges = true"
+                                                    @change="item.question != '' || item.question != null ? isNewChanges = true : isNewChanges = false"
                                                     ref="myTextEditor"
                                                     :placeholder="item.type != 'Matching type' ? 'Enter Question' : 'Enter Instuction'" 
                                                     v-model="item.question"
                                                     :options="editorOption"/>
                                                     <small v-if="!valid && item.question == ''" class="error--text">*This field is required</small>
                                             </div>
+                                          <!--   <div class="pt-2 pl-2">
+                                                 <v-tooltip top>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                         <v-btn v-bind="attrs" v-on="on" icon>
+                                                            <v-icon>mdi-image</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <span>Add Image</span>
+                                                </v-tooltip>
+                                            </div> -->
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -306,7 +334,21 @@
                                                 <v-row>
                                                     <v-col cols="12" lg="12" md="12" >
                                                         <v-container fluid  class="d-flex flex-row ma-0 pa-0">
-                                                        <v-radio-group :key="Ans.id"  v-model="item.answer">
+                                                                 
+                                                        <v-radio-group v-if="item.isNew" :key="Ans.id"  v-model="item.answer">
+                                                            <v-radio
+                                                            :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                                                @click="item.answer == Ans.id"
+                                                                color="primary"
+                                                                class="pa-0 ma-0"
+                                                                :disabled="Ans.Choice == ''"
+                                                                 @change="isNewChanges = true,SaveAllQuestion()"
+                                                                name="Answer"
+                                                                :value="Ans.id">
+                                                                </v-radio>
+                                                        </v-radio-group>
+
+                                                        <v-radio-group v-else :key="Ans.id"  v-model="item.answer">
                                                             <v-radio
                                                             :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
                                                                 @click="item.answer == Ans.Choice"
@@ -318,13 +360,13 @@
                                                                 :value="Ans.Choice">
                                                                 </v-radio>
                                                         </v-radio-group>
+
                                                           <div style="width:100%" class="mb-3">
                                                                 <editor
-                                                                 @focus="Ans.Choice == '<p>Option '+(i+1)+'</p>' ? '' : Ans.Choice"
                                                                 :disabled="quill_disabled"
                                                                 @change="isNewChanges = true"
                                                                 class="editor"
-                                                                placeholder="Enter Answer"
+                                                                placeholder="Enter Option"
                                                                 ref="myTextEditor"
                                                                 v-model="Ans.Choice"
                                                                 :options="editorOption"/>
@@ -383,7 +425,7 @@
                                                         @change="isNewChanges = true"
                                                         @blur="isNewChanges == true ? SaveAllQuestion() : ''"
                                                         class="editor"
-                                                        @focus="item.answer = item.answer == '<p>Option 1</p>' ? '' : item.answer"
+                                                        @focus="item.answer = item.answer == '<p>Answer 1</p>' ? '' : item.answer"
                                                         placeholder="Enter Answer"
                                                         ref="myTextEditor"
                                                         v-model="item.answer"
@@ -470,6 +512,7 @@
                                         </v-col>
                                        
                                         <v-col v-for="(x, n) in inputCheck" :key="n" class="ma-0 pa-0" cols="11">
+                                          
                                             <v-container class="d-flex flex-row ma-0 pa-0">
                                                 <v-radio-group :rules="rules" v-model="item.answer">
                                                     <v-radio
@@ -757,6 +800,8 @@ export default {
     data(){
         return{
             Question_type:['Multiple Choice', 'Identification', 'True or False', 'Matching type','Essay'],
+            Question_type_all:['All','Multiple Choice', 'Identification', 'True or False', 'Matching type','Essay'],
+            selected_sort: 'All',
             isloading: true,
             isLeaving: false,
             valid: false,
@@ -780,7 +825,7 @@ export default {
                                ['bold', 'italic', 'underline'],
                                [{ 'color': [] }],
                                [{ 'list': 'bullet' }],
-                               ['image']
+                               /* ['image'] */
                                
                             ],
                             /* handlers: {
@@ -848,15 +893,12 @@ export default {
             input.setAttribute('accept', 'image/*');
             input.click();
 
-      
-
             input.onchange = async () => {
                 const file = input.files[0];
 
                 const formData = new FormData();
                 formData.append('file', file);
-                formData.append('type', 'Announcement');
-
+                formData.append('type', 'classwork');
 
                 const range = editor.getSelection(true);
                 editor.setSelection(range.index + 1);
@@ -866,57 +908,47 @@ export default {
                     })
             }
         },
-        async GetQuestion(){
-            
-            
+        async GetQuestion(){  
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
-            .then((res)=>{
-                
+            .then((res)=>{    
                 if(res.status == 200){
-                        this.selectedData = [];
-                        let tmp = this.getAll_questions.Question;
-                        tmp.forEach(item => {
+                    this.selectedData = [];
+                    let tmp = this.getAll_questions.Question;
+                    tmp.forEach(item => {
+                            this.selectedData.push({
+                                id: item.id,
+                                selected: false,
+                                isEditing: false
+                            })  
+                    });
 
-                                this.selectedData.push({
-                                    id: item.id,
-                                    selected: false,
-                                    isEditing: false
-                                })  
-                        });
-                        this.isloading = false;
-                        this.Qlength = tmp.length;
-                }
-                
+                    this.isloading = false;
+                    this.Qlength = tmp.length;
+                }     
             }) 
-
         },
-
         async ReloadQuestion(){
-        
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
             .then((res)=>{
                 if(res.status == 200){
-                        this.selectedData = [];
-                        let tmp = this.getAll_questions.Question;
-                        tmp.forEach(item => {
+                    this.selectedData = [];
+                    let tmp = this.getAll_questions.Question;
+                    tmp.forEach(item => {
 
-                                this.selectedData.push({
-                                    id: item.id,
-                                    selected: false,
-                                    isEditing: false
-                                })  
-                        });
-                        this.isloading = false;
-                        this.Qlength = tmp.length;
-                }
-                
+                            this.selectedData.push({
+                                id: item.id,
+                                selected: false,
+                                isEditing: false
+                            })  
+                    });
+                    this.isloading = false;
+                    this.Qlength = tmp.length;
+                }       
             }) 
-
         },
-       async AddNewQuestion(){
-                       
+       async AddNewQuestion(){              
            this.isAddingNewQuestion = true;
-           axios.post('/api/question/add_new_question', {
+           await axios.post('/api/question/add_new_question', {
                classwork_id: this.$route.query.clwk,
                 new_number : (this.getAll_questions.Question.length+1),
                 })
@@ -926,9 +958,10 @@ export default {
                    this.getAll_questions.Question.push({
                    id: res.data.question_id,
                    question: '<p>'+'New Question '+ (this.getAll_questions.Question.length+1)+'</p>',
-                   answer: 'N/A Answer',
+                   answer: res.data.choices_id[0],
                    points: 1,
                    type: 'Multiple Choice',
+                   isNew: true,
                    sensitivity: 0,
                })
                this.isEditing_id = res.data.question_id;
@@ -985,8 +1018,8 @@ export default {
         },
 
         async AddAnswer(id, Mainindex){
-            this.isNewChanges = true;
-            if(this.getAll_questions.Answer[Mainindex].options.length == 0){
+            //this.isNewChanges = true;
+            /* if(this.getAll_questions.Answer[Mainindex].options.length == 0){
                  this.getAll_questions.Answer[Mainindex].options.push({
                     id : '',
                     Choice : this.getAll_questions.Question[Mainindex].answer,
@@ -1004,20 +1037,37 @@ export default {
                     Choice : '<p>'+'Answer '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
                     question_id : id,
                 })
-            }
-           
+            } */
+
+             await axios.post('/api/question/addOption', {
+                type: "Multiple Choice",
+                question_id: id
+            }).then((res)=>{
+                this.isNewChanges = true;
+                this.getAll_questions.Answer[Mainindex].options.push({
+                    id : res.data.answer_id,
+                    Choice : '',
+                    question_id : id,
+                })
+
+                 this.$toasted.show('New answer has been added', {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    duration: 4000,
+                });
+            })
+
         },
 
         async AddNewOption(id, Mainindex, type){
-
-            axios.post('/api/question/addOption', {
+            await axios.post('/api/question/addOption', {
                 type: type,
                 question_id: id
             }).then((res)=>{
                 this.isNewChanges = true;
                 this.getAll_questions.Answer[Mainindex].options.push({
                     id : res.data.answer_id,
-                    Choice : '<p>'+'Option '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
+                    Choice : '',
                     question_id : id,
                 })
 
@@ -1030,7 +1080,7 @@ export default {
             
         },
         async AddNewMatch(id, mainIndex, type){
-            axios.post('/api/question/addOption', {
+            await axios.post('/api/question/addOption', {
                 type: type,
                 question_id: id
             }).then((res)=>{
@@ -1051,45 +1101,14 @@ export default {
                     duration: 4000,
                 });
                 //this.SaveAllQuestion();
-            })
-
-
-             /* this.isNewChanges = true; */
-            /* if(this.getAll_questions.Answer[mainIndex].SubQuestion == null){
-                
-                this.getAll_questions.Answer[mainIndex].SubQuestion = [{
-                        id: null,
-                        answer_id: null,
-                        sub_question: ''
-                    }
-                ]
-                this.getAll_questions.Answer[mainIndex].SubAnswer = [{
-                        id : null, 
-                        Choice : '',
-                        question_id : id
-                    }
-                ]
-            }
-            else{ */
-                /* this.getAll_questions.Answer[mainIndex].SubQuestion.push({
-                    id: null,
-                    answer_id: null,
-                    sub_question: ''
-                })
-                this.getAll_questions.Answer[mainIndex].SubAnswer.push({
-                    id : null, 
-                    Choice : '',
-                    question_id : id
-                }) */
-            //}
-            
+            })       
         },
         async RemoveOption(id,Mainindex , AnsIndex, type){
             if(id == null || id == ''){
                  this.getAll_questions.Answer[Mainindex].options.splice(AnsIndex,  1);
             }
             else{
-                 axios.put('/api/question/remove_question_option/'+id, {type: type})
+                 await axios.put('/api/question/remove_question_option/'+id, {type: type})
                 .then((res)=>{
                     this.getAll_questions.Answer[Mainindex].options.splice(AnsIndex,  1);
                 })
@@ -1101,7 +1120,7 @@ export default {
                 this.getAll_questions.Answer[main_index].SubQuestion.splice(match_index,  1);
                 this.getAll_questions.Answer[main_index].SubAnswer.splice(match_index,  1);
             }else{
-                axios.put('/api/question/remove_question_match/'+main_id, {sub_question_id: sub_quesId, answer_id:answer_id })
+                await axios.put('/api/question/remove_question_match/'+main_id, {sub_question_id: sub_quesId, answer_id:answer_id })
                 .then((res)=>{
                     this.getAll_questions.Answer[main_index].SubQuestion.splice(match_index,  1);
                     this.getAll_questions.Answer[main_index].SubAnswer.splice(match_index,  1);
@@ -1110,14 +1129,14 @@ export default {
               
         },
         async UpdateQuestion(id, Mainindex){
-            axios.put('/api/question/update_question_details/'+id, {
+            await axios.put('/api/question/update_question_details/'+id, {
                 question: this.getAll_questions.Question[Mainindex],
                 answer: this.getAll_questions.Answer[Mainindex],
             })
             .then((res)=>{
             })
         },
-        CheckType(id, type, mainIndex){
+        async CheckType(id, type, mainIndex){
                 this.isNewChanges = true;
                 if(type == 'Multiple Choice'){
                     if(this.getAll_questions.Answer[mainIndex].options.length == 0){
@@ -1160,7 +1179,7 @@ export default {
                             }) */
                         //}
 
-                         axios.post('/api/question/addOption', {
+                         await axios.post('/api/question/addOption', {
                                 type: type,
                                 question_id: id
                             }).then((res)=>{
@@ -1187,7 +1206,7 @@ export default {
             this.isAddingNewQuestion = true;
             this.showSnackbar = true
             this.isSavingAllQuestion = true;
-            axios.put('/api/question/save_all_question/'+this.$route.query.clwk, this.getAll_questions)
+            await axios.put('/api/question/save_all_question/'+this.$route.query.clwk, this.getAll_questions)
             .then((res)=>{
                 if(res.data.success == true){
                     this.isSavingAllQuestion = false;
@@ -1229,7 +1248,7 @@ export default {
             });
             this.selectedDataCount = 0;
         },
-        DeleteSelected(){
+        async DeleteSelected(){
             this.isAddingNewQuestion = true;
             let question_id_list = [];
             let question_index = 0;
@@ -1242,7 +1261,7 @@ export default {
                 question_index++;
             });
 
-            axios.put('/api/question/delete_selected_question/'+this.$route.query.clwk, {question: question_id_list})
+            await axios.put('/api/question/delete_selected_question/'+this.$route.query.clwk, {question: question_id_list})
             .then((res)=>{
                 if(res.data.success == true){
                     this.Deletedialog = !this.Deletedialog;
@@ -1277,7 +1296,7 @@ export default {
             this.DeleteSingledialog = true;
         },
         async deleteSingleQuestion(){
-            axios.delete('/api/question/remove/'+this.DeleteDetails.id)
+            await axios.delete('/api/question/remove/'+this.DeleteDetails.id)
             .then(res=>{
                 this.getAll_questions.Question.splice(this.DeleteIndex, 1);
                 this.getAll_questions.Answer.splice(this.DeleteIndex, 1);
@@ -1315,7 +1334,7 @@ export default {
 
         },
         async DuplicateQuestionAction(){
-            axios.put('/api/question/store_duplicate_question/'+this.$route.query.clwk, {
+            await axios.put('/api/question/store_duplicate_question/'+this.$route.query.clwk, {
                 question: this.DuplicateQuestion,
                 answer: this.DuplicateAnswers
             })
@@ -1328,14 +1347,29 @@ export default {
                     });
 
                 for (let i = 0; i < res.data.question_id.length; i++) {
-                    this.getAll_questions.Question.push({
-                        id: res.data.question_id[i],
-                        question: this.DuplicateQuestion[i].question,
-                        answer:  this.DuplicateQuestion[i].answer,
-                        points: this.DuplicateQuestion[i].points,
-                        type: this.DuplicateQuestion[i].type,
-                        sensitivity: this.DuplicateQuestion[i].sensitivity,
-                    })
+
+                    if(this.DuplicateQuestion[i].isNew){
+                         this.getAll_questions.Question.push({
+                            id: res.data.question_id[i],
+                            question: this.DuplicateQuestion[i].question,
+                            answer:  res.data.question_answer_id[i],
+                            points: this.DuplicateQuestion[i].points,
+                            type: this.DuplicateQuestion[i].type,
+                            sensitivity: this.DuplicateQuestion[i].sensitivity,
+                            isNew: this.DuplicateQuestion[i].isNew,
+                        })
+                    }else{
+                        this.getAll_questions.Question.push({
+                            id: res.data.question_id[i],
+                            question: this.DuplicateQuestion[i].question,
+                            answer:  this.DuplicateQuestion[i].answer,
+                            points: this.DuplicateQuestion[i].points,
+                            type: this.DuplicateQuestion[i].type,
+                            sensitivity: this.DuplicateQuestion[i].sensitivity,
+                            isNew: this.DuplicateQuestion[i].isNew,
+                        })
+                    }
+                   
                  
                     this.selectedData.push({
                         id: res.data.question_id[i],
@@ -1407,8 +1441,8 @@ export default {
             e.returnValue = ''
         }   
     },
-    AddDestructor(mainIndex, id){
-        axios.post('/api/question/add_new_destructor', {question_id: id})
+    async AddDestructor(mainIndex, id){
+        await axios.post('/api/question/add_new_destructor', {question_id: id})
         .then((res)=>{
             if(res.data.success == true){
                  this.getAll_questions.Answer[mainIndex].Destructors.push({
@@ -1426,14 +1460,14 @@ export default {
             }
         })
     }, 
-    removeDestructor(id, index, mainIndex){
-        axios.delete('/api/question/remove_destructor/'+id)
+    async removeDestructor(id, index, mainIndex){
+        await axios.delete('/api/question/remove_destructor/'+id)
         .then(()=>{
              this.getAll_questions.Answer[mainIndex].Destructors.splice(index, 1);
         })
     },
-    UpdateDestructor(id,index, mainIndex, data){
-        axios.put('/api/question/update_destructor/'+id, {Choice: data})
+    async UpdateDestructor(id,index, mainIndex, data){
+        await axios.put('/api/question/update_destructor/'+id, {Choice: data})
         .then((res)=>{
           
         })
