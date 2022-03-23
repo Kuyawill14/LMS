@@ -263,13 +263,16 @@
                                   </template>
                                   <v-list nav dense>
                                      <v-list-item link @click="IsTypeAnswer = !IsTypeAnswer, editTextData.title = '',editTextData.text = '',isTypeAnswerType = 'add'" >
-                                            <v-icon left>mdi-format-text</v-icon>Typed Answer
+                                            <v-icon color="red" left>mdi-text</v-icon>Write Answer
                                     </v-list-item>
                                     <v-list-item link  @click="UploadFile()">
                                           <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
                                     </v-list-item>
                                       <v-list-item link @click="AttachLink = !AttachLink" >
-                                            <v-icon left>mdi-link-variant</v-icon>Attach Link
+                                            <v-icon color="blue" left>mdi-link-variant</v-icon>Attach Link
+                                    </v-list-item>
+                                    <v-list-item v-if="get_CurrentUser.id == 8778" link @click="driveIconClicked()" >
+                                            <v-icon color="green" left>mdi-google-drive</v-icon>Google Drive
                                     </v-list-item>
                                   </v-list>
                                 </v-menu>
@@ -295,14 +298,19 @@
                                     </template>
                                     <v-list nav dense>
                                       <v-list-item link @click="IsTypeAnswer = !IsTypeAnswer, editTextData.title = '',editTextData.text = '',isTypeAnswerType = 'add'" >
-                                          <v-icon left>mdi-format-text</v-icon>Typed Answer
+                                          <v-icon color="red" left>mdi-text</v-icon>Write Answer
                                     </v-list-item>
                                       <v-list-item link  @click="UploadFile()">
                                             <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
                                       </v-list-item>
-                                        <v-list-item link @click="AttachLink = !AttachLink" >
-                                              <v-icon left>mdi-link-variant</v-icon>Attach Link
+                                      <v-list-item link @click="AttachLink = !AttachLink" >
+                                              <v-icon color="blue" left>mdi-link-variant</v-icon>Attach Link
                                       </v-list-item>
+
+                                        <v-list-item v-if="get_CurrentUser.id == 8778" link @click="driveIconClicked()" >
+                                            <v-icon color="green" left>mdi-google-drive</v-icon>Google Drive
+                                      </v-list-item>
+                                      
                                     </v-list>
                                   </v-menu>
                               </div>
@@ -327,13 +335,16 @@
                                       </template>
                                       <v-list nav dense>
                                       <v-list-item link @click="IsTypeAnswer = !IsTypeAnswer, editTextData.title = '',editTextData.text = '',isTypeAnswerType = 'add'" >
-                                            <v-icon left>mdi-format-text</v-icon>Typed Answer
+                                            <v-icon color="red" left>mdi-text</v-icon>Write Answer
                                       </v-list-item>
                                         <v-list-item link  @click="UploadFile()">
                                               <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
                                         </v-list-item>
                                           <v-list-item link @click="AttachLink = !AttachLink" >
-                                                <v-icon left>mdi-link-variant</v-icon>Attach Link
+                                                <v-icon color="blue" left>mdi-link-variant</v-icon>Attach Link
+                                        </v-list-item>
+                                        <v-list-item v-if="get_CurrentUser.id == 8778" link @click="driveIconClicked()" >
+                                              <v-icon color="green" left>mdi-google-drive</v-icon>Google Drive
                                         </v-list-item>
                                       </v-list>
                                 </v-menu>
@@ -738,7 +749,13 @@ export default {
           title: '',
           text: ''
         },
-        editTextDataIndex: null
+        editTextDataIndex: null,
+        pickerApiLoaded: false,
+        developerKey: "AIzaSyAV2WNoaDpoda71hBAprjg_zlDHeNmiUxI",
+        clientId: "469226994610-7lscojpu541au8r0ve5i7td4gmv26ol5.apps.googleusercontent.com",
+        scope: "https://www.googleapis.com/auth/drive",
+        oauthToken: null,
+        appId : "469226994610",
         }
     },
      computed: {
@@ -864,7 +881,7 @@ export default {
               let path = this.linkFile;
               this.classworkDetails.Submitted_Answers.push({ name: this.linkName, fileSize: '', fileExte: 'link', link: path});
               this.isUpIndex = this.classworkDetails.Submitted_Answers.length;
-              this.AttachLink = !this.AttachLink;
+              this.AttachLink = false;
               this.AddLinkInSubmittedAnswer();
 
           },
@@ -1150,14 +1167,81 @@ export default {
              this.SubmitClasswork()
            }
            
-         }
+         },
+         async driveIconClicked() {
+            await gapi.load("auth2", () => {
+              gapi.auth2.authorize(
+                {
+                  client_id: this.clientId,
+                  scope: this.scope,
+                  immediate: false
+                },
+                this.handleAuthResult
+              );
+            });
+            gapi.load("picker", () => {
+              this.pickerApiLoaded = true;
+              this.createPicker();
+            });
+          },
+          handleAuthResult(authResult) {
+            if (authResult && !authResult.error) {
+              this.oauthToken = authResult.access_token;
+              this.createPicker();
+            }
+          },
+          createPicker() {
+            const docsView = new google.picker.DocsView(google.picker.ViewId.DOCS)
+                    .setIncludeFolders(true)
+                    .setSelectFolderEnabled(true);
+            if (this.pickerApiLoaded && this.oauthToken) {
+              var picker = new google.picker.PickerBuilder()
+                .enableFeature(google.picker.Feature.SIMPLE_UPLOAD_ENABLED)
+                .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+                .setAppId(this.appId)
+                .addView(docsView)
+                .addView(new google.picker.DocsUploadView())
+                .setOAuthToken(this.oauthToken)
+                .setDeveloperKey(this.developerKey)
+                .setCallback(this.pickerCallback)
+                .build();
+              picker.setVisible(true);
+            }
+          },
+          async pickerCallback(data) {
+            //console.log("PickerCallback", data);
+            var url = "nothing";
+            var name = "nothing";
+            var doc = "";
+            var fileID = "";
+            var gdurl = "";
+            var type = "anyone";
+            var role = "editor";
+            if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
+              //alert(data.docs.length);
+              data.docs.forEach(item => {
+                //console.log(item.name);
+                this.linkName = data.docs[0].name;
+                this.linkFile = data.docs[0].url;
+                this.scrapeDocID(); 
+              });
+              //console.log(data.length);
+            /*   this.linkName = data.docs[0].name;
+              this.linkFile = data.docs[0].url;
+              this.scrapeDocID(); */
+            }
+          }
     },
     async created(){
       //this.checkStatus();
     },
     mounted(){
       this.isloading = !this.isloading;
-       window.addEventListener('scroll', this.handleScroll);
+      window.addEventListener('scroll', this.handleScroll);
+      let gDrive = document.createElement("script");
+      gDrive.setAttribute("type", "text/javascript");
+      gDrive.setAttribute("src", "https://apis.google.com/js/api.js");
+      document.head.appendChild(gDrive);
     },
   
      destroyed () {

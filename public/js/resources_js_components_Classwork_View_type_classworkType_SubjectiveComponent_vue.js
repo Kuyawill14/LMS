@@ -675,6 +675,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_dialog_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/dialog/attachLinkDialog.vue"));
 };
@@ -769,7 +780,13 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
         title: '',
         text: ''
       },
-      editTextDataIndex: null
+      editTextDataIndex: null,
+      pickerApiLoaded: false,
+      developerKey: "AIzaSyAV2WNoaDpoda71hBAprjg_zlDHeNmiUxI",
+      clientId: "469226994610-7lscojpu541au8r0ve5i7td4gmv26ol5.apps.googleusercontent.com",
+      scope: "https://www.googleapis.com/auth/drive",
+      oauthToken: null,
+      appId: "469226994610"
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['get_CurrentUser', 'statusDetails'])), {}, {
@@ -882,7 +899,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
         link: path
       });
       this.isUpIndex = this.classworkDetails.Submitted_Answers.length;
-      this.AttachLink = !this.AttachLink;
+      this.AttachLink = false;
       this.AddLinkInSubmittedAnswer();
     },
     AddLinkInSubmittedAnswer: function AddLinkInSubmittedAnswer() {
@@ -1356,25 +1373,116 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       } else {
         this.SubmitClasswork();
       }
+    },
+    driveIconClicked: function driveIconClicked() {
+      var _this15 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee12() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                _context12.next = 2;
+                return gapi.load("auth2", function () {
+                  gapi.auth2.authorize({
+                    client_id: _this15.clientId,
+                    scope: _this15.scope,
+                    immediate: false
+                  }, _this15.handleAuthResult);
+                });
+
+              case 2:
+                gapi.load("picker", function () {
+                  _this15.pickerApiLoaded = true;
+
+                  _this15.createPicker();
+                });
+
+              case 3:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12);
+      }))();
+    },
+    handleAuthResult: function handleAuthResult(authResult) {
+      if (authResult && !authResult.error) {
+        this.oauthToken = authResult.access_token;
+        this.createPicker();
+      }
+    },
+    createPicker: function createPicker() {
+      var docsView = new google.picker.DocsView(google.picker.ViewId.DOCS).setIncludeFolders(true).setSelectFolderEnabled(true);
+
+      if (this.pickerApiLoaded && this.oauthToken) {
+        var picker = new google.picker.PickerBuilder().enableFeature(google.picker.Feature.SIMPLE_UPLOAD_ENABLED).enableFeature(google.picker.Feature.MULTISELECT_ENABLED).setAppId(this.appId).addView(docsView).addView(new google.picker.DocsUploadView()).setOAuthToken(this.oauthToken).setDeveloperKey(this.developerKey).setCallback(this.pickerCallback).build();
+        picker.setVisible(true);
+      }
+    },
+    pickerCallback: function pickerCallback(data) {
+      var _this16 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee13() {
+        var url, name, doc, fileID, gdurl, type, role;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee13$(_context13) {
+          while (1) {
+            switch (_context13.prev = _context13.next) {
+              case 0:
+                //console.log("PickerCallback", data);
+                url = "nothing";
+                name = "nothing";
+                doc = "";
+                fileID = "";
+                gdurl = "";
+                type = "anyone";
+                role = "editor";
+
+                if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
+                  //alert(data.docs.length);
+                  data.docs.forEach(function (item) {
+                    //console.log(item.name);
+                    _this16.linkName = data.docs[0].name;
+                    _this16.linkFile = data.docs[0].url;
+
+                    _this16.scrapeDocID();
+                  }); //console.log(data.length);
+
+                  /*   this.linkName = data.docs[0].name;
+                    this.linkFile = data.docs[0].url;
+                    this.scrapeDocID(); */
+                }
+
+              case 8:
+              case "end":
+                return _context13.stop();
+            }
+          }
+        }, _callee13);
+      }))();
     }
   }),
   created: function created() {//this.checkStatus();
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee12() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee12$(_context12) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee14() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee14$(_context14) {
         while (1) {
-          switch (_context12.prev = _context12.next) {
+          switch (_context14.prev = _context14.next) {
             case 0:
             case "end":
-              return _context12.stop();
+              return _context14.stop();
           }
         }
-      }, _callee12);
+      }, _callee14);
     }))();
   },
   mounted: function mounted() {
     this.isloading = !this.isloading;
     window.addEventListener('scroll', this.handleScroll);
+    var gDrive = document.createElement("script");
+    gDrive.setAttribute("type", "text/javascript");
+    gDrive.setAttribute("src", "https://apis.google.com/js/api.js");
+    document.head.appendChild(gDrive);
   },
   destroyed: function destroyed() {
     window.removeEventListener('scroll', this.handleScroll);
@@ -2867,17 +2975,19 @@ var render = function() {
                                                                     "v-icon",
                                                                     {
                                                                       attrs: {
+                                                                        color:
+                                                                          "red",
                                                                         left: ""
                                                                       }
                                                                     },
                                                                     [
                                                                       _vm._v(
-                                                                        "mdi-format-text"
+                                                                        "mdi-text"
                                                                       )
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    "Typed Answer\r\n                                    "
+                                                                    "Write Answer\r\n                                    "
                                                                   )
                                                                 ],
                                                                 1
@@ -2937,6 +3047,8 @@ var render = function() {
                                                                     "v-icon",
                                                                     {
                                                                       attrs: {
+                                                                        color:
+                                                                          "blue",
                                                                         left: ""
                                                                       }
                                                                     },
@@ -2951,7 +3063,49 @@ var render = function() {
                                                                   )
                                                                 ],
                                                                 1
-                                                              )
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _vm
+                                                                .get_CurrentUser
+                                                                .id == 8778
+                                                                ? _c(
+                                                                    "v-list-item",
+                                                                    {
+                                                                      attrs: {
+                                                                        link: ""
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.driveIconClicked()
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        {
+                                                                          attrs: {
+                                                                            color:
+                                                                              "green",
+                                                                            left:
+                                                                              ""
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "mdi-google-drive"
+                                                                          )
+                                                                        ]
+                                                                      ),
+                                                                      _vm._v(
+                                                                        "Google Drive\r\n                                    "
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                : _vm._e()
                                                             ],
                                                             1
                                                           )
@@ -3132,18 +3286,20 @@ var render = function() {
                                                                           "v-icon",
                                                                           {
                                                                             attrs: {
+                                                                              color:
+                                                                                "red",
                                                                               left:
                                                                                 ""
                                                                             }
                                                                           },
                                                                           [
                                                                             _vm._v(
-                                                                              "mdi-format-text"
+                                                                              "mdi-text"
                                                                             )
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          "Typed Answer\r\n                                    "
+                                                                          "Write Answer\r\n                                    "
                                                                         )
                                                                       ],
                                                                       1
@@ -3206,6 +3362,8 @@ var render = function() {
                                                                           "v-icon",
                                                                           {
                                                                             attrs: {
+                                                                              color:
+                                                                                "blue",
                                                                               left:
                                                                                 ""
                                                                             }
@@ -3221,7 +3379,51 @@ var render = function() {
                                                                         )
                                                                       ],
                                                                       1
-                                                                    )
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _vm
+                                                                      .get_CurrentUser
+                                                                      .id ==
+                                                                    8778
+                                                                      ? _c(
+                                                                          "v-list-item",
+                                                                          {
+                                                                            attrs: {
+                                                                              link:
+                                                                                ""
+                                                                            },
+                                                                            on: {
+                                                                              click: function(
+                                                                                $event
+                                                                              ) {
+                                                                                return _vm.driveIconClicked()
+                                                                              }
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _c(
+                                                                              "v-icon",
+                                                                              {
+                                                                                attrs: {
+                                                                                  color:
+                                                                                    "green",
+                                                                                  left:
+                                                                                    ""
+                                                                                }
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "mdi-google-drive"
+                                                                                )
+                                                                              ]
+                                                                            ),
+                                                                            _vm._v(
+                                                                              "Google Drive\r\n                                      "
+                                                                            )
+                                                                          ],
+                                                                          1
+                                                                        )
+                                                                      : _vm._e()
                                                                   ],
                                                                   1
                                                                 )
@@ -3394,18 +3596,20 @@ var render = function() {
                                                                           "v-icon",
                                                                           {
                                                                             attrs: {
+                                                                              color:
+                                                                                "red",
                                                                               left:
                                                                                 ""
                                                                             }
                                                                           },
                                                                           [
                                                                             _vm._v(
-                                                                              "mdi-format-text"
+                                                                              "mdi-text"
                                                                             )
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          "Typed Answer\r\n                                      "
+                                                                          "Write Answer\r\n                                      "
                                                                         )
                                                                       ],
                                                                       1
@@ -3468,6 +3672,8 @@ var render = function() {
                                                                           "v-icon",
                                                                           {
                                                                             attrs: {
+                                                                              color:
+                                                                                "blue",
                                                                               left:
                                                                                 ""
                                                                             }
@@ -3483,7 +3689,51 @@ var render = function() {
                                                                         )
                                                                       ],
                                                                       1
-                                                                    )
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _vm
+                                                                      .get_CurrentUser
+                                                                      .id ==
+                                                                    8778
+                                                                      ? _c(
+                                                                          "v-list-item",
+                                                                          {
+                                                                            attrs: {
+                                                                              link:
+                                                                                ""
+                                                                            },
+                                                                            on: {
+                                                                              click: function(
+                                                                                $event
+                                                                              ) {
+                                                                                return _vm.driveIconClicked()
+                                                                              }
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _c(
+                                                                              "v-icon",
+                                                                              {
+                                                                                attrs: {
+                                                                                  color:
+                                                                                    "green",
+                                                                                  left:
+                                                                                    ""
+                                                                                }
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "mdi-google-drive"
+                                                                                )
+                                                                              ]
+                                                                            ),
+                                                                            _vm._v(
+                                                                              "Google Drive\r\n                                        "
+                                                                            )
+                                                                          ],
+                                                                          1
+                                                                        )
+                                                                      : _vm._e()
                                                                   ],
                                                                   1
                                                                 )

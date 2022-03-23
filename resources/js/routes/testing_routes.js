@@ -3,7 +3,7 @@ const routes = [
     {
         path: "/testpicker",
         component: () =>
-            import ( /*webpackChunkName: "login"*/ "../components/login/test"),
+            import ( /*webpackChunkName: "testingpicker"*/ "../components/login/test"),
         name: "testpicker",
     },
 

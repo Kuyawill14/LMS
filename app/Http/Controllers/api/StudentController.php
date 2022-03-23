@@ -506,10 +506,29 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function CheckStatus($id)
+    public function CheckStatus($id, $course_id)
     {
        
         $userId = auth('sanctum')->id();
+        $checkCourse = tbl_userclass::where('tbl_userclasses.course_id', $course_id)
+        ->where('tbl_userclasses.user_id',$userId)->first();
+        
+        if(!$checkCourse){
+            return response()->json([
+                'message'=>'You dont have permission to access this examination!',
+                'success'=>false
+            ]);
+        }
+
+        $checkClasswork = tbl_classwork::where('tbl_classworks.id', $id)
+        ->where('tbl_classworks.course_id',$course_id)->first();
+        if(!$checkClasswork){
+            return response()->json([
+                'message'=>'You dont have permission to access this examination!',
+                'success'=>false
+            ]);
+        }
+
         $CheckStatus = tbl_Submission::where("tbl_submissions.user_id", $userId)
         ->where('tbl_submissions.classwork_id',$id)
         ->select('tbl_submissions.id','tbl_submissions.classwork_id','tbl_submissions.status','tbl_submissions.Submitted_Answers','tbl_submissions.created_at',

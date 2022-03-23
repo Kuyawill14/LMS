@@ -3316,7 +3316,7 @@ __webpack_require__.r(__webpack_exports__);
 var routes = [{
   path: "/testpicker",
   component: function component() {
-    return __webpack_require__.e(/*! import() | login */ "login").then(__webpack_require__.bind(__webpack_require__, /*! ../components/login/test */ "./resources/js/components/login/test.vue"));
+    return __webpack_require__.e(/*! import() | testingpicker */ "testingpicker").then(__webpack_require__.bind(__webpack_require__, /*! ../components/login/test */ "./resources/js/components/login/test.vue"));
   },
   name: "testpicker"
 }];
@@ -42671,7 +42671,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

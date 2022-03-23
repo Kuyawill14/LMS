@@ -983,7 +983,7 @@
                     })
             },
             async CheckStatus() {
-                await axios.get('/api/student/checking/' + this.$route.query.clwk)
+                await axios.get('/api/student/checking/' + this.$route.query.clwk+'/'+this.$route.params.id)
                     .then(res => {
                         if (res.data.success == true) {
                             if (res.data.status != 'Submitted') {
@@ -1016,7 +1016,7 @@
                                 });
                             }
                         } else {
-                            this.toastError('Something went wrong while loading Questions!');
+                            this.toastError(res.data.message);
                             this.$router.push({
                                 name: 'clwk',
                                 params: {

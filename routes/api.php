@@ -189,7 +189,7 @@ Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
     Route::get('/all/{id}/{class_id}', [StudentController::class, 'getStudentList']);
     Route::get('/all_by_class/{id}', [StudentController::class, 'getStudentListbyClass']);
     Route::get('/check-status/{id}', [StudentController::class, 'checkSubmissionStatus']);
-    Route::get('/checking/{id}', [StudentController::class, 'CheckStatus']);
+    Route::get('/checking/{id}/{course_id}', [StudentController::class, 'CheckStatus']);
     Route::get('/fetch-score/{id}', [StudentController::class, 'FetchScoreDetails']);
     
 

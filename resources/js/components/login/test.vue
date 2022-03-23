@@ -5,10 +5,9 @@
         <p>
             <span>Authenticate with Google Drive</span>
         </p>
-        <h1>{{testTime}}</h1>
-          <h1>{{endAt}}</h1>
-    
-        <v-btn color="primary" @click="driveIconClicked()">Connect to  Gelo</v-btn>
+
+
+        <v-btn color="primary" @click="driveIconClicked()">Connect to  Google Drive</v-btn>
         </div>
 
     </v-app>
@@ -20,20 +19,18 @@ data() {
   return {
       pickerApiLoaded: false,
       developerKey: "AIzaSyBEcuSSkfSt9_xQY-b5SjJle7OL8S4vpLQ",
-      clientId: "50494717699-ef0j944ojc06eb8ofqipepfd0enj2sg3.apps.googleusercontent.com",
-      scope: "https://www.googleapis.com/auth/drive",
+      clientId: "50494717699-6s25qu2270ucildgamilt57j34tjccch.apps.googleusercontent.com",
+      scope: "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.file  https://www.googleapis.com/auth/drive.readonly",
       oauthToken: null,
       appId : "632002309900",
       endAt:  (new  Date).getTime(),
       momentDate: moment().format('MMMM Do YYYY, h:mm:ss a'),
-      testTime: null
+      testTime: null,
   }
 },
 methods:{
     async driveIconClicked() {
-      //console.log("Clicked");
       await gapi.load("auth2", () => {
-        //console.log("Auth2 Loaded");
         gapi.auth2.authorize(
           {
             client_id: this.clientId,
@@ -44,20 +41,17 @@ methods:{
         );
       });
       gapi.load("picker", () => {
-        //console.log("Picker Loaded");
         this.pickerApiLoaded = true;
         this.createPicker();
       });
     },
     handleAuthResult(authResult) {
-      //console.log("Handle Auth result", authResult);
       if (authResult && !authResult.error) {
         this.oauthToken = authResult.access_token;
         this.createPicker();
       }
     },
      createPicker() {
-      //console.log("Create Picker", google.picker);
       const docsView = new google.picker.DocsView(google.picker.ViewId.DOCS)
               .setIncludeFolders(true)
               .setSelectFolderEnabled(true);
@@ -83,17 +77,22 @@ methods:{
       var fileID = "";
       var gdurl = "";
       var type = "anyone";
-      var role = "reader";
-
-   
+      var role = "editor";
       if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
-        // Array of Picked Files
-        //console.log(data.docs[0].url);   
+        alert(data.docs[0].url);
       }
     }
 },
 
 mounted() {
+    let gDrive = document.createElement("script");
+    gDrive.setAttribute("type", "text/javascript");
+    gDrive.setAttribute("src", "https://apis.google.com/js/api.js");
+    document.head.appendChild(gDrive);
+
+  }
+
+/*   mounted() {
     let gDrive = document.createElement("script");
     gDrive.setAttribute("type", "text/javascript");
     gDrive.setAttribute("src", "https://apis.google.com/js/api.js");
@@ -109,6 +108,6 @@ mounted() {
       this.testTime = res.data;
     })
 
-  }
+  } */
 }
 </script>
