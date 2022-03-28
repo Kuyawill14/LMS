@@ -199,6 +199,7 @@
                                                 <span class="red--text"  v-else-if="item.availability == 1 && item.status == 'Submitted' && item.graded == 0 && (item.submitted_at != null ? item.submitted_at > item.to_date : false)">Submitted Late</span>
                                                 <span class="success--text"  v-else-if="item.availability == 0 && item.status == 'Submitted' && item.graded == 0">Submitted</span>
                                                 <span class="success--text" v-else-if="item.graded">Graded</span>
+                                                  <span class="blue--text" v-else-if="item.status == 'Submitting'">Submitting...</span>
                                                <span class="red--text" v-else-if="item.status == '' || item.status == null">No Submission</span>
                                          </v-list-item-subtitle>
                                     </v-list-item-content>

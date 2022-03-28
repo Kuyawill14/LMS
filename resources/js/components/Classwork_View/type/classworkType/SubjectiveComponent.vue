@@ -202,9 +202,13 @@
                                       <v-list dense nav outlined>
                                          <v-list-item link :disabled="isUpIndex == index && isUploadSaving" >
                                            <v-list-item-avatar @click="OpenFile(item.name,item.link, item.fileExte, index)">
-                                              <v-icon  :color="CheckFileIconColor(item.fileExte)">
-                                                {{CheckFileIcon(item.fileExte)}}
+                                              <v-icon v-if="item.icon == null"
+                                               :color="CheckFileIconColor(item.fileExte)" >
+                                                  {{CheckFileIcon(item.fileExte)}}
                                               </v-icon>
+                                              <v-avatar v-else tile size="18">
+                                                    <v-img :src="item.icon"></v-img>
+                                              </v-avatar>
                                            </v-list-item-avatar>
                                             <v-list-item-content @click="OpenFile(item.name,item.link, item.fileExte, index)">
                                                 <v-list-item-title>
@@ -271,7 +275,7 @@
                                       <v-list-item link @click="AttachLink = !AttachLink" >
                                             <v-icon color="blue" left>mdi-link-variant</v-icon>Attach Link
                                     </v-list-item>
-                                    <v-list-item v-if="get_CurrentUser.id == 8778" link @click="driveIconClicked()" >
+                                    <v-list-item  link @click="driveIconClicked()" >
                                             <v-icon color="green" left>mdi-google-drive</v-icon>Google Drive
                                     </v-list-item>
                                   </v-list>
@@ -307,7 +311,7 @@
                                               <v-icon color="blue" left>mdi-link-variant</v-icon>Attach Link
                                       </v-list-item>
 
-                                        <v-list-item v-if="get_CurrentUser.id == 8778" link @click="driveIconClicked()" >
+                                        <v-list-item link @click="driveIconClicked()" >
                                             <v-icon color="green" left>mdi-google-drive</v-icon>Google Drive
                                       </v-list-item>
                                       
@@ -343,7 +347,7 @@
                                           <v-list-item link @click="AttachLink = !AttachLink" >
                                                 <v-icon color="blue" left>mdi-link-variant</v-icon>Attach Link
                                         </v-list-item>
-                                        <v-list-item v-if="get_CurrentUser.id == 8778" link @click="driveIconClicked()" >
+                                        <v-list-item link @click="driveIconClicked()" >
                                               <v-icon color="green" left>mdi-google-drive</v-icon>Google Drive
                                         </v-list-item>
                                       </v-list>
@@ -385,7 +389,7 @@
 
                            <v-col v-if="classworkDetails.availability == 0" class="ma-0 pa-0 mb-1 " cols="12" >
                               <v-btn
-                              :disabled="classworkDetails.Submitted_Answers.length == 0 || classworkDetails.publish != null"
+                              :disabled="classworkDetails.Submitted_Answers.length == 0 || classworkDetails.publish != null || isUploadSaving"
                               block
                                class="pl-12 pr-12 pb-3 pt-3"
                                :loading="IsSaving"
@@ -401,7 +405,7 @@
                              <v-row>
                                 <v-col cols="12" v-if="format_date1(classworkDetails.currentDate) >= format_date1(classworkDetails.from_date)">
                                     <v-btn
-                                    :disabled="classworkDetails.Submitted_Answers.length == 0"
+                                    :disabled="classworkDetails.Submitted_Answers.length == 0 || isUploadSaving"
                                     block
                                     class="pl-12 pr-12 pb-3 pt-3"
                                     :loading="IsSaving"
@@ -991,6 +995,9 @@ export default {
               this.isUploading[IndexFile] = true;
               this.fileIndex = IndexFile;
               this.tempFile = file;
+
+              let fileName = this.tempFile.name;
+              fileName = fileName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g,'');
              
               let tempSize = file.size;
               if(tempSize > 1000000){
@@ -1006,7 +1013,7 @@ export default {
               }
 
                 this.isUpIndex = this.classworkDetails.Submitted_Answers.length;
-                this.classworkDetails.Submitted_Answers.push({ name: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, link: '', file: this.tempFile});
+                this.classworkDetails.Submitted_Answers.push({ name: fileName, fileSize: this.fileSize, fileExte: this.extension, link: '', file: this.tempFile});
                 this.fileIndex = this.file.length;
                 this.isUploadSaving = true;
                 this.UpdateSubmission(this.classworkDetails.Submitted_Answers.length-1);
@@ -1219,17 +1226,33 @@ export default {
             var role = "editor";
             if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
               //alert(data.docs.length);
-              data.docs.forEach(item => {
-                //console.log(item.name);
+            /*   data.docs.forEach(item => {
                 this.linkName = data.docs[0].name;
                 this.linkFile = data.docs[0].url;
-                this.scrapeDocID(); 
-              });
-              //console.log(data.length);
-            /*   this.linkName = data.docs[0].name;
-              this.linkFile = data.docs[0].url;
-              this.scrapeDocID(); */
+                AddGoogleLink(data)
+              }); */
+              this.AddGoogleLink(data.docs)
+              
             }
+          },
+         async AddGoogleLink(data){
+          this.isUploadSaving = true;
+           data.forEach(item => {
+             this.classworkDetails.Submitted_Answers.push({ name: item.name, fileSize: item.sizeBytes, fileExte: 'link', link: item.url, icon: item.iconUrl});
+           });
+            
+            let index = this.classworkDetails.Submitted_Answers.length-1;
+            let sub_id = this.tempId == null ? 'empty' : this.tempId;
+            let details = {}
+            details.Submission_id = sub_id;
+            details.id = this.classworkDetails.id;
+            details.class_classwork_id = this.classworkDetails.class_classwork_id;
+            details.attachment = data;
+           
+            await axios.post('/api/student/goolgle_drive_link', details)
+              .then((res)=>{
+                setTimeout(() => {this.isUploadSaving = false;}, 500);
+              })
           }
     },
     async created(){
@@ -1382,5 +1405,25 @@ export default {
         display: none !important;
     }
 
+
+.picker{
+    left: 4px !important;
+}
+.picker-dialog{
+  width: 98% !important;
+}
+
+.google_picker_container{
+  height: 80% !important;
+  width: 80% !important;
+  max-height: 1024px;
+  min-width:250px;
+  max-width: 1039px;
+  top:0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  margin: auto;
+}
     
 </style>

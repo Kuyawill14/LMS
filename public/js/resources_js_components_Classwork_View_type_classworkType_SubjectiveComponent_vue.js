@@ -686,6 +686,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_dialog_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/dialog/attachLinkDialog.vue"));
 };
@@ -1055,6 +1059,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       this.isUploading[IndexFile] = true;
       this.fileIndex = IndexFile;
       this.tempFile = file;
+      var fileName = this.tempFile.name;
+      fileName = fileName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
       var tempSize = file.size;
 
       if (tempSize > 1000000) {
@@ -1072,7 +1078,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
 
       this.isUpIndex = this.classworkDetails.Submitted_Answers.length;
       this.classworkDetails.Submitted_Answers.push({
-        name: this.tempFile.name,
+        name: fileName,
         fileSize: this.fileSize,
         fileExte: this.extension,
         link: '',
@@ -1440,17 +1446,13 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
 
                 if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
                   //alert(data.docs.length);
-                  data.docs.forEach(function (item) {
-                    //console.log(item.name);
-                    _this16.linkName = data.docs[0].name;
-                    _this16.linkFile = data.docs[0].url;
 
-                    _this16.scrapeDocID();
-                  }); //console.log(data.length);
-
-                  /*   this.linkName = data.docs[0].name;
-                    this.linkFile = data.docs[0].url;
-                    this.scrapeDocID(); */
+                  /*   data.docs.forEach(item => {
+                      this.linkName = data.docs[0].name;
+                      this.linkFile = data.docs[0].url;
+                      AddGoogleLink(data)
+                    }); */
+                  _this16.AddGoogleLink(data.docs);
                 }
 
               case 8:
@@ -1460,20 +1462,61 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
           }
         }, _callee13);
       }))();
+    },
+    AddGoogleLink: function AddGoogleLink(data) {
+      var _this17 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee14() {
+        var index, sub_id, details;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee14$(_context14) {
+          while (1) {
+            switch (_context14.prev = _context14.next) {
+              case 0:
+                _this17.isUploadSaving = true;
+                data.forEach(function (item) {
+                  _this17.classworkDetails.Submitted_Answers.push({
+                    name: item.name,
+                    fileSize: item.sizeBytes,
+                    fileExte: 'link',
+                    link: item.url,
+                    icon: item.iconUrl
+                  });
+                });
+                index = _this17.classworkDetails.Submitted_Answers.length - 1;
+                sub_id = _this17.tempId == null ? 'empty' : _this17.tempId;
+                details = {};
+                details.Submission_id = sub_id;
+                details.id = _this17.classworkDetails.id;
+                details.class_classwork_id = _this17.classworkDetails.class_classwork_id;
+                details.attachment = data;
+                _context14.next = 11;
+                return axios.post('/api/student/goolgle_drive_link', details).then(function (res) {
+                  setTimeout(function () {
+                    _this17.isUploadSaving = false;
+                  }, 500);
+                });
+
+              case 11:
+              case "end":
+                return _context14.stop();
+            }
+          }
+        }, _callee14);
+      }))();
     }
   }),
   created: function created() {//this.checkStatus();
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee14() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee14$(_context14) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee15() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee15$(_context15) {
         while (1) {
-          switch (_context14.prev = _context14.next) {
+          switch (_context15.prev = _context15.next) {
             case 0:
             case "end":
-              return _context14.stop();
+              return _context15.stop();
           }
         }
-      }, _callee14);
+      }, _callee15);
     }))();
   },
   mounted: function mounted() {
@@ -1629,7 +1672,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n        max-width: 100% !important;\n        max-height: 20rem !important;\n}\n.dropZone {\n  width: 100%;\n  height: 7rem;\n  position: relative;\n  border: 2px dashed #eee;\n  border-radius: .3rem;\n}\n\n/* .dropZone:hover {\n  border: 1px dashed #2196F3;\n} */\n\n/* .dropZone:hover .dropZone-title {\n  color: #2196F3;\n} */\n.dropZone-info {\n  color: #A8A8A8;\n  position: absolute;\n  top: 50%;\n  width: 100%;\n  transform: translate(0, -50%);\n  text-align: center;\n}\n.dropZone-title {\n  color: #787878;\n}\n.dropZone input {\n  position: absolute;\n  cursor: pointer;\n  top: 0px;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n}\n.dropZone-upload-limit-info {\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n}\n.dropZone-over {\n  background: #E0E0E0;\n  opacity: 0.8;\n}\n.dropZone-uploaded {\n  padding-top: 4rem;\n  height: auto;\n  position: relative;\n}\n.dropZone-uploaded-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  color: #A8A8A8;\n  position: absolute;\n  top: 50%;\n  width: 100%;\n  transform: translate(0, -50%);\n  text-align: center;\n}\n.filePreview{\n  width: 100%;\n}\n.removeFile {\n  width: 200px;\n}\n /* width */\n::-webkit-scrollbar {\n    width: 8px;\n}\n\n    /* Track */\n::-webkit-scrollbar-track {\n    background: #f1f1f1;\n}\n    \n    /* Handle */\n::-webkit-scrollbar-thumb {\n    background: #888;\n}\n\n    /* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\n    background: #555;\n}\n.commentContent  img{\n        max-width: 100% !important;\n        max-height: 20rem !important;\n}\n.commentContent img{\n            max-height: 10rem !important;\n}\n.CommentEditor >  iframe{\n        width: 100% !important;\n    height: 20rem !important;\n}\n.CommentEditor >  .ql-editor img{\n\n        max-height: 25rem !important;\n}\n.CommentEditor >  .ql-container{\n        max-height: 70rem;\n}\ndiv.ql-tooltip{\n        left: 0px !important;\n        top: -8px !important;\n}\ndiv>.ql-tooltip-arrow{\n        display: none !important;\n}\n\n    \n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n        max-width: 100% !important;\n        max-height: 20rem !important;\n}\n.dropZone {\n  width: 100%;\n  height: 7rem;\n  position: relative;\n  border: 2px dashed #eee;\n  border-radius: .3rem;\n}\n\n/* .dropZone:hover {\n  border: 1px dashed #2196F3;\n} */\n\n/* .dropZone:hover .dropZone-title {\n  color: #2196F3;\n} */\n.dropZone-info {\n  color: #A8A8A8;\n  position: absolute;\n  top: 50%;\n  width: 100%;\n  transform: translate(0, -50%);\n  text-align: center;\n}\n.dropZone-title {\n  color: #787878;\n}\n.dropZone input {\n  position: absolute;\n  cursor: pointer;\n  top: 0px;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n}\n.dropZone-upload-limit-info {\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n}\n.dropZone-over {\n  background: #E0E0E0;\n  opacity: 0.8;\n}\n.dropZone-uploaded {\n  padding-top: 4rem;\n  height: auto;\n  position: relative;\n}\n.dropZone-uploaded-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  color: #A8A8A8;\n  position: absolute;\n  top: 50%;\n  width: 100%;\n  transform: translate(0, -50%);\n  text-align: center;\n}\n.filePreview{\n  width: 100%;\n}\n.removeFile {\n  width: 200px;\n}\n /* width */\n::-webkit-scrollbar {\n    width: 8px;\n}\n\n    /* Track */\n::-webkit-scrollbar-track {\n    background: #f1f1f1;\n}\n    \n    /* Handle */\n::-webkit-scrollbar-thumb {\n    background: #888;\n}\n\n    /* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\n    background: #555;\n}\n.commentContent  img{\n        max-width: 100% !important;\n        max-height: 20rem !important;\n}\n.commentContent img{\n            max-height: 10rem !important;\n}\n.CommentEditor >  iframe{\n        width: 100% !important;\n    height: 20rem !important;\n}\n.CommentEditor >  .ql-editor img{\n\n        max-height: 25rem !important;\n}\n.CommentEditor >  .ql-container{\n        max-height: 70rem;\n}\ndiv.ql-tooltip{\n        left: 0px !important;\n        top: -8px !important;\n}\ndiv>.ql-tooltip-arrow{\n        display: none !important;\n}\n.picker{\n    left: 4px !important;\n}\n.picker-dialog{\n  width: 98% !important;\n}\n.google_picker_container{\n  height: 80% !important;\n  width: 80% !important;\n  max-height: 1024px;\n  min-width:250px;\n  max-width: 1039px;\n  top:0 !important;\n  right: 0 !important;\n  bottom: 0 !important;\n  left: 0 !important;\n  margin: auto;\n}\n    \n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2583,27 +2626,52 @@ var render = function() {
                                                                 }
                                                               },
                                                               [
-                                                                _c(
-                                                                  "v-icon",
-                                                                  {
-                                                                    attrs: {
-                                                                      color: _vm.CheckFileIconColor(
-                                                                        item.fileExte
-                                                                      )
-                                                                    }
-                                                                  },
-                                                                  [
-                                                                    _vm._v(
-                                                                      "\r\n                                                " +
-                                                                        _vm._s(
-                                                                          _vm.CheckFileIcon(
+                                                                item.icon ==
+                                                                null
+                                                                  ? _c(
+                                                                      "v-icon",
+                                                                      {
+                                                                        attrs: {
+                                                                          color: _vm.CheckFileIconColor(
                                                                             item.fileExte
                                                                           )
-                                                                        ) +
-                                                                        "\r\n                                              "
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\r\n                                                  " +
+                                                                            _vm._s(
+                                                                              _vm.CheckFileIcon(
+                                                                                item.fileExte
+                                                                              )
+                                                                            ) +
+                                                                            "\r\n                                              "
+                                                                        )
+                                                                      ]
                                                                     )
-                                                                  ]
-                                                                )
+                                                                  : _c(
+                                                                      "v-avatar",
+                                                                      {
+                                                                        attrs: {
+                                                                          tile:
+                                                                            "",
+                                                                          size:
+                                                                            "18"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-img",
+                                                                          {
+                                                                            attrs: {
+                                                                              src:
+                                                                                item.icon
+                                                                            }
+                                                                          }
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
                                                               ],
                                                               1
                                                             ),
@@ -3065,47 +3133,42 @@ var render = function() {
                                                                 1
                                                               ),
                                                               _vm._v(" "),
-                                                              _vm
-                                                                .get_CurrentUser
-                                                                .id == 8778
-                                                                ? _c(
-                                                                    "v-list-item",
+                                                              _c(
+                                                                "v-list-item",
+                                                                {
+                                                                  attrs: {
+                                                                    link: ""
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.driveIconClicked()
+                                                                    }
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-icon",
                                                                     {
                                                                       attrs: {
-                                                                        link: ""
-                                                                      },
-                                                                      on: {
-                                                                        click: function(
-                                                                          $event
-                                                                        ) {
-                                                                          return _vm.driveIconClicked()
-                                                                        }
+                                                                        color:
+                                                                          "green",
+                                                                        left: ""
                                                                       }
                                                                     },
                                                                     [
-                                                                      _c(
-                                                                        "v-icon",
-                                                                        {
-                                                                          attrs: {
-                                                                            color:
-                                                                              "green",
-                                                                            left:
-                                                                              ""
-                                                                          }
-                                                                        },
-                                                                        [
-                                                                          _vm._v(
-                                                                            "mdi-google-drive"
-                                                                          )
-                                                                        ]
-                                                                      ),
                                                                       _vm._v(
-                                                                        "Google Drive\r\n                                    "
+                                                                        "mdi-google-drive"
                                                                       )
-                                                                    ],
-                                                                    1
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(
+                                                                    "Google Drive\r\n                                    "
                                                                   )
-                                                                : _vm._e()
+                                                                ],
+                                                                1
+                                                              )
                                                             ],
                                                             1
                                                           )
@@ -3381,49 +3444,44 @@ var render = function() {
                                                                       1
                                                                     ),
                                                                     _vm._v(" "),
-                                                                    _vm
-                                                                      .get_CurrentUser
-                                                                      .id ==
-                                                                    8778
-                                                                      ? _c(
-                                                                          "v-list-item",
+                                                                    _c(
+                                                                      "v-list-item",
+                                                                      {
+                                                                        attrs: {
+                                                                          link:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.driveIconClicked()
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
                                                                           {
                                                                             attrs: {
-                                                                              link:
+                                                                              color:
+                                                                                "green",
+                                                                              left:
                                                                                 ""
-                                                                            },
-                                                                            on: {
-                                                                              click: function(
-                                                                                $event
-                                                                              ) {
-                                                                                return _vm.driveIconClicked()
-                                                                              }
                                                                             }
                                                                           },
                                                                           [
-                                                                            _c(
-                                                                              "v-icon",
-                                                                              {
-                                                                                attrs: {
-                                                                                  color:
-                                                                                    "green",
-                                                                                  left:
-                                                                                    ""
-                                                                                }
-                                                                              },
-                                                                              [
-                                                                                _vm._v(
-                                                                                  "mdi-google-drive"
-                                                                                )
-                                                                              ]
-                                                                            ),
                                                                             _vm._v(
-                                                                              "Google Drive\r\n                                      "
+                                                                              "mdi-google-drive"
                                                                             )
-                                                                          ],
-                                                                          1
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "Google Drive\r\n                                      "
                                                                         )
-                                                                      : _vm._e()
+                                                                      ],
+                                                                      1
+                                                                    )
                                                                   ],
                                                                   1
                                                                 )
@@ -3691,49 +3749,44 @@ var render = function() {
                                                                       1
                                                                     ),
                                                                     _vm._v(" "),
-                                                                    _vm
-                                                                      .get_CurrentUser
-                                                                      .id ==
-                                                                    8778
-                                                                      ? _c(
-                                                                          "v-list-item",
+                                                                    _c(
+                                                                      "v-list-item",
+                                                                      {
+                                                                        attrs: {
+                                                                          link:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.driveIconClicked()
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
                                                                           {
                                                                             attrs: {
-                                                                              link:
+                                                                              color:
+                                                                                "green",
+                                                                              left:
                                                                                 ""
-                                                                            },
-                                                                            on: {
-                                                                              click: function(
-                                                                                $event
-                                                                              ) {
-                                                                                return _vm.driveIconClicked()
-                                                                              }
                                                                             }
                                                                           },
                                                                           [
-                                                                            _c(
-                                                                              "v-icon",
-                                                                              {
-                                                                                attrs: {
-                                                                                  color:
-                                                                                    "green",
-                                                                                  left:
-                                                                                    ""
-                                                                                }
-                                                                              },
-                                                                              [
-                                                                                _vm._v(
-                                                                                  "mdi-google-drive"
-                                                                                )
-                                                                              ]
-                                                                            ),
                                                                             _vm._v(
-                                                                              "Google Drive\r\n                                        "
+                                                                              "mdi-google-drive"
                                                                             )
-                                                                          ],
-                                                                          1
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "Google Drive\r\n                                        "
                                                                         )
-                                                                      : _vm._e()
+                                                                      ],
+                                                                      1
+                                                                    )
                                                                   ],
                                                                   1
                                                                 )
@@ -3769,7 +3822,8 @@ var render = function() {
                                                         .Submitted_Answers
                                                         .length == 0 ||
                                                       _vm.classworkDetails
-                                                        .publish != null,
+                                                        .publish != null ||
+                                                      _vm.isUploadSaving,
                                                     block: "",
                                                     loading: _vm.IsSaving,
                                                     color:
@@ -3853,7 +3907,8 @@ var render = function() {
                                                                     .classworkDetails
                                                                     .Submitted_Answers
                                                                     .length ==
-                                                                  0,
+                                                                    0 ||
+                                                                  _vm.isUploadSaving,
                                                                 block: "",
                                                                 loading:
                                                                   _vm.IsSaving,

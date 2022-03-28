@@ -523,6 +523,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2661,29 +2665,56 @@ var render = function() {
                                                                       "pr-0 mr-0 mr-1"
                                                                   },
                                                                   [
-                                                                    _c(
-                                                                      "v-icon",
-                                                                      {
-                                                                        attrs: {
-                                                                          large:
-                                                                            "",
-                                                                          color: _vm.CheckFileIconColor(
-                                                                            item.fileExte
-                                                                          )
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _vm._v(
-                                                                          "\n                                                                  " +
-                                                                            _vm._s(
-                                                                              _vm.CheckFileIcon(
+                                                                    item.icon ==
+                                                                    null
+                                                                      ? _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              large:
+                                                                                "",
+                                                                              color: _vm.CheckFileIconColor(
                                                                                 item.fileExte
                                                                               )
-                                                                            ) +
-                                                                            "\n                                                              "
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "\n                                                                  " +
+                                                                                _vm._s(
+                                                                                  _vm.CheckFileIcon(
+                                                                                    item.fileExte
+                                                                                  )
+                                                                                ) +
+                                                                                "\n                                                              "
+                                                                            )
+                                                                          ]
                                                                         )
-                                                                      ]
-                                                                    )
+                                                                      : _c(
+                                                                          "v-avatar",
+                                                                          {
+                                                                            staticClass:
+                                                                              "ml-2 mr-2",
+                                                                            attrs: {
+                                                                              tile:
+                                                                                "",
+                                                                              size:
+                                                                                "25"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _c(
+                                                                              "v-img",
+                                                                              {
+                                                                                attrs: {
+                                                                                  src:
+                                                                                    item.icon
+                                                                                }
+                                                                              }
+                                                                            )
+                                                                          ],
+                                                                          1
+                                                                        )
                                                                   ],
                                                                   1
                                                                 ),

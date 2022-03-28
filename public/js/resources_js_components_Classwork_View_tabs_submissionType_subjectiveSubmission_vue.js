@@ -302,6 +302,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 var checksubjective = function checksubjective() {
@@ -1818,6 +1819,20 @@ var render = function() {
                                                                   "success--text"
                                                               },
                                                               [_vm._v("Graded")]
+                                                            )
+                                                          : item.status ==
+                                                            "Submitting"
+                                                          ? _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "blue--text"
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "Submitting..."
+                                                                )
+                                                              ]
                                                             )
                                                           : item.status == "" ||
                                                             item.status == null

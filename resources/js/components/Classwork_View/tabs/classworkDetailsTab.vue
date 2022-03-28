@@ -588,18 +588,24 @@
                     //this.classworkDetails.attachment_size = finalSize+'kb';
                 }
 
+                let fileName = element[0].name;
+                fileName = fileName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g,'');
+
                 this.file_name.push({
-                    name: element[0].name,
+                    name: fileName,
                     size: size,
                     extension: this.extension
                 });
 
                 this.Details.attachment.push({
-                    name: element[0].name,
+                    name: fileName,
                     size: size,
                     attachment: null,
                     extension: this.extension,
                 })
+
+
+
                 
                 this.addFile();
 

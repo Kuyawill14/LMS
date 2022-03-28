@@ -393,6 +393,7 @@ class NotificationController extends Controller
         if(auth("sanctum")->user()->role != "Student"){
             $Course = tbl_teacher_course::where('tbl_teacher_courses.user_id', $userId)->get();
             $list = array();
+
             foreach($Course as $item){
                 $classes = Tbl_class::where("course_id", $item->course_id)->get();
                 foreach($classes as $class){
@@ -422,18 +423,18 @@ class NotificationController extends Controller
                     $notifType[5] = 'classwork_submission';
                 }
 
-                $allNotification = tbl_notification::where("tbl_notifications.from_id","!=", $userId)
+                $allNotification = DB::table('tbl_notifications')->where("tbl_notifications.from_id","!=", $userId)
                 ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.from_course","tbl_notifications.notification_type","tbl_notifications.notification_attachments",
                 "tbl_notifications.message","user_notifications.status", "user_notifications.hide_notif","user_notifications.notification_accepted",
                 "tbl_classes.course_id as c_id",
                 DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.updated_at as created_at")
-                ->leftJoin("user_notifications", function($join) use ($userId){
+                ->join("user_notifications", function($join) use ($userId){
                     $join->on("user_notifications.notification_id", "=", "tbl_notifications.id");
                     $join->on('user_notifications.user_id','=',DB::raw("'".$userId."'"));
                 })
-                ->leftJoin("tbl_classes", "tbl_classes.id", "=", "tbl_notifications.class_id")
-                ->leftJoin("users", "users.id", "=", "tbl_notifications.from_id")
-                ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
+                ->join("tbl_classes", "tbl_classes.id", "=", "tbl_notifications.class_id")
+                ->join("users", "users.id", "=", "tbl_notifications.from_id")
+                ->join("tbl_user_details", "tbl_user_details.user_id","=","users.id")
                 ->orderBy("tbl_notifications.updated_at", "DESC")
                 ->where(function ($query) {
                     $query->where('user_notifications.hide_notif', 0)->orWhere('user_notifications.hide_notif', null);
@@ -441,6 +442,7 @@ class NotificationController extends Controller
                 ->whereIn("tbl_notifications.notification_type", $notifType)
                 ->whereIn('tbl_notifications.class_id', $list)
                 ->paginate(10);  
+
             }
             else{
                 $notifType[0] = 'post_annoucement';
@@ -450,18 +452,18 @@ class NotificationController extends Controller
                 $notifType[4] = 'post_reply';
                 $notifType[5] = 'classwork_submission';
 
-                $allNotification = tbl_notification::where("tbl_notifications.from_id","!=", $userId)
+                $allNotification = DB::table('tbl_notifications')->where("tbl_notifications.from_id","!=", $userId)
                 ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.from_course","tbl_notifications.notification_type","tbl_notifications.notification_attachments",
                 "tbl_notifications.message","user_notifications.status", "user_notifications.hide_notif","user_notifications.notification_accepted",
                 "tbl_classes.course_id as c_id",
                 DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.updated_at as created_at")
-                ->leftJoin("user_notifications", function($join) use ($userId){
+                ->join("user_notifications", function($join) use ($userId){
                     $join->on("user_notifications.notification_id", "=", "tbl_notifications.id");
                     $join->on('user_notifications.user_id','=',DB::raw("'".$userId."'"));
                 })
-                ->leftJoin("tbl_classes", "tbl_classes.id", "=", "tbl_notifications.class_id")
-                ->leftJoin("users", "users.id", "=", "tbl_notifications.from_id")
-                ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
+                ->join("tbl_classes", "tbl_classes.id", "=", "tbl_notifications.class_id")
+                ->join("users", "users.id", "=", "tbl_notifications.from_id")
+                ->join("tbl_user_details", "tbl_user_details.user_id","=","users.id")
                 ->orderBy("tbl_notifications.updated_at", "DESC")
                 ->where(function ($query) {
                     $query->where('user_notifications.hide_notif', 1);
@@ -474,9 +476,7 @@ class NotificationController extends Controller
 
         }else{
 
-            
-           
-            
+                       
             if($type != "Hidden"){
                 
                 if($type != "all"){
@@ -499,14 +499,13 @@ class NotificationController extends Controller
                     $notifType[4] = 'publish_module';
                     $notifType[5] = 'post_reply';
                 }
-
-                $allNotification = tbl_userclass::whereNull("tbl_userclasses.deleted_at")
+                $allNotification = DB::table('tbl_userclasses')->whereNull("tbl_userclasses.deleted_at")
                 ->where("tbl_userclasses.user_id", $userId)
                 ->select("tbl_userclasses.class_id as cl_id","tbl_userclasses.course_id as c_id",
                 "tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.from_course","tbl_notifications.notification_type","tbl_notifications.message",
                 "tbl_notifications.notification_attachments","user_notifications.status", "user_notifications.hide_notif","user_notifications.notification_accepted",
                 DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.updated_at as created_at")
-                ->leftJoin("tbl_notifications", function($join) use ($userId){
+                ->join("tbl_notifications", function($join) use ($userId){
                     $join->on("tbl_notifications.course_id", "=", "tbl_userclasses.course_id")
                     ->orOn("tbl_notifications.class_id", "=", "tbl_userclasses.class_id")
                     ->orOn(function($query) use ($userId) {
@@ -514,12 +513,12 @@ class NotificationController extends Controller
                         $query->On('tbl_notifications.from_course', '=',"tbl_userclasses.course_id");
                     });
                 })
-                ->leftJoin("user_notifications", function($join) use ($userId){
+                ->join("user_notifications", function($join) use ($userId){
                     $join->on("user_notifications.notification_id", "=", "tbl_notifications.id");
                     $join->on('user_notifications.user_id','=',DB::raw("'".$userId."'"));
                 })
-                ->leftJoin("users", "users.id", "=", "tbl_notifications.from_id")
-                ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
+                ->join("users", "users.id", "=", "tbl_notifications.from_id")
+                ->join("tbl_user_details", "tbl_user_details.user_id","=","users.id")
                 ->orderBy("tbl_notifications.updated_at", "DESC")
                 ->where(function ($query) {
                     $query->where('user_notifications.hide_notif', 0)->orWhere('user_notifications.hide_notif', null);
@@ -537,7 +536,7 @@ class NotificationController extends Controller
                 $notifType[5] = 'post_reply';
                 
 
-                $allNotification = tbl_userclass::whereNull("tbl_userclasses.deleted_at")
+                $allNotification =  DB::table('tbl_userclasses')->whereNull("tbl_userclasses.deleted_at")
                 ->where("tbl_userclasses.user_id", $userId)
                 ->select("tbl_userclasses.class_id as cl_id","tbl_userclasses.course_id as c_id",
                 "tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.from_course","tbl_notifications.notification_type","tbl_notifications.message",

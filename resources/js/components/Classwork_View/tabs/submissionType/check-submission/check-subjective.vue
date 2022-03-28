@@ -200,9 +200,13 @@
                                                     <v-list nav outlined>
                                                         <v-list-item class="rounded"  link v-for="(item, index) in CheckData.Submitted_Answers" :key="index">
                                                             <v-list-item-icon class="pr-0 mr-0 mr-1">
-                                                                    <v-icon large :color="CheckFileIconColor(item.fileExte)" >
+                                                                    <v-icon v-if="item.icon == null" large :color="CheckFileIconColor(item.fileExte)" >
                                                                         {{CheckFileIcon(item.fileExte)}}
                                                                     </v-icon>
+                                                                    <v-avatar class="ml-2 mr-2" v-else tile size="25">
+                                                                         <v-img :src="item.icon"></v-img>
+                                                                    </v-avatar>
+                                                                   
                                                             </v-list-item-icon>
                                                             <v-list-item-content @click="OpenFile(item.fileExte, item.link)">
                                                                 <v-list-item-title>

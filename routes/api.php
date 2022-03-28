@@ -196,6 +196,8 @@ Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
     Route::post('/join/{id}', [StudentController::class, 'JoinClass']);
     Route::post('/update-status', [StudentController::class, 'UpdateStatus']);
     Route::post('/linkAndstatus', [StudentController::class, 'AddLinkToSubmittedAnswer']);
+    Route::post('/goolgle_drive_link', [StudentController::class, 'AddGoogleDriveLink']);
+    
     Route::post('/add-file', [StudentController::class, 'AddFileToSubmittedAnswer']);
     Route::put('/update_answer/{id}', [StudentController::class, 'UpdateSubmittedAnswer']);
 

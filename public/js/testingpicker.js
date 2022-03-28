@@ -41,10 +41,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       pickerApiLoaded: false,
       developerKey: "AIzaSyBEcuSSkfSt9_xQY-b5SjJle7OL8S4vpLQ",
-      clientId: "50494717699-6s25qu2270ucildgamilt57j34tjccch.apps.googleusercontent.com",
-      scope: "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.file  https://www.googleapis.com/auth/drive.readonly",
+      clientId: "50494717699-330od4l2qlu2bjth0s6332u6evfoiale.apps.googleusercontent.com",
+      scope: "https://www.googleapis.com/auth/drive",
       oauthToken: null,
-      appId: "632002309900",
+      appId: "50494717699",
       endAt: new Date().getTime(),
       momentDate: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()().format('MMMM Do YYYY, h:mm:ss a'),
       testTime: null

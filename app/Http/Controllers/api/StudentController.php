@@ -262,6 +262,48 @@ class StudentController extends Controller
        //}
     }
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function AddGoogleDriveLink(Request $request){
+
+        //return $request->attachment[0];
+    
+        $userId = auth('sanctum')->id();
+        
+        $StatusUpdate = tbl_Submission::find($request->Submission_id);
+        if($StatusUpdate){
+            $TempOldAttach = $StatusUpdate->Submitted_Answers = $StatusUpdate->Submitted_Answers != null ? unserialize($StatusUpdate->Submitted_Answers) : [];
+            foreach($request->attachment as $item){
+                $tempAnswer = ["link"=> $item['url'] , 
+                "name"=> $item['name'], "fileSize"=> $request['sizeBytes'],"fileExte"=> 'link',"icon"=> $item['iconUrl']];
+                array_push($TempOldAttach, $tempAnswer);
+            }
+            $StatusUpdate->Submitted_Answers = serialize($TempOldAttach);
+            $StatusUpdate->save();
+            return $StatusUpdate->id;
+        }
+        else{
+            $StatusUpdate = new tbl_Submission;
+            $StatusUpdate->classwork_id = $request->id;
+            $StatusUpdate->class_classwork_id = $request->class_classwork_id;
+            $StatusUpdate->user_id =  $userId;
+            $StatusUpdate->status = "Submitting";
+            $tempAnswer[] = ["link"=> $request->file, 
+            "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
+            $StatusUpdate->Submitted_Answers = serialize($tempAnswer);
+            $StatusUpdate->save();
+            return $StatusUpdate->id;
+        }
+       
+
+
+
+    }
+
 
     /**
      * Store a newly created resource in storage.
