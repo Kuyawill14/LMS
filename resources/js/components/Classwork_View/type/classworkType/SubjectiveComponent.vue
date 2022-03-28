@@ -1406,24 +1406,18 @@ export default {
     }
 
 
-.picker{
-    left: 4px !important;
-}
-.picker-dialog{
-  width: 98% !important;
-}
 
-.google_picker_container{
-  height: 80% !important;
-  width: 80% !important;
-  max-height: 1024px;
-  min-width:250px;
-  max-width: 1039px;
-  top:0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  margin: auto;
+
+@media only screen and (min-width: 600px) {
+  .picker{
+      left: 4px !important;
+  }
+  .picker-dialog{
+
+    width: 98% !important;
+  }
+
+
 }
     
 </style>
