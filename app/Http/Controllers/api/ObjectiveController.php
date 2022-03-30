@@ -1712,13 +1712,20 @@ class ObjectiveController extends Controller
                                
                             }
                             elseif($cl['type'] == 'Multiple Choice'){
-                                if($ques->isNew){
-                                    $answerID = intval($userAns);
-                                    $question_ans = intval($questionAns);
-                                    $score = $answerID == $question_ans ? ($score + $ques['points']) : $score;  
-                                }else{
-                                    $score = $questionAns == $userAns ? ($score + $ques['points']) : $score;  
+
+                                if(array_key_exists("check",$cl)){
+                                    $score =  $cl['check'] == true ? $score + $ques['points'] : $score;
                                 }
+                                else{
+                                    if($ques->isNew){
+                                        $answerID = intval($userAns);
+                                        $question_ans = intval($questionAns);
+                                        $score = $answerID == $question_ans ? ($score + $ques['points']) : $score;  
+                                    }else{
+                                        $score = $questionAns == $userAns ? ($score + $ques['points']) : $score;  
+                                    }
+                                }
+                                
                             }
                             else{
                                 $score = $questionAns == $userAns ? ($score + $ques['points']) : $score;  

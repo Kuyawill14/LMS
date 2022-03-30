@@ -1033,24 +1033,30 @@ var resetConfirmation = function resetConfirmation() {
                     }
                   }
                 } else if (_this.getAll_questions.Question[i].type == 'Multiple Choice') {
-                  if (_this.getAll_questions.Question[i].isNew) {
-                    student_ans = _this.ViewDetails.Submitted_Answers[_j].Answer;
-                    var _Question_answer = _this.getAll_questions.Question[i].answer;
+                  var _hasKey = ('check' in _this.ViewDetails.Submitted_Answers[_j]);
 
-                    if (_Question_answer == student_ans) {
-                      _this.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
-                    } else {
-                      _this.Check[i] = false;
-                    }
+                  if (_hasKey) {
+                    _this.Check[i] = _this.ViewDetails.Submitted_Answers[_j].check == true ? true : false;
                   } else {
-                    student_ans = _this.getAll_questions.Question[i].sensitivity ? _this.ViewDetails.Submitted_Answers[_j].Answer : _this.ViewDetails.Submitted_Answers[_j].Answer != null && _this.ViewDetails.Submitted_Answers[_j].Answer != '' ? _this.ViewDetails.Submitted_Answers[_j].Answer.toLowerCase() : _this.ViewDetails.Submitted_Answers[_j].Answer;
+                    if (_this.getAll_questions.Question[i].isNew) {
+                      student_ans = _this.ViewDetails.Submitted_Answers[_j].Answer;
+                      var _Question_answer = _this.getAll_questions.Question[i].answer;
 
-                    var _Question_answer2 = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
-
-                    if (_Question_answer2 == student_ans) {
-                      _this.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                      if (_Question_answer == student_ans) {
+                        _this.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                      } else {
+                        _this.Check[i] = false;
+                      }
                     } else {
-                      _this.Check[i] = false;
+                      student_ans = _this.getAll_questions.Question[i].sensitivity ? _this.ViewDetails.Submitted_Answers[_j].Answer : _this.ViewDetails.Submitted_Answers[_j].Answer != null && _this.ViewDetails.Submitted_Answers[_j].Answer != '' ? _this.ViewDetails.Submitted_Answers[_j].Answer.toLowerCase() : _this.ViewDetails.Submitted_Answers[_j].Answer;
+
+                      var _Question_answer2 = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
+
+                      if (_Question_answer2 == student_ans) {
+                        _this.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                      } else {
+                        _this.Check[i] = false;
+                      }
                     }
                   }
                 } else if (_this.getAll_questions.Question[i].type == 'True or False') {
@@ -1068,9 +1074,9 @@ var resetConfirmation = function resetConfirmation() {
                 _this.Check[i] = _this.ViewDetails.Submitted_Answers[_j].check;
                 var score;
 
-                var _hasKey = ('score' in _this.ViewDetails.Submitted_Answers[_j]);
+                var _hasKey2 = ('score' in _this.ViewDetails.Submitted_Answers[_j]);
 
-                if (_hasKey) {
+                if (_hasKey2) {
                   score = parseInt(_this.ViewDetails.Submitted_Answers[_j].score);
                 } else {
                   _this.ViewDetails.Submitted_Answers[_j].score = "";
@@ -1128,9 +1134,9 @@ var resetConfirmation = function resetConfirmation() {
                         ans.Answer = user_ans.Answers;
                         ans.user_ans_id = user_ans.Ans_id;
 
-                        var _hasKey2 = ('isCheck' in user_ans);
+                        var _hasKey3 = ('isCheck' in user_ans);
 
-                        if (_hasKey2) {
+                        if (_hasKey3) {
                           ans.isCheck = user_ans.isCheck;
                         } else {
                           ans.isCheck = null;
@@ -1381,24 +1387,30 @@ var resetConfirmation = function resetConfirmation() {
                   }
                 }
               } else if (_this2.getAll_questions.Question[i].type == 'Multiple Choice') {
-                if (_this2.getAll_questions.Question[i].isNew) {
-                  student_ans = _this2.ViewDetails.Submitted_Answers[_j2].Answer;
-                  var _Question_answer4 = _this2.getAll_questions.Question[i].answer;
+                var _hasKey4 = ('check' in _this2.ViewDetails.Submitted_Answers[_j2]);
 
-                  if (_Question_answer4 == student_ans) {
-                    _this2.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
-                  } else {
-                    _this2.Check[i] = false;
-                  }
+                if (_hasKey4) {
+                  _this2.Check[i] = _this2.ViewDetails.Submitted_Answers[_j2].check == true ? true : false;
                 } else {
-                  student_ans = _this2.getAll_questions.Question[i].sensitivity ? _this2.ViewDetails.Submitted_Answers[_j2].Answer : _this2.ViewDetails.Submitted_Answers[_j2].Answer != null && _this2.ViewDetails.Submitted_Answers[_j2].Answer != '' ? _this2.ViewDetails.Submitted_Answers[_j2].Answer.toLowerCase() : _this2.ViewDetails.Submitted_Answers[_j2].Answer;
+                  if (_this2.getAll_questions.Question[i].isNew) {
+                    student_ans = _this2.ViewDetails.Submitted_Answers[_j2].Answer;
+                    var _Question_answer4 = _this2.getAll_questions.Question[i].answer;
 
-                  var _Question_answer5 = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
-
-                  if (_Question_answer5 == student_ans) {
-                    _this2.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                    if (_Question_answer4 == student_ans) {
+                      _this2.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                    } else {
+                      _this2.Check[i] = false;
+                    }
                   } else {
-                    _this2.Check[i] = false;
+                    student_ans = _this2.getAll_questions.Question[i].sensitivity ? _this2.ViewDetails.Submitted_Answers[_j2].Answer : _this2.ViewDetails.Submitted_Answers[_j2].Answer != null && _this2.ViewDetails.Submitted_Answers[_j2].Answer != '' ? _this2.ViewDetails.Submitted_Answers[_j2].Answer.toLowerCase() : _this2.ViewDetails.Submitted_Answers[_j2].Answer;
+
+                    var _Question_answer5 = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
+
+                    if (_Question_answer5 == student_ans) {
+                      _this2.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                    } else {
+                      _this2.Check[i] = false;
+                    }
                   }
                 }
               } else if (_this2.getAll_questions.Question[i].type == 'True or False') {
@@ -1418,9 +1430,9 @@ var resetConfirmation = function resetConfirmation() {
 
               var score;
 
-              var _hasKey3 = ('score' in _this2.ViewDetails.Submitted_Answers[_j2]);
+              var _hasKey5 = ('score' in _this2.ViewDetails.Submitted_Answers[_j2]);
 
-              if (_hasKey3) {
+              if (_hasKey5) {
                 score = parseInt(_this2.ViewDetails.Submitted_Answers[_j2].score);
               } else {
                 _this2.ViewDetails.Submitted_Answers[_j2].score = "";
@@ -1479,9 +1491,9 @@ var resetConfirmation = function resetConfirmation() {
                       ans.Answer = user_ans.Answers;
                       ans.user_ans_id = user_ans.Ans_id;
 
-                      var _hasKey4 = ('isCheck' in user_ans);
+                      var _hasKey6 = ('isCheck' in user_ans);
 
-                      if (_hasKey4) {
+                      if (_hasKey6) {
                         ans.isCheck = user_ans.isCheck;
                       } else {
                         ans.isCheck = null;
