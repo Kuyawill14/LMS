@@ -231,6 +231,8 @@ Route::middleware('auth:sanctum')->prefix('/teacher')->group(function () {
     Route::put('/multiple_reject_student_join_request', [TeacherController::class, 'MultiplerejectJoinRequest']);
     
     Route::put('/allow_resubmit/{id}', [TeacherController::class, 'AllowResubmit']);
+
+    Route::put('/markAnswer/{id}', [TeacherController::class, 'MarkMatchingTypeAnswer']);
     
 });
 
@@ -329,8 +331,11 @@ Route::middleware('auth:sanctum')->withoutMiddleware('throttle:api')->prefix('/q
     
     Route::put('/update_destructor/{id}', [ObjectiveController::class, 'UpdateDestructor']);
     Route::put('/save_all_question/{id}', [ObjectiveController::class, 'SaveAllQuestion']);
+  
     Route::put('/delete_selected_question/{id}', [ObjectiveController::class, 'DeleteSelectedQuestion']);
     Route::put('/store_duplicate_question/{id}', [ObjectiveController::class, 'StoreDuplicateQuestion']);
+
+    Route::put('/delete_question_attachment/{id}', [ObjectiveController::class, 'DeleteQuestionAttachment']);
     
 });
 

@@ -102,6 +102,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 var studentStartPage = function studentStartPage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_studentStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/studentStartPage */ "./resources/js/components/Classwork_View/type/studentStartPage.vue"));
 };
@@ -1019,6 +1021,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1058,6 +1072,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       isloading: true,
       isLeaving: false,
       isDuplicating: false,
+      isDeleting: false,
       valid: false,
       inputCheck: ['True', 'False'],
       rules: [function (v) {
@@ -1105,7 +1120,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
               'color': []
             }], [{
               'list': 'bullet'
-            }], ['image']]
+            }] //['image']
+            ]
             /*  handlers: {
                  image: this.imageHandler
              } */
@@ -1137,7 +1153,11 @@ var studentViewForTeacher = function studentViewForTeacher() {
       studentViewData: null,
       isHaveSubmissionDialog: null,
       isHaveSubmission: null,
-      isEditing_id: null
+      isEditing_id: null,
+      isUploading: false,
+      isDeletingAttachment: false,
+      isDeletingAttachment_index: null,
+      fileCount: 4
     };
   },
   watch: {
@@ -1166,6 +1186,9 @@ var studentViewForTeacher = function studentViewForTeacher() {
       this.editorData = editor;
     },
     imageHandler: function imageHandler() {
+      var _this = this;
+
+      //this.AddAttachment();
       var editor = this.editorData;
       var input = document.createElement('input');
       input.setAttribute('type', 'file');
@@ -1178,13 +1201,21 @@ var studentViewForTeacher = function studentViewForTeacher() {
             switch (_context2.prev = _context2.next) {
               case 0:
                 file = input.files[0];
+
+                if (!(file.size < 2000100)) {
+                  _context2.next = 20;
+                  break;
+                }
+
+                _this.isUploading = true;
                 formData = new FormData();
                 formData.append('file', file);
-                formData.append('classwork_id', thi.$route.query.clwk);
-                formData.append('type', 'classwork');
+                formData.append('classwork_id', _this.$route.query.clwk);
+                formData.append('type', 'question');
+                _context2.prev = 7;
                 range = editor.getSelection(true);
                 editor.setSelection(range.index + 1);
-                _context2.next = 9;
+                _context2.next = 12;
                 return axios.post('/api/classwork/newAttachment', formData).then( /*#__PURE__*/function () {
                   var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(_ref2) {
                     var data;
@@ -1194,9 +1225,12 @@ var studentViewForTeacher = function studentViewForTeacher() {
                           case 0:
                             data = _ref2.data;
                             _context.next = 3;
-                            return editor.insertEmbed(range.index, 'image', data.link);
+                            return editor.insertEmbed(range.index + 1, 'image', data.link);
 
                           case 3:
+                            _this.isUploading = false;
+
+                          case 4:
                           case "end":
                             return _context.stop();
                         }
@@ -1209,53 +1243,39 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   };
                 }());
 
-              case 9:
+              case 12:
+                _context2.next = 18;
+                break;
+
+              case 14:
+                _context2.prev = 14;
+                _context2.t0 = _context2["catch"](7);
+                _this.isUploading = false;
+
+                _this.toastError('Upload failed!, click at input box first before uploading the image.');
+
+              case 18:
+                _context2.next = 21;
+                break;
+
+              case 20:
+                _this.toastError('File is to big max size for each question is 2mb');
+
+              case 21:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2);
+        }, _callee2, null, [[7, 14]]);
       }));
     },
     GetQuestion: function GetQuestion() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
-              case 0:
-                _this.$store.dispatch('fetchQuestions', _this.$route.query.clwk).then(function (res) {
-                  if (res.status == 200) {
-                    _this.selectedData = [];
-                    var tmp = _this.getAll_questions.Question;
-                    tmp.forEach(function (item) {
-                      _this.selectedData.push({
-                        id: item.id,
-                        selected: false,
-                        isEditing: false
-                      });
-                    });
-                    _this.isloading = false;
-                    _this.Qlength = tmp.length;
-                  }
-                });
-
-              case 1:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    ReloadQuestion: function ReloadQuestion() {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
               case 0:
                 _this2.$store.dispatch('fetchQuestions', _this2.$route.query.clwk).then(function (res) {
                   if (res.status == 200) {
@@ -1275,6 +1295,38 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 1:
               case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    ReloadQuestion: function ReloadQuestion() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _this3.$store.dispatch('fetchQuestions', _this3.$route.query.clwk).then(function (res) {
+                  if (res.status == 200) {
+                    _this3.selectedData = [];
+                    var tmp = _this3.getAll_questions.Question;
+                    tmp.forEach(function (item) {
+                      _this3.selectedData.push({
+                        id: item.id,
+                        selected: false,
+                        isEditing: false
+                      });
+                    });
+                    _this3.isloading = false;
+                    _this3.Qlength = tmp.length;
+                  }
+                });
+
+              case 1:
+              case "end":
                 return _context4.stop();
             }
           }
@@ -1282,35 +1334,36 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }))();
     },
     AddNewQuestion: function AddNewQuestion() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _this3.isAddingNewQuestion = true;
+                _this4.isAddingNewQuestion = true;
                 _context5.next = 3;
                 return axios.post('/api/question/add_new_question', {
-                  classwork_id: _this3.$route.query.clwk,
-                  new_number: _this3.getAll_questions.Question.length + 1
+                  classwork_id: _this4.$route.query.clwk,
+                  new_number: _this4.getAll_questions.Question.length + 1
                 }).then(function (res) {
                   if (res.data.success == true) {
-                    _this3.Qlength += 1;
+                    _this4.Qlength += 1;
 
-                    _this3.getAll_questions.Question.push({
+                    _this4.getAll_questions.Question.push({
                       id: res.data.question_id,
-                      question: '<p>' + 'New Question ' + (_this3.getAll_questions.Question.length + 1) + '</p>',
+                      question: '',
                       answer: res.data.choices_id[0],
                       points: 1,
                       type: 'Multiple Choice',
                       isNew: true,
+                      attachments: null,
                       sensitivity: 0
                     });
 
-                    _this3.isEditing_id = res.data.question_id;
+                    _this4.isEditing_id = res.data.question_id;
 
-                    _this3.getAll_questions.Answer.push({
+                    _this4.getAll_questions.Answer.push({
                       options: [{
                         id: res.data.choices_id[0],
                         Choice: '',
@@ -1339,7 +1392,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
 
                     //this.getAll_questions.Question.forEach(item => {
-                    _this3.selectedData.push({
+                    _this4.selectedData.push({
                       id: res.data.question_id,
                       selected: false,
                       isEditing: true
@@ -1347,14 +1400,14 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
 
                     //});
-                    _this3.$toasted.show('New Question Added', {
+                    _this4.$toasted.show('New Question Added', {
                       theme: "toasted-primary",
                       position: "top-center",
                       duration: 3000
                     });
                   }
 
-                  _this3.isAddingNewQuestion = false;
+                  _this4.isAddingNewQuestion = false;
                   setTimeout(function () {
                     return window.scrollTo(0, document.body.scrollHeight);
                   }, 100);
@@ -1369,7 +1422,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }))();
     },
     AddAnswer: function AddAnswer(id, Mainindex) {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
@@ -1381,15 +1434,15 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   type: "Multiple Choice",
                   question_id: id
                 }).then(function (res) {
-                  _this4.isNewChanges = true;
+                  _this5.isNewChanges = true;
 
-                  _this4.getAll_questions.Answer[Mainindex].options.push({
+                  _this5.getAll_questions.Answer[Mainindex].options.push({
                     id: res.data.answer_id,
                     Choice: '',
                     question_id: id
                   });
 
-                  _this4.$toasted.show('New answer has been added', {
+                  _this5.$toasted.show('New answer has been added', {
                     theme: "toasted-primary",
                     position: "top-center",
                     duration: 4000
@@ -1405,7 +1458,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }))();
     },
     AddNewOption: function AddNewOption(id, Mainindex, type) {
-      var _this5 = this;
+      var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
@@ -1417,15 +1470,15 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   type: type,
                   question_id: id
                 }).then(function (res) {
-                  _this5.isNewChanges = true;
+                  _this6.isNewChanges = true;
 
-                  _this5.getAll_questions.Answer[Mainindex].options.push({
+                  _this6.getAll_questions.Answer[Mainindex].options.push({
                     id: res.data.answer_id,
                     Choice: '',
                     question_id: id
                   });
 
-                  _this5.$toasted.show('New option has been added', {
+                  _this6.$toasted.show('New option has been added', {
                     theme: "toasted-primary",
                     position: "top-center",
                     duration: 4000
@@ -1441,9 +1494,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }))();
     },
     AddNewMatch: function AddNewMatch(id, mainIndex, type) {
-      var _this6 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
+        var points, matchlength;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -1453,19 +1507,19 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   type: type,
                   question_id: id
                 }).then(function (res) {
-                  _this6.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                  _this7.getAll_questions.Answer[mainIndex].SubQuestion.push({
                     id: res.data.sub_question_id,
                     answer_id: null,
                     sub_question: ''
                   });
 
-                  _this6.getAll_questions.Answer[mainIndex].SubAnswer.push({
+                  _this7.getAll_questions.Answer[mainIndex].SubAnswer.push({
                     id: res.data.answer_id,
                     Choice: '',
                     question_id: id
                   });
 
-                  _this6.$toasted.show('New match has been added', {
+                  _this7.$toasted.show('New match has been added', {
                     theme: "toasted-primary",
                     position: "top-center",
                     duration: 4000
@@ -1474,6 +1528,14 @@ var studentViewForTeacher = function studentViewForTeacher() {
                 });
 
               case 2:
+                points = _this7.getAll_questions.Question[mainIndex].points;
+                matchlength = _this7.getAll_questions.Answer[mainIndex].SubQuestion.length;
+
+                if (points < matchlength) {
+                  _this7.getAll_questions.Question[mainIndex].points = matchlength;
+                }
+
+              case 5:
               case "end":
                 return _context8.stop();
             }
@@ -1482,7 +1544,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }))();
     },
     RemoveOption: function RemoveOption(id, Mainindex, AnsIndex, type) {
-      var _this7 = this;
+      var _this8 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
@@ -1494,7 +1556,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   break;
                 }
 
-                _this7.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
+                _this8.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
 
                 _context9.next = 6;
                 break;
@@ -1504,7 +1566,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                 return axios.put('/api/question/remove_question_option/' + id, {
                   type: type
                 }).then(function (res) {
-                  _this7.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
+                  _this8.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
                 });
 
               case 6:
@@ -1516,9 +1578,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }))();
     },
     RemoveMatch: function RemoveMatch(main_id, sub_quesId, answer_id, main_index, match_index) {
-      var _this8 = this;
+      var _this9 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
+        var points, matchlenght;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
@@ -1528,9 +1591,9 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   break;
                 }
 
-                _this8.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
+                _this9.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
 
-                _this8.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
+                _this9.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
 
                 _context10.next = 7;
                 break;
@@ -1541,12 +1604,17 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   sub_question_id: sub_quesId,
                   answer_id: answer_id
                 }).then(function (res) {
-                  _this8.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
+                  _this9.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
 
-                  _this8.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
+                  _this9.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
                 });
 
               case 7:
+                points = _this9.getAll_questions.Question[main_index].points;
+                matchlenght = _this9.getAll_questions.Answer[main_index].SubQuestion.length;
+                _this9.getAll_questions.Question[main_index].points = matchlenght;
+
+              case 10:
               case "end":
                 return _context10.stop();
             }
@@ -1555,7 +1623,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }))();
     },
     UpdateQuestion: function UpdateQuestion(id, Mainindex) {
-      var _this9 = this;
+      var _this10 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee11() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee11$(_context11) {
@@ -1564,8 +1632,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
               case 0:
                 _context11.next = 2;
                 return axios.put('/api/question/update_question_details/' + id, {
-                  question: _this9.getAll_questions.Question[Mainindex],
-                  answer: _this9.getAll_questions.Answer[Mainindex]
+                  question: _this10.getAll_questions.Question[Mainindex],
+                  answer: _this10.getAll_questions.Answer[Mainindex]
                 }).then(function (res) {});
 
               case 2:
@@ -1577,7 +1645,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }))();
     },
     CheckType: function CheckType(id, type, mainIndex) {
-      var _this10 = this;
+      var _this11 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee12() {
         var tmp;
@@ -1585,15 +1653,15 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context12.prev = _context12.next) {
               case 0:
-                _this10.isNewChanges = true;
+                _this11.isNewChanges = true;
 
                 if (!(type == 'Multiple Choice')) {
                   _context12.next = 5;
                   break;
                 }
 
-                if (_this10.getAll_questions.Answer[mainIndex].options.length == 0) {
-                  _this10.getAll_questions.Answer[mainIndex].options.push({
+                if (_this11.getAll_questions.Answer[mainIndex].options.length == 0) {
+                  _this11.getAll_questions.Answer[mainIndex].options.push({
                     id: '',
                     Choice: '',
                     question_id: id
@@ -1609,7 +1677,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   break;
                 }
 
-                tmp = _this10.getAll_questions.Answer[mainIndex].SubQuestion;
+                tmp = _this11.getAll_questions.Answer[mainIndex].SubQuestion;
 
                 if (!(tmp.length == 0)) {
                   _context12.next = 10;
@@ -1621,13 +1689,13 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   type: type,
                   question_id: id
                 }).then(function (res) {
-                  _this10.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                  _this11.getAll_questions.Answer[mainIndex].SubQuestion.push({
                     id: res.data.sub_question_id,
                     answer_id: null,
                     sub_question: ''
                   });
 
-                  _this10.getAll_questions.Answer[mainIndex].SubAnswer.push({
+                  _this11.getAll_questions.Answer[mainIndex].SubAnswer.push({
                     id: res.data.answer_id,
                     Choice: '',
                     question_id: id
@@ -1644,29 +1712,36 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }))();
     },
     SaveAllQuestion: function SaveAllQuestion() {
-      var _this11 = this;
+      var _this12 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee13() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee13$(_context13) {
           while (1) {
             switch (_context13.prev = _context13.next) {
               case 0:
-                _this11.isAddingNewQuestion = true;
-                _this11.showSnackbar = true;
-                _this11.isSavingAllQuestion = true;
+                _this12.isAddingNewQuestion = true;
+                _this12.showSnackbar = true;
+                _this12.isSavingAllQuestion = true;
                 _context13.next = 5;
-                return axios.put('/api/question/save_all_question/' + _this11.$route.query.clwk, _this11.getAll_questions).then(function (res) {
+                return axios.put('/api/question/save_all_question/' + _this12.$route.query.clwk, _this12.getAll_questions).then(function (res) {
                   if (res.data.success == true) {
-                    _this11.isSavingAllQuestion = false;
-                    _this11.isNewChanges = false; //this.GetQuestion();
+                    _this12.isSavingAllQuestion = false;
+                    _this12.isNewChanges = false; //this.GetQuestion();
 
                     //this.GetQuestion();
                     setTimeout(function () {
-                      _this11.showSnackbar = false;
+                      _this12.showSnackbar = false;
                     }, 3000);
                   }
 
-                  _this11.isAddingNewQuestion = false;
+                  _this12.isAddingNewQuestion = false;
+                  var totalPoints = 0;
+
+                  _this12.getAll_questions.Question.forEach(function (item) {
+                    totalPoints += item.points;
+                  });
+
+                  _this12.$store.dispatch('setCurrectClassworkPoints', totalPoints);
                 });
 
               case 5:
@@ -1685,7 +1760,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }
     },
     SelectAll: function SelectAll() {
-      var _this12 = this;
+      var _this13 = this;
 
       if (this.selectedDataCount == this.getAll_questions.Question.length) {
         this.selectedData.forEach(function (item) {
@@ -1696,7 +1771,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
         this.selectedDataCount = 0;
         this.selectedData.forEach(function (item) {
           item.selected = true;
-          _this12.selectedDataCount++;
+          _this13.selectedDataCount++;
         });
       }
     },
@@ -1707,7 +1782,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       this.selectedDataCount = 0;
     },
     DeleteSelected: function DeleteSelected() {
-      var _this13 = this;
+      var _this14 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee14() {
         var question_id_list, question_index;
@@ -1715,13 +1790,14 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context14.prev = _context14.next) {
               case 0:
-                _this13.Deletedialog = false;
-                _this13.isDuplicating = true;
-                _this13.isAddingNewQuestion = true;
+                _this14.Deletedialog = false;
+                _this14.isDuplicating = true;
+                _this14.isDeleting = true;
+                _this14.isAddingNewQuestion = true;
                 question_id_list = [];
                 question_index = 0;
 
-                _this13.selectedData.forEach(function (item) {
+                _this14.selectedData.forEach(function (item) {
                   if (item.selected == true) {
                     question_id_list.push({
                       question_id: item.id
@@ -1731,46 +1807,48 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   question_index++;
                 });
 
-                _context14.next = 8;
-                return axios.put('/api/question/delete_selected_question/' + _this13.$route.query.clwk, {
+                _context14.next = 9;
+                return axios.put('/api/question/delete_selected_question/' + _this14.$route.query.clwk, {
                   question: question_id_list
                 }).then(function (res) {
                   if (res.data.success == true) {
-                    _this13.Deletedialog = false;
+                    _this14.Deletedialog = false;
                     question_id_list.forEach(function (item) {
-                      var tmp_question = _this13.getAll_questions.Question;
+                      var tmp_question = _this14.getAll_questions.Question;
 
                       for (var index = 0; index < tmp_question.length; index++) {
                         if (item.question_id == tmp_question[index].id) {
-                          _this13.getAll_questions.Question.splice(index, 1);
+                          _this14.getAll_questions.Question.splice(index, 1);
 
-                          _this13.getAll_questions.Answer.splice(index, 1);
+                          _this14.getAll_questions.Answer.splice(index, 1);
 
-                          _this13.selectedData.splice(index, 1);
+                          _this14.selectedData.splice(index, 1);
                         }
                       }
                     });
 
-                    _this13.$toasted.show('Question has been deleted', {
+                    _this14.$toasted.show('Question has been deleted', {
                       theme: "toasted-primary",
                       position: "top-center",
                       duration: 5000
                     });
 
-                    _this13.selectedDataCount = 0;
+                    _this14.selectedDataCount = 0;
 
-                    if (_this13.getAll_questions.Question.length == 0) {
-                      _this13.Qlength = 0;
+                    if (_this14.getAll_questions.Question.length == 0) {
+                      _this14.Qlength = 0;
                     }
 
-                    _this13.isAddingNewQuestion = false;
-                    _this13.isDuplicating = false;
+                    _this14.isAddingNewQuestion = false;
+                    _this14.isDuplicating = false;
+                    _this14.isDeleting = false;
                   } else {
-                    _this13.isDuplicating = false;
+                    _this14.isDuplicating = false;
+                    _this14.isDeleting = false;
                   }
                 });
 
-              case 8:
+              case 9:
               case "end":
                 return _context14.stop();
             }
@@ -1784,37 +1862,39 @@ var studentViewForTeacher = function studentViewForTeacher() {
       this.DeleteSingledialog = true;
     },
     deleteSingleQuestion: function deleteSingleQuestion() {
-      var _this14 = this;
+      var _this15 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee15() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee15$(_context15) {
           while (1) {
             switch (_context15.prev = _context15.next) {
               case 0:
-                _this14.DeleteSingledialog = false;
-                _this14.isDuplicating = true;
-                _context15.next = 4;
-                return axios["delete"]('/api/question/remove/' + _this14.DeleteDetails.id).then(function (res) {
-                  _this14.getAll_questions.Question.splice(_this14.DeleteIndex, 1);
+                _this15.DeleteSingledialog = false;
+                _this15.isDuplicating = true;
+                _this15.isDeleting = true;
+                _context15.next = 5;
+                return axios["delete"]('/api/question/remove/' + _this15.DeleteDetails.id).then(function (res) {
+                  _this15.getAll_questions.Question.splice(_this15.DeleteIndex, 1);
 
-                  _this14.getAll_questions.Answer.splice(_this14.DeleteIndex, 1);
+                  _this15.getAll_questions.Answer.splice(_this15.DeleteIndex, 1);
 
-                  _this14.selectedData.splice(_this14.DeleteIndex, 1);
+                  _this15.selectedData.splice(_this15.DeleteIndex, 1);
 
-                  _this14.DeleteSingledialog = false;
-                  _this14.DeleteDetails = null;
-                  _this14.Qlength = _this14.getAll_questions.Question.length;
+                  _this15.DeleteSingledialog = false;
+                  _this15.DeleteDetails = null;
+                  _this15.Qlength = _this15.getAll_questions.Question.length;
 
-                  _this14.$toasted.show('Question has been deleted', {
+                  _this15.$toasted.show('Question has been deleted', {
                     theme: "toasted-primary",
                     position: "top-center",
                     duration: 5000
                   });
 
-                  _this14.isDuplicating = false;
+                  _this15.isDuplicating = false;
+                  _this15.isDeleting = false;
                 });
 
-              case 4:
+              case 5:
               case "end":
                 return _context15.stop();
             }
@@ -1845,100 +1925,102 @@ var studentViewForTeacher = function studentViewForTeacher() {
       this.DuplicateQuestionAction();
     },
     DuplicateQuestionAction: function DuplicateQuestionAction() {
-      var _this15 = this;
+      var _this16 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee16() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee16$(_context16) {
           while (1) {
             switch (_context16.prev = _context16.next) {
               case 0:
-                _this15.isDuplicating = true;
+                _this16.isDuplicating = true;
                 _context16.next = 3;
-                return axios.put('/api/question/store_duplicate_question/' + _this15.$route.query.clwk, {
-                  question: _this15.DuplicateQuestion,
-                  answer: _this15.DuplicateAnswers
+                return axios.put('/api/question/store_duplicate_question/' + _this16.$route.query.clwk, {
+                  question: _this16.DuplicateQuestion,
+                  answer: _this16.DuplicateAnswers
                 }).then(function (res) {
                   //this.isNewChanges = false;
-                  _this15.$toasted.show('Question has been duplicated', {
+                  _this16.$toasted.show('Question has been duplicated', {
                     theme: "toasted-primary",
                     position: "top-center",
                     duration: 5000
                   });
 
                   for (var i = 0; i < res.data.question_id.length; i++) {
-                    if (_this15.DuplicateQuestion[i].isNew) {
-                      _this15.getAll_questions.Question.push({
+                    if (_this16.DuplicateQuestion[i].isNew) {
+                      _this16.getAll_questions.Question.push({
                         id: res.data.question_id[i],
-                        question: _this15.DuplicateQuestion[i].question,
+                        question: _this16.DuplicateQuestion[i].question,
                         answer: res.data.question_answer_id[i],
-                        points: _this15.DuplicateQuestion[i].points,
-                        type: _this15.DuplicateQuestion[i].type,
-                        sensitivity: _this15.DuplicateQuestion[i].sensitivity,
-                        isNew: _this15.DuplicateQuestion[i].isNew
+                        points: _this16.DuplicateQuestion[i].points,
+                        type: _this16.DuplicateQuestion[i].type,
+                        sensitivity: _this16.DuplicateQuestion[i].sensitivity,
+                        isNew: _this16.DuplicateQuestion[i].isNew,
+                        attachments: _this16.DuplicateQuestion[i].attachments
                       });
                     } else {
-                      _this15.getAll_questions.Question.push({
+                      _this16.getAll_questions.Question.push({
                         id: res.data.question_id[i],
-                        question: _this15.DuplicateQuestion[i].question,
-                        answer: _this15.DuplicateQuestion[i].answer,
-                        points: _this15.DuplicateQuestion[i].points,
-                        type: _this15.DuplicateQuestion[i].type,
-                        sensitivity: _this15.DuplicateQuestion[i].sensitivity,
-                        isNew: _this15.DuplicateQuestion[i].isNew
+                        question: _this16.DuplicateQuestion[i].question,
+                        answer: _this16.DuplicateQuestion[i].answer,
+                        points: _this16.DuplicateQuestion[i].points,
+                        type: _this16.DuplicateQuestion[i].type,
+                        sensitivity: _this16.DuplicateQuestion[i].sensitivity,
+                        isNew: _this16.DuplicateQuestion[i].isNew,
+                        attachments: _this16.DuplicateQuestion[i].attachments
                       });
                     }
 
-                    _this15.selectedData.push({
+                    _this16.selectedData.push({
                       id: res.data.question_id[i],
                       selected: false,
                       isEditing: true
                     });
 
-                    _this15.getAll_questions.Answer.push({
+                    _this16.getAll_questions.Answer.push({
                       options: [],
                       SubQuestion: [],
                       SubAnswer: [],
                       Destructors: []
                     });
 
-                    if (_this15.DuplicateQuestion[i].type == 'Multiple Choice' || _this15.DuplicateQuestion[i].type == 'Identification') {
+                    if (_this16.DuplicateQuestion[i].type == 'Multiple Choice' || _this16.DuplicateQuestion[i].type == 'Identification') {
                       for (var j = 0; j < res.data.answer_id[i].options_id.length; j++) {
-                        _this15.getAll_questions.Answer[_this15.getAll_questions.Answer.length - 1].options.push({
+                        _this16.getAll_questions.Answer[_this16.getAll_questions.Answer.length - 1].options.push({
                           id: res.data.answer_id[i].options_id[j],
-                          Choice: _this15.DuplicateAnswers[i].options[j].Choice,
+                          Choice: _this16.DuplicateAnswers[i].options[j].Choice,
                           question_id: res.data.question_id[i]
                         });
                       }
-                    } else if (_this15.DuplicateQuestion[i].type == 'Matching type') {
+                    } else if (_this16.DuplicateQuestion[i].type == 'Matching type') {
                       for (var _j = 0; _j < res.data.answer_id[i].SubQuestion_id.length; _j++) {
-                        _this15.getAll_questions.Answer[_this15.getAll_questions.Answer.length - 1].SubQuestion.push({
+                        _this16.getAll_questions.Answer[_this16.getAll_questions.Answer.length - 1].SubQuestion.push({
                           id: res.data.answer_id[i].SubQuestion_id[_j],
-                          sub_question: _this15.DuplicateAnswers[i].SubQuestion[_j].sub_question,
+                          sub_question: _this16.DuplicateAnswers[i].SubQuestion[_j].sub_question,
                           answer_id: res.data.answer_id[i].SubAnswer_id[_j]
                         });
 
-                        _this15.getAll_questions.Answer[_this15.getAll_questions.Answer.length - 1].SubAnswer.push({
+                        _this16.getAll_questions.Answer[_this16.getAll_questions.Answer.length - 1].SubAnswer.push({
                           id: res.data.answer_id[i].SubAnswer_id[_j],
-                          Choice: _this15.DuplicateAnswers[i].SubAnswer[_j].Choice,
+                          Choice: _this16.DuplicateAnswers[i].SubAnswer[_j].Choice,
                           question_id: res.data.question_id[i]
                         });
                       }
 
                       for (var x = 0; x < res.data.answer_id[i].Destructors_id.length; x++) {
-                        _this15.getAll_questions.Answer[_this15.getAll_questions.Answer.length - 1].Destructors.push({
+                        _this16.getAll_questions.Answer[_this16.getAll_questions.Answer.length - 1].Destructors.push({
                           id: res.data.answer_id[i].Destructors_id[x],
-                          Choice: _this15.DuplicateAnswers[i].Destructors[x].Choice,
+                          Choice: _this16.DuplicateAnswers[i].Destructors[x].Choice,
                           question_id: res.data.question_id[i]
                         });
                       }
                     }
                   }
 
-                  _this15.isAddingNewQuestion = false;
+                  _this16.isAddingNewQuestion = false;
 
-                  _this15.UnselectAll();
+                  _this16.UnselectAll();
 
-                  _this15.isDuplicating = false;
+                  _this16.isDuplicating = false;
                   setTimeout(function () {
                     return window.scrollTo(0, document.body.scrollHeight);
                   }, 100);
@@ -1951,6 +2033,116 @@ var studentViewForTeacher = function studentViewForTeacher() {
           }
         }, _callee16);
       }))();
+    },
+    AddAttachment: function AddAttachment(mainIndex) {
+      var _this17 = this;
+
+      var editor = this.editorData;
+      var input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
+      input.click();
+      input.onchange = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee18() {
+        var file, formData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee18$(_context18) {
+          while (1) {
+            switch (_context18.prev = _context18.next) {
+              case 0:
+                file = input.files[0];
+
+                if (!(file.size < 2000100)) {
+                  _context18.next = 11;
+                  break;
+                }
+
+                _this17.isUploading = true;
+                formData = new FormData();
+                formData.append('file', file);
+                formData.append('classwork_id', _this17.$route.query.clwk);
+                formData.append('type', 'question');
+                _context18.next = 9;
+                return axios.post('/api/classwork/newAttachment', formData).then( /*#__PURE__*/function () {
+                  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee17(_ref5) {
+                    var data;
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee17$(_context17) {
+                      while (1) {
+                        switch (_context17.prev = _context17.next) {
+                          case 0:
+                            data = _ref5.data;
+
+                            if (_this17.getAll_questions.Question[mainIndex].attachments == null) {
+                              _this17.getAll_questions.Question[mainIndex].attachments = [];
+
+                              _this17.getAll_questions.Question[mainIndex].attachments.push({
+                                link: data.link,
+                                name: file.name,
+                                type: file.type,
+                                size: file.size
+                              });
+                            } else {
+                              _this17.getAll_questions.Question[mainIndex].attachments.push({
+                                link: data.link,
+                                name: file.name,
+                                type: file.type,
+                                size: file.size
+                              });
+                            }
+
+                            _this17.isUploading = false;
+
+                            _this17.SaveAllQuestion();
+
+                          case 4:
+                          case "end":
+                            return _context17.stop();
+                        }
+                      }
+                    }, _callee17);
+                  }));
+
+                  return function (_x2) {
+                    return _ref6.apply(this, arguments);
+                  };
+                }());
+
+              case 9:
+                _context18.next = 12;
+                break;
+
+              case 11:
+                _this17.toastError('File is to big max size for each question is 2mb');
+
+              case 12:
+              case "end":
+                return _context18.stop();
+            }
+          }
+        }, _callee18);
+      }));
+    },
+    DeleteAttachement: function DeleteAttachement(mainIndex, attach_index, id) {
+      var _this18 = this;
+
+      this.isDeletingAttachment = true;
+      this.isDeletingAttachment_index = attach_index;
+      var data = {};
+      data.link = this.getAll_questions.Question[mainIndex].attachments[attach_index].link;
+      data.index = attach_index;
+      axios.put('/api/question/delete_question_attachment/' + id, data).then(function (res) {
+        if (res.data.success == true) {
+          _this18.getAll_questions.Question[mainIndex].attachments.splice(attach_index, 1);
+
+          _this18.getAll_questions.Question[mainIndex].attachments = _this18.getAll_questions.Question[mainIndex].attachments.length == 0 ? null : _this18.getAll_questions.Question[mainIndex].attachments; //this.SaveAllQuestion();
+
+          _this18.isDeletingAttachment = false;
+          _this18.isDeletingAttachment_index = null;
+        } else {
+          _this18.toastError('File remove failed!');
+
+          _this18.isDeletingAttachment = false;
+          _this18.isDeletingAttachment_index = null;
+        }
+      });
     },
     studenView: function studenView() {
       this.studentViewData = this.getAll_questions;
@@ -1977,73 +2169,33 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }
     },
     AddDestructor: function AddDestructor(mainIndex, id) {
-      var _this16 = this;
+      var _this19 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee17() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee17$(_context17) {
-          while (1) {
-            switch (_context17.prev = _context17.next) {
-              case 0:
-                _context17.next = 2;
-                return axios.post('/api/question/add_new_destructor', {
-                  question_id: id
-                }).then(function (res) {
-                  if (res.data.success == true) {
-                    _this16.getAll_questions.Answer[mainIndex].Destructors.push({
-                      question_id: id,
-                      id: res.data.newDestructor_id,
-                      Choice: null
-                    });
-
-                    _this16.$toasted.show('New Desctrutor has been added', {
-                      theme: "toasted-primary",
-                      position: "top-center",
-                      duration: 5000
-                    });
-                  } else {
-                    _this16.toastError('Something went wrong while adding new destructor');
-                  }
-                });
-
-              case 2:
-              case "end":
-                return _context17.stop();
-            }
-          }
-        }, _callee17);
-      }))();
-    },
-    removeDestructor: function removeDestructor(id, index, mainIndex) {
-      var _this17 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee18() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee18$(_context18) {
-          while (1) {
-            switch (_context18.prev = _context18.next) {
-              case 0:
-                _context18.next = 2;
-                return axios["delete"]('/api/question/remove_destructor/' + id).then(function () {
-                  _this17.getAll_questions.Answer[mainIndex].Destructors.splice(index, 1);
-                });
-
-              case 2:
-              case "end":
-                return _context18.stop();
-            }
-          }
-        }, _callee18);
-      }))();
-    },
-    UpdateDestructor: function UpdateDestructor(id, index, mainIndex, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee19() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee19$(_context19) {
           while (1) {
             switch (_context19.prev = _context19.next) {
               case 0:
                 _context19.next = 2;
-                return axios.put('/api/question/update_destructor/' + id, {
-                  Choice: data
-                }).then(function (res) {});
+                return axios.post('/api/question/add_new_destructor', {
+                  question_id: id
+                }).then(function (res) {
+                  if (res.data.success == true) {
+                    _this19.getAll_questions.Answer[mainIndex].Destructors.push({
+                      question_id: id,
+                      id: res.data.newDestructor_id,
+                      Choice: null
+                    });
+
+                    _this19.$toasted.show('New Desctrutor has been added', {
+                      theme: "toasted-primary",
+                      position: "top-center",
+                      duration: 5000
+                    });
+                  } else {
+                    _this19.toastError('Something went wrong while adding new destructor');
+                  }
+                });
 
               case 2:
               case "end":
@@ -2053,15 +2205,55 @@ var studentViewForTeacher = function studentViewForTeacher() {
         }, _callee19);
       }))();
     },
+    removeDestructor: function removeDestructor(id, index, mainIndex) {
+      var _this20 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee20() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee20$(_context20) {
+          while (1) {
+            switch (_context20.prev = _context20.next) {
+              case 0:
+                _context20.next = 2;
+                return axios["delete"]('/api/question/remove_destructor/' + id).then(function () {
+                  _this20.getAll_questions.Answer[mainIndex].Destructors.splice(index, 1);
+                });
+
+              case 2:
+              case "end":
+                return _context20.stop();
+            }
+          }
+        }, _callee20);
+      }))();
+    },
+    UpdateDestructor: function UpdateDestructor(id, index, mainIndex, data) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee21() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee21$(_context21) {
+          while (1) {
+            switch (_context21.prev = _context21.next) {
+              case 0:
+                _context21.next = 2;
+                return axios.put('/api/question/update_destructor/' + id, {
+                  Choice: data
+                }).then(function (res) {});
+
+              case 2:
+              case "end":
+                return _context21.stop();
+            }
+          }
+        }, _callee21);
+      }))();
+    },
     CloseDialog: function CloseDialog() {
       this.studentViewData = null, this.isStudentView = false, this.$store.dispatch('isNotViewingSubmission');
     }
   },
   created: function created() {
-    var _this18 = this;
+    var _this21 = this;
 
     this.$nextTick(function () {
-      _this18.quill_disabled = false;
+      _this21.quill_disabled = false;
     });
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
@@ -3120,10 +3312,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['multiplePublishDetails'],
+  props: ['multiplePublishDetails', 'datetoday'],
   data: function data() {
     return {
       InputAvailability: ['Always available', 'Set date & time', 'Unavailable'],
@@ -3143,32 +3334,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       dateProps: {
         headerColor: 'primary',
-        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
       },
       FromdateProps: {
         headerColor: 'primary',
-        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
       },
       FromdateAnswerProps: {
         headerColor: 'primary',
-        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
       },
       TodateProps: {
         headerColor: 'primary',
-        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
       },
       TodateAnswerProps: {
         headerColor: 'primary',
-        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
-      },
-      timeProps: {
-        useSeconds: false,
-        ampmInTitle: true
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
       },
       FromtimeProps: {
         useSeconds: false,
         ampmInTitle: true,
-        min: null
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.datetoday).tz("Asia/Manila").format('h:mm')
       },
       FromtimeAnswerProps: {
         useSeconds: false,
@@ -3241,14 +3428,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     setToDateStart: function setToDateStart() {
-      this.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).format('YYYY-MM-DD hh:mm');
-      this.TodateProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).format('YYYY-MM-DD');
-      this.TotimeProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).format('hh:mm');
+      this.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).tz("Asia/Manila").format('YYYY-MM-DD h:mm');
+      this.TodateProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).tz("Asia/Manila").format('YYYY-MM-DD');
+      this.TotimeProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).tz("Asia/Manila").format('h:mm');
     },
     setShowAnswerToDateStart: function setShowAnswerToDateStart() {
-      this.ShowAnswerDateTo = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.showAnswerDateFrom).format('YYYY-MM-DD hh:mm');
-      this.TodateAnswerProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.showAnswerDateFrom).format('YYYY-MM-DD');
-      this.TotimeAnswerProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.showAnswerDateFrom).format('hh:mm');
+      this.ShowAnswerDateTo = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.showAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD hh:mm');
+      this.TodateAnswerProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.showAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD');
+      this.TotimeAnswerProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.showAnswerDateFrom).tz("Asia/Manila").format('hh:mm');
     },
     shareClasswork: function shareClasswork() {
       if (this.availability == 'Set date & time') {
@@ -3291,7 +3478,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 axios.post('/api/classwork/multiple_share', form).then(function (res) {
                   if (res.data != 'Unshare') {
                     res.data.forEach(function (item) {
-                      var tmpDue = item.availability == 1 ? 'Due ' + moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).format("MMMM D, YYYY") + ' at ' + moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).format("h:mm a") : '';
+                      var tmpDue = item.availability == 1 ? 'Due ' + moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).tz("Asia/Manila").format("MMMM D, YYYY") + ' at ' + moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).format("h:mm a") : '';
                       item.to_date = tmpDue;
                     });
 
@@ -3357,7 +3544,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
-    this.getGradingCriteria(); //this.getPublishDetails();
+    this.getGradingCriteria();
+    this.from_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD h:mm');
+    this.TodateProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).tz("Asia/Manila").format('YYYY-MM-DD');
+    this.TotimeProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).tz("Asia/Manila").format('h:mm');
   }
 });
 
@@ -3604,7 +3794,7 @@ var reviewAndPublish = function reviewAndPublish() {
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['classworkDetails'],
+  props: ['classworkDetails', 'datetoday'],
   components: {
     publishDialog: publishDialog,
     unpublishConfirmDialog: unpublishConfirmDialog,
@@ -3626,7 +3816,6 @@ var reviewAndPublish = function reviewAndPublish() {
       isUpdate: false,
       notifyDetails: {},
       isLeaving: false,
-      datetoday: new Date(),
       multiplePublish: false,
       multiplePublishDetails: {},
       checkPublishType: false,
@@ -35902,7 +36091,8 @@ var render = function() {
                             attrs: {
                               totalPoints: _vm.totalPoints,
                               totalQuestion: _vm.totalQuestion,
-                              classworkDetails: _vm.classworkDetails.Details
+                              classworkDetails: _vm.classworkDetails.Details,
+                              datetoday: _vm.classworkDetails.DateToday
                             }
                           })
                         : _vm._e()
@@ -35920,6 +36110,7 @@ var render = function() {
                         ? _c("studentStartPage", {
                             attrs: {
                               classworkDetails: _vm.classworkDetails.Details,
+                              datetoday: _vm.classworkDetails.DateToday,
                               totalPoints: _vm.totalPoints,
                               totalQuestion: _vm.totalQuestion
                             }
@@ -36607,11 +36798,27 @@ var render = function() {
             _vm._v(" "),
             _c(
               "v-overlay",
-              { attrs: { value: _vm.isDuplicating } },
+              { attrs: { value: _vm.isDuplicating || _vm.isUploading } },
               [
-                _c("v-progress-circular", {
-                  attrs: { indeterminate: "", size: "64" }
-                })
+                _c(
+                  "v-progress-circular",
+                  { attrs: { indeterminate: "", size: "80" } },
+                  [
+                    _vm._v(
+                      "\r\n            " +
+                        _vm._s(
+                          _vm.isUploading
+                            ? "Uploading"
+                            : _vm.isDuplicating && !_vm.isDeleting
+                            ? "Duplicating"
+                            : _vm.isDuplicating && _vm.isDeleting
+                            ? "Removing"
+                            : ""
+                        ) +
+                        "\r\n    "
+                    )
+                  ]
+                )
               ],
               1
             ),
@@ -37045,7 +37252,7 @@ var render = function() {
                                                               "v-col",
                                                               {
                                                                 staticClass:
-                                                                  "pa-0 ma-0 mt-2 mb-2 d-flex",
+                                                                  "pa-0 ma-0 mt-2 mb-2 ",
                                                                 attrs: {
                                                                   cols: "12"
                                                                 }
@@ -37071,10 +37278,8 @@ var render = function() {
                                                                         staticClass:
                                                                           "editor",
                                                                         attrs: {
-                                                                          disabled:
-                                                                            _vm.quill_disabled,
-                                                                          theme:
-                                                                            "snow",
+                                                                          id:
+                                                                            "editor",
                                                                           placeholder:
                                                                             item.type !=
                                                                             "Matching type"
@@ -37084,13 +37289,23 @@ var render = function() {
                                                                             _vm.QuestioEditorOption
                                                                         },
                                                                         on: {
+                                                                          ready: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.onEditorReady(
+                                                                              $event
+                                                                            )
+                                                                          },
                                                                           blur: function(
                                                                             $event
                                                                           ) {
-                                                                            _vm.isNewChanges ==
-                                                                            true
-                                                                              ? _vm.SaveAllQuestion()
-                                                                              : ""
+                                                                            _vm.onEditorBlur(
+                                                                              $event
+                                                                            ),
+                                                                              _vm.isNewChanges ==
+                                                                              true
+                                                                                ? _vm.SaveAllQuestion()
+                                                                                : ""
                                                                           },
                                                                           focus: function(
                                                                             $event
@@ -37106,13 +37321,6 @@ var render = function() {
                                                                                   "</p>"
                                                                                   ? ""
                                                                                   : item.question)
-                                                                          },
-                                                                          ready: function(
-                                                                            $event
-                                                                          ) {
-                                                                            return _vm.onEditorReady(
-                                                                              $event
-                                                                            )
                                                                           },
                                                                           change: function(
                                                                             $event
@@ -37158,10 +37366,382 @@ var render = function() {
                                                                             )
                                                                           ]
                                                                         )
-                                                                      : _vm._e()
+                                                                      : _vm._e(),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "div",
+                                                                      {
+                                                                        staticClass:
+                                                                          "pt-2 d-flex"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-tooltip",
+                                                                          {
+                                                                            attrs: {
+                                                                              "max-width":
+                                                                                "350",
+                                                                              top:
+                                                                                ""
+                                                                            },
+                                                                            scopedSlots: _vm._u(
+                                                                              [
+                                                                                {
+                                                                                  key:
+                                                                                    "activator",
+                                                                                  fn: function(
+                                                                                    ref
+                                                                                  ) {
+                                                                                    var on =
+                                                                                      ref.on
+                                                                                    var attrs =
+                                                                                      ref.attrs
+                                                                                    return [
+                                                                                      _c(
+                                                                                        "v-btn",
+                                                                                        _vm._g(
+                                                                                          _vm._b(
+                                                                                            {
+                                                                                              attrs: {
+                                                                                                icon:
+                                                                                                  "",
+                                                                                                small:
+                                                                                                  ""
+                                                                                              },
+                                                                                              on: {
+                                                                                                click: function(
+                                                                                                  $event
+                                                                                                ) {
+                                                                                                  return _vm.AddAttachment(
+                                                                                                    mainIndex
+                                                                                                  )
+                                                                                                }
+                                                                                              }
+                                                                                            },
+                                                                                            "v-btn",
+                                                                                            attrs,
+                                                                                            false
+                                                                                          ),
+                                                                                          on
+                                                                                        ),
+                                                                                        [
+                                                                                          _c(
+                                                                                            "v-icon",
+                                                                                            {
+                                                                                              attrs: {
+                                                                                                color:
+                                                                                                  "red"
+                                                                                              }
+                                                                                            },
+                                                                                            [
+                                                                                              _vm._v(
+                                                                                                "\r\n                                                                    mdi-image\r\n                                                                "
+                                                                                              )
+                                                                                            ]
+                                                                                          )
+                                                                                        ],
+                                                                                        1
+                                                                                      )
+                                                                                    ]
+                                                                                  }
+                                                                                }
+                                                                              ],
+                                                                              null,
+                                                                              true
+                                                                            )
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              " "
+                                                                            ),
+                                                                            _c(
+                                                                              "span",
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "Attach Image"
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
                                                                   ],
                                                                   1
-                                                                )
+                                                                ),
+                                                                _vm._v(" "),
+                                                                item.attachments
+                                                                  ? _c(
+                                                                      "div",
+                                                                      {
+                                                                        staticClass:
+                                                                          "pl-4 pr-4"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "div",
+                                                                          {
+                                                                            staticClass:
+                                                                              "font-weight-medium"
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Attachments"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          " "
+                                                                        ),
+                                                                        _c(
+                                                                          "v-row",
+                                                                          _vm._l(
+                                                                            item.attachments,
+                                                                            function(
+                                                                              attach,
+                                                                              num
+                                                                            ) {
+                                                                              return _c(
+                                                                                "v-col",
+                                                                                {
+                                                                                  key: num,
+                                                                                  attrs: {
+                                                                                    cols:
+                                                                                      "6",
+                                                                                    md:
+                                                                                      "3"
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "v-hover",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "pa-1",
+                                                                                      scopedSlots: _vm._u(
+                                                                                        [
+                                                                                          {
+                                                                                            key:
+                                                                                              "default",
+                                                                                            fn: function(
+                                                                                              ref
+                                                                                            ) {
+                                                                                              var hover =
+                                                                                                ref.hover
+                                                                                              return [
+                                                                                                _c(
+                                                                                                  "v-img",
+                                                                                                  {
+                                                                                                    staticClass:
+                                                                                                      "white--text ma-0 pa-0",
+                                                                                                    staticStyle: {
+                                                                                                      border:
+                                                                                                        "1px solid black"
+                                                                                                    },
+                                                                                                    attrs: {
+                                                                                                      alt:
+                                                                                                        "Image",
+                                                                                                      contain:
+                                                                                                        "",
+                                                                                                      src:
+                                                                                                        attach.link,
+                                                                                                      height: _vm
+                                                                                                        .$vuetify
+                                                                                                        .breakpoint
+                                                                                                        .mdAndUp
+                                                                                                        ? "200"
+                                                                                                        : "120"
+                                                                                                    },
+                                                                                                    scopedSlots: _vm._u(
+                                                                                                      [
+                                                                                                        {
+                                                                                                          key:
+                                                                                                            "placeholder",
+                                                                                                          fn: function() {
+                                                                                                            return [
+                                                                                                              _c(
+                                                                                                                "v-row",
+                                                                                                                {
+                                                                                                                  staticClass:
+                                                                                                                    "fill-height ma-0",
+                                                                                                                  attrs: {
+                                                                                                                    align:
+                                                                                                                      "center",
+                                                                                                                    justify:
+                                                                                                                      "center"
+                                                                                                                  }
+                                                                                                                },
+                                                                                                                [
+                                                                                                                  _c(
+                                                                                                                    "v-progress-circular",
+                                                                                                                    {
+                                                                                                                      attrs: {
+                                                                                                                        indeterminate:
+                                                                                                                          "",
+                                                                                                                        color:
+                                                                                                                          "red"
+                                                                                                                      }
+                                                                                                                    }
+                                                                                                                  )
+                                                                                                                ],
+                                                                                                                1
+                                                                                                              )
+                                                                                                            ]
+                                                                                                          },
+                                                                                                          proxy: true
+                                                                                                        }
+                                                                                                      ],
+                                                                                                      null,
+                                                                                                      true
+                                                                                                    )
+                                                                                                  },
+                                                                                                  [
+                                                                                                    hover ||
+                                                                                                    (_vm.isDeletingAttachment &&
+                                                                                                      _vm.isDeletingAttachment_index ==
+                                                                                                        num)
+                                                                                                      ? _c(
+                                                                                                          "v-app-bar",
+                                                                                                          {
+                                                                                                            staticClass:
+                                                                                                              "ma-0 pa-0",
+                                                                                                            attrs: {
+                                                                                                              dense:
+                                                                                                                "",
+                                                                                                              flat:
+                                                                                                                "",
+                                                                                                              color:
+                                                                                                                "rgba(0, 0, 0, 0)"
+                                                                                                            }
+                                                                                                          },
+                                                                                                          [
+                                                                                                            _c(
+                                                                                                              "v-spacer"
+                                                                                                            ),
+                                                                                                            _vm._v(
+                                                                                                              " "
+                                                                                                            ),
+                                                                                                            _c(
+                                                                                                              "v-tooltip",
+                                                                                                              {
+                                                                                                                attrs: {
+                                                                                                                  "max-width":
+                                                                                                                    "350",
+                                                                                                                  top:
+                                                                                                                    ""
+                                                                                                                },
+                                                                                                                scopedSlots: _vm._u(
+                                                                                                                  [
+                                                                                                                    {
+                                                                                                                      key:
+                                                                                                                        "activator",
+                                                                                                                      fn: function(
+                                                                                                                        ref
+                                                                                                                      ) {
+                                                                                                                        var on =
+                                                                                                                          ref.on
+                                                                                                                        var attrs =
+                                                                                                                          ref.attrs
+                                                                                                                        return [
+                                                                                                                          _c(
+                                                                                                                            "v-btn",
+                                                                                                                            _vm._g(
+                                                                                                                              _vm._b(
+                                                                                                                                {
+                                                                                                                                  attrs: {
+                                                                                                                                    loading:
+                                                                                                                                      _vm.isDeletingAttachment &&
+                                                                                                                                      _vm.isDeletingAttachment_index ==
+                                                                                                                                        num,
+                                                                                                                                    color:
+                                                                                                                                      "red",
+                                                                                                                                    dark:
+                                                                                                                                      "",
+                                                                                                                                    rounded:
+                                                                                                                                      "",
+                                                                                                                                    small:
+                                                                                                                                      ""
+                                                                                                                                  },
+                                                                                                                                  on: {
+                                                                                                                                    click: function(
+                                                                                                                                      $event
+                                                                                                                                    ) {
+                                                                                                                                      return _vm.DeleteAttachement(
+                                                                                                                                        mainIndex,
+                                                                                                                                        num,
+                                                                                                                                        item.id
+                                                                                                                                      )
+                                                                                                                                    }
+                                                                                                                                  }
+                                                                                                                                },
+                                                                                                                                "v-btn",
+                                                                                                                                attrs,
+                                                                                                                                false
+                                                                                                                              ),
+                                                                                                                              on
+                                                                                                                            ),
+                                                                                                                            [
+                                                                                                                              _c(
+                                                                                                                                "v-icon",
+                                                                                                                                [
+                                                                                                                                  _vm._v(
+                                                                                                                                    "mdi-close"
+                                                                                                                                  )
+                                                                                                                                ]
+                                                                                                                              )
+                                                                                                                            ],
+                                                                                                                            1
+                                                                                                                          )
+                                                                                                                        ]
+                                                                                                                      }
+                                                                                                                    }
+                                                                                                                  ],
+                                                                                                                  null,
+                                                                                                                  true
+                                                                                                                )
+                                                                                                              },
+                                                                                                              [
+                                                                                                                _vm._v(
+                                                                                                                  " "
+                                                                                                                ),
+                                                                                                                _c(
+                                                                                                                  "span",
+                                                                                                                  [
+                                                                                                                    _vm._v(
+                                                                                                                      "Delete Attachment"
+                                                                                                                    )
+                                                                                                                  ]
+                                                                                                                )
+                                                                                                              ]
+                                                                                                            )
+                                                                                                          ],
+                                                                                                          1
+                                                                                                        )
+                                                                                                      : _vm._e()
+                                                                                                  ],
+                                                                                                  1
+                                                                                                )
+                                                                                              ]
+                                                                                            }
+                                                                                          }
+                                                                                        ],
+                                                                                        null,
+                                                                                        true
+                                                                                      )
+                                                                                    }
+                                                                                  )
+                                                                                ],
+                                                                                1
+                                                                              )
+                                                                            }
+                                                                          ),
+                                                                          1
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  : _vm._e()
                                                               ]
                                                             )
                                                           ],
@@ -41077,11 +41657,6 @@ var render = function() {
                                             "time-format": "HH:mm",
                                             color: "primary"
                                           },
-                                          on: {
-                                            change: function($event) {
-                                              return _vm.setToDateStart()
-                                            }
-                                          },
                                           model: {
                                             value: _vm.to_date,
                                             callback: function($$v) {
@@ -41596,7 +42171,10 @@ var render = function() {
         [
           _vm.multiplePublish
             ? _c("multiplePublishDialog", {
-                attrs: { multiplePublishDetails: _vm.multiplePublishDetails },
+                attrs: {
+                  datetoday: _vm.datetoday,
+                  multiplePublishDetails: _vm.multiplePublishDetails
+                },
                 on: {
                   toggleCancelDialog: function($event) {
                     _vm.multiplePublish = !_vm.multiplePublish

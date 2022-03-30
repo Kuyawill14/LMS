@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Models\tbl_Questions;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
@@ -40,7 +41,7 @@ class ObjectiveController extends Controller
         if(auth('sanctum')->user()->role == 'Student'){
 
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
-            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.isNew')
+            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.isNew','tbl_questions.attachments')
             ->orderBy('created_at','ASC')
             ->whereNotNull('tbl_questions.question')
             ->get();
@@ -49,7 +50,7 @@ class ObjectiveController extends Controller
         else{
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
             ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type',
-            'tbl_questions.answer','tbl_questions.points','tbl_questions.sensitivity','tbl_questions.isNew')
+            'tbl_questions.answer','tbl_questions.points','tbl_questions.sensitivity','tbl_questions.isNew','tbl_questions.attachments')
             ->orderBy('created_at','ASC')
             ->get();
             $temQuest = $Questions;
@@ -181,7 +182,7 @@ class ObjectiveController extends Controller
 
                 $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
                 ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.sensitivity',
-                'tbl_questions.answer','tbl_questions.points','tbl_questions.isNew')
+                'tbl_questions.answer','tbl_questions.points','tbl_questions.isNew','tbl_questions.attachments')
                 ->orderBy('created_at','DESC')
                 ->get();
 
@@ -255,7 +256,7 @@ class ObjectiveController extends Controller
 
                     $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
                     ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.sensitivity',
-                    'tbl_questions.answer','tbl_questions.points','tbl_questions.isNew')
+                    'tbl_questions.answer','tbl_questions.points','tbl_questions.isNew','tbl_questions.attachments')
                     ->orderBy('created_at','DESC')
                     ->get();
                     $temQuest = $Questions;
@@ -327,7 +328,8 @@ class ObjectiveController extends Controller
                 }
                 else{
                     $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
-                    ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.sensitivity','tbl_questions.isNew')
+                    ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.sensitivity',
+                    'tbl_questions.isNew','tbl_questions.attachments')
                     ->orderBy('created_at','DESC')
                     ->get();
                     $temQuest = $Questions;            
@@ -427,7 +429,8 @@ class ObjectiveController extends Controller
         }
         else{
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
-            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.sensitivity','tbl_questions.isNew')
+            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points'
+            ,'tbl_questions.sensitivity','tbl_questions.isNew','tbl_questions.attachments')
             ->orderBy('created_at','DESC')
             ->get();
             $temQuest = $Questions;
@@ -832,6 +835,8 @@ class ObjectiveController extends Controller
 
         //return   $request;
 
+        
+
         $counter = 0;
         $question_id = array();
         $answer_id = array();
@@ -846,6 +851,7 @@ class ObjectiveController extends Controller
             $newQuestion->type =  $mainItem['type'];
             $newQuestion->sensitivity = $mainItem['sensitivity'];
             $newQuestion->isNew = $mainItem['isNew'];
+            $newQuestion->attachments = serialize($mainItem['attachments']);
             $newQuestion->save();
             $question_id[] =   $newQuestion->id;
      
@@ -919,8 +925,6 @@ class ObjectiveController extends Controller
             $totalPoints += $mainItem['points'];
             $counter++;
 
-            
-            
         }
 
         $NewPoints = tbl_classwork::find($id);
@@ -928,11 +932,6 @@ class ObjectiveController extends Controller
         $NewPoints->points = $tmp_points;
         $NewPoints->save();
 
-    /*     if($mainItem['isNew']){
-            
-        }else{
-            return ["answer_id"=> $answer_id , "question_id"=>$question_id, "question_answer_id"=> $correct_answer_id];   
-        } */
 
         return ["answer_id"=> $answer_id , "question_id"=>$question_id, "question_answer_id"=> $correct_answer_id];   
     
@@ -1076,10 +1075,8 @@ class ObjectiveController extends Controller
      */
     public function SaveAllQuestion(Request $request, $id)
     {
+
         //return $request;
-        //return $request->Answer[3];
-        //return $request;
-        //return $request->Answer[3]['SubQuestion'];
         $currentIndex = 0;
         $totalPoints = 0;
         foreach($request->Question as $mainItem){
@@ -1090,6 +1087,7 @@ class ObjectiveController extends Controller
                 $checkQuestion->points = $mainItem['points'] == '' || $mainItem['points'] == null ? 0 : $mainItem['points'];
                 $checkQuestion->sensitivity = $mainItem['sensitivity'];
                 $checkQuestion->type = $mainItem['type'];
+                $checkQuestion->attachments = serialize($mainItem['attachments']);
                 $checkQuestion->save();
 
                 if($mainItem['type'] == 'Multiple Choice' || $mainItem['type'] == 'Identification'){
@@ -1764,6 +1762,36 @@ class ObjectiveController extends Controller
         return;
 
        
+    }
+
+    public function DeleteQuestionAttachment(Request $request, $id){
+        //return $request;
+        try {
+
+            $quetion = tbl_Questions::find($id);
+            if($quetion){
+                $data = $quetion->attachments;
+                array_splice($data, $request->index,1);
+                $quetion->attachments = count($data) != 0 ? serialize($data) : null;
+                $quetion->save();
+
+                $path =  str_replace(\Config::get('app.do_url').'/', "", $request->link);
+                Storage::disk('DO_spaces')->delete($path);
+                return response()->json([
+                    "message" => "File successfully remove",
+                    "success" => true
+                ]);
+            }
+
+          } catch (\Exception $e) {
+          
+            return response()->json([
+                "message" => "Failed",
+                "success" => false
+            ]);
+          }
+       
+        
     }
  
 }

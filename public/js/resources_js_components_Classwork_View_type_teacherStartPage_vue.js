@@ -110,9 +110,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['classworkDetails', 'totalPoints', 'totalQuestion'],
+  props: ['classworkDetails', 'totalPoints', 'totalQuestion', 'datetoday'],
   data: function data() {
     return {
       activeTab: "",
@@ -279,10 +299,12 @@ var render = function() {
                     },
                     [
                       _c(
-                        "v-card",
+                        "v-app-bar",
                         {
-                          staticClass: "d-flex pa-1",
-                          attrs: { elevation: 2, outlined: "" }
+                          attrs: {
+                            dense: _vm.$vuetify.breakpoint.mdAndUp,
+                            app: _vm.$vuetify.breakpoint.mdAndUp
+                          }
                         },
                         [
                           _vm.$vuetify.breakpoint.mdAndUp
@@ -457,8 +479,7 @@ var render = function() {
                               )
                             : _vm._e(),
                           _vm._v(" "),
-                          _vm.classworkDetails.type == "Subjective Type" &&
-                          _vm.$vuetify.breakpoint.mdAndUp
+                          _vm.classworkDetails.type == "Subjective Type"
                             ? _c(
                                 "v-tabs",
                                 {
@@ -568,6 +589,7 @@ var render = function() {
                       [
                         _c("router-view", {
                           attrs: {
+                            datetoday: _vm.datetoday,
                             totalPoints: _vm.totalPoints,
                             totalQuestion: _vm.totalQuestion,
                             classworkDetails: _vm.classworkDetails
@@ -585,51 +607,7 @@ var render = function() {
           )
         ],
         1
-      ),
-      _vm._v(" "),
-      !_vm.$vuetify.breakpoint.mdAndUp &&
-      _vm.classworkDetails.type == "Subjective Type"
-        ? _c(
-            "v-bottom-navigation",
-            { attrs: { app: "", grow: "", color: "primary" } },
-            _vm._l(_vm.SubjectiveTabs, function(item, index) {
-              return _c(
-                "v-btn",
-                {
-                  key: index,
-                  attrs: {
-                    small: "",
-                    to: {
-                      name: item.name,
-                      query: { clwk: _vm.$route.query.clwk }
-                    }
-                  }
-                },
-                [
-                  _c("span", [
-                    _vm._v(
-                      "\n              " +
-                        _vm._s(
-                          item.text == "CLASSWORK DETAILS"
-                            ? "DETAILS"
-                            : item.text == "SUBMISSION LIST"
-                            ? "SUBMISSION"
-                            : item.text
-                        ) +
-                        "\n          "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("v-icon", { attrs: { small: "" } }, [
-                    _vm._v(_vm._s(item.icon))
-                  ])
-                ],
-                1
-              )
-            }),
-            1
-          )
-        : _vm._e()
+      )
     ],
     1
   )

@@ -49,7 +49,7 @@
     </v-dialog>
 
         <v-dialog  v-model="multiplePublish" persistent max-width="600">
-        <multiplePublishDialog v-if="multiplePublish" :multiplePublishDetails="multiplePublishDetails"
+        <multiplePublishDialog v-if="multiplePublish" :datetoday="datetoday" :multiplePublishDetails="multiplePublishDetails"
         v-on:toggleCancelDialog="multiplePublish = !multiplePublish"
         v-on:successMultiplePublish="successMultiplePublishNotify"
         v-on:UnpublishSuccess="multiplePublish = !multiplePublish,fetchClassnames()"
@@ -208,7 +208,7 @@ const updatePublishDialog = () => import('./dialogs/UpdatePublishDialog')
 const reviewAndPublish = () => import('./dialogs/reviewAndPublishDialog')
 import multiplePublishDialog from './dialogs/multiplePublishDialog';
 export default {
-    props:['classworkDetails'],
+    props:['classworkDetails','datetoday'],
     components:{
         publishDialog,
         unpublishConfirmDialog,
@@ -230,7 +230,6 @@ export default {
             isUpdate: false,
             notifyDetails:{},
             isLeaving: false,
-            datetoday: new Date(),
             multiplePublish: false,
             multiplePublishDetails:{},
             checkPublishType: false,

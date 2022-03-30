@@ -388,11 +388,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee3);
       }))();
-    },
-    format_date: function format_date(value) {
-      if (value) {
-        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default().parseZone(String(value)).format("YYYY-MM-DD HH:MM:SS");
-      }
     }
   },
   mounted: function mounted() {

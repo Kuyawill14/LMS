@@ -181,11 +181,12 @@
 </v-overlay>
 
 
-<v-overlay :value="isDuplicating">
-      <v-progress-circular
+<v-overlay :value="isDuplicating || isUploading">
+    <v-progress-circular
         indeterminate
-        size="64"
-      ></v-progress-circular>
+        size="80">
+            {{isUploading ? 'Uploading' : isDuplicating && !isDeleting ? 'Duplicating' : isDuplicating && isDeleting ? 'Removing' : ''}}
+    </v-progress-circular>
 </v-overlay>
 
 
@@ -286,14 +287,15 @@
                                 <v-container fluid class="pa-0 ma-0" ma-0 pa-0> 
                                     <div class="font-weight-medium">{{item.type != 'Matching type' ? 'Question' : 'Instuction'}}</div>
                                     <v-row class="pa-0 ma-0">
-                                        <v-col class="pa-0 ma-0 mt-2 mb-2 d-flex" cols="12">
+                                        <v-col class="pa-0 ma-0 mt-2 mb-2 " cols="12">
                                             <div style="width:100%" class="mb-3">
                                                     <editor
-                                                    :disabled="quill_disabled"
-                                                    theme="snow"
+                                                   
                                                     class="editor"
-                                                    @blur="isNewChanges == true ? SaveAllQuestion() : ''" 
-                                                    @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
+                                                    id="editor"
+                                                    @ready="onEditorReady($event)" 
+                                                    @blur="onEditorBlur($event), (isNewChanges == true ? SaveAllQuestion() : '')" 
+                                                    @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  
                                                     @change="item.question != '' || item.question != null ? isNewChanges = true : isNewChanges = false"
                                                     ref="myTextEditor"
                                                     :placeholder="item.type != 'Matching type' ? 'Enter Question' : 'Enter Instuction'" 
@@ -302,41 +304,51 @@
                                                     <small v-if="!valid && item.question == ''" class="error--text">*This field is required</small>
 
 
-                                                    <!-- <div class="pt-2 d-flex">
-                                                         <v-tooltip  max-width="350" top>
-                                                            <template v-slot:activator="{ on, attrs }">
-                                                                <v-btn v-bind="attrs" v-on="on" icon small>
-                                                                    <v-icon color="red">
-                                                                        mdi-image
-                                                                    </v-icon>
-                                                                </v-btn>
-                                                            </template>
-                                                            <span>Attach Image</span>
-                                                        </v-tooltip>
-                                                        <span class="pl-1 pr-1"></span>
-
-                                                         <v-tooltip  max-width="350" top>
-                                                            <template v-slot:activator="{ on, attrs }">
-                                                                <v-btn v-bind="attrs" v-on="on" icon small>
-                                                                    <v-icon color="blue">
-                                                                        mdi-link
-                                                                    </v-icon>
-                                                                </v-btn>
-                                                            </template>
-                                                            <span>Attach Link</span>
-                                                        </v-tooltip>
-                                                    </div> -->
+                                                <div  class="pt-2 d-flex">
+                                                    <v-tooltip  max-width="350" top>
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <v-btn @click="AddAttachment(mainIndex)" v-bind="attrs" v-on="on" icon small>
+                                                                <v-icon color="red" >
+                                                                    mdi-image
+                                                                </v-icon>
+                                                            </v-btn>
+                                                        </template>
+                                                        <span>Attach Image</span>
+                                                    </v-tooltip>
+                                                </div>
                                             </div>
-                                          <!--   <div class="pt-2 pl-2">
-                                                 <v-tooltip top>
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                         <v-btn v-bind="attrs" v-on="on" icon>
-                                                            <v-icon>mdi-image</v-icon>
-                                                        </v-btn>
-                                                    </template>
-                                                    <span>Add Image</span>
-                                                </v-tooltip>
-                                            </div> -->
+                                            <div v-if="item.attachments" class="pl-4 pr-4">
+                                                <div class="font-weight-medium">Attachments</div>
+                                                <v-row>
+                                                    <v-col v-for="(attach, num) in item.attachments" :key="num"  cols="6" md="3">
+                                                         <v-hover  v-slot="{ hover }" class="pa-1">
+                                                            <v-img alt="Image" contain class="white--text ma-0 pa-0" style="border:1px solid black" :src="attach.link" :height="$vuetify.breakpoint.mdAndUp ? '200' : '120'">
+                                                                <v-app-bar v-if="hover || (isDeletingAttachment && isDeletingAttachment_index == num)" dense class="ma-0 pa-0" flat color="rgba(0, 0, 0, 0)">
+                                                                    <v-spacer></v-spacer>
+                                                                    <v-tooltip  max-width="350" top>
+                                                                        <template v-slot:activator="{ on, attrs }">
+                                                                            <v-btn :loading="isDeletingAttachment && isDeletingAttachment_index == num" v-bind="attrs" v-on="on" 
+                                                                            @click="DeleteAttachement(mainIndex, num, item.id)" color="red" dark  rounded small >
+                                                                                <v-icon>mdi-close</v-icon>
+                                                                            </v-btn>
+                                                                        </template>
+                                                                        <span>Delete Attachment</span>
+                                                                    </v-tooltip>
+                                                                </v-app-bar>
+
+                                                                <template v-slot:placeholder>
+                                                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                                                        <v-progress-circular
+                                                                            indeterminate
+                                                                            color="red">
+                                                                        </v-progress-circular>
+                                                                    </v-row>
+                                                                </template>
+                                                             </v-img>
+                                                         </v-hover>
+                                                    </v-col>
+                                                </v-row>
+                                            </div>
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -819,6 +831,7 @@ export default {
             isloading: true,
             isLeaving: false,
             isDuplicating: false,
+            isDeleting: false,
             valid: false,
             inputCheck:['True','False'],
             rules: [
@@ -865,7 +878,7 @@ export default {
                                ['bold', 'italic', 'underline'],
                                [{ 'color': [] }],
                                [{ 'list': 'bullet' }],
-                               ['image']
+                               //['image']
                             ],
                            /*  handlers: {
                                 image: this.imageHandler
@@ -896,7 +909,11 @@ export default {
             studentViewData:null,
             isHaveSubmissionDialog: null,
             isHaveSubmission: null,
-            isEditing_id: null
+            isEditing_id: null,
+            isUploading: false,
+            isDeletingAttachment: false,
+            isDeletingAttachment_index: null,
+            fileCount: 4,
         }
     },
     watch: {
@@ -919,33 +936,46 @@ export default {
             this.editorData = editor;
         },
         onEditorFocus(editor) {
-                this.editorData = editor;
+            this.editorData = editor;
         },
         onEditorReady(editor) {
             this.editorData = editor;
         },
         imageHandler() {
+            //this.AddAttachment();
             const editor = this.editorData;
             const input = document.createElement('input');
-
             input.setAttribute('type', 'file');
             input.setAttribute('accept', 'image/*');
             input.click();
 
             input.onchange = async () => {
                 const file = input.files[0];
-
+                if(file.size < 2000100){
+                this.isUploading = true;
                 const formData = new FormData();
                 formData.append('file', file);
-                formData.append('classwork_id', thi.$route.query.clwk);
-                formData.append('type', 'classwork');
-
-                const range = editor.getSelection(true);
-                editor.setSelection(range.index + 1);
-                await axios.post('/api/classwork/newAttachment', formData)
+                formData.append('classwork_id', this.$route.query.clwk);
+                formData.append('type', 'question');
+                
+                try {
+                    const range = editor.getSelection(true);
+                    editor.setSelection(range.index + 1);
+                     await axios.post('/api/classwork/newAttachment', formData)
                     .then(async ({data}) => {
-                        await editor.insertEmbed(range.index, 'image', data.link);
+                        await editor.insertEmbed(range.index+1, 'image', data.link);
+                        this.isUploading = false;
                     })
+                }
+                catch(err) {
+                    this.isUploading = false;
+                    this.toastError('Upload failed!, click at input box first before uploading the image.')
+                }
+                
+            
+                }else{
+                    this.toastError('File is to big max size for each question is 2mb')
+                }
             }
         },
         async GetQuestion(){  
@@ -997,11 +1027,12 @@ export default {
                    this.Qlength+=1;
                    this.getAll_questions.Question.push({
                    id: res.data.question_id,
-                   question: '<p>'+'New Question '+ (this.getAll_questions.Question.length+1)+'</p>',
+                   question: '',
                    answer: res.data.choices_id[0],
                    points: 1,
                    type: 'Multiple Choice',
                    isNew: true,
+                   attachments: null,
                    sensitivity: 0,
                })
                this.isEditing_id = res.data.question_id;
@@ -1141,7 +1172,12 @@ export default {
                     duration: 4000,
                 });
                 //this.SaveAllQuestion();
-            })       
+            }) 
+            let points = this.getAll_questions.Question[mainIndex].points
+            let matchlength = this.getAll_questions.Answer[mainIndex].SubQuestion.length;
+            if(points < matchlength){
+                this.getAll_questions.Question[mainIndex].points = matchlength;
+            }
         },
         async RemoveOption(id,Mainindex , AnsIndex, type){
             if(id == null || id == ''){
@@ -1166,6 +1202,12 @@ export default {
                     this.getAll_questions.Answer[main_index].SubAnswer.splice(match_index,  1);
                 })
             }
+
+
+            let points = this.getAll_questions.Question[main_index].points
+            let matchlenght = this.getAll_questions.Answer[main_index].SubQuestion.length;
+            this.getAll_questions.Question[main_index].points = matchlenght;
+        
               
         },
         async UpdateQuestion(id, Mainindex){
@@ -1257,6 +1299,12 @@ export default {
                     }, 3000);
                 }
                 this.isAddingNewQuestion = false;
+
+                let totalPoints = 0;
+                this.getAll_questions.Question.forEach(item => {
+                    totalPoints += item.points;
+                });
+                this.$store.dispatch('setCurrectClassworkPoints', totalPoints);
             })
         },
         CheckSelectedCount(check){
@@ -1291,6 +1339,7 @@ export default {
         async DeleteSelected(){
             this.Deletedialog = false;
             this.isDuplicating = true;
+            this.isDeleting = true;
             this.isAddingNewQuestion = true;
             let question_id_list = [];
             let question_index = 0;
@@ -1330,8 +1379,10 @@ export default {
                     }
                     this.isAddingNewQuestion = false;
                     this.isDuplicating = false;
+                    this.isDeleting = false;
                 }else{
                     this.isDuplicating = false;
+                    this.isDeleting = false;
                 }
             })
         },
@@ -1343,6 +1394,7 @@ export default {
         async deleteSingleQuestion(){
             this.DeleteSingledialog = false
             this.isDuplicating = true;
+            this.isDeleting = true;
             await axios.delete('/api/question/remove/'+this.DeleteDetails.id)
             .then(res=>{
                 this.getAll_questions.Question.splice(this.DeleteIndex, 1);
@@ -1357,6 +1409,7 @@ export default {
                         duration: 5000,
                     });
                 this.isDuplicating = false;
+                this.isDeleting = false;
             })
         },
         singleDuplicate(question, answer){
@@ -1406,6 +1459,7 @@ export default {
                             type: this.DuplicateQuestion[i].type,
                             sensitivity: this.DuplicateQuestion[i].sensitivity,
                             isNew: this.DuplicateQuestion[i].isNew,
+                            attachments: this.DuplicateQuestion[i].attachments,
                         })
                     }else{
                         this.getAll_questions.Question.push({
@@ -1416,6 +1470,7 @@ export default {
                             type: this.DuplicateQuestion[i].type,
                             sensitivity: this.DuplicateQuestion[i].sensitivity,
                             isNew: this.DuplicateQuestion[i].isNew,
+                            attachments: this.DuplicateQuestion[i].attachments,
                         })
                     }
                    
@@ -1469,6 +1524,59 @@ export default {
                 
             })
         },
+        AddAttachment(mainIndex){
+            const editor = this.editorData;
+            const input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+            input.click();
+
+            input.onchange = async () => {
+                const file = input.files[0];
+                if(file.size < 2000100){
+                    this.isUploading = true;
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('classwork_id', this.$route.query.clwk);
+                    formData.append('type', 'question');
+                    await axios.post('/api/classwork/newAttachment', formData)
+                    .then(async ({data}) => {
+                        if(this.getAll_questions.Question[mainIndex].attachments == null){
+                            this.getAll_questions.Question[mainIndex].attachments = [];
+                            this.getAll_questions.Question[mainIndex].attachments.push({link: data.link, name: file.name, type: file.type, size: file.size});
+                        }else{
+                            this.getAll_questions.Question[mainIndex].attachments.push({link: data.link, name: file.name, type: file.type, size: file.size});
+                        }
+                        this.isUploading = false;
+                        this.SaveAllQuestion();
+                    })
+                }else{
+                    this.toastError('File is to big max size for each question is 2mb')
+                }
+            }
+        },
+        DeleteAttachement(mainIndex,attach_index, id){
+            this.isDeletingAttachment = true;
+            this.isDeletingAttachment_index = attach_index;
+            let data = {};
+            data.link = this.getAll_questions.Question[mainIndex].attachments[attach_index].link;
+            data.index = attach_index;
+            axios.put('/api/question/delete_question_attachment/'+id, data)
+            .then((res)=>{
+                if(res.data.success == true){
+                    this.getAll_questions.Question[mainIndex].attachments.splice(attach_index, 1);
+                    this.getAll_questions.Question[mainIndex].attachments = this.getAll_questions.Question[mainIndex].attachments.length == 0 ? null : this.getAll_questions.Question[mainIndex].attachments;
+                    //this.SaveAllQuestion();
+                    this.isDeletingAttachment = false;
+                    this.isDeletingAttachment_index = null;
+                }else{
+                    this.toastError('File remove failed!');
+                    this.isDeletingAttachment = false;
+                     this.isDeletingAttachment_index = null;
+                }
+                
+            })
+        },
         studenView(){
             this.studentViewData = this.getAll_questions;
             this.isStudentView = true;
@@ -1491,7 +1599,9 @@ export default {
             e.preventDefault()
             // Chrome requires returnValue to be set
             e.returnValue = ''
-        }   
+        }
+        
+        
     },
     async AddDestructor(mainIndex, id){
         await axios.post('/api/question/add_new_destructor', {question_id: id})
@@ -1557,13 +1667,12 @@ export default {
     },
 
     mounted(){
-   
-      this.isHaveSubmission = this.classworkDetails.submitted_count == 0 ? false : true;
-      this.isHaveSubmissionDialog = this.classworkDetails.submitted_count == 0 ? false : true;
-       const top = window.pageYOffset || 0;
-      this.GetQuestion();
+        this.isHaveSubmission = this.classworkDetails.submitted_count == 0 ? false : true;
+        this.isHaveSubmissionDialog = this.classworkDetails.submitted_count == 0 ? false : true;
+        const top = window.pageYOffset || 0;
+        this.GetQuestion();
 
-       
+            
     },
     beforeMount(){
         window.addEventListener('beforeunload', this.beforeWindowUnload)

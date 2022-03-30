@@ -141,12 +141,8 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("v-card-text", { staticClass: "pb-0 mb-0" }, [
-        _c("p", { staticClass: "d-flex" }, [
-          _vm._v("Remove question "),
-          _c("span", {
-            staticClass: "ml-2",
-            domProps: { innerHTML: _vm._s(_vm.DeleteDetails.question) }
-          })
+        _c("p", { staticClass: "d-flex textData" }, [
+          _vm._v("To delete this question?")
         ])
       ]),
       _vm._v(" "),

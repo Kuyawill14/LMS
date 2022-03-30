@@ -755,11 +755,11 @@ export default {
         },
         editTextDataIndex: null,
         pickerApiLoaded: false,
-        developerKey: "AIzaSyAV2WNoaDpoda71hBAprjg_zlDHeNmiUxI",
-        clientId: "469226994610-7lscojpu541au8r0ve5i7td4gmv26ol5.apps.googleusercontent.com",
+        developerKey: "AIzaSyBEcuSSkfSt9_xQY-b5SjJle7OL8S4vpLQ",
+        clientId: "50494717699-330od4l2qlu2bjth0s6332u6evfoiale.apps.googleusercontent.com",
         scope: "https://www.googleapis.com/auth/drive",
         oauthToken: null,
-        appId : "469226994610",
+        appId : "50494717699",
         }
     },
      computed: {
@@ -1407,17 +1407,4 @@ export default {
 
 
 
-
-@media only screen and (min-width: 600px) {
-  .picker{
-      left: 4px !important;
-  }
-  .picker-dialog{
-
-    width: 98% !important;
-  }
-
-
-}
-    
 </style>

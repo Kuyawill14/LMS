@@ -60,11 +60,13 @@
                   :totalPoints="totalPoints"
                   :totalQuestion="totalQuestion"
                   :classworkDetails="classworkDetails.Details"
+                  :datetoday="classworkDetails.DateToday"
                 ></teacherStartPage>
             </v-col>
             <v-col v-if="role == 'Student'" cols="12" >
                  <studentStartPage v-if="role == 'Student'" 
                 :classworkDetails="classworkDetails.Details"
+                :datetoday="classworkDetails.DateToday"
                 :totalPoints="totalPoints"
                 :totalQuestion="totalQuestion"
                 ></studentStartPage>

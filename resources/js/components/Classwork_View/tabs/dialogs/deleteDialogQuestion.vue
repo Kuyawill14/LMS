@@ -4,7 +4,7 @@
           Are you sure?
         </v-card-title>
         <v-card-text class="pb-0 mb-0">
-             <p class="d-flex">Remove question <span class="ml-2" v-html="DeleteDetails.question"></span></p>
+             <p class="d-flex textData">To delete this question?</p>
         </v-card-text >
         <v-card-actions class="pb-2">
           <v-spacer></v-spacer>

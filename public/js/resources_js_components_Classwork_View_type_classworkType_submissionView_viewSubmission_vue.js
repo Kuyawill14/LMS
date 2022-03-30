@@ -274,6 +274,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1012,8 +1027,83 @@ var render = function() {
                                       )
                                     ])
                                   ]
-                                )
-                              ]
+                                ),
+                                _vm._v(" "),
+                                item.attachments
+                                  ? _c(
+                                      "v-row",
+                                      _vm._l(item.attachments, function(
+                                        attach,
+                                        num
+                                      ) {
+                                        return _c(
+                                          "v-col",
+                                          {
+                                            key: num,
+                                            attrs: { cols: "12", md: "4" }
+                                          },
+                                          [
+                                            _c("v-img", {
+                                              staticClass:
+                                                "white--text ma-0 pa-0 ",
+                                              staticStyle: {
+                                                border: "1px solid black",
+                                                "max-width": "100%",
+                                                "max-height": "23rem !important"
+                                              },
+                                              attrs: {
+                                                alt: "Image",
+                                                contain: "",
+                                                src: attach.link
+                                              },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "placeholder",
+                                                    fn: function() {
+                                                      return [
+                                                        _c(
+                                                          "v-row",
+                                                          {
+                                                            staticClass:
+                                                              "fill-height ma-0",
+                                                            attrs: {
+                                                              align: "center",
+                                                              justify: "center"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-progress-circular",
+                                                              {
+                                                                attrs: {
+                                                                  indeterminate:
+                                                                    "",
+                                                                  color: "red"
+                                                                }
+                                                              }
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ]
+                                                    },
+                                                    proxy: true
+                                                  }
+                                                ],
+                                                null,
+                                                true
+                                              )
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      }),
+                                      1
+                                    )
+                                  : _vm._e()
+                              ],
+                              1
                             ),
                             _vm._v(" "),
                             item.type == "Multiple Choice"

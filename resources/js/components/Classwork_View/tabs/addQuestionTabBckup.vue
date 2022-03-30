@@ -180,27 +180,15 @@
     ></v-progress-circular>
 </v-overlay>
 
-<!-- <v-container class="fill-height" v-if="isloading" style="height: 570px;"> -->
-    <!-- <v-row class="centered" v-if="isloading" align-content="center" justify="center">
-        <v-col cols="12" class="text-center">
-            <vue-element-loading :active="isloading" 
-            text="Loading"
-            duration="0.7"
-            :textStyle="{fontSize: '20px'}"
-            spinner="line-scale" color="#EF6C00"  size="60" />
-        </v-col>
-    </v-row>
- -->
-   <!--  <v-row v-if="isAddingNewQuestion" align-content="center" justify="center">
-        <v-col cols="12" class="text-center">
-            <vue-element-loading :active="isAddingNewQuestion" 
-            duration="0.7"
-             :is-full-screen="true"
-            :textStyle="{fontSize: '20px'}"
-            spinner="line-scale" color="#EF6C00"  size="60" />
-        </v-col>
-    </v-row> -->
-<!-- </v-container> -->
+
+<v-overlay :value="isDuplicating || isUploading">
+    <v-progress-circular
+        indeterminate
+        size="80">
+            {{isUploading ? 'Uploading' : isDuplicating && !isDeleting ? 'Duplicating' : isDuplicating && isDeleting ? 'Removing' : ''}}
+    </v-progress-circular>
+</v-overlay>
+
 
 <v-row class="centered" :style="$vuetify.breakpoint.mdAndUp ? '' : 'width:330px !important'" justify="center" v-if="Qlength== 0 && !isloading">
     <v-col cols="12"  class="text-center">
@@ -224,7 +212,25 @@
 
 
 <v-container v-if="!isloading && Qlength != 0" pa-0 ma-0 class="pa-0 ma-0" fluid>
+
+
         <v-row align="center" justify="center">
+        <!-- <v-col cols="12" md="8" lg="9" xl="9">
+            <v-card color="pa-3 d-flex justify-space-between">
+                <div class="font-weight-bold">
+                        Total Question: {{Qlength}}
+                </div>
+                <div >
+                    <v-select
+                    v-model="selected_sort"
+                    hide-details
+                    :items="Question_type_all"
+                    label="Question Type"
+                    outlined
+                    ></v-select>
+                </div>
+            </v-card>
+        </v-col> -->
 
         
           <v-col cols="12" md="8" lg="9" xl="9" :class="mainIndex < 1 ? 'mb-0' : 'mb-0 pt-1'" v-for="(item, mainIndex) in getAll_questions.Question" :key="item.id">
@@ -235,17 +241,17 @@
        <!--   justify-end  -->
                     <v-row>
                         <v-col cols="12" class="mb-0 pb-0 pt-0  mt-0 d-flex justify-space-between ">
-                            <span class="ml-2 mt-3"><h4>{{mainIndex+1}}</h4> </span>
+                            <span class="ml-2 mt-3"><h4>#{{mainIndex+1}}</h4> </span>
                             <v-checkbox v-if="!isHaveSubmission" v-model="selectedData[mainIndex].selected" @click="CheckSelectedCount(selectedData[mainIndex].selected)" hide-details></v-checkbox>
                         </v-col>
                          <v-col cols="12" class="mb-0 pb-0 pt-0 pr-6 mt-3 text-right ">
-                            <v-btn small @click="selectedData[mainIndex].isEditing = false"
+                            <v-btn small @click="selectedData[mainIndex].isEditing = false,isEditing_id = null"
                             v-if="selectedData[mainIndex].isEditing" outlined color="primary" rounded>Preview</v-btn>
                         </v-col>
                     </v-row>
 
-                    <div style="cursor:pointer" @click="selectedData[mainIndex].isEditing = true" v-if="!selectedData[mainIndex].isEditing">
-                        <viewQuestion  :question="item" :answer="getAll_questions.Answer[mainIndex]" v-if="!selectedData[mainIndex].isEditing"></viewQuestion>
+                    <div style="cursor:pointer" @click="selectedData[mainIndex].isEditing = true, isEditing_id = item.id" v-if="isEditing_id != item.id">
+                        <viewQuestion  :question="item" :answer="getAll_questions.Answer[mainIndex]" v-if="isEditing_id != item.id"></viewQuestion>
                     </div>
                        
                     <div v-else>
@@ -257,7 +263,7 @@
                                         <v-text-field 
                                         min="0"
                                         dense
-                                         @change="SaveAllQuestion()"
+                                         @change="isNewChanges = true,SaveAllQuestion()"
                                         :rules="PointsRule" outlined type="number" 
                                         v-model="item.points" class="centered-input pa-0 ma-0"
                                         label="Points"
@@ -271,7 +277,7 @@
                                             v-model="item.type"
                                             class="pa-0 ma-0 float-right"
                                             :items="Question_type"
-                                            @change="CheckType(item.id, item.type, mainIndex), SaveAllQuestion()"
+                                            @change="CheckType(item.id, item.type, mainIndex)"
                                             outlined
                                             label="Question Type"
                                             ></v-select> 
@@ -281,19 +287,58 @@
                                 <v-container fluid class="pa-0 ma-0" ma-0 pa-0> 
                                     <div class="font-weight-medium">{{item.type != 'Matching type' ? 'Question' : 'Instuction'}}</div>
                                     <v-row class="pa-0 ma-0">
-                                        <v-col class="pa-0 ma-0 mt-2 mb-2" cols="12">
+                                        <v-col class="pa-0 ma-0 mt-2 mb-2 d-flex" cols="12">
                                             <div style="width:100%" class="mb-3">
                                                     <editor
-                                                    :disabled="quill_disabled"
+                                                    theme="snow"
                                                     class="editor"
-                                                    @blur="onEditorBlur($event), SaveAllQuestion()" @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
-                                                     @change="isNewChanges = true"
+                                                    id="editor"
+                                                    @ready="onEditorReady($event)" 
+                                                    @blur="onEditorBlur($event), (isNewChanges == true ? SaveAllQuestion() : '')" 
+                                                    @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  
+                                                    @change="item.question != '' || item.question != null ? isNewChanges = true : isNewChanges = false"
                                                     ref="myTextEditor"
                                                     :placeholder="item.type != 'Matching type' ? 'Enter Question' : 'Enter Instuction'" 
                                                     v-model="item.question"
-                                                    :options="editorOption"/>
+                                                    :options="QuestioEditorOption"/>
                                                     <small v-if="!valid && item.question == ''" class="error--text">*This field is required</small>
+
+<!-- 
+                                                    <div class="pt-2 d-flex">
+                                                         <v-tooltip  max-width="350" top>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn v-bind="attrs" v-on="on" icon small>
+                                                                    <v-icon color="red">
+                                                                        mdi-image
+                                                                    </v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Attach Image</span>
+                                                        </v-tooltip>
+                                                        <span class="pl-1 pr-1"></span>
+
+                                                         <v-tooltip  max-width="350" top>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn v-bind="attrs" v-on="on" icon small>
+                                                                    <v-icon color="blue">
+                                                                        mdi-link
+                                                                    </v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Attach Link</span>
+                                                        </v-tooltip>
+                                                    </div> -->
                                             </div>
+                                          <!--   <div class="pt-2 pl-2">
+                                                 <v-tooltip top>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                         <v-btn v-bind="attrs" v-on="on" icon>
+                                                            <v-icon>mdi-image</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <span>Add Image</span>
+                                                </v-tooltip>
+                                            </div> -->
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -305,26 +350,39 @@
                                                 <v-row>
                                                     <v-col cols="12" lg="12" md="12" >
                                                         <v-container fluid  class="d-flex flex-row ma-0 pa-0">
-                                                        <v-radio-group  v-model="item.answer">
+                                                                 
+                                                        <v-radio-group v-if="item.isNew" :key="Ans.id"  v-model="item.answer">
                                                             <v-radio
                                                             :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
-                                                                @click="Ans.Choice == item.answer"
+                                                                @click="item.answer == Ans.id"
                                                                 color="primary"
                                                                 class="pa-0 ma-0"
-                                                                :disabled="Ans.Choice == null"
-                                                                 @change="isNewChanges = true"
-                                                                :key="Ans.id"
-                                                                name="Answer" 
+                                                                :disabled="Ans.Choice == ''"
+                                                                 @change="isNewChanges = true,SaveAllQuestion()"
+                                                                name="Answer"
+                                                                :value="Ans.id">
+                                                                </v-radio>
+                                                        </v-radio-group>
+
+                                                        <v-radio-group v-else :key="Ans.id"  v-model="item.answer">
+                                                            <v-radio
+                                                            :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                                                @click="item.answer == Ans.Choice"
+                                                                color="primary"
+                                                                class="pa-0 ma-0"
+                                                                :disabled="Ans.Choice == ''"
+                                                                 @change="isNewChanges = true,SaveAllQuestion()"
+                                                                name="Answer"
                                                                 :value="Ans.Choice">
                                                                 </v-radio>
                                                         </v-radio-group>
+
                                                           <div style="width:100%" class="mb-3">
                                                                 <editor
-                                                                 @focus="Ans.Choice = Ans.Choice == '<p>Option '+(i+1)+'</p>' ? '' : Ans.Choice"
                                                                 :disabled="quill_disabled"
                                                                 @change="isNewChanges = true"
                                                                 class="editor"
-                                                                placeholder="Enter Answer"
+                                                                placeholder="Enter Option"
                                                                 ref="myTextEditor"
                                                                 v-model="Ans.Choice"
                                                                 :options="editorOption"/>
@@ -338,12 +396,18 @@
                                                                     <v-icon>mdi-image</v-icon>
                                                                 </v-btn> -->
 
-                                                                 <v-btn
-                                                                 v-if="!isHaveSubmission" 
-                                                                @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
-                                                                icon class="mt-3 pl-2 pr-2">
-                                                                <v-icon>mdi-close</v-icon>
-                                                            </v-btn>
+        
+                                                            <v-tooltip top>
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                     <v-btn v-bind="attrs" v-on="on"
+                                                                        v-if="!isHaveSubmission"  
+                                                                        @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
+                                                                        icon class="mt-3 pl-2 pr-2">
+                                                                        <v-icon>mdi-close</v-icon>
+                                                                    </v-btn>
+                                                                </template>
+                                                                <span>Remove Option</span>
+                                                            </v-tooltip>
                                                             </div>
                                                            
                                                         </v-container>
@@ -358,7 +422,7 @@
                                             class="mb-0 pb-0"
                                             color="primary"
                                             v-if="!isHaveSubmission" 
-                                            @click="AddNewOption(item.id, mainIndex)">
+                                            @click="AddNewOption(item.id, mainIndex, item.type)">
                                             <v-icon dark left large>mdi-plus</v-icon>
                                             Add Choice
                                             </v-btn>
@@ -375,20 +439,29 @@
                                                         <editor
                                                         :disabled="quill_disabled"
                                                         @change="isNewChanges = true"
+                                                        @blur="isNewChanges == true ? SaveAllQuestion() : ''"
                                                         class="editor"
-                                                        @focus="item.answer = item.answer == '<p>Option 1</p>' ? '' : item.answer"
+                                                        @focus="item.answer = item.answer == '<p>Answer 1</p>' ? '' : item.answer"
                                                         placeholder="Enter Answer"
                                                         ref="myTextEditor"
                                                         v-model="item.answer"
                                                         :options="editorOption"/>
                                                       </div>
 
-                                                      <v-btn
-                                                      v-if="!isHaveSubmission" 
-                                                    @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
-                                                    icon class="mt-3 pl-2 pr-2">
-                                                    <v-icon>mdi-close</v-icon>
-                                                </v-btn>
+                                                     
+
+
+                                                <v-tooltip top>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                         <v-btn v-bind="attrs" v-on="on"
+                                                            v-if="!isHaveSubmission" 
+                                                            @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
+                                                            icon class="mt-3 pl-2 pr-2">
+                                                            <v-icon>mdi-close</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <span>Remove Answer</span>
+                                                </v-tooltip>
                                             </v-container>
                                         </v-col>
 
@@ -400,6 +473,7 @@
                                                         @focus="Answer.Choice = Answer.Choice == '<p>Option '+(i+1)+'</p>' || Answer.Choice == '<p>Answer '+(i+1)+'</p>' ? '' : Answer.Choice"
                                                         :disabled="quill_disabled"
                                                         @change="isNewChanges = true"
+                                                        @blur="isNewChanges == true ? SaveAllQuestion() : ''"
                                                         class="editor"
                                                         placeholder="Enter Answer"
                                                         ref="myTextEditor"
@@ -414,12 +488,19 @@
                                                             <v-icon>mdi-image</v-icon>
                                                         </v-btn> -->
 
-                                                         <v-btn
-                                                         v-if="!isHaveSubmission" 
-                                                            @click="RemoveOption(Answer.id,mainIndex,i,item.type)"
-                                                            icon class="mt-3 pl-2 pr-2">
-                                                            <v-icon>mdi-close</v-icon>
-                                                        </v-btn>
+                                                        <v-tooltip top>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn  v-bind="attrs" v-on="on"
+                                                                v-if="!isHaveSubmission" 
+                                                                    @click="RemoveOption(Answer.id,mainIndex,i,item.type)"
+                                                                    icon class="mt-3 pl-2 pr-2">
+                                                                    <v-icon>mdi-close</v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Remove Answer</span>
+                                                        </v-tooltip>
+
+
                                                     </div>
                                                      
                                                   </v-container>
@@ -447,11 +528,12 @@
                                         </v-col>
                                        
                                         <v-col v-for="(x, n) in inputCheck" :key="n" class="ma-0 pa-0" cols="11">
+                                          
                                             <v-container class="d-flex flex-row ma-0 pa-0">
                                                 <v-radio-group :rules="rules" v-model="item.answer">
                                                     <v-radio
                                                     :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
-                                                    @click="isNewChanges = true"
+                                                    @change="isNewChanges = true,SaveAllQuestion()"
                                                     color="primary"
                                                     :key="n"
                                                     name="Answer" 
@@ -485,6 +567,7 @@
                                                           <editor
                                                             :disabled="quill_disabled"
                                                              @change="isNewChanges = true"
+                                                             @blur="isNewChanges == true ? SaveAllQuestion() : ''"
                                                             class="editor"
                                                             placeholder="Enter Question" 
                                                             ref="myTextEditor"
@@ -497,6 +580,7 @@
                                                      <div style="width:100%" class="mb-3" >
                                                             <editor
                                                             @change="isNewChanges = true"
+                                                            @blur="isNewChanges == true ? SaveAllQuestion() : ''"
                                                              :disabled="quill_disabled"
                                                             class="editor"
                                                             placeholder="Enter Answer" 
@@ -505,12 +589,19 @@
                                                             :options="editorOption"/>
                                                       </div>
 
-                                                     <v-btn
-                                                        v-if="!isHaveSubmission" 
-                                                        @click="RemoveMatch(item.id, SubQues.id, getAll_questions.Answer[mainIndex].SubAnswer[sub_index].id, mainIndex,  sub_index)"
-                                                        icon class="mt-3 pl-2 pr-2">
-                                                        <v-icon>mdi-close</v-icon>
-                                                    </v-btn>
+                                                    
+
+                                                      <v-tooltip top>
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <v-btn v-bind="attrs" v-on="on"
+                                                                v-if="!isHaveSubmission" 
+                                                                @click="RemoveMatch(item.id, SubQues.id, getAll_questions.Answer[mainIndex].SubAnswer[sub_index].id, mainIndex,  sub_index)"
+                                                                icon class="mt-3 pl-2 pr-2">
+                                                                <v-icon>mdi-close</v-icon>
+                                                            </v-btn>
+                                                        </template>
+                                                        <span>Remove Answer</span>
+                                                     </v-tooltip>
                                                     </v-container>
                                                </v-col>
                                            </v-row>
@@ -522,7 +613,7 @@
                                             outlined
                                             class="mt-2"
                                             color="primary"
-                                            @click="AddNewMatch(item.id, mainIndex)"
+                                            @click="AddNewMatch(item.id, mainIndex, item.type)"
                                             >
                                             <v-icon left>mdi-plus</v-icon>
                                              Add  Match
@@ -548,12 +639,19 @@
                                                         ref="myTextEditor"
                                                         :options="editorOption"/>
                                                     </div>
-                                                     <v-btn
-                                                        v-if="!isHaveSubmission"
-                                                        @click="removeDestructor(destruc.id, destruc_index,mainIndex)"
-                                                        icon class="mt-3 pl-2 pr-2">
-                                                        <v-icon>mdi-close</v-icon>
-                                                    </v-btn>
+                                                    
+
+                                                    <v-tooltip top>
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                             <v-btn v-bind="attrs" v-on="on"
+                                                                v-if="!isHaveSubmission"
+                                                                @click="removeDestructor(destruc.id, destruc_index,mainIndex)"
+                                                                icon class="mt-3 pl-2 pr-2">
+                                                                <v-icon>mdi-close</v-icon>
+                                                            </v-btn>
+                                                        </template>
+                                                        <span>Remove Destructor</span>
+                                                     </v-tooltip>
                                                 </v-col>
                                             </v-row>
                                         </v-col>
@@ -718,8 +816,12 @@ export default {
     data(){
         return{
             Question_type:['Multiple Choice', 'Identification', 'True or False', 'Matching type','Essay'],
+            Question_type_all:['All','Multiple Choice', 'Identification', 'True or False', 'Matching type','Essay'],
+            selected_sort: 'All',
             isloading: true,
             isLeaving: false,
+            isDuplicating: false,
+            isDeleting: false,
             valid: false,
             inputCheck:['True','False'],
             rules: [
@@ -732,6 +834,32 @@ export default {
             editorOption: {
                 placeholder: 'type here ...',
                 theme:'bubble',
+
+                blur: true,
+                editorData:null,
+                modules: {
+                     toolbar: {
+                            container:[
+                               ['bold', 'italic', 'underline'],
+                               [{ 'color': [] }],
+                               [{ 'list': 'bullet' }],
+                              /*  ['image'] */
+                               
+                            ],
+                            /* handlers: {
+                                image: this.imageHandler
+                            } */
+                        },
+                    syntax: {
+                        highlight: text => hljs.highlightAuto(text).value
+                    },
+                    
+                }
+            },
+
+             QuestioEditorOption: {
+                placeholder: 'type here ...',
+                theme:'snow',
                 blur: true,
                 editorData:null,
                 modules: {
@@ -741,11 +869,10 @@ export default {
                                [{ 'color': [] }],
                                [{ 'list': 'bullet' }],
                                ['image']
-                               
                             ],
-                            /* handlers: {
+                            handlers: {
                                 image: this.imageHandler
-                            } */
+                            }
                         },
                     syntax: {
                         highlight: text => hljs.highlightAuto(text).value
@@ -771,7 +898,9 @@ export default {
             isStudentView: false,
             studentViewData:null,
             isHaveSubmissionDialog: null,
-            isHaveSubmission: null
+            isHaveSubmission: null,
+            isEditing_id: null,
+            isUploading: false
         }
     },
     watch: {
@@ -794,88 +923,89 @@ export default {
             this.editorData = editor;
         },
         onEditorFocus(editor) {
-                this.editorData = editor;
+            this.editorData = editor;
         },
         onEditorReady(editor) {
             this.editorData = editor;
         },
         imageHandler() {
+            
             const editor = this.editorData;
             const input = document.createElement('input');
-
             input.setAttribute('type', 'file');
             input.setAttribute('accept', 'image/*');
             input.click();
 
-      
-
             input.onchange = async () => {
                 const file = input.files[0];
-
+                if(file.size < 2000100){
+                this.isUploading = true;
                 const formData = new FormData();
                 formData.append('file', file);
-                formData.append('type', 'Announcement');
-
-
-                const range = editor.getSelection(true);
-                editor.setSelection(range.index + 1);
-                await axios.post('/api/classwork/newAttachment', formData)
+                formData.append('classwork_id', this.$route.query.clwk);
+                formData.append('type', 'classwork');
+                
+                try {
+                    const range = editor.getSelection(true);
+                    editor.setSelection(range.index + 1);
+                     await axios.post('/api/classwork/newAttachment', formData)
                     .then(async ({data}) => {
-                        await editor.insertEmbed(range.index, 'image', data.link);
+                        await editor.insertEmbed(range.index+1, 'image', data.link);
+                        this.isUploading = false;
                     })
+                }
+                catch(err) {
+                    this.isUploading = false;
+                    this.toastError('Upload failed!, click at input box first before uploading the image.')
+                }
+                
+            
+                }else{
+                    this.toastError('File is to big max size for each question is 2mb')
+                }
             }
         },
-        async GetQuestion(){
-            
-            
+        async GetQuestion(){  
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
-            .then((res)=>{
-                
+            .then((res)=>{    
                 if(res.status == 200){
-                        this.selectedData = [];
-                        let tmp = this.getAll_questions.Question;
-                        tmp.forEach(item => {
+                    this.selectedData = [];
+                    let tmp = this.getAll_questions.Question;
+                    tmp.forEach(item => {
+                            this.selectedData.push({
+                                id: item.id,
+                                selected: false,
+                                isEditing: false
+                            })  
+                    });
 
-                                this.selectedData.push({
-                                    id: item.id,
-                                    selected: false,
-                                    isEditing: false
-                                })  
-                        });
-                        this.isloading = false;
-                        this.Qlength = tmp.length;
-                }
-                
+                    this.isloading = false;
+                    this.Qlength = tmp.length;
+                }     
             }) 
-
         },
-
         async ReloadQuestion(){
-        
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
             .then((res)=>{
                 if(res.status == 200){
-                        this.selectedData = [];
-                        let tmp = this.getAll_questions.Question;
-                        tmp.forEach(item => {
+                    this.selectedData = [];
+                    let tmp = this.getAll_questions.Question;
+                    tmp.forEach(item => {
 
-                                this.selectedData.push({
-                                    id: item.id,
-                                    selected: false,
-                                    isEditing: false
-                                })  
-                        });
-                        this.isloading = false;
-                        this.Qlength = tmp.length;
-                }
-                
+                            this.selectedData.push({
+                                id: item.id,
+                                selected: false,
+                                isEditing: false
+                            })  
+                    });
+                    this.isloading = false;
+                    this.Qlength = tmp.length;
+                }       
             }) 
-
         },
-       async AddNewQuestion(){
-                       
+       async AddNewQuestion(){              
            this.isAddingNewQuestion = true;
-           axios.post('/api/question/add_new_question', {
+           await axios.post('/api/question/add_new_question', {
                classwork_id: this.$route.query.clwk,
                 new_number : (this.getAll_questions.Question.length+1),
                 })
@@ -884,13 +1014,14 @@ export default {
                    this.Qlength+=1;
                    this.getAll_questions.Question.push({
                    id: res.data.question_id,
-                   question: '<p>'+'New Question '+ (this.getAll_questions.Question.length+1)+'</p>',
-                   answer: 'N/A Answer',
+                   question: '',
+                   answer: res.data.choices_id[0],
                    points: 1,
                    type: 'Multiple Choice',
+                   isNew: true,
                    sensitivity: 0,
                })
-
+               this.isEditing_id = res.data.question_id;
                this.getAll_questions.Answer.push({options:
                    [
                        {
@@ -898,7 +1029,7 @@ export default {
                             Choice : '',
                             question_id : res.data.question_id,
                        },
-                      /*   {
+                       /*  {
                             id : res.data.choices_id[1],
                             Choice : '',
                             question_id : res.data.question_id,
@@ -944,8 +1075,8 @@ export default {
         },
 
         async AddAnswer(id, Mainindex){
-            this.isNewChanges = true;
-            if(this.getAll_questions.Answer[Mainindex].options.length == 0){
+            //this.isNewChanges = true;
+            /* if(this.getAll_questions.Answer[Mainindex].options.length == 0){
                  this.getAll_questions.Answer[Mainindex].options.push({
                     id : '',
                     Choice : this.getAll_questions.Question[Mainindex].answer,
@@ -963,56 +1094,78 @@ export default {
                     Choice : '<p>'+'Answer '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
                     question_id : id,
                 })
-            }
-           
+            } */
+
+             await axios.post('/api/question/addOption', {
+                type: "Multiple Choice",
+                question_id: id
+            }).then((res)=>{
+                this.isNewChanges = true;
+                this.getAll_questions.Answer[Mainindex].options.push({
+                    id : res.data.answer_id,
+                    Choice : '',
+                    question_id : id,
+                })
+
+                 this.$toasted.show('New answer has been added', {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    duration: 4000,
+                });
+            })
+
         },
 
-        async AddNewOption(id, Mainindex){
-            this.isNewChanges = true;
-            this.getAll_questions.Answer[Mainindex].options.push({
-                id : '',
-                Choice : '<p>'+'Option '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
-                question_id : id,
+        async AddNewOption(id, Mainindex, type){
+            await axios.post('/api/question/addOption', {
+                type: type,
+                question_id: id
+            }).then((res)=>{
+                this.isNewChanges = true;
+                this.getAll_questions.Answer[Mainindex].options.push({
+                    id : res.data.answer_id,
+                    Choice : '',
+                    question_id : id,
+                })
+
+                 this.$toasted.show('New option has been added', {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    duration: 4000,
+                });
             })
-        },
-        async AddNewMatch(id, mainIndex){
             
-             this.isNewChanges = true;
-            /* if(this.getAll_questions.Answer[mainIndex].SubQuestion == null){
-                
-                this.getAll_questions.Answer[mainIndex].SubQuestion = [{
-                        id: null,
-                        answer_id: null,
-                        sub_question: ''
-                    }
-                ]
-                this.getAll_questions.Answer[mainIndex].SubAnswer = [{
-                        id : null, 
-                        Choice : '',
-                        question_id : id
-                    }
-                ]
-            }
-            else{ */
+        },
+        async AddNewMatch(id, mainIndex, type){
+            await axios.post('/api/question/addOption', {
+                type: type,
+                question_id: id
+            }).then((res)=>{
                 this.getAll_questions.Answer[mainIndex].SubQuestion.push({
-                    id: null,
+                    id: res.data.sub_question_id,
                     answer_id: null,
                     sub_question: ''
                 })
                 this.getAll_questions.Answer[mainIndex].SubAnswer.push({
-                    id : null, 
+                    id : res.data.answer_id, 
                     Choice : '',
                     question_id : id
                 })
-            //}
-            
+
+                this.$toasted.show('New match has been added', {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    duration: 4000,
+                });
+                //this.SaveAllQuestion();
+            })       
         },
         async RemoveOption(id,Mainindex , AnsIndex, type){
             if(id == null || id == ''){
                  this.getAll_questions.Answer[Mainindex].options.splice(AnsIndex,  1);
             }
             else{
-                 axios.put('/api/question/remove_question_option/'+id, {type: type})
+                 await axios.put('/api/question/remove_question_option/'+id, {type: type})
                 .then((res)=>{
                     this.getAll_questions.Answer[Mainindex].options.splice(AnsIndex,  1);
                 })
@@ -1024,7 +1177,7 @@ export default {
                 this.getAll_questions.Answer[main_index].SubQuestion.splice(match_index,  1);
                 this.getAll_questions.Answer[main_index].SubAnswer.splice(match_index,  1);
             }else{
-                axios.put('/api/question/remove_question_match/'+main_id, {sub_question_id: sub_quesId, answer_id:answer_id })
+                await axios.put('/api/question/remove_question_match/'+main_id, {sub_question_id: sub_quesId, answer_id:answer_id })
                 .then((res)=>{
                     this.getAll_questions.Answer[main_index].SubQuestion.splice(match_index,  1);
                     this.getAll_questions.Answer[main_index].SubAnswer.splice(match_index,  1);
@@ -1033,14 +1186,14 @@ export default {
               
         },
         async UpdateQuestion(id, Mainindex){
-            axios.put('/api/question/update_question_details/'+id, {
+            await axios.put('/api/question/update_question_details/'+id, {
                 question: this.getAll_questions.Question[Mainindex],
                 answer: this.getAll_questions.Answer[Mainindex],
             })
             .then((res)=>{
             })
         },
-        CheckType(id, type, mainIndex){
+        async CheckType(id, type, mainIndex){
                 this.isNewChanges = true;
                 if(type == 'Multiple Choice'){
                     if(this.getAll_questions.Answer[mainIndex].options.length == 0){
@@ -1071,7 +1224,7 @@ export default {
 
                             });
                         }else{ */
-                             this.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                             /* this.getAll_questions.Answer[mainIndex].SubQuestion.push({
                                 id: null,
                                 answer_id: null,
                                 sub_question: ''
@@ -1080,8 +1233,27 @@ export default {
                                 id : null, 
                                 Choice : '',
                                 question_id : id
-                            })
+                            }) */
                         //}
+
+                         await axios.post('/api/question/addOption', {
+                                type: type,
+                                question_id: id
+                            }).then((res)=>{
+                                this.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                                    id: res.data.sub_question_id,
+                                    answer_id: null,
+                                    sub_question: ''
+                                })
+                                this.getAll_questions.Answer[mainIndex].SubAnswer.push({
+                                    id : res.data.answer_id, 
+                                    Choice : '',
+                                    question_id : id
+                                })
+
+                               
+                                //this.SaveAllQuestion();
+                            })
                        
 
                     }
@@ -1091,7 +1263,7 @@ export default {
             this.isAddingNewQuestion = true;
             this.showSnackbar = true
             this.isSavingAllQuestion = true;
-            axios.put('/api/question/save_all_question/'+this.$route.query.clwk, this.getAll_questions)
+            await axios.put('/api/question/save_all_question/'+this.$route.query.clwk, this.getAll_questions)
             .then((res)=>{
                 if(res.data.success == true){
                     this.isSavingAllQuestion = false;
@@ -1133,7 +1305,10 @@ export default {
             });
             this.selectedDataCount = 0;
         },
-        DeleteSelected(){
+        async DeleteSelected(){
+            this.Deletedialog = false;
+            this.isDuplicating = true;
+            this.isDeleting = true;
             this.isAddingNewQuestion = true;
             let question_id_list = [];
             let question_index = 0;
@@ -1146,10 +1321,10 @@ export default {
                 question_index++;
             });
 
-            axios.put('/api/question/delete_selected_question/'+this.$route.query.clwk, {question: question_id_list})
+            await axios.put('/api/question/delete_selected_question/'+this.$route.query.clwk, {question: question_id_list})
             .then((res)=>{
                 if(res.data.success == true){
-                    this.Deletedialog = !this.Deletedialog;
+                    this.Deletedialog = false;
                     question_id_list.forEach(item => {
                         let tmp_question = this.getAll_questions.Question;
                         for (let index = 0; index <  tmp_question.length; index++) {
@@ -1172,6 +1347,11 @@ export default {
                         this.Qlength = 0;
                     }
                     this.isAddingNewQuestion = false;
+                    this.isDuplicating = false;
+                    this.isDeleting = false;
+                }else{
+                    this.isDuplicating = false;
+                    this.isDeleting = false;
                 }
             })
         },
@@ -1181,13 +1361,24 @@ export default {
             this.DeleteSingledialog = true;
         },
         async deleteSingleQuestion(){
-            axios.delete('/api/question/remove/'+this.DeleteDetails.id)
+            this.DeleteSingledialog = false
+            this.isDuplicating = true;
+            this.isDeleting = true;
+            await axios.delete('/api/question/remove/'+this.DeleteDetails.id)
             .then(res=>{
                 this.getAll_questions.Question.splice(this.DeleteIndex, 1);
                 this.getAll_questions.Answer.splice(this.DeleteIndex, 1);
                 this.selectedData.splice(this.DeleteIndex, 1);
                 this.DeleteSingledialog = false
                 this.DeleteDetails = null;
+                this.Qlength = this.getAll_questions.Question.length;
+                 this.$toasted.show('Question has been deleted', {
+                        theme: "toasted-primary",
+                        position: "top-center",
+                        duration: 5000,
+                    });
+                this.isDuplicating = false;
+                this.isDeleting = false;
             })
         },
         singleDuplicate(question, answer){
@@ -1213,21 +1404,43 @@ export default {
 
         },
         async DuplicateQuestionAction(){
-            axios.put('/api/question/store_duplicate_question/'+this.$route.query.clwk, {
+            this.isDuplicating = true;
+            await axios.put('/api/question/store_duplicate_question/'+this.$route.query.clwk, {
                 question: this.DuplicateQuestion,
                 answer: this.DuplicateAnswers
             })
             .then((res)=>{
                 //this.isNewChanges = false;
+                 this.$toasted.show('Question has been duplicated', {
+                        theme: "toasted-primary",
+                        position: "top-center",
+                        duration: 5000,
+                    });
+
                 for (let i = 0; i < res.data.question_id.length; i++) {
-                    this.getAll_questions.Question.push({
-                        id: res.data.question_id[i],
-                        question: this.DuplicateQuestion[i].question,
-                        answer:  this.DuplicateQuestion[i].answer,
-                        points: this.DuplicateQuestion[i].points,
-                        type: this.DuplicateQuestion[i].type,
-                        sensitivity: this.DuplicateQuestion[i].sensitivity,
-                    })
+
+                    if(this.DuplicateQuestion[i].isNew){
+                         this.getAll_questions.Question.push({
+                            id: res.data.question_id[i],
+                            question: this.DuplicateQuestion[i].question,
+                            answer:  res.data.question_answer_id[i],
+                            points: this.DuplicateQuestion[i].points,
+                            type: this.DuplicateQuestion[i].type,
+                            sensitivity: this.DuplicateQuestion[i].sensitivity,
+                            isNew: this.DuplicateQuestion[i].isNew,
+                        })
+                    }else{
+                        this.getAll_questions.Question.push({
+                            id: res.data.question_id[i],
+                            question: this.DuplicateQuestion[i].question,
+                            answer:  this.DuplicateQuestion[i].answer,
+                            points: this.DuplicateQuestion[i].points,
+                            type: this.DuplicateQuestion[i].type,
+                            sensitivity: this.DuplicateQuestion[i].sensitivity,
+                            isNew: this.DuplicateQuestion[i].isNew,
+                        })
+                    }
+                   
                  
                     this.selectedData.push({
                         id: res.data.question_id[i],
@@ -1258,8 +1471,6 @@ export default {
                                 Choice : this.DuplicateAnswers[i].SubAnswer[j].Choice,
                                 question_id : res.data.question_id[i],
                             })
-
-                             
                          }
 
                          for (let x = 0; x < res.data.answer_id[i].Destructors_id.length; x++) {
@@ -1274,7 +1485,10 @@ export default {
                 }
                 this.isAddingNewQuestion = false;
                 this.UnselectAll();
+                this.isDuplicating = false;
                 setTimeout(() => (window.scrollTo(0,document.body.scrollHeight)), 100);
+
+                
             })
         },
         studenView(){
@@ -1301,8 +1515,8 @@ export default {
             e.returnValue = ''
         }   
     },
-    AddDestructor(mainIndex, id){
-        axios.post('/api/question/add_new_destructor', {question_id: id})
+    async AddDestructor(mainIndex, id){
+        await axios.post('/api/question/add_new_destructor', {question_id: id})
         .then((res)=>{
             if(res.data.success == true){
                  this.getAll_questions.Answer[mainIndex].Destructors.push({
@@ -1320,14 +1534,14 @@ export default {
             }
         })
     }, 
-    removeDestructor(id, index, mainIndex){
-        axios.delete('/api/question/remove_destructor/'+id)
+    async removeDestructor(id, index, mainIndex){
+        await axios.delete('/api/question/remove_destructor/'+id)
         .then(()=>{
              this.getAll_questions.Answer[mainIndex].Destructors.splice(index, 1);
         })
     },
-    UpdateDestructor(id,index, mainIndex, data){
-        axios.put('/api/question/update_destructor/'+id, {Choice: data})
+    async UpdateDestructor(id,index, mainIndex, data){
+        await axios.put('/api/question/update_destructor/'+id, {Choice: data})
         .then((res)=>{
           
         })
@@ -1365,13 +1579,15 @@ export default {
     },
 
     mounted(){
-   
-      this.isHaveSubmission = this.classworkDetails.submitted_count == 0 ? false : true;
-      this.isHaveSubmissionDialog = this.classworkDetails.submitted_count == 0 ? false : true;
-       const top = window.pageYOffset || 0;
-      this.GetQuestion();
+        this.isHaveSubmission = this.classworkDetails.submitted_count == 0 ? false : true;
+        this.isHaveSubmissionDialog = this.classworkDetails.submitted_count == 0 ? false : true;
+        const top = window.pageYOffset || 0;
+        this.GetQuestion();
 
-       
+       this.CheckStatus();
+        $('.ql-picker').bind('mousedown',function(e){
+                e.preventDefault();
+        });       
     },
     beforeMount(){
         window.addEventListener('beforeunload', this.beforeWindowUnload)
@@ -1417,16 +1633,21 @@ export default {
     text-align: center
 }
 .editor .ql-editor img{
-  
+   
     max-height: 10rem !important;
 }
 .editor .ql-container{
     max-height: 50rem;
 }
 .editor .ql-editor{
-    min-height: 65px !important;
+    min-height: 50px !important;
     max-height: 300px !important;
+     
 }
+
+/* .editor .ql-editor input{
+    color: black !important;
+} */
 
 
  

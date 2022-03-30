@@ -248,6 +248,12 @@
                                                         class="font-weight-medium">
                                                         <span v-html="item.question" class="post-content"></span>
                                                     </div>
+                                                    <v-row v-if="item.attachments">
+                                                        <v-col  v-for="(attach, num) in item.attachments" :key="num"  cols="12" md="4">
+                                                            <v-img contain style="border:1px solid black;max-width: 100%;max-height: 25rem !important;" class="white--text ma-0 pa-0 " :src="attach.link">
+                                                            </v-img>
+                                                        </v-col>
+                                                    </v-row>
                                                 </v-col>
                                                 <v-col class="ma-0 pa-0" cols="12"
                                                     v-if="item.type == 'Multiple Choice'">
@@ -416,6 +422,7 @@
                                                                                     hide-details
                                                                                     outlined
                                                                                     dense
+                                                                                    @click="isExamStart = false"
                                                                                     v-model="FinalAnswers[index].Answer[i].Ans_letter"
                                                                                     @change="SelectMatch(item.id, index, i)"
                                                                                     class="centered-input pt-0 mt-0">
@@ -632,20 +639,22 @@
 
             },
             SetWarning() {
-                this.preventWarning = !this.preventWarning;
+                this.isExamStart = !this.isExamStart;
             },
             next(index) {
-
+                this.isExamStart = true;
                 this.isSavingAnswer = true;
-                if (this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null) {
+                /* if (this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null) {
                     this.updateAnswer();
                 }
                 this.Questype = "";
                 this.PickAnswers.ans = "";
                 this.PickAnswers_id.quesId = "";
                 if (this.questionIndex != this.Qlength - 1) {
-                    setTimeout(() => (this.isSavingAnswer = false, this.questionIndex++), 500);
-                }
+                    
+                } */
+                this.updateAnswer();
+                setTimeout(() => (this.isSavingAnswer = false, this.questionIndex++), 500);
             },
             async updateAnswer() {
                 let num = this.getAll_questions.Question.length;
@@ -680,6 +689,7 @@
                 })
             },
             prev() {
+                 this.isExamStart
                 if (this.TimerCount[this.questionIndex] != null || '') {
                     this.TimerCount[this.questionIndex] = this.TimerCount[this.questionIndex] + this.tempCounter;
                 } else {
@@ -1053,7 +1063,6 @@
                         }
                     }
                 }
-                //console.log(this.FinalAnswers[main_index]);
             },
             StartQuiz() {
                 this.isStart = true;
@@ -1222,10 +1231,11 @@
     }
 
     .post-content img {
-        border: 1px solid lightgray;
-        max-width: 80%;
-        max-height: 13rem !important;
+        max-width: 100%;
+        max-height: 23rem !important;
     }
+
+ 
 
     .ql-editor img {
         max-height: 20rem !important;

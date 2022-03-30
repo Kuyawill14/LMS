@@ -692,7 +692,8 @@ class ClassworkController extends Controller
             return response()->json([
                 "Details"=>$classworkDetails,
                 "ItemsCount"=>$count,
-                'totalpoints'=>$points,
+                "DateToday"=> Carbon::now('Asia/Manila'),
+                "totalpoints"=>$points,
                 "success" => true,
                 "is_Joined"=>true,
                 "is_Exist" => true,
@@ -702,7 +703,8 @@ class ClassworkController extends Controller
             $rubrics = tbl_subjective_rubrics::where('tbl_subjective_rubrics.classwork_id', $classworkDetails->id)->get();
             $classworkDetails->rubrics = $rubrics;
             return response()->json([
-                'Details'=>$classworkDetails,
+                "Details"=>$classworkDetails,
+                "DateToday"=>Carbon::now('Asia/Manila'),
                 "success" => true,
                 "is_Joined"=>true,
                 "is_Exist" => true,
@@ -950,9 +952,9 @@ class ClassworkController extends Controller
                 "success" => true,
                 "link" => $path,
             ]);
-        }elseif($request->type == "classwork"){
+        }elseif($request->type == "question"){
             $file = $request->file;
-            $upload_file = Storage::disk('DO_spaces')->putFile('QuestionAttachment/'.$request->classwork_id, $file, 'public');
+            $upload_file = Storage::disk('DO_spaces')->putFile('QuestionAttachments/'.$request->classwork_id, $file, 'public');
             $path = \Config::get('app.do_url').'/'.$upload_file;
             //return $path;
             return response()->json([
@@ -961,28 +963,18 @@ class ClassworkController extends Controller
                 "link" => $path,
             ]);
         }
-      
-        /* $userId = auth('sanctum')->id();
-        $UpdateClasswork = tbl_classwork::find($request->id);
-        if(!$UpdateClasswork){
+        elseif($request->type == "classwork"){
+           /*  $file = $request->file;
+            $upload_file = Storage::disk('DO_spaces')->putFile('classworkAttachments/'.$request->classwork_id, $file, 'public');
+            $path = \Config::get('app.do_url').'/'.$upload_file;
+            //return $path;
             return response()->json([
-                "message" => "File not found!",
-                "success" => false
-            ]);
+                "message" => "File Uploaded!",
+                "success" => true,
+                "link" => $path,
+            ]); */
         }
-        $data = $UpdateClasswork->attachment != null ? unserialize($UpdateClasswork->attachment) : array();
-        $file = $request->file;
-        if($file != null){
-            $counter = 0;
-            $tmpdata;
-            $upload_file = Storage::disk('DO_spaces')->putFile('classworkAttachments/'.$UpdateClasswork->id.'/'.$userId, $file, 'public');
-            $path = \Config::get('app.do_url').'/'. $upload_file;
-            $tmpdata = ['name'=> $request->name, 'size'=> $request->size,
-            'attachment'=> $path , 'extension'=> $request->extension]; 
-            array_push($data, $tmpdata);
-            $UpdateClasswork->attachment = serialize($data);
-        }
-        $UpdateClasswork->save(); */
+      
         return;
      }
 

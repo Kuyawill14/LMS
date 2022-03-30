@@ -970,6 +970,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1082,26 +1089,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     setAnswer: function setAnswer(index, Choices) {},
     SetWarning: function SetWarning() {
-      this.preventWarning = !this.preventWarning;
+      this.isExamStart = !this.isExamStart;
     },
     next: function next(index) {
       var _this3 = this;
 
+      this.isExamStart = true;
       this.isSavingAnswer = true;
-
-      if (this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null) {
-        this.updateAnswer();
+      /* if (this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null) {
+          this.updateAnswer();
       }
-
       this.Questype = "";
       this.PickAnswers.ans = "";
       this.PickAnswers_id.quesId = "";
-
       if (this.questionIndex != this.Qlength - 1) {
-        setTimeout(function () {
-          return _this3.isSavingAnswer = false, _this3.questionIndex++;
-        }, 500);
-      }
+          
+      } */
+
+      this.updateAnswer();
+      setTimeout(function () {
+        return _this3.isSavingAnswer = false, _this3.questionIndex++;
+      }, 500);
     },
     updateAnswer: function updateAnswer() {
       var _this4 = this;
@@ -1193,6 +1201,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     prev: function prev() {
+      this.isExamStart;
+
       if (this.TimerCount[this.questionIndex] != null || '') {
         this.TimerCount[this.questionIndex] = this.TimerCount[this.questionIndex] + this.tempCounter;
       } else {
@@ -1634,8 +1644,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[main_index].SubAnswer[x].id;
           }
         }
-      } //console.log(this.FinalAnswers[main_index]);
-
+      }
     },
     StartQuiz: function StartQuiz() {
       var _this11 = this;
@@ -2078,7 +2087,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input>>>input {\n    text-align: center\n}\n.post-content img {\n    border: 1px solid lightgray;\n    max-width: 80%;\n    max-height: 13rem !important;\n}\n.ql-editor img {\n    max-height: 20rem !important;\n    max-width: 80%;\n}\n.centered-input input {\n    text-align: center\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input>>>input {\n    text-align: center\n}\n.post-content img {\n    max-width: 100%;\n    max-height: 23rem !important;\n}\n.ql-editor img {\n    max-height: 20rem !important;\n    max-width: 80%;\n}\n.centered-input input {\n    text-align: center\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -26032,8 +26041,60 @@ var render = function() {
                                                                 }
                                                               })
                                                             ]
-                                                          )
-                                                        ]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          item.attachments
+                                                            ? _c(
+                                                                "v-row",
+                                                                _vm._l(
+                                                                  item.attachments,
+                                                                  function(
+                                                                    attach,
+                                                                    num
+                                                                  ) {
+                                                                    return _c(
+                                                                      "v-col",
+                                                                      {
+                                                                        key: num,
+                                                                        attrs: {
+                                                                          cols:
+                                                                            "12",
+                                                                          md:
+                                                                            "4"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-img",
+                                                                          {
+                                                                            staticClass:
+                                                                              "white--text ma-0 pa-0 ",
+                                                                            staticStyle: {
+                                                                              border:
+                                                                                "1px solid black",
+                                                                              "max-width":
+                                                                                "100%",
+                                                                              "max-height":
+                                                                                "25rem !important"
+                                                                            },
+                                                                            attrs: {
+                                                                              contain:
+                                                                                "",
+                                                                              src:
+                                                                                attach.link
+                                                                            }
+                                                                          }
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  }
+                                                                ),
+                                                                1
+                                                              )
+                                                            : _vm._e()
+                                                        ],
+                                                        1
                                                       ),
                                                       _vm._v(" "),
                                                       item.type ==
@@ -26855,6 +26916,11 @@ var render = function() {
                                                                                                         ""
                                                                                                     },
                                                                                                     on: {
+                                                                                                      click: function(
+                                                                                                        $event
+                                                                                                      ) {
+                                                                                                        _vm.isExamStart = false
+                                                                                                      },
                                                                                                       change: function(
                                                                                                         $event
                                                                                                       ) {

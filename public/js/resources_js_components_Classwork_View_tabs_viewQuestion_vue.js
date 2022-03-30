@@ -163,6 +163,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['question', 'answer'],
   data: function data() {
@@ -347,27 +365,92 @@ var render = function() {
         _c(
           "v-row",
           [
-            _c("v-col", { staticClass: "mb-0 pb-0", attrs: { cols: "12" } }, [
-              _c(
-                "div",
-                {
-                  staticClass: "d-flex justify-space-between",
-                  style: !_vm.$vuetify.breakpoint.mdAndUp
-                    ? "line-height:1.1"
-                    : "line-height:1.5"
-                },
-                [
-                  _c("span", {
-                    staticClass: "post-content",
-                    domProps: { innerHTML: _vm._s(_vm.question.question) }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "primary--text" }, [
-                    _vm._v("(" + _vm._s(_vm.question.points) + " point)")
-                  ])
-                ]
-              )
-            ]),
+            _c(
+              "v-col",
+              { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "d-flex justify-space-between",
+                    style: !_vm.$vuetify.breakpoint.mdAndUp
+                      ? "line-height:1.1"
+                      : "line-height:1.5"
+                  },
+                  [
+                    _c("span", {
+                      staticClass: "post-content",
+                      domProps: { innerHTML: _vm._s(_vm.question.question) }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "primary--text" }, [
+                      _vm._v("(" + _vm._s(_vm.question.points) + " point)")
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _vm.question.attachments
+                  ? _c(
+                      "v-row",
+                      _vm._l(_vm.question.attachments, function(attach, num) {
+                        return _c(
+                          "v-col",
+                          { key: num, attrs: { cols: "6", md: "3" } },
+                          [
+                            _c("v-img", {
+                              staticStyle: { border: "1px solid black" },
+                              attrs: {
+                                alt: "Image",
+                                contain: "",
+                                src: attach.link,
+                                height: _vm.$vuetify.breakpoint.mdAndUp
+                                  ? "200"
+                                  : "120"
+                              },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "placeholder",
+                                    fn: function() {
+                                      return [
+                                        _c(
+                                          "v-row",
+                                          {
+                                            staticClass: "fill-height ma-0",
+                                            attrs: {
+                                              align: "center",
+                                              justify: "center"
+                                            }
+                                          },
+                                          [
+                                            _c("v-progress-circular", {
+                                              attrs: {
+                                                indeterminate: "",
+                                                color: "red"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]
+                                    },
+                                    proxy: true
+                                  }
+                                ],
+                                null,
+                                true
+                              )
+                            })
+                          ],
+                          1
+                        )
+                      }),
+                      1
+                    )
+                  : _vm._e()
+              ],
+              1
+            ),
             _vm._v(" "),
             _vm.question.type == "Multiple Choice"
               ? _c("v-col", { attrs: { cols: "12" } }, [

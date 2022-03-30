@@ -60,6 +60,9 @@ const actions = {
     async setCurrectClassworkSubmission({commit}, count){
         let currect_count = state.classwork_show_details.Details.submitted_count;
         state.classwork_show_details.Details.submitted_count = currect_count - count;
+    },
+    async setCurrectClassworkPoints({commit}, count){
+        state.classwork_show_details.Details.points = count;
     }
     
 

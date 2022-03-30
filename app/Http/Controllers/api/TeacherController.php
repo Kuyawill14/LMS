@@ -443,6 +443,23 @@ class TeacherController extends Controller
        
     }
 
+    /**
+     * Update the specified resource in storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function MarkMatchingTypeAnswer(Request $request, $id){
+
+        $Answers = tbl_Submission::find($id);
+        if($Answers){
+            $Answers->Submitted_Answers = serialize($request->answer);
+            $Answers->points = $request->score;
+            $Answers->save();
+            return 'Successufully saved!';
+        }
+        return 'Submission not found!';
+    }
 
     /**
      * Remove the specified resource from storage.

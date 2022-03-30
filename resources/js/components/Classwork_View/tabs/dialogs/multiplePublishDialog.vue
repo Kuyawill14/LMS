@@ -122,7 +122,6 @@
                                         :text-field-props="textFieldProps"
                                         :date-picker-props="TodateProps"
                                         :time-picker-props="TotimeProps"
-                                        @change="setToDateStart()"
                                         time-format="HH:mm"
                                         color="primary"
                                         >
@@ -252,7 +251,7 @@
 <script>
 import moment from 'moment-timezone';
 export default {
-    props:['multiplePublishDetails'],
+    props:['multiplePublishDetails','datetoday'],
   
     data(){
         return{
@@ -273,33 +272,29 @@ export default {
             },
             dateProps: {
                 headerColor: 'primary',
-                min: moment(Date.now()).format('YYYY-MM-DD')
+                min: moment(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
             },
             FromdateProps: {
                 headerColor: 'primary',
-                min: moment(Date.now()).format('YYYY-MM-DD')
+                min: moment(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
             },
+
             FromdateAnswerProps: {
                 headerColor: 'primary',
-                min: moment(Date.now()).format('YYYY-MM-DD')
+                min: moment(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
             },
             TodateProps: {
                 headerColor: 'primary',
-                min: moment(Date.now()).format('YYYY-MM-DD')
+                min: moment(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
             },
             TodateAnswerProps: {
                 headerColor: 'primary',
-                min: moment(Date.now()).format('YYYY-MM-DD')
-            },
-
-            timeProps: {
-                useSeconds: false,
-                ampmInTitle: true
+                min: moment(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
             },
             FromtimeProps: {
                 useSeconds: false,
                 ampmInTitle: true,
-                min: null
+                min: moment(this.datetoday).tz("Asia/Manila").format('h:mm')
             },
             FromtimeAnswerProps: {
                 useSeconds: false,
@@ -374,15 +369,16 @@ export default {
             }
         },
         setToDateStart(){
-            this.to_date = moment(this.from_date).format('YYYY-MM-DD hh:mm');
-            this.TodateProps.min = moment(this.from_date).format('YYYY-MM-DD');
-            this.TotimeProps.min = moment(this.from_date).format('hh:mm');
+            this.to_date = moment(this.from_date).tz("Asia/Manila").format('YYYY-MM-DD h:mm');
+            this.TodateProps.min = moment(this.from_date).tz("Asia/Manila").format('YYYY-MM-DD');
+            this.TotimeProps.min = moment(this.from_date).tz("Asia/Manila").format('h:mm');
         },
 
         setShowAnswerToDateStart(){
-            this.ShowAnswerDateTo = moment(this.showAnswerDateFrom).format('YYYY-MM-DD hh:mm');
-            this.TodateAnswerProps.min = moment(this.showAnswerDateFrom).format('YYYY-MM-DD');
-            this.TotimeAnswerProps.min = moment(this.showAnswerDateFrom).format('hh:mm');
+            this.ShowAnswerDateTo = moment(this.showAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD hh:mm');
+            this.TodateAnswerProps.min = moment(this.showAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD');
+            this.TotimeAnswerProps.min = moment(this.showAnswerDateFrom).tz("Asia/Manila").format('hh:mm');
+
         },
         shareClasswork(){
             if(this.availability == 'Set date & time'){
@@ -427,7 +423,7 @@ export default {
                 .then(res => {
                     if(res.data != 'Unshare'){
                         res.data.forEach(item => {
-                            let tmpDue = item.availability == 1 ? 'Due '+moment(this.to_date).format("MMMM D, YYYY")+' at '+moment(this.to_date).format("h:mm a") : '';
+                            let tmpDue = item.availability == 1 ? 'Due '+moment(this.to_date).tz("Asia/Manila").format("MMMM D, YYYY")+' at '+moment(this.to_date).format("h:mm a") : '';
                             item.to_date = tmpDue;
                         });
                         this.$emit('successMultiplePublish', res.data)
@@ -458,7 +454,9 @@ export default {
     },
     mounted(){
         this.getGradingCriteria();
-        //this.getPublishDetails();
+        this.from_date = moment(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD h:mm');
+        this.TodateProps.min = moment(this.from_date).tz("Asia/Manila").format('YYYY-MM-DD');
+        this.TotimeProps.min = moment(this.from_date).tz("Asia/Manila").format('h:mm');
     }
 }
 </script>

@@ -331,14 +331,7 @@ export default {
                 this.PublishDetails.showDateTo = moment(this.PublishDetails.showDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
                 this.isLoading = !this.isLoading;
             })
-        },
-        format_date(value) {
-            if (value) {
-                return moment.parseZone(String(value)).format("YYYY-MM-DD HH:MM:SS")
-            }
-        },
- 
-        
+        }
     },
     mounted(){
         this.getGradingCriteria();

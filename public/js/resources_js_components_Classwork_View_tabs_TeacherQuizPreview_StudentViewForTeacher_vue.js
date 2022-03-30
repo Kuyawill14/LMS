@@ -287,6 +287,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var previewTimer = function previewTimer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_TeacherQuizPreview_previewTimer_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./previewTimer */ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/previewTimer.vue"));
 };
@@ -1093,8 +1109,104 @@ var render = function() {
                                                             )
                                                           ])
                                                         ]
-                                                      )
-                                                    ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      item.attachments
+                                                        ? _c(
+                                                            "v-row",
+                                                            _vm._l(
+                                                              item.attachments,
+                                                              function(
+                                                                attach,
+                                                                num
+                                                              ) {
+                                                                return _c(
+                                                                  "v-col",
+                                                                  {
+                                                                    key: num,
+                                                                    attrs: {
+                                                                      cols: "6",
+                                                                      md: "3"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "v-img",
+                                                                      {
+                                                                        staticClass:
+                                                                          "white--text ma-0 pa-0",
+                                                                        staticStyle: {
+                                                                          border:
+                                                                            "1px solid black"
+                                                                        },
+                                                                        attrs: {
+                                                                          alt:
+                                                                            "Image",
+                                                                          contain:
+                                                                            "",
+                                                                          src:
+                                                                            attach.link,
+                                                                          height: _vm
+                                                                            .$vuetify
+                                                                            .breakpoint
+                                                                            .mdAndUp
+                                                                            ? "200"
+                                                                            : "120"
+                                                                        },
+                                                                        scopedSlots: _vm._u(
+                                                                          [
+                                                                            {
+                                                                              key:
+                                                                                "placeholder",
+                                                                              fn: function() {
+                                                                                return [
+                                                                                  _c(
+                                                                                    "v-row",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "fill-height ma-0",
+                                                                                      attrs: {
+                                                                                        align:
+                                                                                          "center",
+                                                                                        justify:
+                                                                                          "center"
+                                                                                      }
+                                                                                    },
+                                                                                    [
+                                                                                      _c(
+                                                                                        "v-progress-circular",
+                                                                                        {
+                                                                                          attrs: {
+                                                                                            indeterminate:
+                                                                                              "",
+                                                                                            color:
+                                                                                              "red"
+                                                                                          }
+                                                                                        }
+                                                                                      )
+                                                                                    ],
+                                                                                    1
+                                                                                  )
+                                                                                ]
+                                                                              },
+                                                                              proxy: true
+                                                                            }
+                                                                          ],
+                                                                          null,
+                                                                          true
+                                                                        )
+                                                                      }
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              }
+                                                            ),
+                                                            1
+                                                          )
+                                                        : _vm._e()
+                                                    ],
+                                                    1
                                                   ),
                                                   _vm._v(" "),
                                                   item.type == "Multiple Choice"

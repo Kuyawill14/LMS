@@ -9,4 +9,21 @@ class tbl_Questions extends Model
 {
     use HasFactory;
     protected $table = 'tbl_questions';
+
+    /* protected $casts = [
+        'attachments' => 'array',
+    ]; */
+
+    public function getAttachmentsAttribute($value)
+    {
+        //return unserialize($value);
+        return @unserialize($value) !== false ? unserialize($value) : $value;
+         
+    }
+  /*   public function setAttachmentsAttribute($value)
+    {
+        $this->attributes['attachments'] = serialize($value);
+    } */
+
+    
 }

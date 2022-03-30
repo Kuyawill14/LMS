@@ -823,36 +823,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -1115,22 +1085,20 @@ var resetConfirmation = function resetConfirmation() {
                 var match_check = new Array();
                 var _counter2 = 0;
                 var matchpoints = Math.round(_this.getAll_questions.Question[i].points / _this.getAll_questions.Answer[i].SubQuestion.length);
-
-                _this.ViewDetails.Submitted_Answers[_j].Answer.forEach(function (item) {
-                  for (var x = 0; x < _this.getAll_questions.Answer[i].SubQuestion.length; x++) {
-                    if (_this.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
-                      match_check[_counter2] = true;
-
-                      if (_this.getAll_questions.Answer[i].SubQuestion[x].answer_id == item.Ans_id) {
-                        match_check[_counter2] = true; //this.ViewDetails.points += matchpoints;
-                      } else {
-                        match_check[_counter2] = false;
+                /*  this.ViewDetails.Submitted_Answers[j].Answer.forEach(item => {
+                     for (let x = 0; x < this.getAll_questions.Answer[i].SubQuestion
+                         .length; x++) {
+                         if (this.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
+                             match_check[counter] = true;
+                             if (this.getAll_questions.Answer[i].SubQuestion[x].answer_id == item.Ans_id) {
+                                 match_check[counter] = true;
+                             } else {
+                                 match_check[counter] = false;
+                             }
+                         }
                       }
-                    }
-                  }
-
-                  _counter2 += 1;
-                });
+                     counter += 1;
+                 }); */
 
                 var Ans_list = {};
                 Ans_list.SubQuestion = [];
@@ -1146,7 +1114,9 @@ var resetConfirmation = function resetConfirmation() {
                         Answer: null,
                         SubQuestion: subQuestion.sub_question,
                         SubQuestion_id: subQuestion.id,
-                        Correct_Answer: null
+                        Correct_Answer: subQuestion.answer_id,
+                        correct_ans_letter: null,
+                        isCheck: null
                       });
                     }
                   });
@@ -1156,6 +1126,15 @@ var resetConfirmation = function resetConfirmation() {
                       if (user_ans.subquestion_id == ans.SubQuestion_id) {
                         ans.Ans_Letter = user_ans.Ans_letter;
                         ans.Answer = user_ans.Answers;
+                        ans.user_ans_id = user_ans.Ans_id;
+
+                        var _hasKey2 = ('isCheck' in user_ans);
+
+                        if (_hasKey2) {
+                          ans.isCheck = user_ans.isCheck;
+                        } else {
+                          ans.isCheck = null;
+                        }
                       }
                     });
                   });
@@ -1176,6 +1155,57 @@ var resetConfirmation = function resetConfirmation() {
                   });
                 });
 
+                Ans_list.SubQuestion.forEach(function (sub_ques) {
+                  var c_count = 0;
+                  Ans_list.SubAnswer.forEach(function (sub_ans) {
+                    if (sub_ques.Correct_Answer == sub_ans.SubChoice_id) {
+                      sub_ques.correct_ans_letter = _this.Alphabet[c_count];
+                    }
+
+                    c_count++;
+                  });
+                });
+                Ans_list.SubQuestion.forEach(function (sub) {
+                  if (sub.isCheck == null) {
+                    var string = sub.Ans_Letter != null ? sub.Ans_Letter.replace(/\./g, '') : sub.Ans_Letter;
+                    var letter = string != null ? string.trim() : null;
+
+                    if (letter != null ? letter.toUpperCase() == sub.correct_ans_letter.toUpperCase() : false) {
+                      match_check[_counter2] = true;
+
+                      _this.ViewDetails.Submitted_Answers.forEach(function (submi_ans) {
+                        if (submi_ans.Question_id == _this.getAll_questions.Question[i].id) {
+                          submi_ans.Answer.forEach(function (submitted_as) {
+                            if (submitted_as.subquestion_id == sub.SubQuestion_id) {
+                              submitted_as.Ans_id = sub.Correct_Answer;
+                              submitted_as.isCheck = true;
+                              return;
+                            }
+                          });
+                          return;
+                        }
+                      });
+                    } else {
+                      _this.ViewDetails.Submitted_Answers.forEach(function (submi_ans) {
+                        if (submi_ans.Question_id == _this.getAll_questions.Question[i].id) {
+                          submi_ans.Answer.forEach(function (submitted_as) {
+                            if (submitted_as.subquestion_id == sub.SubQuestion_id) {
+                              submitted_as.isCheck = false;
+                              return;
+                            }
+                          });
+                          return;
+                        }
+                      });
+
+                      match_check[_counter2] = false;
+                    }
+                  } else {
+                    match_check[_counter2] = sub.isCheck ? true : false;
+                  }
+
+                  _counter2 += 1;
+                });
                 var tmpChoices = new Array();
 
                 _this.ViewDetails.Submitted_Answers[_j].Choices_id.forEach(function (item) {
@@ -1203,6 +1233,11 @@ var resetConfirmation = function resetConfirmation() {
         for (var i = 0; i < _this.getAll_questions.Question.length; i++) {
           _loop2(i);
         }
+
+        var details = {};
+        details.answer = _this.ViewDetails.Submitted_Answers;
+        details.score = _this.ViewDetails.points;
+        axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/markAnswer/' + _this.ViewDetails.id, details).then(function (res) {});
 
         _this.CheckScore(_this.ViewDetails.id); //this.ReSaveScore();
 
@@ -1384,9 +1419,9 @@ var resetConfirmation = function resetConfirmation() {
 
               var score;
 
-              var _hasKey2 = ('score' in _this2.ViewDetails.Submitted_Answers[_j2]);
+              var _hasKey3 = ('score' in _this2.ViewDetails.Submitted_Answers[_j2]);
 
-              if (_hasKey2) {
+              if (_hasKey3) {
                 score = parseInt(_this2.ViewDetails.Submitted_Answers[_j2].score);
               } else {
                 _this2.ViewDetails.Submitted_Answers[_j2].score = "";
@@ -1401,30 +1436,21 @@ var resetConfirmation = function resetConfirmation() {
               var match_check = new Array();
               var _counter4 = 0;
               var matchpoints = Math.round(_this2.getAll_questions.Question[i].points / _this2.getAll_questions.Answer[i].SubQuestion.length);
-
-              _this2.ViewDetails.Submitted_Answers[_j2].Answer.forEach(function (item) {
-                for (var x = 0; x < _this2.getAll_questions.Answer[i].SubQuestion.length; x++) {
-                  /*  if (this.getAll_questions.Answer[i].SubQuestion[x].id ==
-                       item.subquestion_id) {
-                       if (this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
+              /*  this.ViewDetails.Submitted_Answers[j].Answer.forEach(item => {
+                   for (let x = 0; x < this.getAll_questions.Answer[i].SubQuestion
+                       .length; x++) {
+                        if (this.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
                            match_check[counter] = true;
-                        } else {
-                           match_check[counter] = false;
+                           if (this.getAll_questions.Answer[i].SubQuestion[x].answer_id == item.Ans_id) {
+                               match_check[counter] = true;
+                               //this.ViewDetails.points += matchpoints;
+                            } else {
+                               match_check[counter] = false;
+                           }
                        }
-                   } */
-                  if (_this2.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
-                    match_check[_counter4] = true;
-
-                    if (_this2.getAll_questions.Answer[i].SubQuestion[x].answer_id == item.Ans_id) {
-                      match_check[_counter4] = true; //this.ViewDetails.points += matchpoints;
-                    } else {
-                      match_check[_counter4] = false;
                     }
-                  }
-                }
-
-                _counter4 += 1;
-              });
+                   counter += 1;
+               }); */
 
               var Ans_list = {};
               Ans_list.SubQuestion = [];
@@ -1440,7 +1466,9 @@ var resetConfirmation = function resetConfirmation() {
                       Answer: null,
                       SubQuestion: subQuestion.sub_question,
                       SubQuestion_id: subQuestion.id,
-                      Correct_Answer: null
+                      Correct_Answer: subQuestion.answer_id,
+                      correct_ans_letter: null,
+                      isCheck: null
                     });
                   }
                 });
@@ -1450,6 +1478,15 @@ var resetConfirmation = function resetConfirmation() {
                     if (user_ans.subquestion_id == ans.SubQuestion_id) {
                       ans.Ans_Letter = user_ans.Ans_letter;
                       ans.Answer = user_ans.Answers;
+                      ans.user_ans_id = user_ans.Ans_id;
+
+                      var _hasKey4 = ('isCheck' in user_ans);
+
+                      if (_hasKey4) {
+                        ans.isCheck = user_ans.isCheck;
+                      } else {
+                        ans.isCheck = null;
+                      }
                     }
                   });
                 });
@@ -1470,6 +1507,57 @@ var resetConfirmation = function resetConfirmation() {
                 });
               });
 
+              Ans_list.SubQuestion.forEach(function (sub_ques) {
+                var c_count = 0;
+                Ans_list.SubAnswer.forEach(function (sub_ans) {
+                  if (sub_ques.Correct_Answer == sub_ans.SubChoice_id) {
+                    sub_ques.correct_ans_letter = _this2.Alphabet[c_count];
+                  }
+
+                  c_count++;
+                });
+              });
+              Ans_list.SubQuestion.forEach(function (sub) {
+                if (sub.isCheck == null) {
+                  var string = sub.Ans_Letter != null ? sub.Ans_Letter.replace(/\./g, '') : sub.Ans_Letter;
+                  var letter = string != null ? string.trim() : string;
+
+                  if (letter != null ? letter.toUpperCase() == sub.correct_ans_letter.toUpperCase() : false) {
+                    match_check[_counter4] = true;
+
+                    _this2.ViewDetails.Submitted_Answers.forEach(function (submi_ans) {
+                      if (submi_ans.Question_id == _this2.getAll_questions.Question[i].id) {
+                        submi_ans.Answer.forEach(function (submitted_as) {
+                          if (submitted_as.subquestion_id == sub.SubQuestion_id) {
+                            submitted_as.Ans_id = sub.Correct_Answer;
+                            submitted_as.isCheck = true;
+                            return;
+                          }
+                        });
+                        return;
+                      }
+                    });
+                  } else {
+                    _this2.ViewDetails.Submitted_Answers.forEach(function (submi_ans) {
+                      if (submi_ans.Question_id == _this2.getAll_questions.Question[i].id) {
+                        submi_ans.Answer.forEach(function (submitted_as) {
+                          if (submitted_as.subquestion_id == sub.SubQuestion_id) {
+                            submitted_as.isCheck = false;
+                            return;
+                          }
+                        });
+                        return;
+                      }
+                    });
+
+                    match_check[_counter4] = false;
+                  }
+                } else {
+                  match_check[_counter4] = sub.isCheck ? true : false;
+                }
+
+                _counter4 += 1;
+              });
               var tmpChoices = new Array();
 
               _this2.ViewDetails.Submitted_Answers[_j2].Choices_id.forEach(function (item) {
@@ -1498,7 +1586,10 @@ var resetConfirmation = function resetConfirmation() {
         _loop5(i);
       }
 
-      this.fetchStudentActivity();
+      var details = {};
+      details.answer = this.ViewDetails.Submitted_Answers;
+      details.score = this.ViewDetails.points;
+      axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/markAnswer/' + this.ViewDetails.id, details).then(function (res) {});
       this.CheckScore(this.ViewDetails.id);
       this.isLoaded = true; //this.ReSaveScore();
     },
@@ -1769,6 +1860,7 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
+                _this11.tab = 0;
                 _this11.questionIndex = 0;
                 _this11.SubmittedAnswer = [];
                 _this11.Check = [];
@@ -1782,7 +1874,7 @@ var resetConfirmation = function resetConfirmation() {
                 }, 200); //setTimeout(() => (this.ReMatchQuestions()) , 300);
                 //this.fetchStudentActivity();
 
-              case 6:
+              case 7:
               case "end":
                 return _context9.stop();
             }
@@ -1798,6 +1890,7 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
+                _this12.tab = 0;
                 _this12.questionIndex = 0;
                 _this12.SubmittedAnswer = [];
                 _this12.Check = [];
@@ -1811,7 +1904,7 @@ var resetConfirmation = function resetConfirmation() {
                 }, 200); //setTimeout(() => (this.getSubmittedAnswer(), this.ReMatchQuestions()), 300);
                 //this.fetchStudentActivity();
 
-              case 6:
+              case 7:
               case "end":
                 return _context10.stop();
             }
@@ -1892,8 +1985,6 @@ var resetConfirmation = function resetConfirmation() {
                     _this16.ViewDetails.comments = res.data.comment;
 
                     _this16.ReMatchQuestions();
-
-                    _this16.fetchStudentActivity();
                   });
                 } else {
                   _this16.isLoaded = true;
@@ -1951,6 +2042,49 @@ var resetConfirmation = function resetConfirmation() {
             }
           }
         }, _callee13);
+      }))();
+    },
+    MarkAsCorrect: function MarkAsCorrect(main_index, second_index, ques_id, subquestion_id, points) {
+      var _this18 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee14() {
+        var matchpoints;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee14$(_context14) {
+          while (1) {
+            switch (_context14.prev = _context14.next) {
+              case 0:
+                matchpoints = Math.round(points / _this18.getAll_questions.Answer[main_index].SubQuestion.length);
+
+                _this18.getAll_questions.Answer[main_index].SubQuestion.forEach(function (item) {
+                  if (item.id == subquestion_id) {
+                    _this18.ViewDetails.points = _this18.Check[main_index][second_index] ? parseInt(_this18.ViewDetails.points) + parseInt(matchpoints) : parseInt(_this18.ViewDetails.points) - parseInt(matchpoints);
+
+                    _this18.ViewDetails.Submitted_Answers.forEach(function (sub) {
+                      if (sub.Question_id == ques_id) {
+                        sub.Answer.forEach(function (ans) {
+                          if (ans.subquestion_id == subquestion_id) {
+                            ans.Ans_id = _this18.Check[main_index][second_index] ? item.answer_id : 0;
+                            ans.isCheck = _this18.Check[main_index][second_index] ? true : false;
+                            var details = {};
+                            details.answer = _this18.ViewDetails.Submitted_Answers;
+                            details.score = _this18.ViewDetails.points;
+                            axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/markAnswer/' + _this18.ViewDetails.id, details).then(function (res) {
+                              item.user_ans_id = item.answer_id;
+                            });
+                            return;
+                          }
+                        });
+                      }
+                    });
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context14.stop();
+            }
+          }
+        }, _callee14);
       }))();
     }
   },
@@ -4644,8 +4778,106 @@ var render = function() {
                                                                             }
                                                                           )
                                                                         ]
-                                                                      )
-                                                                    ]
+                                                                      ),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      item.attachments
+                                                                        ? _c(
+                                                                            "v-row",
+                                                                            _vm._l(
+                                                                              item.attachments,
+                                                                              function(
+                                                                                attach,
+                                                                                num
+                                                                              ) {
+                                                                                return _c(
+                                                                                  "v-col",
+                                                                                  {
+                                                                                    key: num,
+                                                                                    attrs: {
+                                                                                      cols:
+                                                                                        "6",
+                                                                                      md:
+                                                                                        "3"
+                                                                                    }
+                                                                                  },
+                                                                                  [
+                                                                                    _c(
+                                                                                      "v-img",
+                                                                                      {
+                                                                                        staticStyle: {
+                                                                                          border:
+                                                                                            "1px solid black"
+                                                                                        },
+                                                                                        attrs: {
+                                                                                          alt:
+                                                                                            "Image",
+                                                                                          contain:
+                                                                                            "",
+                                                                                          src:
+                                                                                            attach.link,
+                                                                                          height: _vm
+                                                                                            .$vuetify
+                                                                                            .breakpoint
+                                                                                            .mdAndUp
+                                                                                            ? "200"
+                                                                                            : "120"
+                                                                                        },
+                                                                                        scopedSlots: _vm._u(
+                                                                                          [
+                                                                                            {
+                                                                                              key:
+                                                                                                "placeholder",
+                                                                                              fn: function() {
+                                                                                                return [
+                                                                                                  _c(
+                                                                                                    "v-row",
+                                                                                                    {
+                                                                                                      staticClass:
+                                                                                                        "fill-height ma-0",
+                                                                                                      attrs: {
+                                                                                                        align:
+                                                                                                          "center",
+                                                                                                        justify:
+                                                                                                          "center"
+                                                                                                      }
+                                                                                                    },
+                                                                                                    [
+                                                                                                      _c(
+                                                                                                        "v-progress-circular",
+                                                                                                        {
+                                                                                                          attrs: {
+                                                                                                            indeterminate:
+                                                                                                              "",
+                                                                                                            color:
+                                                                                                              "red"
+                                                                                                          }
+                                                                                                        }
+                                                                                                      )
+                                                                                                    ],
+                                                                                                    1
+                                                                                                  )
+                                                                                                ]
+                                                                                              },
+                                                                                              proxy: true
+                                                                                            }
+                                                                                          ],
+                                                                                          null,
+                                                                                          true
+                                                                                        )
+                                                                                      }
+                                                                                    )
+                                                                                  ],
+                                                                                  1
+                                                                                )
+                                                                              }
+                                                                            ),
+                                                                            1
+                                                                          )
+                                                                        : _vm._e()
+                                                                    ],
+                                                                    1
                                                                   ),
                                                                   _vm._v(" "),
                                                                   _c(
@@ -5538,14 +5770,14 @@ var render = function() {
                                                                                               ]
                                                                                                 .SubQuestion,
                                                                                               function(
-                                                                                                item,
+                                                                                                Ans_match,
                                                                                                 i
                                                                                               ) {
                                                                                                 return _c(
                                                                                                   "v-col",
                                                                                                   {
                                                                                                     key:
-                                                                                                      item.id,
+                                                                                                      Ans_match.id,
                                                                                                     staticClass:
                                                                                                       "d-flex flex-row pa-0",
                                                                                                     attrs: {
@@ -5562,47 +5794,53 @@ var render = function() {
                                                                                                       },
                                                                                                       [
                                                                                                         _c(
-                                                                                                          "v-btn",
+                                                                                                          "v-checkbox",
                                                                                                           {
+                                                                                                            staticClass:
+                                                                                                              "ma-0 pa-0 mt-2",
                                                                                                             attrs: {
-                                                                                                              icon:
-                                                                                                                ""
-                                                                                                            }
-                                                                                                          },
-                                                                                                          [
-                                                                                                            _c(
-                                                                                                              "v-icon",
-                                                                                                              {
-                                                                                                                attrs: {
-                                                                                                                  color: _vm
+                                                                                                              "hide-details":
+                                                                                                                "",
+                                                                                                              color:
+                                                                                                                "success"
+                                                                                                            },
+                                                                                                            on: {
+                                                                                                              click: function(
+                                                                                                                $event
+                                                                                                              ) {
+                                                                                                                return _vm.MarkAsCorrect(
+                                                                                                                  index,
+                                                                                                                  i,
+                                                                                                                  item.id,
+                                                                                                                  Ans_match.SubQuestion_id,
+                                                                                                                  item.points
+                                                                                                                )
+                                                                                                              }
+                                                                                                            },
+                                                                                                            model: {
+                                                                                                              value:
+                                                                                                                _vm
+                                                                                                                  .Check[
+                                                                                                                  index
+                                                                                                                ][
+                                                                                                                  i
+                                                                                                                ],
+                                                                                                              callback: function(
+                                                                                                                $$v
+                                                                                                              ) {
+                                                                                                                _vm.$set(
+                                                                                                                  _vm
                                                                                                                     .Check[
                                                                                                                     index
-                                                                                                                  ][
-                                                                                                                    i
-                                                                                                                  ]
-                                                                                                                    ? "success"
-                                                                                                                    : "red"
-                                                                                                                }
-                                                                                                              },
-                                                                                                              [
-                                                                                                                _vm._v(
-                                                                                                                  "\n                                                                                " +
-                                                                                                                    _vm._s(
-                                                                                                                      _vm
-                                                                                                                        .Check[
-                                                                                                                        index
-                                                                                                                      ][
-                                                                                                                        i
-                                                                                                                      ]
-                                                                                                                        ? "mdi-checkbox-marked"
-                                                                                                                        : "mdi-close-box-outline"
-                                                                                                                    ) +
-                                                                                                                    "\n                                                                                "
+                                                                                                                  ],
+                                                                                                                  i,
+                                                                                                                  $$v
                                                                                                                 )
-                                                                                                              ]
-                                                                                                            )
-                                                                                                          ],
-                                                                                                          1
+                                                                                                              },
+                                                                                                              expression:
+                                                                                                                "Check[index][i]"
+                                                                                                            }
+                                                                                                          }
                                                                                                         )
                                                                                                       ],
                                                                                                       1
@@ -5640,18 +5878,18 @@ var render = function() {
                                                                                                             },
                                                                                                             model: {
                                                                                                               value:
-                                                                                                                item.Ans_Letter,
+                                                                                                                Ans_match.Ans_Letter,
                                                                                                               callback: function(
                                                                                                                 $$v
                                                                                                               ) {
                                                                                                                 _vm.$set(
-                                                                                                                  item,
+                                                                                                                  Ans_match,
                                                                                                                   "Ans_Letter",
                                                                                                                   $$v
                                                                                                                 )
                                                                                                               },
                                                                                                               expression:
-                                                                                                                "item.Ans_Letter"
+                                                                                                                "Ans_match.Ans_Letter"
                                                                                                             }
                                                                                                           }
                                                                                                         )
@@ -5698,7 +5936,7 @@ var render = function() {
                                                                                                               "subquestion-content",
                                                                                                             domProps: {
                                                                                                               innerHTML: _vm._s(
-                                                                                                                item.SubQuestion
+                                                                                                                Ans_match.SubQuestion
                                                                                                               )
                                                                                                             }
                                                                                                           }

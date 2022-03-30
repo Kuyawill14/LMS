@@ -21,31 +21,14 @@
                     v-if="TimesUpDialog"></timesUpDialog>
             </v-dialog>
 
-            <!-- <v-container class="fill-height" v-if="isLoading" style="height: 600px;">
-    <v-row  align-content="center" justify="center">
-        <v-col class="text-subtitle-1 text-center" cols="12">
-            {{isSubmitting? 'Submitting Questions':'Loading Questions'}}
-        </v-col>
-        <v-col cols="6">
-            <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
-        </v-col>
-    </v-row>
-</v-container> -->
 
             <vue-element-loading :active="isLoading" :text="!isSubmitting ? 'Loading Questions' : 'Submitting..'" duration="0.7"
                 :textStyle="{fontSize: '18px'}" spinner="line-scale" color="#EF6C00" size="50" is-full-screen />
 
-            <!--  <vue-element-loading :active="isSubmitting" 
-    text="Submitting..."
-    duration="0.7"
-    :textStyle="{fontSize: '18px'}"
-    spinner="line-scale" color="#EF6C00"  size="50" is-full-screen /> -->
+
 
             <vue-element-loading :active="isLeavingPage" duration="0.7" spinner="line-scale" color="#EF6C00" size="50"
                 is-full-screen />
-
-
-
 
             <v-container class="ma-0 pa-0" fluid :class="!$vuetify.breakpoint.mdAndUp ? '' : ''"
                 v-if="!isLoading || !isSubmitting">
@@ -427,9 +410,9 @@
                                                                     <v-col cols="7" >
                                                                         <v-row>
                                                                             <v-col class="d-flex flex-row pa-0" cols="12" v-for="(List, i) in getAll_questions.Answer[index].SubQuestion" :key="List.id" >
-                                                                                <div class="mt-0 pt-0 mb-0 pb-0 pa-0">
+                                                                                <div  class="mt-0 pt-0 mb-0 pb-0 pa-0">
                                                                                     <v-text-field 
-                                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'max-width:110px' : 'max-width:70px'"
+                                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'max-width:110px' : 'max-width:65px'"
                                                                                     hide-details
                                                                                     outlined
                                                                                     dense
@@ -438,7 +421,7 @@
                                                                                     class="centered-input pt-0 mt-0">
                                                                                     </v-text-field>
                                                                                 </div>
-                                                                                <div class="d-flex flex-row mt-2 pl-2"> 
+                                                                                <div style="width:100%" class="d-flex flex-row mt-2 pl-2"> 
                                                                                     <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
                                                                                     <span v-html="List.sub_question" class="subquestion-content"></span>
                                                                                 </div>
@@ -448,7 +431,7 @@
                                                                     <v-col cols="5">
                                                                         <v-row>
                                                                             <v-col cols="12" v-for="(pairList, i) in getAll_questions.Answer[index].SubAnswer" :key="i" class="d-flex flex-row pa-0">
-                                                                                <div class="d-flex flex-row mt-2 pl-4"> 
+                                                                                <div style="width:100%" class="d-flex flex-row mt-2 pl-4"> 
                                                                                     <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
                                                                                     <span v-html="pairList.Choice" class="subchoices-content"></span>
                                                                                 </div>
@@ -494,31 +477,27 @@
             </div>
 
             <div>
-
-                <v-app-bar color="white" outlined elevation="0" v-if="!$vuetify.breakpoint.mdAndUp" app
+                <v-app-bar class="pl-0 pr-0" color="white" outlined elevation="0" v-if="!$vuetify.breakpoint.mdAndUp" app
                     :dense="$vuetify.breakpoint.mdAndUp" bottom flat>
-
-                    <v-btn icon @click="prev" :disabled="questionIndex <= 0">
-                        <v-icon>mdi-arrow-left</v-icon>
+                    <v-btn rounded text @click="prev" :disabled="questionIndex <= 0">
+                        <v-icon left>mdi-arrow-left</v-icon>
+                        <small>Previous</small>
                     </v-btn>
-
                     <v-spacer></v-spacer>
                     <div class="d-flex justify-center">
                         <small>{{questionIndex+1 }} of {{getAll_questions.Question.length}}</small>
                     </div>
 
                     <v-spacer></v-spacer>
-
-                    <v-btn icon v-if="questionIndex != Qlength-1" :loading="isSavingAnswer" color="primary"
+                    <v-btn rounded text v-if="questionIndex != Qlength-1" :loading="isSavingAnswer" color="primary"
                         @click="next(questionIndex)">
-                        <v-icon>mdi-arrow-right</v-icon>
+                        <small>Next</small>
+                        <v-icon right>mdi-arrow-right</v-icon>
                     </v-btn>
-
                     <v-btn text :loading="isSavingAnswer" v-if="questionIndex == Qlength-1" rounded color="success"
                         @click="SubmitPromp">
                         Submit
                     </v-btn>
-
                 </v-app-bar>
             </div>
 
@@ -604,6 +583,7 @@
                 CurrentTime: null,
                 isReloadTime: false,
                 unAnsweredQuestion: 0,
+                saveIndex: 2,
 
             }
         },
@@ -626,7 +606,6 @@
 
                     }
                 });
-
                 this.isRemoving = true;
                 this.dialog = true;;
             },
@@ -669,7 +648,33 @@
                 }
             },
             async updateAnswer() {
-               await axios.put('/api/question/store-answer/' + this.submission_id, {
+                let num = this.getAll_questions.Question.length;
+                if(num > 4){
+                    let SaveCount = parseInt((num/2))*2;
+                    let TmpfinalSave = (num - SaveCount)-1;
+                    let finalSave = ((SaveCount + TmpfinalSave)-1);
+
+                    if(this.saveIndex == this.questionIndex){
+                        await axios.put('/api/question/store-answer/' + this.submission_id, {
+                            type: "multiple",
+                            data: this.FinalAnswers
+                        })
+                        this.saveIndex += 2;
+                    }else if(finalSave == this.questionIndex){
+                          await axios.put('/api/question/store-answer/' + this.submission_id, {
+                            type: "multiple",
+                            data: this.FinalAnswers
+                        })
+                    }
+                }else{
+                    await axios.put('/api/question/store-answer/' + this.submission_id, {
+                        type: "multiple",
+                        data: this.FinalAnswers
+                    })
+                }
+            },
+            async LeaveSaveAnswer(){
+                await axios.put('/api/question/store-answer/' + this.submission_id, {
                     type: "multiple",
                     data: this.FinalAnswers
                 })
@@ -703,14 +708,14 @@
                             // this.isSubmitting = !this.isSubmitting;
 
                             //self.opener.location.reload();
-                            this.saveActivityLog(
+                           /*  this.saveActivityLog(
                                     `Student submitted the exam`)
                                 .then(() => {
                                     setTimeout(() => {
                                         this.isLoading = false;
                                         window.close();
                                     }, 300)
-                                });
+                                }); */
 
                             this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
                         })
@@ -754,7 +759,7 @@
                                     Question_id: this.getAll_questions.Question[index].id,
                                     answer_id: null,
                                     type: this.getAll_questions.Question[index].type,
-                                    timeConsume: null
+                                    timeConsume: null,
                                 });
                             } else if (this.getAll_questions.Question[index].type == 'Essay') {
                                 this.FinalAnswers.push({
@@ -888,7 +893,7 @@
                                             Question_id: AnswersList[j].Question_id,
                                             answer_id: null,
                                             type: AnswersList[j].type,
-                                            timeConsume: AnswersList[j].timeConsume
+                                            timeConsume: AnswersList[j].timeConsume,
                                         });
                                     } else if (this.getAll_questions.Question[x].type == 'Matching type') {
                                         let Ans = new Array();
@@ -938,7 +943,8 @@
                             }
                         }
                     }
-                    this.isLoading = false;
+                    /* this.isLoading = false; */
+                    setTimeout(() => {this.isLoading = false}, 100);
                     this.questionIsLoaded = true;
                 });
 
@@ -977,7 +983,7 @@
                     })
             },
             async CheckStatus() {
-                await axios.get('/api/student/checking/' + this.$route.query.clwk)
+                await axios.get('/api/student/checking/' + this.$route.query.clwk+'/'+this.$route.params.id)
                     .then(res => {
                         if (res.data.success == true) {
                             if (res.data.status != 'Submitted') {
@@ -1010,7 +1016,7 @@
                                 });
                             }
                         } else {
-                            this.toastError('Something went wrong while loading Questions!');
+                            this.toastError(res.data.message);
                             this.$router.push({
                                 name: 'clwk',
                                 params: {
@@ -1186,16 +1192,23 @@
                 }
             }
             this.isLeavingPage = true;
+
+            if(!this.isSubmitting){
+                this.LeaveSaveAnswer();
+            }
+            
             next();
         },
         async mounted() {
             //this.toggleFullScreen();
             //this.openFullscreen(document.body);
             this.CheckStatus();
-
-
         },
         beforeDestroy() {
+
+            if(!this.isSubmitting){
+                this.LeaveSaveAnswer();
+            }
             window.removeEventListener('onbeforeunload', this.preventNav)
         },
 
@@ -1209,9 +1222,8 @@
     }
 
     .post-content img {
-        border: 1px solid lightgray;
-        max-width: 80%;
-        max-height: 13rem !important;
+        max-width: 100%;
+        max-height: 23rem !important;
     }
 
     .ql-editor img {

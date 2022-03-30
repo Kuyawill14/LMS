@@ -70,6 +70,21 @@
                             </div>
                             
                         </div>
+
+                         <v-row v-if="item.attachments">
+                            <v-col  v-for="(attach, num) in item.attachments" :key="num"  cols="12" md="4">
+                                  <v-img alt="Image" class="white--text ma-0 pa-0 " contain style="border:1px solid black;max-width: 100%;max-height: 23rem !important;" :src="attach.link" >
+                                    <template v-slot:placeholder>
+                                        <v-row class="fill-height ma-0" align="center" justify="center">
+                                            <v-progress-circular
+                                                indeterminate
+                                                color="red">
+                                            </v-progress-circular>
+                                        </v-row>
+                                    </template>
+                                </v-img>
+                            </v-col>
+                        </v-row>
                     </v-container> 
                
                  <v-container ml-0 pl-0 v-if="item.type == 'Multiple Choice'">

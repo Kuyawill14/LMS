@@ -8,6 +8,24 @@
                           <span v-html="question.question" class="post-content"></span>
                            <span class="primary--text" >({{question.points}} point)</span>
                      </div>
+                    <v-row v-if="question.attachments">
+                        <v-col v-for="(attach, num) in question.attachments" :key="num"  cols="6" md="3">
+                              <!--   <v-img contain style="border:1px solid black" class="white--text ma-0 pa-0" :src="attach.link" 
+                                :height="$vuetify.breakpoint.mdAndUp ? '200' : '120'">
+                                </v-img> -->
+
+                            <v-img alt="Image" contain style="border:1px solid black" :src="attach.link" :height="$vuetify.breakpoint.mdAndUp ? '200' : '120'">
+                                <template v-slot:placeholder>
+                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                        <v-progress-circular
+                                            indeterminate
+                                            color="red">
+                                        </v-progress-circular>
+                                    </v-row>
+                                </template>
+                            </v-img>
+                        </v-col>
+                    </v-row>
                 </v-col>
                 <v-col cols="12" v-if="question.type == 'Multiple Choice'">
                    <div>
