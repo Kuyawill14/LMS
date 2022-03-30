@@ -950,7 +950,7 @@ import axios from 'axios';
                                 .Question_id) {
 
 
-
+                                    
                                 if (this.getAll_questions.Question[i].type == 'Multiple Choice' || this
                                     .getAll_questions.Question[i].type == 'Identification' || this
                                     .getAll_questions.Question[i].type == 'True or False') {
@@ -1261,9 +1261,8 @@ import axios from 'axios';
                     details.score = this.ViewDetails.points;
                     axios.put('/api/teacher/markAnswer/'+this.ViewDetails.id, details)
                     .then((res)=>{
-                        
+                        this.CheckScore(this.ViewDetails.id)  
                     })
-                    this.CheckScore(this.ViewDetails.id)
                     //this.ReSaveScore();
                     this.isLoaded = true;
                     this.$emit('isMounted');
@@ -1689,30 +1688,30 @@ import axios from 'axios';
                             if (type == 'Essay') {
                                 
                                 if(this.EssayOldPoints[index] == 0){
-                                    this.ViewDetails.points = this.ViewDetails.points + parseInt(this.SubmittedAnswer[index].score);
+                                    this.ViewDetails.points = parseInt(this.ViewDetails.points) + parseInt(this.SubmittedAnswer[index].score);
                                 }else{
-                                    this.ViewDetails.points = this.ViewDetails.points - this.EssayOldPoints[index];
-                                    this.ViewDetails.points = this.ViewDetails.points + parseInt(this.SubmittedAnswer[index].score);
+                                    this.ViewDetails.points = parseInt(this.ViewDetails.points) - this.EssayOldPoints[index];
+                                    this.ViewDetails.points = parseInt(this.ViewDetails.points) + parseInt(this.SubmittedAnswer[index].score);
                                     this.EssayOldPoints[index] = parseInt(this.SubmittedAnswer[index].score);
                                 }
                             } else if(type == 'Identification'){
                                  if (data == true) {
-                                    this.ViewDetails.points = this.ViewDetails.points + points;
+                                    this.ViewDetails.points = parseInt(this.ViewDetails.points) + parseInt(points);
                                     this.SubmittedAnswer[index].check = true;
 
                                 } else {
                                     this.SubmittedAnswer[index].Answer = "Wrong answer";
-                                    this.ViewDetails.points = this.ViewDetails.points - points;
+                                    this.ViewDetails.points = parseInt(this.ViewDetails.points) - parseInt(points);
                                     this.SubmittedAnswer[index].check = false;
                                 }
                             }
                             else {
                                 if (data == true) {
                                     this.SubmittedAnswer[index].check = true;
-                                    this.ViewDetails.points = this.ViewDetails.points + points;
+                                    this.ViewDetails.points = parseInt(this.ViewDetails.points) + parseInt(points);
                                 } else {
                                     this.SubmittedAnswer[index].check = false;
-                                    this.ViewDetails.points = this.ViewDetails.points - points;
+                                    this.ViewDetails.points = parseInt(this.ViewDetails.points) - parseInt(points);
                                 }
                             }
                             this.toastSuccess('Score successfully updated!');

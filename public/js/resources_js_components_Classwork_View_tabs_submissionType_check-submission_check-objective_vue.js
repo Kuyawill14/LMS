@@ -1237,10 +1237,9 @@ var resetConfirmation = function resetConfirmation() {
         var details = {};
         details.answer = _this.ViewDetails.Submitted_Answers;
         details.score = _this.ViewDetails.points;
-        axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/markAnswer/' + _this.ViewDetails.id, details).then(function (res) {});
-
-        _this.CheckScore(_this.ViewDetails.id); //this.ReSaveScore();
-
+        axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/markAnswer/' + _this.ViewDetails.id, details).then(function (res) {
+          _this.CheckScore(_this.ViewDetails.id);
+        }); //this.ReSaveScore();
 
         _this.isLoaded = true;
 
@@ -1642,28 +1641,28 @@ var resetConfirmation = function resetConfirmation() {
                   if (res.status == 200) {
                     if (type == 'Essay') {
                       if (_this4.EssayOldPoints[index] == 0) {
-                        _this4.ViewDetails.points = _this4.ViewDetails.points + parseInt(_this4.SubmittedAnswer[index].score);
+                        _this4.ViewDetails.points = parseInt(_this4.ViewDetails.points) + parseInt(_this4.SubmittedAnswer[index].score);
                       } else {
-                        _this4.ViewDetails.points = _this4.ViewDetails.points - _this4.EssayOldPoints[index];
-                        _this4.ViewDetails.points = _this4.ViewDetails.points + parseInt(_this4.SubmittedAnswer[index].score);
+                        _this4.ViewDetails.points = parseInt(_this4.ViewDetails.points) - _this4.EssayOldPoints[index];
+                        _this4.ViewDetails.points = parseInt(_this4.ViewDetails.points) + parseInt(_this4.SubmittedAnswer[index].score);
                         _this4.EssayOldPoints[index] = parseInt(_this4.SubmittedAnswer[index].score);
                       }
                     } else if (type == 'Identification') {
                       if (data == true) {
-                        _this4.ViewDetails.points = _this4.ViewDetails.points + points;
+                        _this4.ViewDetails.points = parseInt(_this4.ViewDetails.points) + parseInt(points);
                         _this4.SubmittedAnswer[index].check = true;
                       } else {
                         _this4.SubmittedAnswer[index].Answer = "Wrong answer";
-                        _this4.ViewDetails.points = _this4.ViewDetails.points - points;
+                        _this4.ViewDetails.points = parseInt(_this4.ViewDetails.points) - parseInt(points);
                         _this4.SubmittedAnswer[index].check = false;
                       }
                     } else {
                       if (data == true) {
                         _this4.SubmittedAnswer[index].check = true;
-                        _this4.ViewDetails.points = _this4.ViewDetails.points + points;
+                        _this4.ViewDetails.points = parseInt(_this4.ViewDetails.points) + parseInt(points);
                       } else {
                         _this4.SubmittedAnswer[index].check = false;
-                        _this4.ViewDetails.points = _this4.ViewDetails.points - points;
+                        _this4.ViewDetails.points = parseInt(_this4.ViewDetails.points) - parseInt(points);
                       }
                     }
 
