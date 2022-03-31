@@ -143,19 +143,6 @@ var teacherStartPage = function teacherStartPage() {
     getClassworkDetails: function getClassworkDetails() {
       var _this = this;
 
-      /*   axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk+'/'+this.$route.params.id)
-        .then(res=>{
-           this.classworkDetails = res.data.Details;
-            this.totalPoints = res.data.totalpoints;
-            this.totalQuestion = res.data.ItemsCount;
-            //this.checkStatus(res.data.Details.type);
-            this.iChange = false;
-            this.isloading = false;
-        })
-        .catch(e=>{
-            this.iChange = false;
-            this.isloading = false;
-        }) */
       var data = {
         classwork_id: this.$route.query.clwk,
         course_id: this.$route.params.id
@@ -166,6 +153,7 @@ var teacherStartPage = function teacherStartPage() {
         _this.totalQuestion = _this.get_classwork_show_details.ItemsCount;
         _this.iChange = false;
         _this.isloading = false;
+        $('head > title').text(_this.classworkDetails.Details.title);
       });
     }
     /*    async checkStatus(type){
@@ -3567,12 +3555,56 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _dialogs_multiplePublishDialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dialogs/multiplePublishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/multiplePublishDialog.vue");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_2__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3793,6 +3825,7 @@ var reviewAndPublish = function reviewAndPublish() {
 };
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails', 'datetoday'],
   components: {
@@ -3823,6 +3856,11 @@ var reviewAndPublish = function reviewAndPublish() {
     };
   },
   methods: {
+    format_date: function format_date(value) {
+      if (value) {
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(String(value)).tz("Asia/Manila").format('MMMM DD, YYYY, h:mm a');
+      }
+    },
     OpenMultiplePublishDialog: function OpenMultiplePublishDialog(classes, id) {
       var tmpClass = [];
       classes.forEach(function (item) {
@@ -42475,255 +42513,460 @@ var render = function() {
                                 1
                               ),
                               _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "pt-2 pl-3 pr-3",
-                                  attrs: { cols: "12", md: "12" }
-                                },
-                                _vm._l(_vm.classNames, function(
-                                  details,
-                                  index
-                                ) {
-                                  return _c(
-                                    "v-container",
-                                    { key: index },
-                                    [
-                                      _c(
-                                        "v-list-item",
-                                        [
-                                          _c(
-                                            "v-list-item-avatar",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-account-multiple")
-                                              ])
-                                            ],
-                                            1
-                                          ),
+                              _vm._l(_vm.classNames, function(details, index) {
+                                return _c(
+                                  "v-col",
+                                  {
+                                    key: index,
+                                    staticClass: "pt-2 pl-3 pr-3",
+                                    attrs: {
+                                      cols: "12",
+                                      md: "6",
+                                      lg: "6",
+                                      xl: "4"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "v-card",
+                                      {
+                                        staticClass: "pa-3",
+                                        attrs: { elevation: "2", outlined: "" }
+                                      },
+                                      [
+                                        _c(
+                                          "v-list-item",
+                                          [
+                                            _c(
+                                              "v-list-item-avatar",
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v("mdi-account-multiple")
+                                                ])
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-list-item-content",
+                                              [
+                                                _c("v-list-item-title", [
+                                                  _vm._v(
+                                                    _vm._s(details.class_name) +
+                                                      " "
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _c("v-list-item-subtitle", [
+                                                  _vm._v(
+                                                    "\r\n                                                Student: " +
+                                                      _vm._s(details.students) +
+                                                      "\r\n                                            "
+                                                  )
+                                                ])
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-list-item-action",
+                                              [
+                                                details.status == 0
+                                                  ? _c(
+                                                      "v-chip",
+                                                      { staticClass: "ma-1" },
+                                                      [
+                                                        _vm._v(
+                                                          "\r\n                                                 Not publish\r\n                                             "
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                details.status == 1
+                                                  ? _c(
+                                                      "v-chip",
+                                                      {
+                                                        staticClass: "ma-1",
+                                                        attrs: {
+                                                          dark: "",
+                                                          color: "green"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\r\n                                                 Published"
+                                                        ),
+                                                        _c(
+                                                          "v-icon",
+                                                          {
+                                                            attrs: { right: "" }
+                                                          },
+                                                          [_vm._v("mdi-check")]
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  : _vm._e()
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c("v-divider"),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "mt-3" }, [
+                                          _c("span", [
+                                            _vm._v(" Publish Details:")
+                                          ]),
+                                          _c("br"),
                                           _vm._v(" "),
-                                          _c(
-                                            "v-list-item-content",
-                                            [
-                                              _c("v-list-item-title", [
-                                                _vm._v(
-                                                  _vm._s(details.class_name) +
-                                                    " "
-                                                )
+                                          details.details != null
+                                            ? _c("div", [
+                                                details.details.availability ==
+                                                0
+                                                  ? _c("div", [
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-medium"
+                                                        },
+                                                        [_vm._v("Start Date: ")]
+                                                      ),
+                                                      _vm._v(
+                                                        "Always available"
+                                                      ),
+                                                      _c("br"),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-medium"
+                                                        },
+                                                        [_vm._v("Due Date: ")]
+                                                      ),
+                                                      _vm._v(
+                                                        "Always available"
+                                                      ),
+                                                      _c("br"),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-medium"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "Accept late response: "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(
+                                                        "Always available"
+                                                      ),
+                                                      _c("br"),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-medium"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "Grading criteria: "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          details.details
+                                                            .criteria_name
+                                                        )
+                                                      ),
+                                                      _c("br")
+                                                    ])
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                details.details.availability ==
+                                                1
+                                                  ? _c("div", [
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-medium"
+                                                        },
+                                                        [_vm._v("Start Date: ")]
+                                                      ),
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.format_date(
+                                                            details.details
+                                                              .from_date
+                                                          )
+                                                        )
+                                                      ),
+                                                      _c("br"),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-medium"
+                                                        },
+                                                        [_vm._v("Due Date: ")]
+                                                      ),
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.format_date(
+                                                            details.details
+                                                              .to_date
+                                                          )
+                                                        )
+                                                      ),
+                                                      _c("br"),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-medium"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "Accept late response: "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          details.details
+                                                            .response_late
+                                                            ? "Accepting late"
+                                                            : "Not accepting late"
+                                                        )
+                                                      ),
+                                                      _c("br"),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-medium"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "Grading criteria: "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          details.details
+                                                            .criteria_name
+                                                        )
+                                                      ),
+                                                      _c("br")
+                                                    ])
+                                                  : _vm._e()
                                               ])
-                                            ],
-                                            1
-                                          ),
+                                            : _vm._e(),
                                           _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            [
-                                              details.status == 0
-                                                ? _c(
+                                          details.details == null
+                                            ? _c("div", [
+                                                _c("div", [
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "font-weight-medium"
+                                                    },
+                                                    [_vm._v("Start Date: ")]
+                                                  ),
+                                                  _vm._v("Not publish"),
+                                                  _c("br"),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "font-weight-medium"
+                                                    },
+                                                    [_vm._v("Due Date: ")]
+                                                  ),
+                                                  _vm._v("Not publish"),
+                                                  _c("br"),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "font-weight-medium"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Accept late response: "
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v("Not publish"),
+                                                  _c("br"),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "font-weight-medium"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Grading criteria: "
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v("Not publish"),
+                                                  _c("br")
+                                                ])
+                                              ])
+                                            : _vm._e()
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "mt-3" }, [
+                                          details.status == 0
+                                            ? _c(
+                                                "div",
+                                                [
+                                                  _c(
                                                     "v-btn",
                                                     {
                                                       attrs: {
+                                                        disable: "",
                                                         rounded: "",
-                                                        disabled: ""
+                                                        small: ""
                                                       }
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\r\n                                                Not publish\r\n                                            "
-                                                      )
-                                                    ]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              details.status == 1
-                                                ? _c(
-                                                    "v-menu",
-                                                    {
-                                                      attrs: { "offset-y": "" },
-                                                      scopedSlots: _vm._u(
-                                                        [
-                                                          {
-                                                            key: "activator",
-                                                            fn: function(ref) {
-                                                              var on = ref.on
-                                                              var attrs =
-                                                                ref.attrs
-                                                              return [
-                                                                details.status ==
-                                                                1
-                                                                  ? _c(
-                                                                      "v-btn",
-                                                                      _vm._g(
-                                                                        _vm._b(
-                                                                          {
-                                                                            attrs: {
-                                                                              color:
-                                                                                "primary",
-                                                                              dark:
-                                                                                "",
-                                                                              icon:
-                                                                                "",
-                                                                              text:
-                                                                                ""
-                                                                            }
-                                                                          },
-                                                                          "v-btn",
-                                                                          attrs,
-                                                                          false
-                                                                        ),
-                                                                        on
-                                                                      ),
-                                                                      [
-                                                                        _c(
-                                                                          "v-icon",
-                                                                          [
-                                                                            _vm._v(
-                                                                              "mdi-dots-vertical"
-                                                                            )
-                                                                          ]
-                                                                        )
-                                                                      ],
-                                                                      1
-                                                                    )
-                                                                  : _vm._e()
-                                                              ]
-                                                            }
-                                                          }
-                                                        ],
-                                                        null,
-                                                        true
-                                                      )
-                                                    },
-                                                    [
-                                                      _vm._v(" "),
+                                                        "\r\n                                               \r\n                                                Not publish\r\n                                                 "
+                                                      ),
                                                       _c(
-                                                        "v-list",
+                                                        "v-icon",
                                                         {
-                                                          staticClass: "pa-1",
-                                                          attrs: { rounded: "" }
+                                                          attrs: { right: "" }
                                                         },
                                                         [
-                                                          _c(
-                                                            "v-list-item",
-                                                            {
-                                                              staticClass:
-                                                                "rounded",
-                                                              attrs: {
-                                                                link: ""
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.OpenEditPublish(
-                                                                    _vm.$route
-                                                                      .query
-                                                                      .clwk,
-                                                                    details.class_id,
-                                                                    details.class_name,
-                                                                    details.Class_classwork_id
-                                                                  )
-                                                                }
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-list-item-title",
-                                                                [
-                                                                  _c(
-                                                                    "v-icon",
-                                                                    {
-                                                                      attrs: {
-                                                                        left: ""
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        "mdi-pencil"
-                                                                      )
-                                                                    ]
-                                                                  ),
-                                                                  _vm._v(
-                                                                    " Edit Publication\r\n                                                        "
-                                                                  )
-                                                                ],
-                                                                1
-                                                              )
-                                                            ],
-                                                            1
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "v-list-item",
-                                                            {
-                                                              staticClass:
-                                                                "rounded",
-                                                              attrs: {
-                                                                link: ""
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.OpenUnpublishDiaglog(
-                                                                    _vm.$route
-                                                                      .query
-                                                                      .clwk,
-                                                                    details.class_id,
-                                                                    details.class_name
-                                                                  )
-                                                                }
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-list-item-title",
-                                                                [
-                                                                  _c(
-                                                                    "v-icon",
-                                                                    {
-                                                                      attrs: {
-                                                                        left: ""
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        "mdi-share-off"
-                                                                      )
-                                                                    ]
-                                                                  ),
-                                                                  _vm._v(
-                                                                    " Unpublish\r\n                                                            "
-                                                                  )
-                                                                ],
-                                                                1
-                                                              )
-                                                            ],
-                                                            1
+                                                          _vm._v(
+                                                            "mdi-share-off"
                                                           )
-                                                        ],
-                                                        1
+                                                        ]
                                                       )
                                                     ],
                                                     1
                                                   )
-                                                : _vm._e()
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c("v-divider")
-                                    ],
-                                    1
-                                  )
-                                }),
-                                1
-                              )
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          details.status == 1
+                                            ? _c(
+                                                "div",
+                                                [
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      staticClass: "mr-1",
+                                                      attrs: {
+                                                        dark: "",
+                                                        rounded: "",
+                                                        small: "",
+                                                        color: "info"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.OpenEditPublish(
+                                                            _vm.$route.query
+                                                              .clwk,
+                                                            details.class_id,
+                                                            details.class_name,
+                                                            details.Class_classwork_id
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-icon",
+                                                        { attrs: { left: "" } },
+                                                        [_vm._v("mdi-pencil")]
+                                                      ),
+                                                      _vm._v(
+                                                        "\r\n                                                Edit Publication\r\n                                            "
+                                                      )
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      attrs: {
+                                                        dark: "",
+                                                        rounded: "",
+                                                        small: "",
+                                                        color: "red"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.OpenUnpublishDiaglog(
+                                                            _vm.$route.query
+                                                              .clwk,
+                                                            details.class_id,
+                                                            details.class_name
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-icon",
+                                                        { attrs: { left: "" } },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-share-off"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(
+                                                        "\r\n                                                Unpublish\r\n                                            "
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              })
                             ],
-                            1
+                            2
                           )
                         ],
                         1

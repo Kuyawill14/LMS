@@ -938,45 +938,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -1027,7 +988,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       TimerCount: [],
       tempCounter: 0,
       timeCount: null,
-      classworkDetails: [],
+      classworkDetails: {},
       leaveStrike: 0,
       preventWarning: false,
       isExamStart: false,
@@ -1042,7 +1003,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       CurrentTime: null,
       isReloadTime: false,
       unAnsweredQuestion: 0,
-      saveIndex: 2
+      saveIndex: 2,
+      leaveTimer: null,
+      leaveTimerCount: 5
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions", "get_classwork_show_details"]),
@@ -1096,81 +1059,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.isExamStart = true;
       this.isSavingAnswer = true;
-      /* if (this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null) {
-          this.updateAnswer();
+
+      if (this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null) {
+        this.updateAnswer();
       }
+
       this.Questype = "";
       this.PickAnswers.ans = "";
       this.PickAnswers_id.quesId = "";
-      if (this.questionIndex != this.Qlength - 1) {
-          
-      } */
 
-      this.updateAnswer();
-      setTimeout(function () {
-        return _this3.isSavingAnswer = false, _this3.questionIndex++;
-      }, 500);
+      if (this.questionIndex != this.Qlength - 1) {
+        setTimeout(function () {
+          return _this3.isSavingAnswer = false, _this3.questionIndex++;
+        }, 500);
+      } //this.updateAnswer();
+
     },
     updateAnswer: function updateAnswer() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var num, SaveCount, TmpfinalSave, finalSave;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                num = _this4.getAll_questions.Question.length;
-
-                if (!(num > 4)) {
-                  _context.next = 16;
-                  break;
-                }
-
-                SaveCount = parseInt(num / 2) * 2;
-                TmpfinalSave = num - SaveCount - 1;
-                finalSave = SaveCount + TmpfinalSave - 1;
-
-                if (!(_this4.saveIndex == _this4.questionIndex)) {
-                  _context.next = 11;
-                  break;
-                }
-
-                _context.next = 8;
+                _context.next = 2;
                 return axios.put('/api/question/store-answer/' + _this4.submission_id, {
                   type: "multiple",
                   data: _this4.FinalAnswers
                 });
 
-              case 8:
-                _this4.saveIndex += 2;
-                _context.next = 14;
-                break;
-
-              case 11:
-                if (!(finalSave == _this4.questionIndex)) {
-                  _context.next = 14;
-                  break;
-                }
-
-                _context.next = 14;
-                return axios.put('/api/question/store-answer/' + _this4.submission_id, {
-                  type: "multiple",
-                  data: _this4.FinalAnswers
-                });
-
-              case 14:
-                _context.next = 18;
-                break;
-
-              case 16:
-                _context.next = 18;
-                return axios.put('/api/question/store-answer/' + _this4.submission_id, {
-                  type: "multiple",
-                  data: _this4.FinalAnswers
-                });
-
-              case 18:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -1241,15 +1160,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   //this.isLoading = !this.isLoading;
                   // this.isSubmitting = !this.isSubmitting;
                   //self.opener.location.reload();
+                  _this6.saveActivityLog("Student submitted the exam").then(function () {
+                    setTimeout(function () {
+                      _this6.isLoading = false; //window.close();
+                    }, 300);
+                  });
 
-                  /*  this.saveActivityLog(
-                           `Student submitted the exam`)
-                       .then(() => {
-                           setTimeout(() => {
-                               this.isLoading = false;
-                               window.close();
-                           }, 300)
-                       }); */
                   _this6.$router.push({
                     name: 'clwk',
                     params: {
@@ -1525,7 +1441,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 return axios.get('/api/student/checking/' + _this9.$route.query.clwk).then(function (res) {
                   if (res.data.success == true) {
                     if (res.data.status != 'Submitted') {
-                      //this.CurrentTime = Date().getTime();
                       _this9.CurrentTime = res.data.currentTime;
                       _this9.StartTime = res.data.startTime;
                     }
@@ -1534,18 +1449,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   _this9.isReloadTime = false;
                 })["catch"](function (e) {
                   _this9.CurrentTime = Date.now();
-                  _this9.isReloadTime = false; //this.ReloadStatus();
-
-                  /*   this.toastError('Something went wrong while loading Questions!');
-                    this.$router.push({
-                        name: 'clwk',
-                        params: {
-                            id: this.$route.params.id
-                        },
-                        query: {
-                            clwk: this.$route.query.clwk
-                        }
-                    }) */
+                  _this9.isReloadTime = false;
                 });
 
               case 2:
@@ -1573,6 +1477,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                       _this10.CurrentTime = res.data.currentTime;
                       _this10.StartTime = res.data.startTime;
                       _this10.submission_id = res.data.submission_id;
+                      _this10.duration = res.data.duration;
+                      _this10.classworkDetails.title = res.data.title;
+                      _this10.classworkDetails.points = res.data.points;
                       _this10.preventNav = !_this10.preventNav;
 
                       _this10.StartQuiz();
@@ -1635,7 +1542,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     SelectMatch: function SelectMatch(id, main_index, second_index) {
-      var Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
+      var stringAns = this.FinalAnswers[main_index].Answer[second_index].Ans_letter != null ? this.FinalAnswers[main_index].Answer[second_index].Ans_letter.replace(/\./g, '') : this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
+      var letter = stringAns != null ? stringAns.trim() : stringAns;
+      var Answer = letter;
+      this.FinalAnswers[main_index].Answer[second_index].Ans_letter = Answer;
 
       for (var i = 0; i < this.getAll_questions.Answer[main_index].SubAnswer.length; i++) {
         for (var x = 0; x < this.getAll_questions.Answer[main_index].SubAnswer.length; x++) {
@@ -1647,24 +1557,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     StartQuiz: function StartQuiz() {
-      var _this11 = this;
-
       this.isStart = true;
       var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
       this.Alphabet = alphabet;
-      var data = {
-        classwork_id: this.$route.query.clwk,
-        course_id: this.$route.params.id
-      };
-      this.$store.dispatch('fetchClassworkShowDetails', data).then(function () {
-        _this11.duration = _this11.get_classwork_show_details.Details.duration;
-        _this11.classworkDetails = _this11.get_classwork_show_details.Details;
+      /* let data = {
+          classwork_id: this.$route.query.clwk,
+          course_id: this.$route.params.id
+      }
+       this.$store.dispatch('fetchClassworkShowDetails', data)
+      .then(() => {
+          this.duration = this.get_classwork_show_details.Details.duration;
+          this.classworkDetails = this.get_classwork_show_details.Details;
+          this.fetchQuestions();
+      }) */
 
-        _this11.fetchQuestions();
-      });
+      this.fetchQuestions();
     },
     saveActivityLog: function saveActivityLog(description) {
-      var _this12 = this;
+      var _this11 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
@@ -1673,7 +1583,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context7.next = 2;
                 return axios.post('/api/objective-logs/logs', {
-                  classwork_id: _this12.$route.query.clwk,
+                  classwork_id: _this11.$route.query.clwk,
                   description: description
                 }).then(function (res) {});
 
@@ -1685,7 +1595,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee7);
       }))();
     },
+    stopLeaveTimer: function stopLeaveTimer() {
+      clearInterval(this.leaveTimer);
+      this.leaveTimerCount = 5;
+      this.triggerWarning();
+    },
+    starLeaveTimer: function starLeaveTimer() {
+      this.warningDialog = true;
+      /*  this.leaveTimer = setInterval(()=>{
+           this.leaveTimerCount--;
+           if(this.leaveTimerCount == 0){
+               this.triggerWarning()
+               clearInterval(this.leaveTimer);
+               this.leaveTimerCount = 5;
+           }
+       },1000) */
+    },
     triggerWarning: function triggerWarning() {
+      var _this12 = this;
+
       if (this.isExamStart) {
         this.leaveStrike += 1;
         this.saveActivityLog('Switched tabs or applications / lost focus on the page.');
@@ -1696,17 +1624,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           this.toastError('You are lossing focus to examination page many times!, Logs saved');
           this.saveActivityLog("Student got ".concat(this.leaveStrike, " warnings, Student have been forced to leave the exam")).then(function () {
             setTimeout(function () {
-              window.close();
+              _this12.$router.push({
+                name: 'clwk',
+                params: {
+                  id: _this12.$route.params.id
+                },
+                query: {
+                  clwk: _this12.$route.query.clwk
+                }
+              });
             }, 300);
-          });
-          this.$router.push({
-            name: 'clwk',
-            params: {
-              id: this.$route.params.id
-            },
-            query: {
-              clwk: this.$route.query.clwk
-            }
           });
         }
 
@@ -1716,8 +1643,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     ReloadTime: function ReloadTime() {
-      this.ReloadStatus();
-      this.isReloadTime = true; //setTimeout(() => (this.isReloadTime = false), 300);
+      /*  this.ReloadStatus();
+       this.isReloadTime = true; */
+      //setTimeout(() => (this.isReloadTime = false), 300);
     },
     isOffline: function isOffline(event) {
       //this.setAsOffline();
@@ -2066,7 +1994,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['Count'],
+  data: function data() {
+    return {
+      leaveTimer: null,
+      leaveCount: this.Count,
+      isShowed: true
+    };
+  },
+  methods: {
+    starttimer: function starttimer() {
+      var _this = this;
+
+      this.leaveTimer = setInterval(function () {
+        _this.leaveCount--;
+
+        if (_this.leaveCount == 0) {
+          clearInterval(_this.leaveTimer);
+          _this.isShowed = false;
+
+          _this.$emit('toggleSaveLog');
+        }
+      }, 1000);
+    }
+  },
+  mounted: function mounted() {//this.starttimer();
+  }
+});
 
 /***/ }),
 
@@ -24720,7 +24678,11 @@ var render = function() {
             [
               _vm.warningDialog
                 ? _c("dialogWarning", {
+                    attrs: { Count: _vm.leaveTimerCount },
                     on: {
+                      toggleSaveLog: function($event) {
+                        return _vm.stopLeaveTimer()
+                      },
                       toggleCloaseDialog: function($event) {
                         ;(_vm.warningDialog = !_vm.warningDialog),
                           _vm.ReloadTime()
@@ -26425,16 +26387,6 @@ var render = function() {
                                                                                       _vm.options
                                                                                   },
                                                                                   on: {
-                                                                                    focus: function(
-                                                                                      $event
-                                                                                    ) {
-                                                                                      return _vm.SetWarning()
-                                                                                    },
-                                                                                    blur: function(
-                                                                                      $event
-                                                                                    ) {
-                                                                                      return _vm.SetWarning()
-                                                                                    },
                                                                                     change: function(
                                                                                       $event
                                                                                     ) {
@@ -26916,11 +26868,6 @@ var render = function() {
                                                                                                         ""
                                                                                                     },
                                                                                                     on: {
-                                                                                                      click: function(
-                                                                                                        $event
-                                                                                                      ) {
-                                                                                                        _vm.isExamStart = false
-                                                                                                      },
                                                                                                       change: function(
                                                                                                         $event
                                                                                                       ) {
@@ -27173,16 +27120,6 @@ var render = function() {
                                                                         _vm.Essayoptions
                                                                     },
                                                                     on: {
-                                                                      focus: function(
-                                                                        $event
-                                                                      ) {
-                                                                        return _vm.SetWarning()
-                                                                      },
-                                                                      blur: function(
-                                                                        $event
-                                                                      ) {
-                                                                        return _vm.SetWarning()
-                                                                      },
                                                                       change: function(
                                                                         $event
                                                                       ) {

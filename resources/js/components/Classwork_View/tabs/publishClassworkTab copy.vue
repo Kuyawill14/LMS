@@ -127,7 +127,6 @@
                 <v-card elevation="1" outlined class="pa-5" >
                     <v-row>
                         <v-col cols="12" class="text-right">
-                           
                          <!--    @click="OpenMultiplePublishDialog(classNames, $route.query.clwk)" -->
                             <v-btn v-if="classworkDetails.type == 'Objective Type'" @click="checkPublishType = true"
                              rounded color="primary">Publish Classwork <v-icon right>mdi-share</v-icon></v-btn>
@@ -135,85 +134,43 @@
                              @click="OpenMultiplePublishDialog(classNames, $route.query.clwk)"
                              rounded color="primary">Publish Classwork <v-icon right>mdi-share</v-icon></v-btn>
                         </v-col>
-                        <v-col v-for="(details, index) in classNames" :key="index" cols="12" md="6" lg="6" xl="4" class="pt-2 pl-3 pr-3"> 
-                            <v-card elevation="2" class="pa-3" outlined>
-                                 <v-list-item>
+                        <v-col  cols="12" md="12" class="pt-2 pl-3 pr-3"> 
+                            <v-container v-for="(details, index) in classNames" :key="index">
+                                <v-list-item>
                                     <v-list-item-avatar>
                                         <v-icon>mdi-account-multiple</v-icon>
                                         </v-list-item-avatar>
                                         <v-list-item-content>
                                             <v-list-item-title>{{details.class_name}} </v-list-item-title>
-                                            <v-list-item-subtitle>
-                                                Student: {{details.students}}
-                                            </v-list-item-subtitle>
                                         </v-list-item-content>
-                                        <v-list-item-action>
-                                             <v-chip class="ma-1" v-if="details.status == 0"  >
-                                                 Not publish
-                                             </v-chip>
-                                              <v-chip class="ma-1" dark v-if="details.status == 1" color="green" >
-                                                 Published<v-icon right>mdi-check</v-icon>
-                                             </v-chip>
-                                           
-                                        </v-list-item-action>
-                                        
-                                </v-list-item>
-                                <v-divider></v-divider>
-                                    <div class="mt-3">
-                                         <span> Publish Details:</span><br>
-                                         <div v-if="details.details != null">
-                                             <div v-if="details.details.availability == 0">
-                                                <span class="font-weight-medium">Start Date: </span>Always available<br>
-                                                <span class="font-weight-medium">Due Date: </span>Always available<br>
-                                                <span class="font-weight-medium">Accept late response: </span>Always available<br>
-                                                <span class="font-weight-medium">Grading criteria: </span>{{details.details.criteria_name}}<br>
-                                            </div>
-                                            <div v-if="details.details.availability == 1">
-                                                <span class="font-weight-medium">Start Date: </span>{{format_date(details.details.from_date)}}<br>
-                                                <span class="font-weight-medium">Due Date: </span>{{format_date(details.details.to_date)}}<br>
-                                                <span class="font-weight-medium">Accept late response: </span>{{details.details.response_late ? 'Accepting late' : 'Not accepting late'}}<br>
-                                                <span class="font-weight-medium">Grading criteria: </span>{{details.details.criteria_name}}<br>
-                                              
-                                            </div>
-                                         </div>
-
-                                         <div v-if="details.details == null">
-                                             <div >
-                                                <span class="font-weight-medium">Start Date: </span>Not publish<br>
-                                                <span class="font-weight-medium">Due Date: </span>Not publish<br>
-                                                <span class="font-weight-medium">Accept late response: </span>Not publish<br>
-                                                 <span class="font-weight-medium">Grading criteria: </span>Not publish<br>
-                                            </div>
-                                         </div>
-                                        
-                                       
-                                    </div>
-                                    <div class="mt-3">
-                                        <div v-if="details.status == 0">
-                                            <v-btn disable  rounded small >
-                                               
-                                                Not publish
-                                                 <v-icon right>mdi-share-off</v-icon>
-                                            </v-btn>
-                                        </div>
-
-                                        <div v-if="details.status == 1">
-                                             <v-btn class="mr-1" @click="OpenEditPublish($route.query.clwk, details.class_id, details.class_name, details.Class_classwork_id)" dark rounded small color="info">
-                                                <v-icon left>mdi-pencil</v-icon>
-                                                Edit Publication
-                                            </v-btn>
-                                            <v-btn @click="OpenUnpublishDiaglog($route.query.clwk, details.class_id, details.class_name)" dark rounded small color="red">
-                                                <v-icon left>mdi-share-off</v-icon>
-                                                Unpublish
-                                            </v-btn>
-                                        </div>
-                                       
+                                            <div >
                                             
-                                            <!-- <v-btn v-if="details.status == 0" rounded disabled>
+                                            <v-btn v-if="details.status == 0" rounded disabled>
                                                 Not publish
                                             </v-btn>
+                                              <!--   <v-btn
+                                                    :loading="isPublishing && isPublishing_id == details.class_id"
+                                                    @click="OpenPublishDialog($route.query.clwk, details.class_id, details.class_name, details.status)" 
+                                                    
+                                                    color="primary" :outlined="details.status == 0" rounded dark>
+                                                    {{$vuetify.breakpoint.xs ? '': 'Publish'}}
+                                                <v-icon right>
+                                                    mdi-share
+                                                </v-icon>
+                                            </v-btn> -->
                                             <v-menu  v-if="details.status == 1"  offset-y>
                                                 <template v-slot:activator="{ on, attrs }">
+                                                    <!-- <v-btn
+                                                    v-if="details.status == 1"
+                                                    color="primary"
+                                                    dark
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                    icon
+                                                    text
+                                                    >
+                                                    <v-icon>mdi-dots-vertical</v-icon>
+                                                    </v-btn> -->
                                                     <v-btn rounded color="success" v-if="details.status == 1" v-bind="attrs" v-on="on"><v-icon left>mdi-check</v-icon> published</v-btn>
                                                 </template>
                                                 <v-list rounded class="pa-1">
@@ -230,10 +187,12 @@
                                                             </v-list-item-title>
                                                         </v-list-item>
                                                 </v-list>
-                                                </v-menu> -->
+                                                </v-menu>
                                         
                                         </div>
-                            </v-card>
+                                </v-list-item>
+                                    <v-divider></v-divider> 
+                            </v-container>
                         </v-col>
                     </v-row>
                 </v-card>
@@ -249,7 +208,6 @@ const updatePublishDialog = () => import('./dialogs/UpdatePublishDialog')
 //const multiplePublishDialog = () => import('./dialogs/multiplePublishDialog')
 const reviewAndPublish = () => import('./dialogs/reviewAndPublishDialog')
 import multiplePublishDialog from './dialogs/multiplePublishDialog';
-import moment from 'moment-timezone';
 export default {
     props:['classworkDetails','datetoday'],
     components:{
@@ -280,11 +238,6 @@ export default {
         }
     },
     methods:{
-        format_date(value) {
-            if (value) {
-                return moment(String(value)).tz("Asia/Manila").format('MMMM DD, YYYY, h:mm a');
-            }
-        },
         OpenMultiplePublishDialog(classes, id){
 
             let tmpClass = []

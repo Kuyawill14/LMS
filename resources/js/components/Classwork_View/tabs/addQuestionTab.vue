@@ -1454,13 +1454,15 @@ export default {
                          this.getAll_questions.Question.push({
                             id: res.data.question_id[i],
                             question: this.DuplicateQuestion[i].question,
-                            answer:  res.data.question_answer_id[i],
+                            answer: res.data.question_answer_id[i],
                             points: this.DuplicateQuestion[i].points,
                             type: this.DuplicateQuestion[i].type,
                             sensitivity: this.DuplicateQuestion[i].sensitivity,
                             isNew: this.DuplicateQuestion[i].isNew,
                             attachments: this.DuplicateQuestion[i].attachments,
                         })
+
+                        
                     }else{
                         this.getAll_questions.Question.push({
                             id: res.data.question_id[i],

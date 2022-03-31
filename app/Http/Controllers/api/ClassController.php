@@ -218,7 +218,7 @@ class ClassController extends Controller
         //getAllClass
         $allClass = tbl_userclass::where('tbl_userclasses.course_id', $id)
         ->select('tbl_userclasses.id','tbl_classes.id as class_id','tbl_classes.class_name','tbl_classes.class_code')
-        ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
+        ->join('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
         ->where('tbl_userclasses.user_id', $userId)
         ->orderBy('tbl_classes.created_at', 'ASC')
         ->get();
@@ -230,19 +230,29 @@ class ClassController extends Controller
         foreach($allClass as $cl){
             foreach($classwork as $cw){
                 $Check = tbl_classClassworks::where('classwork_id', $clwk)
+                ->select('tbl_class_classworks.*', 'tbl_main_grade_categories.name as criteria_name')
                 ->where('class_id','=', $cl->class_id)
-                ->first();
+                ->join('tbl_main_grade_categories', 'tbl_main_grade_categories.id','=', 'tbl_class_classworks.grading_criteria')
+                ->first();                
                 if($Check){
                     $cl->status = 1;
+                    $cl->details = $Check;
                     $cl->Class_classwork_id = $Check->id;
                 }
                 else{
                     if($cl->status == ''){
                         $cl->status = 0;
+                        $cl->details = null;
                         $cl->Class_classwork_id = '';
                     }
                 }
             }
+
+            $sCount = tbl_userclass::where('tbl_userclasses.class_id', $cl->class_id)
+                ->join('users', 'tbl_userclasses.user_id', '=', 'users.id')
+                ->where('users.role', 'Student')
+                ->count();
+            $cl->students = $sCount;
         }
         return $allClass;
     }

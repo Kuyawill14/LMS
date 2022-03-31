@@ -11,6 +11,9 @@
                   </v-avatar>
               </v-col>
                <v-col cols="12" class="text-center mt-0 pt-0">
+               <!--  <div v-if="isShowed">
+                    <h1 class="primary--text display-3">{{leaveCount}}</h1>
+                </div> -->
                  <div class="primary--text display-1">Oops...</div>
               </v-col>
           </v-row>
@@ -30,6 +33,28 @@
 </template>
 <script>
 export default {
-    
+    props:['Count'],
+    data(){
+        return{
+            leaveTimer:null,
+            leaveCount: this.Count,
+            isShowed: true,
+        }
+    },
+    methods:{
+        starttimer(){
+            this.leaveTimer = setInterval(()=>{
+                this.leaveCount--;
+                if(this.leaveCount == 0){
+                    clearInterval(this.leaveTimer);
+                    this.isShowed = false;
+                    this.$emit('toggleSaveLog');
+                }
+            },1000)
+        }
+    },
+    mounted(){
+        //this.starttimer();
+    }
 }
 </script>

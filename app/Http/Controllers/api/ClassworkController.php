@@ -1031,16 +1031,16 @@ class ClassworkController extends Controller
         }
         
         if($checkClasswork->type == 'Objective Type'){
-            $QuestionList =  tbl_Questions::where('tbl_questions.classwork_id', $checkClasswork->id)->get();
+            $QuestionList =  tbl_Questions::where('tbl_questions.classwork_id', $checkClasswork->id)->orderBy('tbl_questions.id', 'ASC')->get();
 
             foreach($QuestionList as $item){
-
                 $newQuestion = new tbl_Questions;
                 $newQuestion->classwork_id = $DuplicateClasswork->id;
                 $newQuestion->question = $item['question'];
                 $newQuestion->type = $item['type'];
                 $newQuestion->points = $item['points'];
                 $newQuestion->sensitivity = $item['sensitivity'];
+                $newQuestion->answer = $item['answer'];
                 $newQuestion->isNew = $item['isNew'];
                 $newQuestion->required = $item['required'];
                 $newQuestion->save();
@@ -1066,7 +1066,6 @@ class ClassworkController extends Controller
                         }
 
                     }else{
-
                         $newChoice = new tbl_choice;
                         $newChoice->question_id = $newQuestion->id;
                         $newChoice->Choice = $ques_choice['Choice'];
@@ -1088,6 +1087,7 @@ class ClassworkController extends Controller
 
                 }
             }
+
 
             $fetchCriteria = tbl_subjective_rubrics::where('classwork_id', $checkClasswork->id)->get();
             foreach($fetchCriteria as $criteria){

@@ -602,6 +602,9 @@ class StudentController extends Controller
                     'testDate' =>  Carbon::now('Asia/Manila')->toDateTimeString(),
                     'startTime' => (Carbon::parse($CheckStatus->created_at)->timestamp * 1000),
                     'Submitted_Answers'=>$tempAnswer,
+                    'title'=> $checkClasswork ->title,
+                    'duration'=> $checkClasswork ->duration,
+                    'points'=> $checkClasswork ->points,
                     'success'=>true
                 ]);
         }
@@ -630,6 +633,9 @@ class StudentController extends Controller
                 'currentTime' =>  (Carbon::now('Asia/Manila')->timestamp * 1000),
                 'startTime' =>  Carbon::parse($NewSubmission->created_at)->timestamp * 1000,
                 'Submitted_Answers'=> null,
+                'title'=> $checkClasswork ->title,
+                'duration'=> $checkClasswork ->duration,
+                'points'=> $checkClasswork ->points,
                 'success'=>true
             ]);  
         }
@@ -666,6 +672,7 @@ class StudentController extends Controller
             $CheckStatus->name =  $UserFullName;
             $CheckStatus->class_id =  $ClassId->class_id;
             $CheckStatus->id = $userId;
+
             if($CheckStatus->reviewAnswer == 1){
                 $TempAnswer = unserialize($CheckStatus->Submitted_Answers);
                 $CheckStatus->Submitted_Answers = $TempAnswer;
@@ -674,6 +681,8 @@ class StudentController extends Controller
                 $CheckStatus->Submitted_Answers = null;
             }
         }
+
+
        
         return $CheckStatus;
        

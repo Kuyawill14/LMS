@@ -282,11 +282,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       FromdateProps: {
         headerColor: 'primary',
-        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
       },
       TodateProps: {
         headerColor: 'primary',
-        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
       },
       timeProps: {
         useSeconds: false,
@@ -465,13 +465,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
-    var Newdate = new Date();
-    this.from_date = Newdate;
-    this.to_date = Newdate;
-    this.showAnswerDateFrom = Newdate;
-    this.ShowAnswerDateTo = Newdate;
     this.getGradingCriteria();
     this.getPublishDetails();
+    this.from_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD h:mm');
+    this.TodateProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).tz("Asia/Manila").format('YYYY-MM-DD');
+    this.TotimeProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).tz("Asia/Manila").format('h:mm');
   }
 });
 

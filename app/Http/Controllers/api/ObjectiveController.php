@@ -834,49 +834,52 @@ class ObjectiveController extends Controller
     {
 
         //return   $request;
-
-        
-
         $counter = 0;
         $question_id = array();
         $answer_id = array();
         $correct_answer_id = array();
         $totalPoints = 0;
+        DB::beginTransaction();
         foreach($request->question as $mainItem){
             $newQuestion  = new tbl_Questions;
             $newQuestion->classwork_id = $id;
             $newQuestion->question = $mainItem['question'];
-            //$newQuestion->answer =  $mainItem['answer'];
             $newQuestion->points = $mainItem['points'];
             $newQuestion->type =  $mainItem['type'];
             $newQuestion->sensitivity = $mainItem['sensitivity'];
             $newQuestion->isNew = $mainItem['isNew'];
-            $newQuestion->attachments = serialize($mainItem['attachments']);
+            $newQuestion->attachments = $mainItem['attachments'] != null ? serialize($mainItem['attachments']) : null;
             $newQuestion->save();
             $question_id[] =   $newQuestion->id;
      
            
             if($mainItem['type'] != 'Matching type'){
                 $choices_id = array();
-                foreach($request->answer[$counter]['options'] as $choices_Item){
-                    $NewChoice  = new tbl_choice;
-                    $NewChoice->question_id = $newQuestion->id;
-                    $NewChoice->Choice = $choices_Item['Choice'];
-                    $NewChoice->save();
-                    $choices_id[] = $NewChoice->id;
-
-                    
-                    if($mainItem['isNew']){
-                        if($mainItem['answer'] == $choices_Item['id']){
-                            $newQuestion->answer = $NewChoice->id;
+                if($mainItem['type'] == 'Multiple Choice' || $mainItem['type'] == 'Identification' ){
+                    foreach($request->answer[$counter]['options'] as $choices_Item){
+                        $NewChoice  = new tbl_choice;
+                        $NewChoice->question_id = $newQuestion->id;
+                        $NewChoice->Choice = $choices_Item['Choice'];
+                        $NewChoice->save();
+                        $choices_id[] = $NewChoice->id;
+                        if($mainItem['isNew']){
+                            if($mainItem['answer'] == $choices_Item['id']){
+                                $newQuestion->answer = $NewChoice->id;
+                                $newQuestion->save();
+                            }
+                        }else{
+                            $newQuestion->answer = $mainItem['answer'];
                             $newQuestion->save();
+                            
                         }
-                    }else{
-                        $newQuestion->answer = $mainItem['answer'];
-                        $newQuestion->save();
                     }
                     
+                }else{
+                    $newQuestion->answer = $mainItem['answer'];
+                    $newQuestion->save();
                 }
+               
+
                 $answer_id[] = ['options_id' =>  $choices_id, 'SubQuestion_id' =>[], 'SubAnswer_id'=>[], 'Destructors_id'=>[]];
             }
             else{
@@ -917,7 +920,7 @@ class ObjectiveController extends Controller
 
 
             if($mainItem['isNew']){
-                $correct_answer_id[] = intval($newQuestion->answer);
+                $correct_answer_id[] = $mainItem['type'] != 'Multiple Choice' ? $newQuestion->answer : intval($newQuestion->answer);
             }else{
                 $correct_answer_id[] = $newQuestion->answer;
             }
@@ -932,7 +935,7 @@ class ObjectiveController extends Controller
         $NewPoints->points = $tmp_points;
         $NewPoints->save();
 
-
+        DB::commit();
         return ["answer_id"=> $answer_id , "question_id"=>$question_id, "question_answer_id"=> $correct_answer_id];   
     
           

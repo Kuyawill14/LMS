@@ -11,7 +11,7 @@
             </v-dialog>
 
             <v-dialog v-model="warningDialog" persistent max-width="500">
-                <dialogWarning v-on:toggleCloaseDialog="warningDialog = !warningDialog,ReloadTime()"
+                <dialogWarning :Count="leaveTimerCount" v-on:toggleSaveLog="stopLeaveTimer()" v-on:toggleCloaseDialog="warningDialog = !warningDialog,ReloadTime()"
                     v-if="warningDialog"></dialogWarning>
             </v-dialog>
 
@@ -308,7 +308,7 @@
                                                         <v-list class="pl-3">
                                                             <v-list-item class="ma-0 pa-0">
                                                                 <v-list-item-content class="ma-0 pa-0">
-                                                                    <editor @focus="SetWarning()" @blur="SetWarning()"
+                                                                    <editor 
                                                                         @change="SelectAnswer()"
                                                                         v-model="FinalAnswers[index].Answer"
                                                                         id="editor-container" placeholder="Answer"
@@ -373,44 +373,6 @@
                                                                 </v-row>
                                                             </v-container>
                                                             <v-divider></v-divider>
-
-                                                           <!--  <v-container class="mb-0 pb-0"
-                                                                v-for="(List, i) in getAll_questions.Answer[index].SubQuestion"
-                                                                :key="List.id">
-                                                                <v-row>
-                                                                    <v-col class="mb-1 pb-0 pt-0 mt-0" cols="2" md="1"
-                                                                        lg="1">
-                                                                        <v-text-field hide-details
-                                                                            v-model="FinalAnswers[index].Answer[i].Ans_letter"
-                                                                            @change="SelectMatch(item.id, index, i)"
-                                                                            class="centered-input">
-                                                                        </v-text-field>
-                                                                    </v-col>
-                                                                    <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="6"
-                                                                        lg="6">
-                                                                        <div class="d-flex mt-7">
-                                                                            <span
-                                                                                class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
-                                                                            <span
-                                                                                :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none':'line-height:1.5;user-select: none'"
-                                                                                v-html="List.sub_question"
-                                                                                class="subquestion-content"></span>
-                                                                        </div>
-                                                                    </v-col>
-                                                                    <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="5"
-                                                                        lg="5">
-                                                                        <div class="d-flex mt-7">
-                                                                            <span
-                                                                                class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
-                                                                            <span
-                                                                                :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none':'line-height:1.5;user-select: none'"
-                                                                                v-html="getAll_questions.Answer[index].SubAnswer[i].Choice"
-                                                                                class="subchoices-content"></span>
-                                                                        </div>
-                                                                    </v-col>
-                                                                </v-row>
-                                                            </v-container> -->
-
                                                              <v-container class="mb-0 pb-0 mt-2" >
                                                                 <v-row class="mb-0 pb-0">
                                                                     <v-col cols="7" >
@@ -422,7 +384,6 @@
                                                                                     hide-details
                                                                                     outlined
                                                                                     dense
-                                                                                    @click="isExamStart = false"
                                                                                     v-model="FinalAnswers[index].Answer[i].Ans_letter"
                                                                                     @change="SelectMatch(item.id, index, i)"
                                                                                     class="centered-input pt-0 mt-0">
@@ -456,8 +417,8 @@
                                                 <v-row ma-0 pa-0>
                                                     <v-col ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
                                                         <!--    <v-card style="width:100%;min-height:200px" class="mb-3"> -->
-                                                        <editor style="height:220px" @focus="SetWarning()"
-                                                            @blur="SetWarning()" @change="SelectAnswer()"
+                                                        <editor style="height:220px" 
+                                                            @change="SelectAnswer()"
                                                             v-model="FinalAnswers[index].Answer" id="editor-container"
                                                             placeholder="Essay" theme="snow" :options="Essayoptions">
                                                         </editor>
@@ -575,7 +536,7 @@
                 TimerCount: [],
                 tempCounter: 0,
                 timeCount: null,
-                classworkDetails: [],
+                classworkDetails: {},
                 leaveStrike: 0,
                 preventWarning: false,
                 isExamStart: false,
@@ -591,6 +552,9 @@
                 isReloadTime: false,
                 unAnsweredQuestion: 0,
                 saveIndex: 2,
+                leaveTimer: null,
+                leaveTimerCount: 5,
+
 
             }
         },
@@ -644,20 +608,20 @@
             next(index) {
                 this.isExamStart = true;
                 this.isSavingAnswer = true;
-                /* if (this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null) {
+                if (this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null) {
                     this.updateAnswer();
                 }
                 this.Questype = "";
                 this.PickAnswers.ans = "";
                 this.PickAnswers_id.quesId = "";
                 if (this.questionIndex != this.Qlength - 1) {
-                    
-                } */
-                this.updateAnswer();
-                setTimeout(() => (this.isSavingAnswer = false, this.questionIndex++), 500);
+                    setTimeout(() => (this.isSavingAnswer = false, this.questionIndex++), 500);
+                }
+                //this.updateAnswer();
+                
             },
             async updateAnswer() {
-                let num = this.getAll_questions.Question.length;
+                /* let num = this.getAll_questions.Question.length;
                 if(num > 4){
                     let SaveCount = parseInt((num/2))*2;
                     let TmpfinalSave = (num - SaveCount)-1;
@@ -680,7 +644,12 @@
                         type: "multiple",
                         data: this.FinalAnswers
                     })
-                }
+                } */
+
+                await axios.put('/api/question/store-answer/' + this.submission_id, {
+                    type: "multiple",
+                    data: this.FinalAnswers
+                })
             },
             async LeaveSaveAnswer(){
                 await axios.put('/api/question/store-answer/' + this.submission_id, {
@@ -718,16 +687,17 @@
                             // this.isSubmitting = !this.isSubmitting;
 
                             //self.opener.location.reload();
-                           /*  this.saveActivityLog(
+                            this.saveActivityLog(
                                     `Student submitted the exam`)
                                 .then(() => {
                                     setTimeout(() => {
                                         this.isLoading = false;
-                                        window.close();
+                                        //window.close();
+                                        
                                     }, 300)
-                                }); */
+                                });
 
-                            this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
+                                this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
                         })
                 }
 
@@ -757,6 +727,7 @@
             fetchQuestions() {
                 this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(() => {
                     this.Qlength = this.getAll_questions.Question.length;
+
                     let AnswersList = this.Submitted_Answers;
 
                     if (AnswersList == null || AnswersList.length == 0) {
@@ -820,6 +791,7 @@
                                 });
                             }
                         }
+
                         axios.put('/api/question/store-answer/' + this.submission_id, {
                             type: "multiple",
                             data: this.FinalAnswers
@@ -968,7 +940,6 @@
                     .then(res => {
                         if (res.data.success == true) {
                             if (res.data.status != 'Submitted') {
-                                //this.CurrentTime = Date().getTime();
                                 this.CurrentTime = res.data.currentTime;
                                 this.StartTime = res.data.startTime;
                             }
@@ -978,18 +949,6 @@
                     .catch(e => {
                         this.CurrentTime = Date.now();
                         this.isReloadTime = false;
-                        
-                        //this.ReloadStatus();
-                      /*   this.toastError('Something went wrong while loading Questions!');
-                        this.$router.push({
-                            name: 'clwk',
-                            params: {
-                                id: this.$route.params.id
-                            },
-                            query: {
-                                clwk: this.$route.query.clwk
-                            }
-                        }) */
                     })
             },
             async CheckStatus() {
@@ -1002,6 +961,9 @@
                                 this.CurrentTime = res.data.currentTime;
                                 this.StartTime = res.data.startTime;
                                 this.submission_id = res.data.submission_id;
+                                this.duration = res.data.duration;
+                                this.classworkDetails.title = res.data.title;
+                                this.classworkDetails.points = res.data.points;
                                 this.preventNav = !this.preventNav;
                                 this.StartQuiz();
                             } else {
@@ -1052,7 +1014,12 @@
                     })
             },
             SelectMatch(id, main_index, second_index) {
-                let Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
+
+                let stringAns = this.FinalAnswers[main_index].Answer[second_index].Ans_letter != null ? 
+                this.FinalAnswers[main_index].Answer[second_index].Ans_letter.replace(/\./g,'') : this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
+                let letter = stringAns != null ? stringAns.trim() : stringAns;
+                let Answer = letter;
+                this.FinalAnswers[main_index].Answer[second_index].Ans_letter = Answer;
                 for (let i = 0; i < this.getAll_questions.Answer[main_index].SubAnswer.length; i++) {
                     for (let x = 0; x < this.getAll_questions.Answer[main_index].SubAnswer.length; x++) {
                         if (this.Alphabet[x].toUpperCase() == Answer.toUpperCase()) {
@@ -1095,16 +1062,19 @@
                     "z"
                 ];
                 this.Alphabet = alphabet;
-                let data = {
+                /* let data = {
                     classwork_id: this.$route.query.clwk,
                     course_id: this.$route.params.id
                 }
+
                 this.$store.dispatch('fetchClassworkShowDetails', data)
                 .then(() => {
                     this.duration = this.get_classwork_show_details.Details.duration;
                     this.classworkDetails = this.get_classwork_show_details.Details;
                     this.fetchQuestions();
-                })
+                }) */
+
+                this.fetchQuestions();
             },
             async saveActivityLog(description) {
                 await axios.post('/api/objective-logs/logs', {
@@ -1115,9 +1085,26 @@
 
                 })
             },
+            stopLeaveTimer(){
+                 clearInterval(this.leaveTimer);
+                 this.leaveTimerCount = 5;
+                 this.triggerWarning();
+            },
+            starLeaveTimer(){
+                this.warningDialog = true;
+               /*  this.leaveTimer = setInterval(()=>{
+                    this.leaveTimerCount--;
+                    if(this.leaveTimerCount == 0){
+                        this.triggerWarning()
+                        clearInterval(this.leaveTimer);
+                        this.leaveTimerCount = 5;
+                    }
+                },1000) */
+            },
             triggerWarning() {
                 if (this.isExamStart) {
                     this.leaveStrike += 1;
+
 
                     this.saveActivityLog('Switched tabs or applications / lost focus on the page.')
 
@@ -1128,14 +1115,13 @@
                         this.toastError('You are lossing focus to examination page many times!, Logs saved');
 
                         this.saveActivityLog(
-                                `Student got ${this.leaveStrike} warnings, Student have been forced to leave the exam`)
-                            .then(() => {
-                                setTimeout(() => {
-                                    window.close();
-                                }, 300)
-                            });
-                            this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
-
+                            `Student got ${this.leaveStrike} warnings, Student have been forced to leave the exam`)
+                        .then(() => {
+                            setTimeout(() => {
+                                this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
+                            }, 300)
+                                
+                        });
                     }
                     if (!this.preventWarning) {
                         this.warningDialog = true;
@@ -1143,8 +1129,8 @@
                 }
             },
             ReloadTime() {
-                this.ReloadStatus();
-                this.isReloadTime = true;
+               /*  this.ReloadStatus();
+                this.isReloadTime = true; */
                 //setTimeout(() => (this.isReloadTime = false), 300);
             },
             isOffline(event) {

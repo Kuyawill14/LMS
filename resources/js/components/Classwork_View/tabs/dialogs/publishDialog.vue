@@ -261,11 +261,11 @@ export default {
             },
             FromdateProps: {
                 headerColor: 'primary',
-                min: moment(Date.now()).format('YYYY-MM-DD')
+                min: moment(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
             },
             TodateProps: {
                 headerColor: 'primary',
-                min: moment(Date.now()).format('YYYY-MM-DD')
+                min: moment(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD')
             },
             timeProps: {
                 useSeconds: false,
@@ -413,13 +413,11 @@ export default {
         
     },
     mounted(){
-        const Newdate = new Date();
-        this.from_date = Newdate;
-        this.to_date = Newdate;
-        this.showAnswerDateFrom = Newdate;
-        this.ShowAnswerDateTo = Newdate;
         this.getGradingCriteria();
         this.getPublishDetails();
+        this.from_date = moment(this.datetoday).tz("Asia/Manila").format('YYYY-MM-DD h:mm');
+        this.TodateProps.min = moment(this.from_date).tz("Asia/Manila").format('YYYY-MM-DD');
+        this.TotimeProps.min = moment(this.from_date).tz("Asia/Manila").format('h:mm');
     }
 }
 </script>
