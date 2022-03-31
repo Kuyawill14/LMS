@@ -938,6 +938,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -975,7 +977,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         modules: {
           'toolbar': [['bold', 'italic', 'underline', 'strike'], [{
             'list': 'bullet'
-          }], ['image']]
+          }]]
         }
       },
       Essayoptions: {
@@ -26376,13 +26378,17 @@ var render = function() {
                                                                               _c(
                                                                                 "editor",
                                                                                 {
+                                                                                  style: _vm
+                                                                                    .$vuetify
+                                                                                    .breakpoint
+                                                                                    .mdAndUp
+                                                                                    ? "height:60px !important"
+                                                                                    : "height:80px !important",
                                                                                   attrs: {
                                                                                     id:
                                                                                       "editor-container",
                                                                                     placeholder:
                                                                                       "Answer",
-                                                                                    theme:
-                                                                                      "snow",
                                                                                     options:
                                                                                       _vm.options
                                                                                   },
@@ -27105,17 +27111,17 @@ var render = function() {
                                                                 },
                                                                 [
                                                                   _c("editor", {
-                                                                    staticStyle: {
-                                                                      height:
-                                                                        "220px"
-                                                                    },
+                                                                    style: _vm
+                                                                      .$vuetify
+                                                                      .breakpoint
+                                                                      .mdAndUp
+                                                                      ? "height:250px !important"
+                                                                      : "height:280px !important",
                                                                     attrs: {
                                                                       id:
                                                                         "editor-container",
                                                                       placeholder:
                                                                         "Essay",
-                                                                      theme:
-                                                                        "snow",
                                                                       options:
                                                                         _vm.Essayoptions
                                                                     },

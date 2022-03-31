@@ -1055,16 +1055,21 @@ class ClassworkController extends Controller
                         $newChoice->isDestructor = $ques_choice['isDestructor'];
                         $newChoice->save();
 
-                        if($item['isNew']){
-                            if($item['answer'] == $ques_choice['id']){
-                                $newQuestion->answer = $newChoice->id;
+                        if($item['type'] == 'Multiple Choice' || $item['type'] == 'Identification' ){
+                            if($item['isNew']){
+                                if($item['answer'] == $ques_choice['id']){
+                                    $newQuestion->answer = $newChoice->id;
+                                    $newQuestion->save();
+                                }
+                            }else{
+                                $newQuestion->answer = $item['answer'];
                                 $newQuestion->save();
                             }
+
                         }else{
                             $newQuestion->answer = $item['answer'];
                             $newQuestion->save();
                         }
-
                     }else{
                         $newChoice = new tbl_choice;
                         $newChoice->question_id = $newQuestion->id;

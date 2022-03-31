@@ -1935,16 +1935,29 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
                   for (var i = 0; i < res.data.question_id.length; i++) {
                     if (_this16.DuplicateQuestion[i].isNew) {
-                      _this16.getAll_questions.Question.push({
-                        id: res.data.question_id[i],
-                        question: _this16.DuplicateQuestion[i].question,
-                        answer: res.data.question_answer_id[i],
-                        points: _this16.DuplicateQuestion[i].points,
-                        type: _this16.DuplicateQuestion[i].type,
-                        sensitivity: _this16.DuplicateQuestion[i].sensitivity,
-                        isNew: _this16.DuplicateQuestion[i].isNew,
-                        attachments: _this16.DuplicateQuestion[i].attachments
-                      });
+                      if (_this16.DuplicateQuestion[i].type == 'Multiple Choice') {
+                        _this16.getAll_questions.Question.push({
+                          id: res.data.question_id[i],
+                          question: _this16.DuplicateQuestion[i].question,
+                          answer: res.data.question_answer_id[i],
+                          points: _this16.DuplicateQuestion[i].points,
+                          type: _this16.DuplicateQuestion[i].type,
+                          sensitivity: _this16.DuplicateQuestion[i].sensitivity,
+                          isNew: _this16.DuplicateQuestion[i].isNew,
+                          attachments: _this16.DuplicateQuestion[i].attachments
+                        });
+                      } else {
+                        _this16.getAll_questions.Question.push({
+                          id: res.data.question_id[i],
+                          question: _this16.DuplicateQuestion[i].question,
+                          answer: _this16.DuplicateQuestion[i].answer,
+                          points: _this16.DuplicateQuestion[i].points,
+                          type: _this16.DuplicateQuestion[i].type,
+                          sensitivity: _this16.DuplicateQuestion[i].sensitivity,
+                          isNew: _this16.DuplicateQuestion[i].isNew,
+                          attachments: _this16.DuplicateQuestion[i].attachments
+                        });
+                      }
                     } else {
                       _this16.getAll_questions.Question.push({
                         id: res.data.question_id[i],

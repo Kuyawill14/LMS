@@ -861,8 +861,11 @@ class ObjectiveController extends Controller
                         $NewChoice->question_id = $newQuestion->id;
                         $NewChoice->Choice = $choices_Item['Choice'];
                         $NewChoice->save();
+
+                        $newQuestion->answer = $mainItem['isNew'] ? $NewChoice->id : $mainItem['answer'];
+                        $newQuestion->update();
                         $choices_id[] = $NewChoice->id;
-                        if($mainItem['isNew']){
+                       /*  if($mainItem['isNew']){
                             if($mainItem['answer'] == $choices_Item['id']){
                                 $newQuestion->answer = $NewChoice->id;
                                 $newQuestion->save();
@@ -871,7 +874,7 @@ class ObjectiveController extends Controller
                             $newQuestion->answer = $mainItem['answer'];
                             $newQuestion->save();
                             
-                        }
+                        } */
                     }
                     
                 }else{

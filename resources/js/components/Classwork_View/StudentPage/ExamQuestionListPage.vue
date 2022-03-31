@@ -309,10 +309,11 @@
                                                             <v-list-item class="ma-0 pa-0">
                                                                 <v-list-item-content class="ma-0 pa-0">
                                                                     <editor 
+                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'height:60px !important' : 'height:80px !important' " 
                                                                         @change="SelectAnswer()"
                                                                         v-model="FinalAnswers[index].Answer"
                                                                         id="editor-container" placeholder="Answer"
-                                                                        theme="snow" :options="options"></editor>
+                                                                         :options="options"></editor>
                                                                 </v-list-item-content>
                                                             </v-list-item>
                                                         </v-list>
@@ -417,10 +418,11 @@
                                                 <v-row ma-0 pa-0>
                                                     <v-col ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
                                                         <!--    <v-card style="width:100%;min-height:200px" class="mb-3"> -->
-                                                        <editor style="height:220px" 
+                                                        <editor 
+                                                        :style="$vuetify.breakpoint.mdAndUp ? 'height:250px !important' : 'height:280px !important' " 
                                                             @change="SelectAnswer()"
                                                             v-model="FinalAnswers[index].Answer" id="editor-container"
-                                                            placeholder="Essay" theme="snow" :options="Essayoptions">
+                                                            placeholder="Essay"  :options="Essayoptions">
                                                         </editor>
                                                         <!--   </v-card> -->
                                                         <!--    <v-container class="mb-0 pb-0 pl-0 ml-0 mr-0 pr-0 d-flex flex-row-reverse mt-10">
@@ -519,7 +521,6 @@
                             [{
                                 'list': 'bullet'
                             }],
-                            ['image'],
                         ],
                     }
                 },
