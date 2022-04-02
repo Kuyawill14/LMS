@@ -428,7 +428,7 @@ class NotificationController extends Controller
                 "tbl_notifications.message","user_notifications.status", "user_notifications.hide_notif","user_notifications.notification_accepted",
                 "tbl_classes.course_id as c_id",
                 DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.updated_at as created_at")
-                ->join("user_notifications", function($join) use ($userId){
+                ->leftjoin("user_notifications", function($join) use ($userId){
                     $join->on("user_notifications.notification_id", "=", "tbl_notifications.id");
                     $join->on('user_notifications.user_id','=',DB::raw("'".$userId."'"));
                 })
@@ -457,7 +457,7 @@ class NotificationController extends Controller
                 "tbl_notifications.message","user_notifications.status", "user_notifications.hide_notif","user_notifications.notification_accepted",
                 "tbl_classes.course_id as c_id",
                 DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.updated_at as created_at")
-                ->join("user_notifications", function($join) use ($userId){
+                ->leftjoin("user_notifications", function($join) use ($userId){
                     $join->on("user_notifications.notification_id", "=", "tbl_notifications.id");
                     $join->on('user_notifications.user_id','=',DB::raw("'".$userId."'"));
                 })
@@ -505,7 +505,7 @@ class NotificationController extends Controller
                 "tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.from_course","tbl_notifications.notification_type","tbl_notifications.message",
                 "tbl_notifications.notification_attachments","user_notifications.status", "user_notifications.hide_notif","user_notifications.notification_accepted",
                 DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.updated_at as created_at")
-                ->join("tbl_notifications", function($join) use ($userId){
+                ->leftjoin("tbl_notifications", function($join) use ($userId){
                     $join->on("tbl_notifications.course_id", "=", "tbl_userclasses.course_id")
                     ->orOn("tbl_notifications.class_id", "=", "tbl_userclasses.class_id")
                     ->orOn(function($query) use ($userId) {
@@ -517,8 +517,8 @@ class NotificationController extends Controller
                     $join->on("user_notifications.notification_id", "=", "tbl_notifications.id");
                     $join->on('user_notifications.user_id','=',DB::raw("'".$userId."'"));
                 })
-                ->join("users", "users.id", "=", "tbl_notifications.from_id")
-                ->join("tbl_user_details", "tbl_user_details.user_id","=","users.id")
+                ->leftJoin("users", "users.id", "=", "tbl_notifications.from_id")
+                ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
                 ->orderBy("tbl_notifications.updated_at", "DESC")
                 ->where(function ($query) {
                     $query->where('user_notifications.hide_notif', 0)->orWhere('user_notifications.hide_notif', null);
