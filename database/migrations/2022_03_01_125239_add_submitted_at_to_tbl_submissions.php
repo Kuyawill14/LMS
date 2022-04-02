@@ -16,6 +16,8 @@ class AddSubmittedAtToTblSubmissions extends Migration
         Schema::table('tbl_submissions', function (Blueprint $table) {
             $table->timestamp('submitted_at')->after('timeSpent')->nullable();
             $table->timestamp('allow_resubmit')->after('submitted_at')->default(0);
+            $table->integer('current_question')->nullable();
+            
         });
     }
 
@@ -29,6 +31,7 @@ class AddSubmittedAtToTblSubmissions extends Migration
         Schema::table('tbl_submissions', function (Blueprint $table) {
             $table->dropColumn('submitted_at');
             $table->dropColumn('allow_resubmit');
+            $table->dropColumn('current_question');
         });
     }
 }
