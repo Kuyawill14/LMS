@@ -286,9 +286,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -341,80 +338,93 @@ __webpack_require__.r(__webpack_exports__);
             if (_this.QuestionAndAnswer.Question[_i].id == _this.classworkDetails.Submitted_Answers[j].Question_id) {
               if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[_i].type == 'Identification' || _this.QuestionAndAnswer.Question[_i].type == 'True or False') {
                 var student_ans;
-                /* if(this.QuestionAndAnswer.Question[i].answer == this.classworkDetails.Submitted_Answers[j].Answer){
-                    this.Check[i] = true;
-                }
-                else{
-                    this.Check[i] = false;
-                }
-                */
+                _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
 
                 if (_this.QuestionAndAnswer.Question[_i].type == 'Identification') {
-                  student_ans = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.classworkDetails.Submitted_Answers[j].Answer : _this.classworkDetails.Submitted_Answers[j].Answer != null && _this.classworkDetails.Submitted_Answers[j].Answer != '' ? _this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : _this.classworkDetails.Submitted_Answers[j].Answer;
-                  _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
-                  _this.Check[_i] = false;
+                  var hasKey = ('check' in _this.classworkDetails.Submitted_Answers[j]);
 
-                  _this.QuestionAndAnswer.Answer[_i].forEach(function (item) {
-                    var Question_answer = _this.QuestionAndAnswer.Question[_i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
-
-                    if (Question_answer != null) {
-                      Question_answer = Question_answer.replace('<p>', '').trim();
-                      Question_answer = Question_answer.replace('</p>', '').trim();
-                      Question_answer = Question_answer.replace('&nbsp;', '').trim();
-                      Question_answer = Question_answer.trim();
-                    }
-
-                    if (student_ans != null) {
-                      student_ans = student_ans.replace('<p>', '').trim();
-                      student_ans = student_ans.replace('</p>', '').trim();
-                      student_ans = student_ans.replace('&nbsp;', '').trim();
-                      student_ans = student_ans.trim();
-                    }
-
-                    if (student_ans == Question_answer) {
-                      _this.Check[_i] = true;
-                    }
-                  });
-                } else if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice') {
-                  if (_this.QuestionAndAnswer.Question[_i].isNew) {
-                    student_ans = _this.classworkDetails.Submitted_Answers[j].Answer;
-                    var Question_answer = _this.QuestionAndAnswer.Question[_i].answer;
-                    _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
-
-                    if (Question_answer == student_ans) {
+                  if (hasKey) {
+                    if (_this.classworkDetails.Submitted_Answers[j].check == true) {
                       _this.Check[_i] = true;
                     } else {
                       _this.Check[_i] = false;
                     }
                   } else {
-                    console.log(_this.classworkDetails.Submitted_Answers[j].Answer);
                     student_ans = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.classworkDetails.Submitted_Answers[j].Answer : _this.classworkDetails.Submitted_Answers[j].Answer != null && _this.classworkDetails.Submitted_Answers[j].Answer != '' ? _this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : _this.classworkDetails.Submitted_Answers[j].Answer;
-                    _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
+                    _this.Check[_i] = false;
 
-                    var _Question_answer = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.QuestionAndAnswer.Question[_i].answer : _this.QuestionAndAnswer.Question[_i].answer != null && _this.QuestionAndAnswer.Question[_i].answer != '' ? _this.QuestionAndAnswer.Question[_i].answer.toLowerCase() : _this.QuestionAndAnswer.Question[_i].answer;
+                    _this.QuestionAndAnswer.Answer[_i].forEach(function (item) {
+                      var Question_answer = _this.QuestionAndAnswer.Question[_i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
 
-                    if (_Question_answer == student_ans) {
-                      _this.Check[_i] = true;
+                      if (Question_answer != null) {
+                        Question_answer = Question_answer.replace('<p>', '').trim();
+                        Question_answer = Question_answer.replace('</p>', '').trim();
+                        Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                        Question_answer = Question_answer.trim();
+                      }
+
+                      if (student_ans != null) {
+                        student_ans = student_ans.replace('<p>', '').trim();
+                        student_ans = student_ans.replace('</p>', '').trim();
+                        student_ans = student_ans.replace('&nbsp;', '').trim();
+                        student_ans = student_ans.trim();
+                      }
+
+                      if (student_ans == Question_answer) {
+                        _this.Check[_i] = true;
+                      }
+                    });
+                  }
+                } else if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice') {
+                  var _hasKey = ('check' in _this.classworkDetails.Submitted_Answers[j]);
+
+                  if (_hasKey) {
+                    _this.Check[_i] = _this.classworkDetails.Submitted_Answers[j].check == true ? true : false;
+                  } else {
+                    if (_this.QuestionAndAnswer.Question[_i].isNew) {
+                      student_ans = _this.classworkDetails.Submitted_Answers[j].Answer;
+                      var Question_answer = _this.QuestionAndAnswer.Question[_i].answer;
+                      _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
+
+                      if (Question_answer == student_ans) {
+                        _this.Check[_i] = true;
+                      } else {
+                        _this.Check[_i] = false;
+                      }
                     } else {
-                      _this.Check[_i] = false;
+                      console.log(_this.classworkDetails.Submitted_Answers[j].Answer);
+                      student_ans = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.classworkDetails.Submitted_Answers[j].Answer : _this.classworkDetails.Submitted_Answers[j].Answer != null && _this.classworkDetails.Submitted_Answers[j].Answer != '' ? _this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : _this.classworkDetails.Submitted_Answers[j].Answer;
+                      _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
+
+                      var _Question_answer = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.QuestionAndAnswer.Question[_i].answer : _this.QuestionAndAnswer.Question[_i].answer != null && _this.QuestionAndAnswer.Question[_i].answer != '' ? _this.QuestionAndAnswer.Question[_i].answer.toLowerCase() : _this.QuestionAndAnswer.Question[_i].answer;
+
+                      if (_Question_answer == student_ans) {
+                        _this.Check[_i] = true;
+                      } else {
+                        _this.Check[_i] = false;
+                      }
                     }
                   }
-                } else {
-                  student_ans = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.classworkDetails.Submitted_Answers[j].Answer : _this.classworkDetails.Submitted_Answers[j].Answer != null && _this.classworkDetails.Submitted_Answers[j].Answer != '' ? _this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : _this.classworkDetails.Submitted_Answers[j].Answer;
-                  _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
+                } else if (_this.QuestionAndAnswer.Question[_i].type == 'True or False') {
+                  var _hasKey2 = ('check' in _this.classworkDetails.Submitted_Answers[j]);
 
-                  var _Question_answer2 = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.QuestionAndAnswer.Question[_i].answer : _this.QuestionAndAnswer.Question[_i].answer != null && _this.QuestionAndAnswer.Question[_i].answer != '' ? _this.QuestionAndAnswer.Question[_i].answer.toLowerCase() : _this.QuestionAndAnswer.Question[_i].answer;
-
-                  if (_Question_answer2 == student_ans) {
-                    _this.Check[_i] = true;
+                  if (_hasKey2) {
+                    _this.Check[_i] = _this.classworkDetails.Submitted_Answers[j].check == true ? true : false;
                   } else {
                     _this.Check[_i] = false;
+                    student_ans = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.classworkDetails.Submitted_Answers[j].Answer : _this.classworkDetails.Submitted_Answers[j].Answer != null && _this.classworkDetails.Submitted_Answers[j].Answer != '' ? _this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : _this.classworkDetails.Submitted_Answers[j].Answer;
+
+                    var _Question_answer2 = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.QuestionAndAnswer.Question[_i].answer : _this.QuestionAndAnswer.Question[_i].answer != null && _this.QuestionAndAnswer.Question[_i].answer != '' ? _this.QuestionAndAnswer.Question[_i].answer.toLowerCase() : _this.QuestionAndAnswer.Question[_i].answer;
+
+                    if (_Question_answer2 == student_ans) {
+                      _this.Check[_i] = true;
+                    }
                   }
                 }
               } else if (_this.QuestionAndAnswer.Question[_i].type == 'Essay') {
-                var hasKey = ('score' in _this.classworkDetails.Submitted_Answers[j]);
+                var _hasKey3 = ('score' in _this.classworkDetails.Submitted_Answers[j]);
 
-                if (!hasKey) {
+                if (!_hasKey3) {
                   _this.classworkDetails.Submitted_Answers[j].score = 0;
                   _this.classworkDetails.Submitted_Answers[j].check = false;
                 }
@@ -424,89 +434,25 @@ __webpack_require__.r(__webpack_exports__);
                 var Ans = new Array();
                 var match_check = new Array();
                 var counter = 0;
-
-                _this.classworkDetails.Submitted_Answers[j].Answer.forEach(function (item) {
-                  for (var x = 0; x < _this.QuestionAndAnswer.Answer[_i].SubQuestion.length; x++) {
-                    /*  if(this.QuestionAndAnswer.Answer[i].SubQuestion[x].id == item.subquestion_id){
-                         if(this.QuestionAndAnswer.Answer[i].SubAnswer[x].Choice == item.Answers){
-                             match_check[counter] = true;
-                         }
-                         else{
-                             match_check[counter] = false;
-                         }
-                     }
-                      */
-                    if (_this.QuestionAndAnswer.Answer[_i].SubQuestion[x].id == item.subquestion_id) {
-                      match_check[counter] = true;
-
-                      if (_this.QuestionAndAnswer.Answer[_i].SubQuestion[x].answer_id == item.Ans_id) {
-                        match_check[counter] = true; //this.ViewDetails.points += matchpoints;
-                      } else {
-                        match_check[counter] = false;
-                      }
-                    }
-                  }
-
-                  counter += 1;
-                });
+                /* this.classworkDetails.Submitted_Answers[j].Answer.forEach(item => {
+                   for (let x = 0; x < this.QuestionAndAnswer.Answer[i].SubQuestion.length; x++) {
+                         if (this.QuestionAndAnswer.Answer[i].SubQuestion[x].id == item.subquestion_id) {
+                           match_check[counter] = true;
+                           if (this.QuestionAndAnswer.Answer[i].SubQuestion[x].answer_id == item.Ans_id) {
+                               match_check[counter] = true;
+                               //this.ViewDetails.points += matchpoints;
+                             } else {
+                               match_check[counter] = false;
+                           }
+                       }
+                   }
+                   counter+=1;   
+                });  */
 
                 var Ans_list = {};
                 Ans_list.SubQuestion = [];
                 Ans_list.SubAnswer = [];
                 var sub_ques_count = 0;
-                /* this.classworkDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
-                    this.QuestionAndAnswer.Answer[i].SubQuestion.forEach(subQuestion => {
-                        if(sub_ans.subquestion_id == subQuestion.id){
-                            Ans_list.SubQuestion.push({
-                                Ans_Letter: sub_ans.Ans_letter,
-                                Answer: sub_ans.Answers,
-                                SubQuestion: subQuestion.sub_question,
-                                SubQuestion_id: subQuestion.id,
-                                is_correct: true,
-                                Correct_Answer: null
-                            });
-                        }
-                    });
-                });
-                
-                   this.classworkDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
-                    let alpha_count = 0;
-                     this.Alphabet.forEach(alpha => {
-                         if(alpha.toUpperCase() == sub_ans.Ans_letter.toUpperCase()){
-                              this.QuestionAndAnswer.Answer[i].SubAnswer.forEach(answer_list => {
-                                if(sub_ans.Ans_id == answer_list.id){
-                                        Ans_list.SubAnswer[alpha_count] = {
-                                        SubChoice: answer_list.Choice,
-                                        SubChoice_id: answer_list.id,
-                                        index: alpha_count
-                                    }
-                                }
-                            });                                                 
-                         }
-                         alpha_count++;
-                     });
-                });
-                  this.QuestionAndAnswer.Answer[i].SubAnswer.forEach(check_ans => {
-                    let checker = false
-                    for (let v = 0; v < Ans_list.SubAnswer.length; v++) {
-                        if(Ans_list.SubAnswer[v] != null){
-                            if(Ans_list.SubAnswer[v].SubChoice_id == check_ans.id){
-                                checker = true
-                            }
-                        }
-                    }
-                      if(checker == false){
-                         for (let kk = 0; kk < Ans_list.SubAnswer.length; kk++) {
-                            if(Ans_list.SubAnswer[kk] == null){
-                                Ans_list.SubAnswer[kk] = {
-                                SubChoice: check_ans.Choice,
-                                SubChoice_id: check_ans.id,
-                                index: kk
-                            }
-                        }
-                    }
-                    }
-                }); */
 
                 _this.classworkDetails.Submitted_Answers[j].question_pattern.SubQuestion.forEach(function (sub_ques) {
                   _this.QuestionAndAnswer.Answer[_i].SubQuestion.forEach(function (subQuestion) {
@@ -517,7 +463,9 @@ __webpack_require__.r(__webpack_exports__);
                         SubQuestion: subQuestion.sub_question,
                         SubQuestion_id: subQuestion.id,
                         is_correct: true,
-                        Correct_Answer: null
+                        Correct_Answer: subQuestion.answer_id,
+                        correct_ans_letter: null,
+                        isCheck: null
                       });
                     }
                   });
@@ -527,6 +475,15 @@ __webpack_require__.r(__webpack_exports__);
                       if (user_ans.subquestion_id == ans.SubQuestion_id) {
                         ans.Ans_Letter = user_ans.Ans_letter;
                         ans.Answer = user_ans.Answers;
+                        ans.user_ans_id = user_ans.Ans_id;
+
+                        var _hasKey4 = ('isCheck' in user_ans);
+
+                        if (_hasKey4) {
+                          ans.isCheck = user_ans.isCheck;
+                        } else {
+                          ans.isCheck = null;
+                        }
                       }
                     });
                   });
@@ -543,6 +500,47 @@ __webpack_require__.r(__webpack_exports__);
                   });
                 });
 
+                Ans_list.SubQuestion.forEach(function (sub) {
+                  if (sub.isCheck == null) {
+                    var string = sub.Ans_Letter != null ? sub.Ans_Letter.replace(/\./g, '') : sub.Ans_Letter;
+                    var letter = string != null ? string.trim() : null;
+
+                    if (letter != null ? letter.toUpperCase() == sub.correct_ans_letter.toUpperCase() : false) {
+                      match_check[counter] = true;
+
+                      _this.classworkDetails.Submitted_Answers.forEach(function (submi_ans) {
+                        if (submi_ans.Question_id == _this.QuestionAndAnswer.Question[_i].id) {
+                          submi_ans.Answer.forEach(function (submitted_as) {
+                            if (submitted_as.subquestion_id == sub.SubQuestion_id) {
+                              submitted_as.Ans_id = sub.Correct_Answer;
+                              submitted_as.isCheck = true;
+                              return;
+                            }
+                          });
+                          return;
+                        }
+                      });
+                    } else {
+                      _this.classworkDetails.Submitted_Answers.forEach(function (submi_ans) {
+                        if (submi_ans.Question_id == _this.QuestionAndAnswer.Question[_i].id) {
+                          submi_ans.Answer.forEach(function (submitted_as) {
+                            if (submitted_as.subquestion_id == sub.SubQuestion_id) {
+                              submitted_as.isCheck = false;
+                              return;
+                            }
+                          });
+                          return;
+                        }
+                      });
+
+                      match_check[counter] = false;
+                    }
+                  } else {
+                    match_check[counter] = sub.isCheck ? true : false;
+                  }
+
+                  counter += 1;
+                });
                 var tmpChoices = new Array();
 
                 _this.classworkDetails.Submitted_Answers[j].Choices_id.forEach(function (item) {
@@ -937,24 +935,27 @@ var render = function() {
                                       ? _c(
                                           "div",
                                           [
-                                            _c("v-checkbox", {
-                                              staticClass: "mt-0 pt-0",
-                                              attrs: {
-                                                readonly: "",
-                                                color: "success"
+                                            _c(
+                                              "v-icon",
+                                              {
+                                                staticClass: "mt-1 mr-2",
+                                                attrs: {
+                                                  color: _vm.Check[index]
+                                                    ? "success"
+                                                    : "red"
+                                                }
                                               },
-                                              model: {
-                                                value: _vm.Check[index],
-                                                callback: function($$v) {
-                                                  _vm.$set(
-                                                    _vm.Check,
-                                                    index,
-                                                    $$v
-                                                  )
-                                                },
-                                                expression: "Check[index]"
-                                              }
-                                            })
+                                              [
+                                                _vm._v(
+                                                  " " +
+                                                    _vm._s(
+                                                      _vm.Check[index]
+                                                        ? "mdi-checkbox-marked"
+                                                        : "mdi-close-box-outline"
+                                                    )
+                                                )
+                                              ]
+                                            )
                                           ],
                                           1
                                         )
@@ -1567,42 +1568,36 @@ var render = function() {
                                                                             },
                                                                             [
                                                                               _c(
-                                                                                "v-checkbox",
+                                                                                "v-icon",
                                                                                 {
                                                                                   staticClass:
-                                                                                    "ma-0 pa-0 mt-2",
+                                                                                    "mt-2 mr-2",
                                                                                   attrs: {
-                                                                                    vz:
-                                                                                      "",
-                                                                                    "hide-details":
-                                                                                      "",
-                                                                                    color:
-                                                                                      "success"
-                                                                                  },
-                                                                                  model: {
-                                                                                    value:
-                                                                                      _vm
-                                                                                        .Check[
-                                                                                        index
-                                                                                      ][
-                                                                                        i
-                                                                                      ],
-                                                                                    callback: function(
-                                                                                      $$v
-                                                                                    ) {
-                                                                                      _vm.$set(
+                                                                                    color: _vm
+                                                                                      .Check[
+                                                                                      index
+                                                                                    ][
+                                                                                      i
+                                                                                    ]
+                                                                                      ? "success"
+                                                                                      : "red"
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    " " +
+                                                                                      _vm._s(
                                                                                         _vm
                                                                                           .Check[
                                                                                           index
-                                                                                        ],
-                                                                                        i,
-                                                                                        $$v
+                                                                                        ][
+                                                                                          i
+                                                                                        ]
+                                                                                          ? "mdi-checkbox-marked"
+                                                                                          : "mdi-close-box-outline"
                                                                                       )
-                                                                                    },
-                                                                                    expression:
-                                                                                      "Check[index][i]"
-                                                                                  }
-                                                                                }
+                                                                                  )
+                                                                                ]
                                                                               )
                                                                             ],
                                                                             1

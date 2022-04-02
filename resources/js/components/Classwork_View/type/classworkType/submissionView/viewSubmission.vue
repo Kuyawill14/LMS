@@ -55,8 +55,8 @@
                     <v-container ma-0 pa-0>
                         <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
                             <div v-if="classworkDetails.showAnswer == true && (item.type != 'Matching type' && item.type != 'Essay')">
-                                <v-checkbox readonly class="mt-0 pt-0" color="success" v-model="Check[index]"></v-checkbox>
-                               
+                      <!--           <v-checkbox readonly class="mt-0 pt-0" color="success" v-model="Check[index]"></v-checkbox> -->
+                                <v-icon class="mt-1 mr-2" :color="Check[index] ? 'success' : 'red'"> {{Check[index] ? 'mdi-checkbox-marked' : 'mdi-close-box-outline'}}</v-icon>
                             </div>
                             <div v-if="classworkDetails.showAnswer == true && item.type == 'Essay'">
                                 <v-chip outlined color="blue" class="mr-2 mb-2 mt-0 pt-0">
@@ -188,10 +188,7 @@
                                                     <v-col :class="$vuetify.breakpoint.mdAndUp ? 'd-flex flex-row pa-0 pl-12' : 'd-flex flex-row pa-0 pl-5'" 
                                                     cols="12" v-for="(item, i) in SubmittedAnswer[index].SubQuestion" :key="item.id">
                                                         <div v-if="classworkDetails.showAnswer == true" class="mt-0 pt-0 mb-0 pb-0 pa-0">
-                                                            <v-checkbox vz hide-details
-                                                            class="ma-0 pa-0 mt-2" color="success"
-                                                            v-model="Check[index][i]">
-                                                            </v-checkbox>
+                                                            <v-icon class="mt-2 mr-2"  :color="Check[index][i] ? 'success' : 'red'"> {{Check[index][i] ? 'mdi-checkbox-marked' : 'mdi-close-box-outline'}}</v-icon>
                                                         </div> 
                                             
                                                         <div class="mt-0 pt-0 mb-0 pb-0 pa-0">
@@ -311,6 +308,7 @@ import moment from 'moment/src/moment';
                     let Submitted_length = this.classworkDetails.Submitted_Answers.length;
                     let Question_length = this.QuestionAndAnswer.Question.length;
                     let diff = Question_length  - Submitted_length;
+
                     for (let i = 0; i < diff; i++) {
                         if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False' || this.QuestionAndAnswer.Question[i].type == 'Essay'){
                             this.classworkDetails.Submitted_Answers.push({
@@ -331,83 +329,104 @@ import moment from 'moment/src/moment';
                             if(this.QuestionAndAnswer.Question[i].id == this.classworkDetails.Submitted_Answers[j].Question_id){
                                 if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
                                     let student_ans;
-                                    
-                                
-                                    /* if(this.QuestionAndAnswer.Question[i].answer == this.classworkDetails.Submitted_Answers[j].Answer){
-                                        this.Check[i] = true;
-                                    }
-                                    else{
-                                        this.Check[i] = false;
-                                    }
- */
+
+                                    this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
                                      if(this.QuestionAndAnswer.Question[i].type == 'Identification'){
-                                        student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
-                                        this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
-                                        this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
 
+                                         const hasKey = 'check' in this.classworkDetails.Submitted_Answers[j];
 
-                                        this.Check[i] = false;
-                                        this.QuestionAndAnswer.Answer[i].forEach(item => {
-                                            let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
-                                              if(Question_answer != null){
-                                                    Question_answer = Question_answer.replace('<p>', '').trim();
-                                                    Question_answer = Question_answer.replace('</p>', '').trim();
-                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
-                                                    Question_answer = Question_answer.trim();
-                                                }
-                                                 if(student_ans != null){
-                                                    student_ans = student_ans.replace('<p>', '').trim();
-                                                    student_ans = student_ans.replace('</p>', '').trim();
-                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
-                                                    student_ans = student_ans.trim();
-                                                }
-                                            if(student_ans == Question_answer){
+                                         if(hasKey){
+                                            if(this.classworkDetails.Submitted_Answers[j].check == true){
                                                 this.Check[i] = true;
+                                            }else{
+                                                this.Check[i] = false;
                                             }
-            
-                                        });
+                                        }else{
+                                            student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
+                                            this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? 
+                                            this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
+                                           
+                                           
+                                            this.Check[i] = false;
+                                            this.QuestionAndAnswer.Answer[i].forEach(item => {
+                                                let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+                                                    if(Question_answer != null){
+                                                            Question_answer = Question_answer.replace('<p>', '').trim();
+                                                            Question_answer = Question_answer.replace('</p>', '').trim();
+                                                            Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                            Question_answer = Question_answer.trim();
+                                                        }
+                                                        if(student_ans != null){
+                                                            student_ans = student_ans.replace('<p>', '').trim();
+                                                            student_ans = student_ans.replace('</p>', '').trim();
+                                                            student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                            student_ans = student_ans.trim();
+                                                        }
+                                                    if(student_ans == Question_answer){
+                                                        this.Check[i] = true;
+                                                    }
+                    
+                                                });
+                                        }
+
+                                       
                                     }
                                     else if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice'){
-                                        if(this.QuestionAndAnswer.Question[i].isNew){
-                                             student_ans = this.classworkDetails.Submitted_Answers[j].Answer;
-                                             let Question_answer = this.QuestionAndAnswer.Question[i].answer;
-                                             this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
-                                             if(Question_answer == student_ans){
-                                                this.Check[i] = true;
-                                            }
-                                            else{
-                                                this.Check[i] = false;
-                                            }
-                                             
+                                        const hasKey = 'check' in this.classworkDetails.Submitted_Answers[j];
+                                         if(hasKey) {
+                                            this.Check[i] = this.classworkDetails.Submitted_Answers[j].check == true ? true :false;
                                         }else{
-                                            console.log(this.classworkDetails.Submitted_Answers[j].Answer );
-                                            student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
-                                            this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
-                                            this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
+                                            if(this.QuestionAndAnswer.Question[i].isNew){
+                                             student_ans = this.classworkDetails.Submitted_Answers[j].Answer;
+                                                let Question_answer = this.QuestionAndAnswer.Question[i].answer;
+                                                this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
+                                                if(Question_answer == student_ans){
+                                                    this.Check[i] = true;
+                                                }
+                                                else{
+                                                    this.Check[i] = false;
+                                                }
+                                                
+                                            }else{
+                                                console.log(this.classworkDetails.Submitted_Answers[j].Answer );
+                                                student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
+                                                this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
+                                                this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
 
-                                            let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ? this.QuestionAndAnswer.Question[i].answer : 
-                                            this.QuestionAndAnswer.Question[i].answer != null && this.QuestionAndAnswer.Question[i].answer != ''  ? this.QuestionAndAnswer.Question[i].answer.toLowerCase() : this.QuestionAndAnswer.Question[i].answer;
+                                                let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ? this.QuestionAndAnswer.Question[i].answer : 
+                                                this.QuestionAndAnswer.Question[i].answer != null && this.QuestionAndAnswer.Question[i].answer != ''  ? this.QuestionAndAnswer.Question[i].answer.toLowerCase() : this.QuestionAndAnswer.Question[i].answer;
 
-                                            if(Question_answer == student_ans){
-                                                this.Check[i] = true;
-                                            }
-                                            else{
-                                                this.Check[i] = false;
+                                                if(Question_answer == student_ans){
+                                                    this.Check[i] = true;
+                                                }
+                                                else{
+                                                    this.Check[i] = false;
+                                                }
                                             }
                                         }
+                                        
                                     }
-                                    else{
-                                        student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
-                                        this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
-                                        this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
-                                        let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ? this.QuestionAndAnswer.Question[i].answer : 
-                                        this.QuestionAndAnswer.Question[i].answer != null && this.QuestionAndAnswer.Question[i].answer != ''  ? this.QuestionAndAnswer.Question[i].answer.toLowerCase() : this.QuestionAndAnswer.Question[i].answer;
-                                        if(Question_answer == student_ans){
-                                            this.Check[i] = true;
-                                        }
-                                        else{
+                                    else if(this.QuestionAndAnswer.Question[i].type == 'True or False'){
+
+                                        const hasKey = 'check' in this.classworkDetails.Submitted_Answers[j];
+                                         if(hasKey) {
+                                            this.Check[i] = this.classworkDetails.Submitted_Answers[j].check == true ? true :false;
+                                        }else{
                                             this.Check[i] = false;
+                                            student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer :
+                                            this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? 
+                                            this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
+
+
+                                            let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ?
+                                                this.QuestionAndAnswer.Question[i].answer : this.QuestionAndAnswer.Question[i].answer != null && this.QuestionAndAnswer.Question[i].answer != '' 
+                                                ? this.QuestionAndAnswer.Question[i].answer.toLowerCase() : this.QuestionAndAnswer.Question[i].answer;
+
+                                            if (Question_answer == student_ans) {
+                                                this.Check[i] = true;
+                                            } 
                                         }
+                                       
                                     }
                                 }
                                 else if(this.QuestionAndAnswer.Question[i].type == 'Essay'){
@@ -423,17 +442,9 @@ import moment from 'moment/src/moment';
                                     let Ans = new Array();
                                     let match_check = new Array();
                                     let counter = 0;
-                                     this.classworkDetails.Submitted_Answers[j].Answer.forEach(item => {
+                                     /* this.classworkDetails.Submitted_Answers[j].Answer.forEach(item => {
                                         for (let x = 0; x < this.QuestionAndAnswer.Answer[i].SubQuestion.length; x++) {
-                                           /*  if(this.QuestionAndAnswer.Answer[i].SubQuestion[x].id == item.subquestion_id){
-                                                if(this.QuestionAndAnswer.Answer[i].SubAnswer[x].Choice == item.Answers){
-                                                    match_check[counter] = true;
-                                                }
-                                                else{
-                                                    match_check[counter] = false;
-                                                }
-                                            }
-                                             */
+
                                             if (this.QuestionAndAnswer.Answer[i].SubQuestion[x].id == item.subquestion_id) {
                                                 match_check[counter] = true;
                                                 if (this.QuestionAndAnswer.Answer[i].SubQuestion[x].answer_id == item.Ans_id) {
@@ -446,69 +457,12 @@ import moment from 'moment/src/moment';
                                             }
                                         }
                                         counter+=1;   
-                                     });  
+                                     });  */ 
 
                                     let Ans_list = {};
                                     Ans_list.SubQuestion = [];
                                     Ans_list.SubAnswer = [];
                                     let sub_ques_count = 0;
-
-                                    /* this.classworkDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
-                                        this.QuestionAndAnswer.Answer[i].SubQuestion.forEach(subQuestion => {
-                                            if(sub_ans.subquestion_id == subQuestion.id){
-                                                Ans_list.SubQuestion.push({
-                                                    Ans_Letter: sub_ans.Ans_letter,
-                                                    Answer: sub_ans.Answers,
-                                                    SubQuestion: subQuestion.sub_question,
-                                                    SubQuestion_id: subQuestion.id,
-                                                    is_correct: true,
-                                                    Correct_Answer: null
-                                                });
-                                            }
-                                        });
-                                    });
-                                    
-
-                                     this.classworkDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
-                                        let alpha_count = 0;
-                                         this.Alphabet.forEach(alpha => {
-                                             if(alpha.toUpperCase() == sub_ans.Ans_letter.toUpperCase()){
-                                                  this.QuestionAndAnswer.Answer[i].SubAnswer.forEach(answer_list => {
-                                                    if(sub_ans.Ans_id == answer_list.id){
-                                                            Ans_list.SubAnswer[alpha_count] = {
-                                                            SubChoice: answer_list.Choice,
-                                                            SubChoice_id: answer_list.id,
-                                                            index: alpha_count
-                                                        }
-                                                    }
-                                                });                                                 
-                                             }
-                                             alpha_count++;
-                                         });
-                                    });
-
-                                    this.QuestionAndAnswer.Answer[i].SubAnswer.forEach(check_ans => {
-                                        let checker = false
-                                        for (let v = 0; v < Ans_list.SubAnswer.length; v++) {
-                                            if(Ans_list.SubAnswer[v] != null){
-                                                if(Ans_list.SubAnswer[v].SubChoice_id == check_ans.id){
-                                                    checker = true
-                                                }
-                                            }
-                                        }
-
-                                        if(checker == false){
-                                             for (let kk = 0; kk < Ans_list.SubAnswer.length; kk++) {
-                                                if(Ans_list.SubAnswer[kk] == null){
-                                                    Ans_list.SubAnswer[kk] = {
-                                                    SubChoice: check_ans.Choice,
-                                                    SubChoice_id: check_ans.id,
-                                                    index: kk
-                                                }
-                                            }
-                                        }
-                                        }
-                                    }); */
 
 
                                     this.classworkDetails.Submitted_Answers[j].question_pattern.SubQuestion.forEach(sub_ques => {
@@ -520,7 +474,9 @@ import moment from 'moment/src/moment';
                                                     SubQuestion: subQuestion.sub_question,
                                                     SubQuestion_id: subQuestion.id,
                                                     is_correct: true,
-                                                    Correct_Answer: null
+                                                    Correct_Answer: subQuestion.answer_id,
+                                                    correct_ans_letter: null,
+                                                    isCheck: null
                                                 });
                                             }
                                         });
@@ -530,6 +486,14 @@ import moment from 'moment/src/moment';
                                                 if(user_ans.subquestion_id == ans.SubQuestion_id){
                                                     ans.Ans_Letter = user_ans.Ans_letter;
                                                     ans.Answer = user_ans.Answers;
+                                                    ans.user_ans_id = user_ans.Ans_id;
+
+                                                    const hasKey = 'isCheck' in user_ans;
+                                                    if(hasKey) {
+                                                        ans.isCheck =  user_ans.isCheck;
+                                                    }else{
+                                                        ans.isCheck = null;
+                                                    }
                                                 }
                                             });
                                         });
@@ -546,6 +510,45 @@ import moment from 'moment/src/moment';
                                             }
                                         });
                                     });
+
+                                    Ans_list.SubQuestion.forEach(sub => {
+                                        if(sub.isCheck == null){
+                                            let string = sub.Ans_Letter != null ? sub.Ans_Letter.replace(/\./g,'') : sub.Ans_Letter;
+                                            let letter = string != null ? string.trim() : null;
+                                            if(letter != null ? letter.toUpperCase() == sub.correct_ans_letter.toUpperCase() : false){
+                                                match_check[counter] = true;
+                                                this.classworkDetails.Submitted_Answers.forEach(submi_ans => {
+                                                    if(submi_ans.Question_id == this.QuestionAndAnswer.Question[i].id){
+                                                        submi_ans.Answer.forEach(submitted_as => {
+                                                            if(submitted_as.subquestion_id == sub.SubQuestion_id){
+                                                                submitted_as.Ans_id = sub.Correct_Answer;
+                                                                submitted_as.isCheck = true;
+                                                                return;
+                                                            }
+                                                        });
+                                                        return;
+                                                    }
+                                                });
+                                            }else{
+                                                this.classworkDetails.Submitted_Answers.forEach(submi_ans => {
+                                                    if(submi_ans.Question_id == this.QuestionAndAnswer.Question[i].id){
+                                                        submi_ans.Answer.forEach(submitted_as => {
+                                                            if(submitted_as.subquestion_id == sub.SubQuestion_id){
+                                                                submitted_as.isCheck = false;
+                                                                return;
+                                                            }
+                                                        });
+                                                        return;
+                                                    }
+                                                });
+                                                match_check[counter] = false;
+                                            }
+                                        }else{
+                                            match_check[counter] = sub.isCheck ? true : false;
+                                        }
+                                        counter += 1;
+                                    });
+
 
                                     let tmpChoices = new Array();
                                     this.classworkDetails.Submitted_Answers[j].Choices_id.forEach(item => {

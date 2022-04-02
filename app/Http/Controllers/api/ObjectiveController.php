@@ -1216,16 +1216,14 @@ class ObjectiveController extends Controller
      */
     public function storeAnswer(Request $request, $id)
     {
-            //return  $request;
-            $userId = auth('sanctum')->id();
-            $StoreAnwers = tbl_Submission::find($id);
-            if($StoreAnwers){
-                //$checkClasswork = tbl_classwork::find($StoreAnwers->classwork_id);
-                $StoreAnwers->Submitted_Answers = serialize($request->data);
-                $StoreAnwers->save();
-            }
-       
-       
+
+        $StoreAnwers = tbl_Submission::find($id);
+        if($StoreAnwers){
+            $StoreAnwers->Submitted_Answers = serialize($request->data);
+            $StoreAnwers->current_question =  $request->current_question;
+            $StoreAnwers->save();
+            return;
+        }
     }
 
     /**
@@ -1734,7 +1732,13 @@ class ObjectiveController extends Controller
                                 
                             }
                             else{
-                                $score = $questionAns == $userAns ? ($score + $ques['points']) : $score;  
+                                if(array_key_exists("check",$cl)){
+                                    $score =  $cl['check'] == true ? $score + $ques['points'] : $score;
+                                }
+                                else{
+                                    $score = $questionAns == $userAns ? ($score + $ques['points']) : $score;  
+                                }
+                                
                             }           
                         }
                         elseif($cl['type'] == 'Matching type'){

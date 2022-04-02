@@ -1007,7 +1007,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       unAnsweredQuestion: 0,
       saveIndex: 2,
       leaveTimer: null,
-      leaveTimerCount: 5
+      leaveTimerCount: 5,
+      Question_List: []
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions", "get_classwork_show_details"]),
@@ -1081,17 +1082,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var c_ques;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                c_ques = _this4.questionIndex + 1;
+                _context.next = 3;
                 return axios.put('/api/question/store-answer/' + _this4.submission_id, {
                   type: "multiple",
+                  current_question: c_ques,
                   data: _this4.FinalAnswers
                 });
 
-              case 2:
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -1103,17 +1107,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var c_ques;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
+                c_ques = _this5.questionIndex == _this5.Qlength - 1 ? _this5.questionIndex : _this5.questionIndex + 1;
+                _context2.next = 3;
                 return axios.put('/api/question/store-answer/' + _this5.submission_id, {
                   type: "multiple",
+                  current_question: c_ques,
                   data: _this5.FinalAnswers
                 });
 
-              case 2:
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -1229,6 +1236,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var AnswersList = _this8.Submitted_Answers;
 
         if (AnswersList == null || AnswersList.length == 0) {
+          _this8.Question_List = _this8.getAll_questions;
+
           for (var index = 0; index < _this8.getAll_questions.Question.length; index++) {
             if (_this8.getAll_questions.Question[index].type == 'Identification' || _this8.getAll_questions.Question[index].type == 'Multiple Choice' || _this8.getAll_questions.Question[index].type == 'True or False') {
               _this8.FinalAnswers.push({
@@ -1291,9 +1300,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           axios.put('/api/question/store-answer/' + _this8.submission_id, {
             type: "multiple",
+            current_question: _this8.questionIndex,
             data: _this8.FinalAnswers
           });
         } else if (_this8.Qlength != AnswersList.length) {
+          _this8.Question_List = _this8.getAll_questions;
+
           for (var _index = 0; _index < _this8.getAll_questions.Question.length; _index++) {
             if (_this8.getAll_questions.Question[_index].type == 'Identification' || _this8.getAll_questions.Question[_index].type == 'Multiple Choice' || _this8.getAll_questions.Question[_index].type == 'True or False') {
               _this8.FinalAnswers.push({
@@ -1356,12 +1368,74 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           axios.put('/api/question/store-answer/' + _this8.submission_id, {
             type: "multiple",
+            current_question: _this8.questionIndex,
             data: _this8.FinalAnswers
           });
         } else if (_this8.Qlength == AnswersList.length) {
-          for (var x = 0; x < _this8.getAll_questions.Question.length; x++) {
-            var _loop = function _loop(j) {
-              if (_this8.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
+          /* for (let x = 0; x < this.getAll_questions.Question.length; x++) {
+              for (let j = 0; j < AnswersList.length; j++) {
+                  if (this.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
+                      if (this.getAll_questions.Question[x].type == 'Identification' || this
+                          .getAll_questions.Question[x].type == 'Multiple Choice' || this
+                          .getAll_questions.Question[x].type == 'True or False' || this
+                          .getAll_questions.Question[x].type == 'Essay') {
+                          this.FinalAnswers.push({
+                              Answer: AnswersList[j].Answer,
+                              Question_id: AnswersList[j].Question_id,
+                              answer_id: null,
+                              type: AnswersList[j].type,
+                              timeConsume: AnswersList[j].timeConsume,
+                          });
+                      } else if (this.getAll_questions.Question[x].type == 'Matching type') {
+                          let Ans = new Array();
+                          let Choices_id = new Array();
+                          let Quest_Pattern = {};
+                          Quest_Pattern.SubQuestion = [];
+                          Quest_Pattern.SubAnswer = [];
+                            this.getAll_questions.Answer[x].SubAnswer.forEach(item => {
+                              Choices_id.push({
+                                  choice_id: item.id
+                              })
+                              Quest_Pattern.SubAnswer.push({
+                                  id: item.id
+                              })
+                          });
+                           let counter = 0;
+                          this.getAll_questions.Answer[x].SubQuestion.forEach(item => {
+                              Ans.push({
+                                  Ans_letter: AnswersList[j].Answer[counter]
+                                      .Ans_letter,
+                                  Ans_id: AnswersList[j].Answer[counter].Ans_id,
+                                  subquestion_id: item.id,
+                                  Answers: AnswersList[j].Answer[counter].Answers,
+                              })
+                               Quest_Pattern.SubQuestion.push({
+                                  id: item.id
+                              })
+                              counter++;
+                            });
+                          this.FinalAnswers.push({
+                              Answer: Ans,
+                              Choices_id: Choices_id,
+                              question_pattern: Quest_Pattern,
+                              Question_id: AnswersList[j].Question_id,
+                              type: AnswersList[j].type,
+                              timeConsume: AnswersList[j].timeConsume
+                          });
+                      }
+                  }
+              }
+          } */
+          var details = {};
+          details.Question = [];
+          details.Answer = [];
+
+          var _loop = function _loop(j) {
+            for (var x = 0; x < _this8.getAll_questions.Question.length; x++) {
+              if (AnswersList[j].Question_id == _this8.getAll_questions.Question[x].id) {
+                details.Question.push(_this8.getAll_questions.Question[x]);
+                details.Answer.push(_this8.getAll_questions.Answer[x]);
+
                 if (_this8.getAll_questions.Question[x].type == 'Identification' || _this8.getAll_questions.Question[x].type == 'Multiple Choice' || _this8.getAll_questions.Question[x].type == 'True or False' || _this8.getAll_questions.Question[x].type == 'Essay') {
                   _this8.FinalAnswers.push({
                     Answer: AnswersList[j].Answer,
@@ -1371,52 +1445,56 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     timeConsume: AnswersList[j].timeConsume
                   });
                 } else if (_this8.getAll_questions.Question[x].type == 'Matching type') {
-                  var Ans = new Array();
-                  var Choices_id = new Array();
-                  var Quest_Pattern = {};
-                  Quest_Pattern.SubQuestion = [];
-                  Quest_Pattern.SubAnswer = [];
+                  (function () {
+                    var Ans = new Array();
+                    var Choices_id = new Array();
+                    var Quest_Pattern = {};
+                    Quest_Pattern.SubQuestion = [];
+                    Quest_Pattern.SubAnswer = [];
 
-                  _this8.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
-                    Choices_id.push({
-                      choice_id: item.id
+                    _this8.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
+                      Choices_id.push({
+                        choice_id: item.id
+                      });
+                      Quest_Pattern.SubAnswer.push({
+                        id: item.id
+                      });
                     });
-                    Quest_Pattern.SubAnswer.push({
-                      id: item.id
-                    });
-                  });
 
-                  var counter = 0;
+                    var counter = 0;
 
-                  _this8.getAll_questions.Answer[x].SubQuestion.forEach(function (item) {
-                    Ans.push({
-                      Ans_letter: AnswersList[j].Answer[counter].Ans_letter,
-                      Ans_id: AnswersList[j].Answer[counter].Ans_id,
-                      subquestion_id: item.id,
-                      Answers: AnswersList[j].Answer[counter].Answers
+                    _this8.getAll_questions.Answer[x].SubQuestion.forEach(function (item) {
+                      Ans.push({
+                        Ans_letter: AnswersList[j].Answer[counter].Ans_letter,
+                        Ans_id: AnswersList[j].Answer[counter].Ans_id,
+                        subquestion_id: item.id,
+                        Answers: AnswersList[j].Answer[counter].Answers
+                      });
+                      Quest_Pattern.SubQuestion.push({
+                        id: item.id
+                      });
+                      counter++;
                     });
-                    Quest_Pattern.SubQuestion.push({
-                      id: item.id
-                    });
-                    counter++;
-                  });
 
-                  _this8.FinalAnswers.push({
-                    Answer: Ans,
-                    Choices_id: Choices_id,
-                    question_pattern: Quest_Pattern,
-                    Question_id: AnswersList[j].Question_id,
-                    type: AnswersList[j].type,
-                    timeConsume: AnswersList[j].timeConsume
-                  });
+                    _this8.FinalAnswers.push({
+                      Answer: Ans,
+                      Choices_id: Choices_id,
+                      question_pattern: Quest_Pattern,
+                      Question_id: AnswersList[j].Question_id,
+                      type: AnswersList[j].type,
+                      timeConsume: AnswersList[j].timeConsume
+                    });
+                  })();
                 }
               }
-            };
-
-            for (var j = 0; j < AnswersList.length; j++) {
-              _loop(j);
             }
+          };
+
+          for (var j = 0; j < AnswersList.length; j++) {
+            _loop(j);
           }
+
+          _this8.Question_List = details;
         }
         /* this.isLoading = false; */
 
@@ -1478,10 +1556,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                       _this10.Submitted_Answers = res.data.Submitted_Answers;
                       _this10.CurrentTime = res.data.currentTime;
                       _this10.StartTime = res.data.startTime;
+                      _this10.questionIndex = res.data.current_question == null ? 0 : res.data.current_question;
                       _this10.submission_id = res.data.submission_id;
                       _this10.duration = res.data.duration;
                       _this10.classworkDetails.title = res.data.title;
                       _this10.classworkDetails.points = res.data.points;
+                      $('head > title').text(_this10.classworkDetails.title);
                       _this10.preventNav = !_this10.preventNav;
 
                       _this10.StartQuiz();
@@ -1562,17 +1642,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.isStart = true;
       var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
       this.Alphabet = alphabet;
-      /* let data = {
-          classwork_id: this.$route.query.clwk,
-          course_id: this.$route.params.id
-      }
-       this.$store.dispatch('fetchClassworkShowDetails', data)
-      .then(() => {
-          this.duration = this.get_classwork_show_details.Details.duration;
-          this.classworkDetails = this.get_classwork_show_details.Details;
-          this.fetchQuestions();
-      }) */
-
       this.fetchQuestions();
     },
     saveActivityLog: function saveActivityLog(description) {
@@ -24974,7 +25043,7 @@ var render = function() {
                                                               "v-list",
                                                               _vm._l(
                                                                 _vm
-                                                                  .getAll_questions
+                                                                  .Question_List
                                                                   .Question,
                                                                 function(
                                                                   item,
@@ -25356,7 +25425,7 @@ var render = function() {
                                             _c(
                                               "v-list",
                                               _vm._l(
-                                                _vm.getAll_questions.Question,
+                                                _vm.Question_List.Question,
                                                 function(item, index) {
                                                   return _c(
                                                     "v-list-item",
@@ -25556,7 +25625,7 @@ var render = function() {
                                           [
                                             _vm._v(
                                               _vm._s(
-                                                _vm.getAll_questions.Question[
+                                                _vm.Question_List.Question[
                                                   _vm.questionIndex
                                                 ].points
                                               ) +
@@ -25888,7 +25957,7 @@ var render = function() {
                                       }),
                                       _vm._v(" "),
                                       _vm._l(
-                                        _vm.getAll_questions.Question,
+                                        _vm.Question_List.Question,
                                         function(item, index) {
                                           return _c(
                                             "v-container",
@@ -26088,7 +26157,7 @@ var render = function() {
                                                                     },
                                                                     _vm._l(
                                                                       _vm
-                                                                        .getAll_questions
+                                                                        .Question_List
                                                                         .Answer[
                                                                         index
                                                                       ],
@@ -26825,7 +26894,7 @@ var render = function() {
                                                                                     "v-row",
                                                                                     _vm._l(
                                                                                       _vm
-                                                                                        .getAll_questions
+                                                                                        .Question_List
                                                                                         .Answer[
                                                                                         index
                                                                                       ]
@@ -26989,7 +27058,7 @@ var render = function() {
                                                                                     "v-row",
                                                                                     _vm._l(
                                                                                       _vm
-                                                                                        .getAll_questions
+                                                                                        .Question_List
                                                                                         .Answer[
                                                                                         index
                                                                                       ]
@@ -27277,7 +27346,7 @@ var render = function() {
                           _vm._v(
                             _vm._s(_vm.questionIndex + 1) +
                               " of " +
-                              _vm._s(_vm.getAll_questions.Question.length)
+                              _vm._s(_vm.Question_List.Question.length)
                           )
                         ])
                       ]),

@@ -453,7 +453,6 @@
             }
 
         },
-
         computed: {
             ...mapGetters(['get_CurrentUser', 'statusDetails']),
         },

@@ -574,7 +574,7 @@ class StudentController extends Controller
         $CheckStatus = tbl_Submission::where("tbl_submissions.user_id", $userId)
         ->where('tbl_submissions.classwork_id',$id)
         ->select('tbl_submissions.id','tbl_submissions.classwork_id','tbl_submissions.status','tbl_submissions.Submitted_Answers','tbl_submissions.created_at',
-        'tbl_submissions.allow_resubmit')
+        'tbl_submissions.allow_resubmit','tbl_submissions.current_question')
         ->first();
 
         $dateToday = date('Y-m-d H:i:s');
@@ -602,6 +602,7 @@ class StudentController extends Controller
                     'testDate' =>  Carbon::now('Asia/Manila')->toDateTimeString(),
                     'startTime' => (Carbon::parse($CheckStatus->created_at)->timestamp * 1000),
                     'Submitted_Answers'=>$tempAnswer,
+                    'current_question' =>  $CheckStatus->current_question,
                     'title'=> $checkClasswork ->title,
                     'duration'=> $checkClasswork ->duration,
                     'points'=> $checkClasswork ->points,
@@ -609,7 +610,7 @@ class StudentController extends Controller
                 ]);
         }
         else{
-            $class = tbl_userclass::where('user_id', $userId)->get();
+            /* $class = tbl_userclass::where('user_id', $userId)->get();
             $class_classwork_id;
             foreach($class as $item){
                 $check = tbl_classClassworks::where('class_id', $item->class_id)
@@ -618,11 +619,15 @@ class StudentController extends Controller
                     $class_classwork_id =  $check->id;
                     goto targetLocation;
                 }
-            }
-            targetLocation:
+            } */
+
+            
+            $check = tbl_classClassworks::where('class_id', $checkCourse->class_id)->where('classwork_id', $id)->first();
+
+            //targetLocation:
             $NewSubmission = new tbl_Submission;
             $NewSubmission->classwork_id = $id;
-            $NewSubmission->class_classwork_id = $class_classwork_id;
+            $NewSubmission->class_classwork_id = $check->id;
             $NewSubmission->user_id =  $userId;
             $NewSubmission->status = "Taking";
             $NewSubmission->save();
@@ -633,6 +638,7 @@ class StudentController extends Controller
                 'currentTime' =>  (Carbon::now('Asia/Manila')->timestamp * 1000),
                 'startTime' =>  Carbon::parse($NewSubmission->created_at)->timestamp * 1000,
                 'Submitted_Answers'=> null,
+                'current_question' =>  0,
                 'title'=> $checkClasswork ->title,
                 'duration'=> $checkClasswork ->duration,
                 'points'=> $checkClasswork ->points,

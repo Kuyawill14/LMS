@@ -76,7 +76,7 @@ class NotificationController extends Controller
                     $ClassName = Tbl_class::where('tbl_classes.id',$item['class_id'])->first();
                     $url = '/classwork'.'/'.$request->course_id.'/classwork-details?clwk='.$item['classwork_id'];
                     $CourseClassName = $ClassName->class_name.' '.$clsssworkTitle->course_name;
-                    SendNotificationMailToClass::dispatch($item['class_id'], $item['classwork_id'], $clsssworkTitle->title, $clsssworkTitle->instruction, $item['to_date'], $CourseClassName, $clsssworkTitle->lastName, $url, 'email')->delay(Carbon::now()->addSeconds($seconds));
+                    //SendNotificationMailToClass::dispatch($item['class_id'], $item['classwork_id'], $clsssworkTitle->title, $clsssworkTitle->instruction, $item['to_date'], $CourseClassName, $clsssworkTitle->lastName, $url, 'email')->delay(Carbon::now()->addSeconds($seconds));
                 }
 
                 $count++;

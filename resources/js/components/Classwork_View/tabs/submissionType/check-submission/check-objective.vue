@@ -1078,24 +1078,30 @@ import axios from 'axios';
                                        
                                     }
                                     else if(this.getAll_questions.Question[i].type == 'True or False'){
-                                       student_ans = this.getAll_questions.Question[i].sensitivity ? this
-                                        .ViewDetails.Submitted_Answers[j].Answer :
-                                        this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
-                                        .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
-                                            j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
-                                        .Answer;
-                                        let Question_answer = this.getAll_questions.Question[i].sensitivity ?
-                                            this.getAll_questions.Question[i].answer :
-                                            this.getAll_questions.Question[i].answer != null && this
-                                            .getAll_questions.Question[i].answer != '' ? this.getAll_questions
-                                            .Question[i].answer.toLowerCase() : this.getAll_questions.Question[
-                                                i].answer;
-                                        if (Question_answer == student_ans) {
-                                            this.Check[i] = true;
-                                             //this.ViewDetails.points += this.getAll_questions.Question[i].points;
-                                        } else {
-                                            this.Check[i] = false;
+                                        const hasKey = 'check' in this.ViewDetails.Submitted_Answers[j];
+                                        if(hasKey) {
+                                            this.Check[i] = this.ViewDetails.Submitted_Answers[j].check == true ? true :false;
+                                        }else{
+                                             student_ans = this.getAll_questions.Question[i].sensitivity ? this
+                                            .ViewDetails.Submitted_Answers[j].Answer :
+                                            this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
+                                            .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
+                                                j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
+                                            .Answer;
+                                            let Question_answer = this.getAll_questions.Question[i].sensitivity ?
+                                                this.getAll_questions.Question[i].answer :
+                                                this.getAll_questions.Question[i].answer != null && this
+                                                .getAll_questions.Question[i].answer != '' ? this.getAll_questions
+                                                .Question[i].answer.toLowerCase() : this.getAll_questions.Question[
+                                                    i].answer;
+                                            if (Question_answer == student_ans) {
+                                                this.Check[i] = true;
+                                                //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                            } else {
+                                                this.Check[i] = false;
+                                            }
                                         }
+                                      
                                     }
                                 } else if (this.getAll_questions.Question[i].type == 'Essay') {
                                    
@@ -1467,23 +1473,28 @@ import axios from 'axios';
                                         }
                                     }
                                     else if(this.getAll_questions.Question[i].type == 'True or False'){
-                                       student_ans = this.getAll_questions.Question[i].sensitivity ? this
-                                        .ViewDetails.Submitted_Answers[j].Answer :
-                                        this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
-                                        .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
-                                            j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
-                                        .Answer;
-                                        let Question_answer = this.getAll_questions.Question[i].sensitivity ?
-                                            this.getAll_questions.Question[i].answer :
-                                            this.getAll_questions.Question[i].answer != null && this
-                                            .getAll_questions.Question[i].answer != '' ? this.getAll_questions
-                                            .Question[i].answer.toLowerCase() : this.getAll_questions.Question[
-                                                i].answer;
-                                        if (Question_answer == student_ans) {
-                                            this.Check[i] = true;
-                                             //this.ViewDetails.points += this.getAll_questions.Question[i].points;
-                                        } else {
-                                            this.Check[i] = false;
+                                       const hasKey = 'check' in this.ViewDetails.Submitted_Answers[j];
+                                        if(hasKey) {
+                                            this.Check[i] = this.ViewDetails.Submitted_Answers[j].check == true ? true :false;
+                                        }else{
+                                             student_ans = this.getAll_questions.Question[i].sensitivity ? this
+                                            .ViewDetails.Submitted_Answers[j].Answer :
+                                            this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
+                                            .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
+                                                j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
+                                            .Answer;
+                                            let Question_answer = this.getAll_questions.Question[i].sensitivity ?
+                                                this.getAll_questions.Question[i].answer :
+                                                this.getAll_questions.Question[i].answer != null && this
+                                                .getAll_questions.Question[i].answer != '' ? this.getAll_questions
+                                                .Question[i].answer.toLowerCase() : this.getAll_questions.Question[
+                                                    i].answer;
+                                            if (Question_answer == student_ans) {
+                                                this.Check[i] = true;
+                                                //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                            } else {
+                                                this.Check[i] = false;
+                                            }
                                         }
                                     }
                                 } else if (this.getAll_questions.Question[i].type == 'Essay') {
