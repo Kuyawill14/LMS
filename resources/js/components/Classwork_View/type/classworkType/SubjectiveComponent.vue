@@ -521,7 +521,7 @@
                             <v-row >
                                 <v-col cols="12" class="pr-7">
                                     <div class="d-flex flex-row justify-space-between">
-                                    <v-btn
+                                    <v-btn  v-if="$vuetify.breakpoint.mdAndUp"
                                     class="mt-3 ml-5"
                                     fab
                                     dark
@@ -639,7 +639,7 @@
         </v-card>
       </v-dialog>
 
-    <v-bottom-navigation app grow
+    <v-bottom-navigation height="54" app grow
       v-if="!$vuetify.breakpoint.mdAndUp "
         :value="selected"
         color="primary" >

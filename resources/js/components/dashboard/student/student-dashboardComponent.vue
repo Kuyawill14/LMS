@@ -51,7 +51,7 @@
                 <v-row v-if="$vuetify.breakpoint.mdAndUp || selected == 1">
                     <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp ? 'mt-0 pt-0 ' :''">
                         <v-card outlined elevation="2">
-                            <myTask v-on:RecieveTotalClasswork="TotalClasswork"> </myTask>
+                            <myTask :mytaskData="mytaskData" v-on:RecieveTotalClasswork="TotalClasswork"> </myTask>
                          </v-card>
                     </v-col>
                 </v-row>
@@ -82,7 +82,10 @@
             </v-btn>
             <v-btn @click="selected = 1">
                 <span style="font-size:10px">My Task</span>
-                <v-icon>mdi-clipboard-edit-outline</v-icon>
+                <v-badge offset-x="8" offset-y="8" color="red" :value="unfinishCount" :content="unfinishCount">
+                     <v-icon>mdi-clipboard-edit-outline</v-icon>
+                </v-badge>
+               
             </v-btn>
             <v-btn @click="selected = 2">
                 <span style="font-size:10px">My Calendar</span>
@@ -116,7 +119,8 @@
                 class_count: 0,
                 unfinishCount: 0,
                 selected: 0,
-                calendarDialog: false
+                calendarDialog: false,
+                mytaskData: []
             };
         },
         computed: mapGetters(["allClass"]),
@@ -129,14 +133,24 @@
             },
             TotalClasswork(data) {
                 this.unfinishCount = data;
+                console.log(unfinishCount);
             },
             async fetchClasses() {
                 this.$store.dispatch('fetchClassList');
             },
+            async fetchTodayTask(){
+                await axios.get('/api/profile/taskToday')
+                    .then(res => {
+                        this.mytaskData = res.data;
+                        this.unfinishCount = this.mytaskData.length;
+                        //this.$emit('RecieveTotalClasswork',this.mytask.length)
+                    })
+            }
         },
         mounted() {
             this.classCount();
             this.fetchClasses();
+            this.fetchTodayTask();
         },
     };
 

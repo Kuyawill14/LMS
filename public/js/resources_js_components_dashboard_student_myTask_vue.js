@@ -90,6 +90,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['mytaskData'],
   data: function data() {
     return {
       fav: true,
@@ -139,13 +140,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios.get('/api/profile/taskToday').then(function (res) {
-                  _this3.mytask = res.data;
-                  _this3.isGetting = false;
-
-                  _this3.$emit('RecieveTotalClasswork', _this3.mytask.length);
-                });
+                /* await axios.get('/api/profile/taskToday')
+                    .then(res => {
+                        this.mytask = res.data;
+                        this.isGetting = false;
+                        this.$emit('RecieveTotalClasswork',this.mytask.length)
+                    }) */
+                _this3.mytask = _this3.mytaskData;
+                _this3.isGetting = false; //setTimeout(() => {this.isGetting = false}, 1000);
 
               case 2:
               case "end":

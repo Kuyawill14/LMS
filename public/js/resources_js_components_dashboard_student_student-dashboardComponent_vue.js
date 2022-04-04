@@ -116,6 +116,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 var myCalendar = function myCalendar() {
@@ -147,7 +150,8 @@ var myTask = function myTask() {
       class_count: 0,
       unfinishCount: 0,
       selected: 0,
-      calendarDialog: false
+      calendarDialog: false,
+      mytaskData: []
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["allClass"]),
@@ -161,6 +165,7 @@ var myTask = function myTask() {
     },
     TotalClasswork: function TotalClasswork(data) {
       this.unfinishCount = data;
+      console.log(unfinishCount);
     },
     fetchClasses: function fetchClasses() {
       var _this2 = this;
@@ -179,11 +184,34 @@ var myTask = function myTask() {
           }
         }, _callee);
       }))();
+    },
+    fetchTodayTask: function fetchTodayTask() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.get('/api/profile/taskToday').then(function (res) {
+                  _this3.mytaskData = res.data;
+                  _this3.unfinishCount = _this3.mytaskData.length; //this.$emit('RecieveTotalClasswork',this.mytask.length)
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   },
   mounted: function mounted() {
     this.classCount();
     this.fetchClasses();
+    this.fetchTodayTask();
   }
 });
 
@@ -514,6 +542,7 @@ var render = function() {
                             { attrs: { outlined: "", elevation: "2" } },
                             [
                               _c("myTask", {
+                                attrs: { mytaskData: _vm.mytaskData },
                                 on: {
                                   RecieveTotalClasswork: _vm.TotalClasswork
                                 }
@@ -651,7 +680,20 @@ var render = function() {
                     _vm._v("My Task")
                   ]),
                   _vm._v(" "),
-                  _c("v-icon", [_vm._v("mdi-clipboard-edit-outline")])
+                  _c(
+                    "v-badge",
+                    {
+                      attrs: {
+                        "offset-x": "8",
+                        "offset-y": "8",
+                        color: "red",
+                        value: _vm.unfinishCount,
+                        content: _vm.unfinishCount
+                      }
+                    },
+                    [_c("v-icon", [_vm._v("mdi-clipboard-edit-outline")])],
+                    1
+                  )
                 ],
                 1
               ),

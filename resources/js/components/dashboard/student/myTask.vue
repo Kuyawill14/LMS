@@ -65,13 +65,14 @@
         mapActions
     } from "vuex";
     export default {
+        props:['mytaskData'],
         data: () => ({
             fav: true,
             menu: false,
             message: false,
             hints: true,
             notificationList:[],
-            mytask:[],
+            mytask: [],
             isGetting: true
         }),
         computed: mapGetters(["get_notification", "get_notification_count"]),
@@ -105,12 +106,15 @@
                 }
             },
             async fetchTodayTask(){
-                await axios.get('/api/profile/taskToday')
+                /* await axios.get('/api/profile/taskToday')
                     .then(res => {
                         this.mytask = res.data;
                         this.isGetting = false;
                         this.$emit('RecieveTotalClasswork',this.mytask.length)
-                    })
+                    }) */
+                this.mytask = this.mytaskData
+                this.isGetting = false;
+                //setTimeout(() => {this.isGetting = false}, 1000);
             }
             
 

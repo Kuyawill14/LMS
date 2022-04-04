@@ -15,7 +15,7 @@
                    <v-col cols="12">
                        <v-row>
                            <v-col cols="6" class="text-left pl-0">
-                              <v-btn @click="$emit('closeViewing')" text rounded>
+                              <v-btn v-if="$vuetify.breakpoint.mdAndUp" @click="$emit('closeViewing')" text rounded>
                                   <v-icon left>mdi-close</v-icon> Close
                               </v-btn>
                            </v-col>
@@ -56,7 +56,7 @@
                         <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
                             <div v-if="classworkDetails.showAnswer == true && (item.type != 'Matching type' && item.type != 'Essay')">
                       <!--           <v-checkbox readonly class="mt-0 pt-0" color="success" v-model="Check[index]"></v-checkbox> -->
-                                <v-icon class="mt-1 mr-2" :color="Check[index] ? 'success' : 'red'"> {{Check[index] ? 'mdi-checkbox-marked' : 'mdi-close-box-outline'}}</v-icon>
+                                <v-icon class="mr-2" :color="Check[index] ? 'success' : 'red'"> {{Check[index] ? 'mdi-checkbox-marked' : 'mdi-close-box-outline'}}</v-icon>
                             </div>
                             <div v-if="classworkDetails.showAnswer == true && item.type == 'Essay'">
                                 <v-chip outlined color="blue" class="mr-2 mb-2 mt-0 pt-0">

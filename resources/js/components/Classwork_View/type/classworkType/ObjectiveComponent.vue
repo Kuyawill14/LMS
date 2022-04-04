@@ -22,7 +22,7 @@
 
         <v-row justify="center" align-content="center" no-gutters
             :class="$vuetify.breakpoint.mdAndUp ? 'pa-3' : 'pa-0'">
-            <v-col v-if="$vuetify.breakpoint.mdAndUp || selected == 1" cols="12" md="4" lg="4" xl="4"
+            <v-col v-if="$vuetify.breakpoint.mdAndUp || selected == 2" cols="12" md="4" lg="4" xl="4"
                 class="mb-0 pb-0 ">
                 <v-card :class="$vuetify.breakpoint.mdAndUp ? 'pa-3' : 'pa-1'"
                     :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0" :outlined="$vuetify.breakpoint.mdAndUp">
@@ -175,7 +175,7 @@
                             </v-col>
                             <v-col cols="12" class="">
                                 <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
-                                    <v-btn class="mx-2" fab dark color="primary">
+                                    <v-btn v-if="$vuetify.breakpoint.mdAndUp" class="mx-2" fab dark color="primary">
                                         <v-icon large>
                                             mdi-book-open-variant
                                         </v-icon>
@@ -255,7 +255,7 @@
                                 </v-btn>
 
                                
-                                <div v-if="classworkDetails.status == 'Submitted' && classworkDetails.reviewAnswer == 1">
+                                <div v-if="classworkDetails.status == 'Submitted' && classworkDetails.reviewAnswer == 1 && $vuetify.breakpoint.mdAndUp">
                                      <v-btn :block="!$vuetify.breakpoint.mdAndUp "
                                         v-if="classworkDetails.showAnswerType == null"
                                         @click="isViewingSubmission = !isViewingSubmission" rounded color="primary">View
@@ -333,7 +333,7 @@
 
                                     
 
-                                        <div v-if="classworkDetails.status == 'Submitted' && classworkDetails.reviewAnswer == 1">
+                                        <div v-if="classworkDetails.status == 'Submitted' && classworkDetails.reviewAnswer == 1 && $vuetify.breakpoint.mdAndUp">
                                             <v-btn :block="!$vuetify.breakpoint.mdAndUp "
                                                 v-if="classworkDetails.showAnswerType == 0"
                                                 @click="isViewingSubmission = !isViewingSubmission" rounded color="primary">View
@@ -361,21 +361,56 @@
                 <vue-element-loading :active="isLoaded" spinner="bar-fade-scale" />
                 <v-card :class="$vuetify.breakpoint.mdAndUp ? 'pa-3' : 'pa-1'"
                     :elevation="!$vuetify.breakpoint.mdAndUp ? '0' : '1'" :outlined="$vuetify.breakpoint.mdAndUp ">
-                    <viewSubmission v-on:closeViewing="isViewingSubmission = !isViewingSubmission"
+                    
+                    <viewSubmission v-if="classworkDetails.status == 'Submitted' && classworkDetails.reviewAnswer == 1" v-on:closeViewing="isViewingSubmission = !isViewingSubmission"
                         :classworkDetails="classworkDetails" :details="statusDetails"></viewSubmission>
+                    <div v-else>
+                        <v-row justify="center">
+                            <v-col v-if="$vuetify.breakpoint.mdAndUp " cols="12">
+                                <v-btn text rounded @click="isViewingSubmission = false">Close <v-icon right>mdi-close</v-icon></v-btn>
+                            </v-col>
+
+                            <v-col class="text-center" cols="12">
+                                <div>
+                                    Score:
+                                    <span class="font-weight-bold"> {{classworkDetails.score.toFixed()+' / '+classworkDetails.points}}</span><br>
+                                    Viewing submission is not enabled
+                                </div>
+                            </v-col>
+                        </v-row>
+                        
+                    </div>
                 </v-card>
             </v-col>
         </v-row>
 
 
-        <v-bottom-navigation app grow v-if="!$vuetify.breakpoint.mdAndUp " :value="selected" color="primary">
-            <v-btn class="mb-12" @click="selected = 0">
-                <span>Classwork Details</span>
+        <v-bottom-navigation height="53" flat app grow v-if="!$vuetify.breakpoint.mdAndUp " :value="selected" color="primary">
+            <v-btn class="mb-12" @click="selected = 0, isViewingSubmission = false">
+                <span>Details</span>
                 <v-icon>mdi-text-box-outline</v-icon>
             </v-btn>
-
+    
             <v-btn
-                @click="selected = 1, isViewingSubmission =  isViewingSubmission ? isViewingSubmission = false  : isViewingSubmission">
+                :disabled="classworkDetails.status != 'Submitted'"
+                v-if="classworkDetails.showAnswerType == 0"
+                @click="checkifSubmitted()">
+                <span>Submission</span>
+                <v-icon >mdi-file-check</v-icon>
+            </v-btn>
+
+                <v-btn
+                :disabled="classworkDetails.status != 'Submitted'"
+                v-if="classworkDetails.showAnswerType == 1 && (format_date1(classworkDetails.currentDate) >= format_date1(classworkDetails.showDateFrom) && 
+                format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.showDateTo) )"
+                @click="checkifSubmitted()">
+                <span>Submission</span>
+                <v-icon >mdi-file-check</v-icon>
+            </v-btn>
+           
+            
+            <v-btn
+                @click="selected = 2, isViewingSubmission = false">
                 <span>Comment</span>
                 <v-icon>mdi-comment</v-icon>
             </v-btn>
@@ -457,6 +492,12 @@
             ...mapGetters(['get_CurrentUser', 'statusDetails']),
         },
         methods: {
+            checkifSubmitted(){
+                if(this.classworkDetails.status == 'Submitted' ){
+                    this.selected = 1;
+                    this.isViewingSubmission = true;
+                }
+            },
             CheckFileIcon(ext) {
                 if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
                     return 'mdi-image';

@@ -928,13 +928,14 @@ class ObjectiveController extends Controller
                 $correct_answer_id[] = $newQuestion->answer;
             }
             
-            $totalPoints += $mainItem['points'];
+            //$totalPoints += $mainItem['points'];
+            $totalPoints = intval( $totalPoints) + intval($mainItem['points']);
             $counter++;
 
         }
 
         $NewPoints = tbl_classwork::find($id);
-        $tmp_points = ($NewPoints->points + $totalPoints);
+        $tmp_points = (intval($NewPoints->points)  + intval($totalPoints));
         $NewPoints->points = $tmp_points;
         $NewPoints->save();
 
@@ -1152,7 +1153,7 @@ class ObjectiveController extends Controller
                 }
             }
             $currentIndex++;
-            $totalPoints += $checkQuestion->points;
+            $totalPoints = intval( $totalPoints) + intval($checkQuestion->points);
             
 
 

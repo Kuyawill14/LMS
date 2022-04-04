@@ -4579,26 +4579,28 @@ var render = function() {
                                             "d-flex flex-row justify-space-between"
                                         },
                                         [
-                                          _c(
-                                            "v-btn",
-                                            {
-                                              staticClass: "mt-3 ml-5",
-                                              attrs: {
-                                                fab: "",
-                                                dark: "",
-                                                small: "",
-                                                color: "primary"
-                                              }
-                                            },
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v(
-                                                  "\r\n                                    mdi-book-open-variant\r\n                                    "
-                                                )
-                                              ])
-                                            ],
-                                            1
-                                          ),
+                                          _vm.$vuetify.breakpoint.mdAndUp
+                                            ? _c(
+                                                "v-btn",
+                                                {
+                                                  staticClass: "mt-3 ml-5",
+                                                  attrs: {
+                                                    fab: "",
+                                                    dark: "",
+                                                    small: "",
+                                                    color: "primary"
+                                                  }
+                                                },
+                                                [
+                                                  _c("v-icon", [
+                                                    _vm._v(
+                                                      "\r\n                                    mdi-book-open-variant\r\n                                    "
+                                                    )
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
                                           _vm._v(" "),
                                           _c(
                                             "div",
@@ -5090,6 +5092,7 @@ var render = function() {
             "v-bottom-navigation",
             {
               attrs: {
+                height: "54",
                 app: "",
                 grow: "",
                 value: _vm.selected,

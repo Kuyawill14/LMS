@@ -1269,13 +1269,19 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   if (res.status == 200) {
                     _this2.selectedData = [];
                     var tmp = _this2.getAll_questions.Question;
+                    var totalPoints = 0;
                     tmp.forEach(function (item) {
                       _this2.selectedData.push({
                         id: item.id,
                         selected: false,
                         isEditing: false
                       });
+
+                      totalPoints = parseInt(totalPoints) + parseInt(item.points);
                     });
+
+                    _this2.$store.dispatch('setCurrectClassworkPoints', totalPoints);
+
                     _this2.isloading = false;
                     _this2.Qlength = tmp.length;
                   }
@@ -1726,7 +1732,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   var totalPoints = 0;
 
                   _this12.getAll_questions.Question.forEach(function (item) {
-                    totalPoints += item.points;
+                    totalPoints = parseInt(totalPoints) + parseInt(item.points);
                   });
 
                   _this12.$store.dispatch('setCurrectClassworkPoints', totalPoints);

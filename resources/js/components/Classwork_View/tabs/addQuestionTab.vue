@@ -984,14 +984,16 @@ export default {
                 if(res.status == 200){
                     this.selectedData = [];
                     let tmp = this.getAll_questions.Question;
+                    let totalPoints = 0;
                     tmp.forEach(item => {
-                            this.selectedData.push({
-                                id: item.id,
-                                selected: false,
-                                isEditing: false
-                            })  
+                        this.selectedData.push({
+                            id: item.id,
+                            selected: false,
+                            isEditing: false
+                        })                
+                        totalPoints = parseInt(totalPoints) + parseInt(item.points);
                     });
-
+                    this.$store.dispatch('setCurrectClassworkPoints', totalPoints);
                     this.isloading = false;
                     this.Qlength = tmp.length;
                 }     
@@ -1005,11 +1007,11 @@ export default {
                     let tmp = this.getAll_questions.Question;
                     tmp.forEach(item => {
 
-                            this.selectedData.push({
-                                id: item.id,
-                                selected: false,
-                                isEditing: false
-                            })  
+                        this.selectedData.push({
+                            id: item.id,
+                            selected: false,
+                            isEditing: false
+                        })
                     });
                     this.isloading = false;
                     this.Qlength = tmp.length;
@@ -1302,7 +1304,7 @@ export default {
 
                 let totalPoints = 0;
                 this.getAll_questions.Question.forEach(item => {
-                    totalPoints += item.points;
+                    totalPoints = parseInt(totalPoints) + parseInt(item.points);
                 });
                 this.$store.dispatch('setCurrectClassworkPoints', totalPoints);
             })

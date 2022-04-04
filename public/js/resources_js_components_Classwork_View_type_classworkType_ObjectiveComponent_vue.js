@@ -440,6 +440,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -479,6 +514,12 @@ var viewSubmission = function viewSubmission() {
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'statusDetails'])),
   methods: {
+    checkifSubmitted: function checkifSubmitted() {
+      if (this.classworkDetails.status == 'Submitted') {
+        this.selected = 1;
+        this.isViewingSubmission = true;
+      }
+    },
     CheckFileIcon: function CheckFileIcon(ext) {
       if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
         return 'mdi-image';
@@ -1018,7 +1059,7 @@ var render = function() {
           }
         },
         [
-          _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 1
+          _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 2
             ? _c(
                 "v-col",
                 {
@@ -1722,29 +1763,31 @@ var render = function() {
                                           attrs: { "ma-0": "", "pa-0": "" }
                                         },
                                         [
-                                          _c(
-                                            "v-btn",
-                                            {
-                                              staticClass: "mx-2",
-                                              attrs: {
-                                                fab: "",
-                                                dark: "",
-                                                color: "primary"
-                                              }
-                                            },
-                                            [
-                                              _c(
-                                                "v-icon",
-                                                { attrs: { large: "" } },
+                                          _vm.$vuetify.breakpoint.mdAndUp
+                                            ? _c(
+                                                "v-btn",
+                                                {
+                                                  staticClass: "mx-2",
+                                                  attrs: {
+                                                    fab: "",
+                                                    dark: "",
+                                                    color: "primary"
+                                                  }
+                                                },
                                                 [
-                                                  _vm._v(
-                                                    "\n                                        mdi-book-open-variant\n                                    "
+                                                  _c(
+                                                    "v-icon",
+                                                    { attrs: { large: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                        mdi-book-open-variant\n                                    "
+                                                      )
+                                                    ]
                                                   )
-                                                ]
+                                                ],
+                                                1
                                               )
-                                            ],
-                                            1
-                                          ),
+                                            : _vm._e(),
                                           _vm._v(" "),
                                           _c(
                                             "div",
@@ -2187,7 +2230,9 @@ var render = function() {
                                           _vm._v(" "),
                                           _vm.classworkDetails.status ==
                                             "Submitted" &&
-                                          _vm.classworkDetails.reviewAnswer == 1
+                                          _vm.classworkDetails.reviewAnswer ==
+                                            1 &&
+                                          _vm.$vuetify.breakpoint.mdAndUp
                                             ? _c(
                                                 "div",
                                                 [
@@ -2641,7 +2686,9 @@ var render = function() {
                                                   _vm.classworkDetails.status ==
                                                     "Submitted" &&
                                                   _vm.classworkDetails
-                                                    .reviewAnswer == 1
+                                                    .reviewAnswer == 1 &&
+                                                  _vm.$vuetify.breakpoint
+                                                    .mdAndUp
                                                     ? _c(
                                                         "div",
                                                         [
@@ -2806,17 +2853,94 @@ var render = function() {
                       }
                     },
                     [
-                      _c("viewSubmission", {
-                        attrs: {
-                          classworkDetails: _vm.classworkDetails,
-                          details: _vm.statusDetails
-                        },
-                        on: {
-                          closeViewing: function($event) {
-                            _vm.isViewingSubmission = !_vm.isViewingSubmission
-                          }
-                        }
-                      })
+                      _vm.classworkDetails.status == "Submitted" &&
+                      _vm.classworkDetails.reviewAnswer == 1
+                        ? _c("viewSubmission", {
+                            attrs: {
+                              classworkDetails: _vm.classworkDetails,
+                              details: _vm.statusDetails
+                            },
+                            on: {
+                              closeViewing: function($event) {
+                                _vm.isViewingSubmission = !_vm.isViewingSubmission
+                              }
+                            }
+                          })
+                        : _c(
+                            "div",
+                            [
+                              _c(
+                                "v-row",
+                                { attrs: { justify: "center" } },
+                                [
+                                  _vm.$vuetify.breakpoint.mdAndUp
+                                    ? _c(
+                                        "v-col",
+                                        { attrs: { cols: "12" } },
+                                        [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: { text: "", rounded: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.isViewingSubmission = false
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v("Close "),
+                                              _c(
+                                                "v-icon",
+                                                { attrs: { right: "" } },
+                                                [_vm._v("mdi-close")]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "text-center",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c("div", [
+                                        _vm._v(
+                                          "\n                                Score:\n                                "
+                                        ),
+                                        _c(
+                                          "span",
+                                          { staticClass: "font-weight-bold" },
+                                          [
+                                            _vm._v(
+                                              " " +
+                                                _vm._s(
+                                                  _vm.classworkDetails.score.toFixed() +
+                                                    " / " +
+                                                    _vm.classworkDetails.points
+                                                )
+                                            )
+                                          ]
+                                        ),
+                                        _c("br"),
+                                        _vm._v(
+                                          "\n                                Viewing submission is not enabled\n                            "
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
                     ],
                     1
                   )
@@ -2832,6 +2956,8 @@ var render = function() {
             "v-bottom-navigation",
             {
               attrs: {
+                height: "53",
+                flat: "",
                 app: "",
                 grow: "",
                 value: _vm.selected,
@@ -2845,27 +2971,72 @@ var render = function() {
                   staticClass: "mb-12",
                   on: {
                     click: function($event) {
-                      _vm.selected = 0
+                      ;(_vm.selected = 0), (_vm.isViewingSubmission = false)
                     }
                   }
                 },
                 [
-                  _c("span", [_vm._v("Classwork Details")]),
+                  _c("span", [_vm._v("Details")]),
                   _vm._v(" "),
                   _c("v-icon", [_vm._v("mdi-text-box-outline")])
                 ],
                 1
               ),
               _vm._v(" "),
+              _vm.classworkDetails.showAnswerType == 0
+                ? _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        disabled: _vm.classworkDetails.status != "Submitted"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.checkifSubmitted()
+                        }
+                      }
+                    },
+                    [
+                      _c("span", [_vm._v("Submission")]),
+                      _vm._v(" "),
+                      _c("v-icon", [_vm._v("mdi-file-check")])
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.classworkDetails.showAnswerType == 1 &&
+              _vm.format_date1(_vm.classworkDetails.currentDate) >=
+                _vm.format_date1(_vm.classworkDetails.showDateFrom) &&
+                _vm.format_date1(_vm.classworkDetails.currentDate) <=
+                  _vm.format_date1(_vm.classworkDetails.showDateTo)
+                ? _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        disabled: _vm.classworkDetails.status != "Submitted"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.checkifSubmitted()
+                        }
+                      }
+                    },
+                    [
+                      _c("span", [_vm._v("Submission")]),
+                      _vm._v(" "),
+                      _c("v-icon", [_vm._v("mdi-file-check")])
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _c(
                 "v-btn",
                 {
                   on: {
                     click: function($event) {
-                      ;(_vm.selected = 1),
-                        (_vm.isViewingSubmission = _vm.isViewingSubmission
-                          ? (_vm.isViewingSubmission = false)
-                          : _vm.isViewingSubmission)
+                      ;(_vm.selected = 2), (_vm.isViewingSubmission = false)
                     }
                   }
                 },

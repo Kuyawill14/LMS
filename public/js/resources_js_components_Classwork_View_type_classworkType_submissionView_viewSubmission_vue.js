@@ -786,24 +786,28 @@ var render = function() {
                               attrs: { cols: "6" }
                             },
                             [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { text: "", rounded: "" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.$emit("closeViewing")
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { left: "" } }, [
-                                    _vm._v("mdi-close")
-                                  ]),
-                                  _vm._v(" Close\n                          ")
-                                ],
-                                1
-                              )
+                              _vm.$vuetify.breakpoint.mdAndUp
+                                ? _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { text: "", rounded: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.$emit("closeViewing")
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("mdi-close")
+                                      ]),
+                                      _vm._v(
+                                        " Close\n                          "
+                                      )
+                                    ],
+                                    1
+                                  )
+                                : _vm._e()
                             ],
                             1
                           ),
@@ -938,7 +942,7 @@ var render = function() {
                                             _c(
                                               "v-icon",
                                               {
-                                                staticClass: "mt-1 mr-2",
+                                                staticClass: "mr-2",
                                                 attrs: {
                                                   color: _vm.Check[index]
                                                     ? "success"

@@ -940,6 +940,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -1008,7 +1013,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       saveIndex: 2,
       leaveTimer: null,
       leaveTimerCount: 5,
-      Question_List: []
+      Question_List: [],
+      TotalQuestion: 0,
+      isNewChanges: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions", "get_classwork_show_details"]),
@@ -1045,6 +1052,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     SelectAnswer: function SelectAnswer() {
+      this.isNewChanges = true;
+
       if (this.FinalAnswers[this.questionIndex].timeConsume != null || '') {
         this.FinalAnswers[this.questionIndex].timeConsume += this.tempCounter;
       } else {
@@ -1063,8 +1072,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.isExamStart = true;
       this.isSavingAnswer = true;
 
-      if (this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null) {
+      if (this.isNewChanges == true) {
         this.updateAnswer();
+        this.isNewChanges = false;
       }
 
       this.Questype = "";
@@ -1298,141 +1308,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
           }
 
+          _this8.TotalQuestion = 0;
+          _this8.TotalQuestion = _this8.getAll_questions.Question.length;
+          _this8.questionIndex = _this8.questionIndex > _this8.TotalQuestion - 1 ? 0 : _this8.questionIndex;
           axios.put('/api/question/store-answer/' + _this8.submission_id, {
             type: "multiple",
             current_question: _this8.questionIndex,
             data: _this8.FinalAnswers
           });
-        } else if (_this8.Qlength != AnswersList.length) {
-          _this8.Question_List = _this8.getAll_questions;
-
-          for (var _index = 0; _index < _this8.getAll_questions.Question.length; _index++) {
-            if (_this8.getAll_questions.Question[_index].type == 'Identification' || _this8.getAll_questions.Question[_index].type == 'Multiple Choice' || _this8.getAll_questions.Question[_index].type == 'True or False') {
-              _this8.FinalAnswers.push({
-                Answer: '',
-                Question_id: _this8.getAll_questions.Question[_index].id,
-                answer_id: null,
-                type: _this8.getAll_questions.Question[_index].type,
-                timeConsume: null
-              });
-            } else if (_this8.getAll_questions.Question[_index].type == 'Essay') {
-              _this8.FinalAnswers.push({
-                Answer: '',
-                Question_id: _this8.getAll_questions.Question[_index].id,
-                answer_id: null,
-                type: _this8.getAll_questions.Question[_index].type,
-                check: false,
-                score: 0,
-                timeConsume: null
-              });
-            } else if (_this8.getAll_questions.Question[_index].type == 'Matching type') {
-              (function () {
-                var Ans = new Array();
-                var Choices_id = new Array();
-                var Quest_Pattern = {};
-                Quest_Pattern.SubQuestion = [];
-                Quest_Pattern.SubAnswer = [];
-
-                _this8.getAll_questions.Answer[_index].SubAnswer.forEach(function (item) {
-                  Choices_id.push({
-                    choice_id: item.id
-                  });
-                  Quest_Pattern.SubAnswer.push({
-                    id: item.id
-                  });
-                });
-
-                _this8.getAll_questions.Answer[_index].SubQuestion.forEach(function (item) {
-                  Ans.push({
-                    Ans_letter: '',
-                    Ans_id: null,
-                    subquestion_id: item.id,
-                    Answers: ''
-                  });
-                  Quest_Pattern.SubQuestion.push({
-                    id: item.id
-                  });
-                });
-
-                _this8.FinalAnswers.push({
-                  Answer: Ans,
-                  Choices_id: Choices_id,
-                  question_pattern: Quest_Pattern,
-                  Question_id: _this8.getAll_questions.Question[_index].id,
-                  type: _this8.getAll_questions.Question[_index].type,
-                  timeConsume: null
-                });
-              })();
-            }
-          }
-
-          axios.put('/api/question/store-answer/' + _this8.submission_id, {
-            type: "multiple",
-            current_question: _this8.questionIndex,
-            data: _this8.FinalAnswers
-          });
-        } else if (_this8.Qlength == AnswersList.length) {
-          /* for (let x = 0; x < this.getAll_questions.Question.length; x++) {
-              for (let j = 0; j < AnswersList.length; j++) {
-                  if (this.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
-                      if (this.getAll_questions.Question[x].type == 'Identification' || this
-                          .getAll_questions.Question[x].type == 'Multiple Choice' || this
-                          .getAll_questions.Question[x].type == 'True or False' || this
-                          .getAll_questions.Question[x].type == 'Essay') {
-                          this.FinalAnswers.push({
-                              Answer: AnswersList[j].Answer,
-                              Question_id: AnswersList[j].Question_id,
-                              answer_id: null,
-                              type: AnswersList[j].type,
-                              timeConsume: AnswersList[j].timeConsume,
-                          });
-                      } else if (this.getAll_questions.Question[x].type == 'Matching type') {
-                          let Ans = new Array();
-                          let Choices_id = new Array();
-                          let Quest_Pattern = {};
-                          Quest_Pattern.SubQuestion = [];
-                          Quest_Pattern.SubAnswer = [];
-                            this.getAll_questions.Answer[x].SubAnswer.forEach(item => {
-                              Choices_id.push({
-                                  choice_id: item.id
-                              })
-                              Quest_Pattern.SubAnswer.push({
-                                  id: item.id
-                              })
-                          });
-                           let counter = 0;
-                          this.getAll_questions.Answer[x].SubQuestion.forEach(item => {
-                              Ans.push({
-                                  Ans_letter: AnswersList[j].Answer[counter]
-                                      .Ans_letter,
-                                  Ans_id: AnswersList[j].Answer[counter].Ans_id,
-                                  subquestion_id: item.id,
-                                  Answers: AnswersList[j].Answer[counter].Answers,
-                              })
-                               Quest_Pattern.SubQuestion.push({
-                                  id: item.id
-                              })
-                              counter++;
-                            });
-                          this.FinalAnswers.push({
-                              Answer: Ans,
-                              Choices_id: Choices_id,
-                              question_pattern: Quest_Pattern,
-                              Question_id: AnswersList[j].Question_id,
-                              type: AnswersList[j].type,
-                              timeConsume: AnswersList[j].timeConsume
-                          });
-                      }
-                  }
-              }
-          } */
+        } else {
           var details = {};
           details.Question = [];
           details.Answer = [];
+          _this8.TotalQuestion = 0;
 
           var _loop = function _loop(j) {
             for (var x = 0; x < _this8.getAll_questions.Question.length; x++) {
               if (AnswersList[j].Question_id == _this8.getAll_questions.Question[x].id) {
+                //this.getAll_questions.Question[x].isdisabled = AnswersList[j].Answer == null ? false : true;
                 details.Question.push(_this8.getAll_questions.Question[x]);
                 details.Answer.push(_this8.getAll_questions.Answer[x]);
 
@@ -1488,13 +1381,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 }
               }
             }
+
+            _this8.TotalQuestion++;
           };
 
           for (var j = 0; j < AnswersList.length; j++) {
             _loop(j);
           }
 
+          _this8.questionIndex = _this8.questionIndex > _this8.TotalQuestion - 1 ? 0 : _this8.questionIndex;
           _this8.Question_List = details;
+          console.log(_this8.Question_List);
         }
         /* this.isLoading = false; */
 
@@ -1624,6 +1521,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     SelectMatch: function SelectMatch(id, main_index, second_index) {
+      this.isNewChanges = true;
       var stringAns = this.FinalAnswers[main_index].Answer[second_index].Ans_letter != null ? this.FinalAnswers[main_index].Answer[second_index].Ans_letter.replace(/\./g, '') : this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
       var letter = stringAns != null ? stringAns.trim() : stringAns;
       var Answer = letter;
@@ -2116,7 +2014,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input>>>input {\n    text-align: center\n}\n.post-content img {\n    max-width: 100%;\n    max-height: 23rem !important;\n}\n.ql-editor img {\n    max-height: 20rem !important;\n    max-width: 80%;\n}\n.centered-input input {\n    text-align: center\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input>>>input {\n    text-align: center\n}\n.post-content img {\n    max-width: 100%;\n    max-height: 23rem !important;\n}\n.ql-editor img {\n    max-height: 20rem !important;\n    max-width: 80%;\n}\n.centered-input input {\n    text-align: center\n}\n.Essayeditor .ql-editor{\n    min-height: 250px !important;\n    max-height: 35rem !important;\n}\n.Identificationeditor .ql-editor{\n    min-height: 80px !important;\n    max-height: 25rem !important;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -25623,15 +25521,25 @@ var render = function() {
                                             staticClass: "pl-2 mt-1 white--text"
                                           },
                                           [
+                                            _vm._l(
+                                              _vm.Question_List.Question,
+                                              function(ques, i) {
+                                                return _c("span", { key: i }, [
+                                                  i == _vm.questionIndex
+                                                    ? _c("span", [
+                                                        _vm._v(
+                                                          _vm._s(ques.points)
+                                                        )
+                                                      ])
+                                                    : _vm._e()
+                                                ])
+                                              }
+                                            ),
                                             _vm._v(
-                                              _vm._s(
-                                                _vm.Question_List.Question[
-                                                  _vm.questionIndex
-                                                ].points
-                                              ) +
-                                                "\n                                points"
+                                              " \n                                points"
                                             )
-                                          ]
+                                          ],
+                                          2
                                         ),
                                         _vm._v(" "),
                                         _c("v-spacer"),
@@ -26193,6 +26101,13 @@ var render = function() {
                                                                                             "option" +
                                                                                             index
                                                                                         },
+                                                                                        on: {
+                                                                                          change: function(
+                                                                                            $event
+                                                                                          ) {
+                                                                                            _vm.isNewChanges = true
+                                                                                          }
+                                                                                        },
                                                                                         model: {
                                                                                           value:
                                                                                             _vm
@@ -26259,6 +26174,13 @@ var render = function() {
                                                                                           name:
                                                                                             "option" +
                                                                                             index
+                                                                                        },
+                                                                                        on: {
+                                                                                          change: function(
+                                                                                            $event
+                                                                                          ) {
+                                                                                            _vm.isNewChanges = true
+                                                                                          }
                                                                                         },
                                                                                         model: {
                                                                                           value:
@@ -26366,44 +26288,46 @@ var render = function() {
                                                                 1
                                                               ),
                                                               _vm._v(" "),
-                                                              _c(
-                                                                "div",
-                                                                {
-                                                                  staticClass:
-                                                                    "ma-0 pa-0 text-right"
-                                                                },
-                                                                [
-                                                                  _c(
-                                                                    "v-btn",
+                                                              !item.isdisabled
+                                                                ? _c(
+                                                                    "div",
                                                                     {
-                                                                      attrs: {
-                                                                        text:
-                                                                          "",
-                                                                        rounded:
-                                                                          "",
-                                                                        small:
-                                                                          ""
-                                                                      },
-                                                                      on: {
-                                                                        click: function(
-                                                                          $event
-                                                                        ) {
-                                                                          return _vm.reset(
-                                                                            index,
-                                                                            item.type
-                                                                          )
-                                                                        }
-                                                                      }
+                                                                      staticClass:
+                                                                        "ma-0 pa-0 text-right"
                                                                     },
                                                                     [
-                                                                      _vm._v(
-                                                                        "Reset\n                                                        selection"
+                                                                      _c(
+                                                                        "v-btn",
+                                                                        {
+                                                                          attrs: {
+                                                                            text:
+                                                                              "",
+                                                                            rounded:
+                                                                              "",
+                                                                            small:
+                                                                              ""
+                                                                          },
+                                                                          on: {
+                                                                            click: function(
+                                                                              $event
+                                                                            ) {
+                                                                              return _vm.reset(
+                                                                                index,
+                                                                                item.type
+                                                                              )
+                                                                            }
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "Reset\n                                                        selection"
+                                                                          )
+                                                                        ]
                                                                       )
-                                                                    ]
+                                                                    ],
+                                                                    1
                                                                   )
-                                                                ],
-                                                                1
-                                                              )
+                                                                : _vm._e()
                                                             ]
                                                           )
                                                         : _vm._e(),
@@ -26447,12 +26371,8 @@ var render = function() {
                                                                               _c(
                                                                                 "editor",
                                                                                 {
-                                                                                  style: _vm
-                                                                                    .$vuetify
-                                                                                    .breakpoint
-                                                                                    .mdAndUp
-                                                                                    ? "height:60px !important"
-                                                                                    : "height:80px !important",
+                                                                                  staticClass:
+                                                                                    "Identificationeditor",
                                                                                   attrs: {
                                                                                     id:
                                                                                       "editor-container",
@@ -26604,6 +26524,13 @@ var render = function() {
                                                                                       name:
                                                                                         "option" +
                                                                                         index
+                                                                                    },
+                                                                                    on: {
+                                                                                      change: function(
+                                                                                        $event
+                                                                                      ) {
+                                                                                        _vm.isNewChanges = true
+                                                                                      }
                                                                                     },
                                                                                     model: {
                                                                                       value:
@@ -27180,12 +27107,8 @@ var render = function() {
                                                                 },
                                                                 [
                                                                   _c("editor", {
-                                                                    style: _vm
-                                                                      .$vuetify
-                                                                      .breakpoint
-                                                                      .mdAndUp
-                                                                      ? "height:250px !important"
-                                                                      : "height:280px !important",
+                                                                    staticClass:
+                                                                      "Essayeditor",
                                                                     attrs: {
                                                                       id:
                                                                         "editor-container",
@@ -27225,44 +27148,50 @@ var render = function() {
                                                                     }
                                                                   }),
                                                                   _vm._v(" "),
-                                                                  _c(
-                                                                    "div",
-                                                                    {
-                                                                      staticClass:
-                                                                        "ma-0 pa-0 text-right"
-                                                                    },
-                                                                    [
-                                                                      _c(
-                                                                        "v-btn",
+                                                                  _vm
+                                                                    .FinalAnswers[
+                                                                    index
+                                                                  ].Answer !=
+                                                                  null
+                                                                    ? _c(
+                                                                        "div",
                                                                         {
-                                                                          attrs: {
-                                                                            text:
-                                                                              "",
-                                                                            rounded:
-                                                                              "",
-                                                                            small:
-                                                                              ""
-                                                                          },
-                                                                          on: {
-                                                                            click: function(
-                                                                              $event
-                                                                            ) {
-                                                                              return _vm.reset(
-                                                                                index,
-                                                                                item.type
-                                                                              )
-                                                                            }
-                                                                          }
+                                                                          staticClass:
+                                                                            "ma-0 pa-0 text-right"
                                                                         },
                                                                         [
-                                                                          _vm._v(
-                                                                            "\n                                                            Clear Answer"
+                                                                          _c(
+                                                                            "v-btn",
+                                                                            {
+                                                                              attrs: {
+                                                                                text:
+                                                                                  "",
+                                                                                rounded:
+                                                                                  "",
+                                                                                small:
+                                                                                  ""
+                                                                              },
+                                                                              on: {
+                                                                                click: function(
+                                                                                  $event
+                                                                                ) {
+                                                                                  return _vm.reset(
+                                                                                    index,
+                                                                                    item.type
+                                                                                  )
+                                                                                }
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "\n                                                            Clear Answer"
+                                                                              )
+                                                                            ]
                                                                           )
-                                                                        ]
+                                                                        ],
+                                                                        1
                                                                       )
-                                                                    ],
-                                                                    1
-                                                                  )
+                                                                    : _vm._e()
                                                                 ],
                                                                 1
                                                               )
@@ -27346,7 +27275,7 @@ var render = function() {
                           _vm._v(
                             _vm._s(_vm.questionIndex + 1) +
                               " of " +
-                              _vm._s(_vm.Question_List.Question.length)
+                              _vm._s(_vm.TotalQuestion)
                           )
                         ])
                       ]),
@@ -27393,10 +27322,13 @@ var render = function() {
                               on: { click: _vm.SubmitPromp }
                             },
                             [
-                              _vm._v(
-                                "\n                    Submit\n                "
-                              )
-                            ]
+                              _c("small", [_vm._v("Submit")]),
+                              _vm._v(" "),
+                              _c("v-icon", { attrs: { right: "" } }, [
+                                _vm._v("mdi-lock")
+                              ])
+                            ],
+                            1
                           )
                         : _vm._e()
                     ],

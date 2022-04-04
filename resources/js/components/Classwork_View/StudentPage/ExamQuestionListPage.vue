@@ -157,7 +157,9 @@
                                 </v-menu>
 
                                 <v-divider vertical></v-divider>
-                                <div class="pl-2 mt-1 white--text">{{Question_List.Question[questionIndex].points}}
+                                <div  class="pl-2 mt-1 white--text"> <span v-for="(ques, i) in Question_List.Question" :key="i">
+                                    <span v-if="i == questionIndex">{{ques.points}}</span>
+                                    </span> 
                                     points</div>
 
                                 <v-spacer></v-spacer>
@@ -263,7 +265,7 @@
                                                                 v-for="(Ans,i) in Question_List.Answer[index]"
                                                                 :key="i">
                                                                 <v-list-item-icon class="ma-0 pa-0">
-                                                                    <v-radio-group v-if="item.isNew" hide-details :name="'option'+index"
+                                                                    <v-radio-group  @change="isNewChanges = true" v-if="item.isNew" hide-details :name="'option'+index"
                                                                         class="ma-0 pa-0 mt-1"
                                                                         v-model="FinalAnswers[index].Answer">
                                                                         <v-radio
@@ -274,7 +276,7 @@
                                                                         </v-radio>
                                                                     </v-radio-group>
 
-                                                                     <v-radio-group v-else hide-details :name="'option'+index"
+                                                                     <v-radio-group  @change="isNewChanges = true" v-else hide-details :name="'option'+index"
                                                                         class="ma-0 pa-0 mt-1"
                                                                         v-model="FinalAnswers[index].Answer">
                                                                         <v-radio
@@ -297,7 +299,7 @@
                                                             </v-list-item>
                                                         </v-list>
                                                     </div>
-                                                    <div class="ma-0 pa-0 text-right">
+                                                    <div v-if="!item.isdisabled" class="ma-0 pa-0 text-right">
                                                         <v-btn @click="reset(index,item.type)" text rounded small>Reset
                                                             selection</v-btn>
                                                     </div>
@@ -309,7 +311,7 @@
                                                             <v-list-item class="ma-0 pa-0">
                                                                 <v-list-item-content class="ma-0 pa-0">
                                                                     <editor 
-                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'height:60px !important' : 'height:80px !important' " 
+                                                                        class="Identificationeditor"
                                                                         @change="SelectAnswer()"
                                                                         v-model="FinalAnswers[index].Answer"
                                                                         id="editor-container" placeholder="Answer"
@@ -330,7 +332,7 @@
                                                             <v-list-item class="ma-0 pa-0" v-for="(x, n) in inputCheck"
                                                                 :key="n">
                                                                 <v-list-item-icon class="ma-0 pa-0">
-                                                                    <v-radio-group hide-details class="ma-0 pa-0 mt-1"
+                                                                    <v-radio-group @change="isNewChanges = true" hide-details class="ma-0 pa-0 mt-1"
                                                                         :name="'option'+index"
                                                                         v-model="FinalAnswers[index].Answer">
                                                                         <v-radio
@@ -419,7 +421,8 @@
                                                     <v-col ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
                                                         <!--    <v-card style="width:100%;min-height:200px" class="mb-3"> -->
                                                         <editor 
-                                                        :style="$vuetify.breakpoint.mdAndUp ? 'height:250px !important' : 'height:280px !important' " 
+                                                     
+                                                            class="Essayeditor"
                                                             @change="SelectAnswer()"
                                                             v-model="FinalAnswers[index].Answer" id="editor-container"
                                                             placeholder="Essay"  :options="Essayoptions">
@@ -428,7 +431,7 @@
                                                         <!--    <v-container class="mb-0 pb-0 pl-0 ml-0 mr-0 pr-0 d-flex flex-row-reverse mt-10">
                                                         <v-btn @click="reset(index,item.type)" text rounded small>Clear Answer</v-btn>
                                                     </v-container> -->
-                                                        <div class="ma-0 pa-0 text-right">
+                                                        <div v-if="FinalAnswers[index].Answer != null" class="ma-0 pa-0 text-right">
                                                             <v-btn @click="reset(index,item.type)" text rounded small>
                                                                 Clear Answer</v-btn>
                                                         </div>
@@ -455,7 +458,7 @@
                     </v-btn>
                     <v-spacer></v-spacer>
                     <div class="d-flex justify-center">
-                        <small>{{questionIndex+1 }} of {{Question_List.Question.length}}</small>
+                        <small>{{questionIndex+1 }} of {{TotalQuestion}}</small>
                     </div>
 
                     <v-spacer></v-spacer>
@@ -466,7 +469,9 @@
                     </v-btn>
                     <v-btn text :loading="isSavingAnswer" v-if="questionIndex == Qlength-1" rounded color="success"
                         @click="SubmitPromp">
-                        Submit
+                        
+                        <small>Submit</small>
+                        <v-icon right>mdi-lock</v-icon>
                     </v-btn>
                 </v-app-bar>
             </div>
@@ -556,7 +561,8 @@
                 leaveTimer: null,
                 leaveTimerCount: 5,
                 Question_List: [],
-
+                TotalQuestion: 0,
+                isNewChanges: false,
 
             }
         },
@@ -594,6 +600,7 @@
                 }
             },
             SelectAnswer() {
+                this.isNewChanges = true;
                 if (this.FinalAnswers[this.questionIndex].timeConsume != null || '') {
                     this.FinalAnswers[this.questionIndex].timeConsume += this.tempCounter
                 } else {
@@ -610,8 +617,9 @@
             next(index) {
                 this.isExamStart = true;
                 this.isSavingAnswer = true;
-                if (this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null) {
+                if (this.isNewChanges == true) {
                     this.updateAnswer();
+                    this.isNewChanges = false
                 }
                 this.Questype = "";
                 this.PickAnswers.ans = "";
@@ -713,7 +721,9 @@
                     let AnswersList = this.Submitted_Answers;
 
                     if (AnswersList == null || AnswersList.length == 0) {
+                       
                         this.Question_List = this.getAll_questions;
+
                         for (let index = 0; index < this.getAll_questions.Question.length; index++) {
                             if (this.getAll_questions.Question[index].type == 'Identification' || this
                                 .getAll_questions.Question[index].type == 'Multiple Choice' || this
@@ -774,7 +784,9 @@
                                 });
                             }
                         }
-
+                        this.TotalQuestion = 0;
+                        this.TotalQuestion = this.getAll_questions.Question.length;
+                        this.questionIndex = this.questionIndex > (this.TotalQuestion-1) ? 0 : this.questionIndex;
                         axios.put('/api/question/store-answer/' + this.submission_id, {
                             type: "multiple",
                             current_question: this.questionIndex,
@@ -782,143 +794,19 @@
                         })
 
                         
-                    } else if (this.Qlength != AnswersList.length) {
-                        this.Question_List = this.getAll_questions;
-                        for (let index = 0; index < this.getAll_questions.Question.length; index++) {
-                            if (this.getAll_questions.Question[index].type == 'Identification' || this
-                                .getAll_questions.Question[index].type == 'Multiple Choice' || this
-                                .getAll_questions.Question[index].type == 'True or False') {
-                                this.FinalAnswers.push({
-                                    Answer: '',
-                                    Question_id: this.getAll_questions.Question[index].id,
-                                    answer_id: null,
-                                    type: this.getAll_questions.Question[index].type,
-                                    timeConsume: null
-                                });
-                            } else if (this.getAll_questions.Question[index].type == 'Essay') {
-                                this.FinalAnswers.push({
-                                    Answer: '',
-                                    Question_id: this.getAll_questions.Question[index].id,
-                                    answer_id: null,
-                                    type: this.getAll_questions.Question[index].type,
-                                    check: false,
-                                    score: 0,
-                                    timeConsume: null
-                                });
-                            } else if (this.getAll_questions.Question[index].type == 'Matching type') {
-                                let Ans = new Array();
-                                let Choices_id = new Array();
-                                let Quest_Pattern = {};
-                                Quest_Pattern.SubQuestion = [];
-                                Quest_Pattern.SubAnswer = [];
-
-                                this.getAll_questions.Answer[index].SubAnswer.forEach(item => {
-                                    Choices_id.push({
-                                        choice_id: item.id
-                                    })
-                                    Quest_Pattern.SubAnswer.push({
-                                        id: item.id
-                                    })
-                                });
-
-                                this.getAll_questions.Answer[index].SubQuestion.forEach(item => {
-                                    Ans.push({
-                                        Ans_letter: '',
-                                        Ans_id: null,
-                                        subquestion_id: item.id,
-                                        Answers: ''
-                                    })
-                                    Quest_Pattern.SubQuestion.push({
-                                        id: item.id
-                                    })
-                                });
-
-                                this.FinalAnswers.push({
-                                    Answer: Ans,
-                                    Choices_id: Choices_id,
-                                    question_pattern: Quest_Pattern,
-                                    Question_id: this.getAll_questions.Question[index].id,
-                                    type: this.getAll_questions.Question[index].type,
-                                    timeConsume: null
-                                });
-                            }
-                        }
-                        axios.put('/api/question/store-answer/' + this.submission_id, {
-                            type: "multiple",
-                            current_question: this.questionIndex,
-                            data: this.FinalAnswers
-                        })
-                    } else if (this.Qlength == AnswersList.length) {
-
-                        /* for (let x = 0; x < this.getAll_questions.Question.length; x++) {
-                            for (let j = 0; j < AnswersList.length; j++) {
-                                if (this.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
-                                    if (this.getAll_questions.Question[x].type == 'Identification' || this
-                                        .getAll_questions.Question[x].type == 'Multiple Choice' || this
-                                        .getAll_questions.Question[x].type == 'True or False' || this
-                                        .getAll_questions.Question[x].type == 'Essay') {
-                                        this.FinalAnswers.push({
-                                            Answer: AnswersList[j].Answer,
-                                            Question_id: AnswersList[j].Question_id,
-                                            answer_id: null,
-                                            type: AnswersList[j].type,
-                                            timeConsume: AnswersList[j].timeConsume,
-                                        });
-                                    } else if (this.getAll_questions.Question[x].type == 'Matching type') {
-                                        let Ans = new Array();
-                                        let Choices_id = new Array();
-                                        let Quest_Pattern = {};
-                                        Quest_Pattern.SubQuestion = [];
-                                        Quest_Pattern.SubAnswer = [];
-
-
-                                        this.getAll_questions.Answer[x].SubAnswer.forEach(item => {
-                                            Choices_id.push({
-                                                choice_id: item.id
-                                            })
-                                            Quest_Pattern.SubAnswer.push({
-                                                id: item.id
-                                            })
-                                        });
-
-                                        let counter = 0;
-                                        this.getAll_questions.Answer[x].SubQuestion.forEach(item => {
-                                            Ans.push({
-                                                Ans_letter: AnswersList[j].Answer[counter]
-                                                    .Ans_letter,
-                                                Ans_id: AnswersList[j].Answer[counter].Ans_id,
-                                                subquestion_id: item.id,
-                                                Answers: AnswersList[j].Answer[counter].Answers,
-                                            })
-
-                                            Quest_Pattern.SubQuestion.push({
-                                                id: item.id
-                                            })
-                                            counter++;
-
-
-                                        });
-                                        this.FinalAnswers.push({
-                                            Answer: Ans,
-                                            Choices_id: Choices_id,
-                                            question_pattern: Quest_Pattern,
-                                            Question_id: AnswersList[j].Question_id,
-                                            type: AnswersList[j].type,
-                                            timeConsume: AnswersList[j].timeConsume
-                                        });
-                                    }
-                                }
-                            }
-                        } */
-
+                    } else {
                         let details = {};
                         details.Question = [];
                         details.Answer = [];
+                        this.TotalQuestion = 0;
+                       
                         for (let j = 0; j < AnswersList.length; j++) {
                             
                             for (let x = 0; x < this.getAll_questions.Question.length; x++) {
                                 if(AnswersList[j].Question_id == this.getAll_questions.Question[x].id){
-                                   
+                                    
+
+                                    //this.getAll_questions.Question[x].isdisabled = AnswersList[j].Answer == null ? false : true;
                                     details.Question.push(this.getAll_questions.Question[x]);
                                     details.Answer.push(this.getAll_questions.Answer[x]);
                                     
@@ -981,10 +869,12 @@
 
                                 }
                             }
+                            this.TotalQuestion++;
 
                         }
-
+                        this.questionIndex = this.questionIndex > (this.TotalQuestion-1) ? 0 : this.questionIndex;
                         this.Question_List = details;
+                        console.log(this.Question_List);
                     }
                     /* this.isLoading = false; */
                     setTimeout(() => {this.isLoading = false}, 100);
@@ -1077,7 +967,7 @@
                     })
             },
             SelectMatch(id, main_index, second_index) {
-
+                this.isNewChanges = true;
                 let stringAns = this.FinalAnswers[main_index].Answer[second_index].Ans_letter != null ? 
                 this.FinalAnswers[main_index].Answer[second_index].Ans_letter.replace(/\./g,'') : this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
                 let letter = stringAns != null ? stringAns.trim() : stringAns;
@@ -1281,6 +1171,16 @@
 
     .centered-input input {
         text-align: center
+    }
+
+    .Essayeditor .ql-editor{
+        min-height: 250px !important;
+        max-height: 35rem !important;
+    }
+
+    .Identificationeditor .ql-editor{
+        min-height: 80px !important;
+        max-height: 25rem !important;
     }
 
 </style>
