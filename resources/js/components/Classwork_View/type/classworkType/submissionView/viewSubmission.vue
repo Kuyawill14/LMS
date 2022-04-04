@@ -511,10 +511,21 @@ import moment from 'moment/src/moment';
                                         });
                                     });
 
+                                    Ans_list.SubQuestion.forEach(sub_ques => {
+                                        let c_count = 0;
+                                        Ans_list.SubAnswer.forEach(sub_ans => {
+                                            if(sub_ques.Correct_Answer == sub_ans.SubChoice_id){
+                                                sub_ques.correct_ans_letter = this.Alphabet[c_count];
+                                            }
+                                            c_count++;
+                                        });
+                                    });
+
                                     Ans_list.SubQuestion.forEach(sub => {
                                         if(sub.isCheck == null){
                                             let string = sub.Ans_Letter != null ? sub.Ans_Letter.replace(/\./g,'') : sub.Ans_Letter;
                                             let letter = string != null ? string.trim() : null;
+
                                             if(letter != null ? letter.toUpperCase() == sub.correct_ans_letter.toUpperCase() : false){
                                                 match_check[counter] = true;
                                                 this.classworkDetails.Submitted_Answers.forEach(submi_ans => {
