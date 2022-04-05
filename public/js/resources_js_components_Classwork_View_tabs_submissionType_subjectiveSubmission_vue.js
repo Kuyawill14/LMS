@@ -303,6 +303,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var checksubjective = function checksubjective() {
@@ -619,6 +635,11 @@ var multipleAlertStudent = function multipleAlertStudent() {
       if (value) {
         //return moment(String(value)).format('MM/d/YYYY, hh:mm A')
         return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('MM/d/YYYY, hh:mm A');
+      }
+    },
+    checkDate: function checkDate(value) {
+      if (value) {
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
       }
     },
     validate: function validate(id, points) {
@@ -1701,159 +1722,277 @@ var render = function() {
                                                 ),
                                                 _vm._v(" "),
                                                 _c(
-                                                  "v-list-item-content",
+                                                  "v-tooltip",
                                                   {
-                                                    on: {
-                                                      click: function($event) {
-                                                        return _vm.ViewSubmission(
-                                                          item,
-                                                          i
-                                                        )
-                                                      }
-                                                    }
+                                                    attrs: {
+                                                      color:
+                                                        item.status ==
+                                                        "Submitted"
+                                                          ? "green"
+                                                          : "",
+                                                      top: ""
+                                                    },
+                                                    scopedSlots: _vm._u(
+                                                      [
+                                                        {
+                                                          key: "activator",
+                                                          fn: function(ref) {
+                                                            var on = ref.on
+                                                            var attrs =
+                                                              ref.attrs
+                                                            return [
+                                                              _c(
+                                                                "v-list-item-content",
+                                                                _vm._g(
+                                                                  _vm._b(
+                                                                    {
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.ViewSubmission(
+                                                                            item,
+                                                                            i
+                                                                          )
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    "v-list-item-content",
+                                                                    attrs,
+                                                                    false
+                                                                  ),
+                                                                  on
+                                                                ),
+                                                                [
+                                                                  _c(
+                                                                    "v-list-item-title",
+                                                                    [
+                                                                      _vm._v(
+                                                                        "\r\n                                                    " +
+                                                                          _vm._s(
+                                                                            item.firstName +
+                                                                              " " +
+                                                                              item.lastName
+                                                                          ) +
+                                                                          "\r\n                                                "
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "v-list-item-subtitle",
+                                                                    {
+                                                                      staticClass:
+                                                                        "success--text"
+                                                                    },
+                                                                    [
+                                                                      item.graded ==
+                                                                      1
+                                                                        ? _c(
+                                                                            "v-icon",
+                                                                            {
+                                                                              attrs: {
+                                                                                small:
+                                                                                  "",
+                                                                                color:
+                                                                                  "success"
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "mdi-check"
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        : _vm._e(),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      item.availability ==
+                                                                        1 &&
+                                                                      item.status ==
+                                                                        "Submitted" &&
+                                                                      item.graded ==
+                                                                        0 &&
+                                                                      (item.submitted_at !=
+                                                                      null
+                                                                        ? _vm.checkDate(
+                                                                            item.submitted_at
+                                                                          ) <=
+                                                                          _vm.checkDate(
+                                                                            item.to_date
+                                                                          )
+                                                                        : false)
+                                                                        ? _c(
+                                                                            "span",
+                                                                            {
+                                                                              staticClass:
+                                                                                "success--text"
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "Submitted: " +
+                                                                                  _vm._s(
+                                                                                    _vm.format_date(
+                                                                                      item.submitted_at
+                                                                                    )
+                                                                                  )
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        : item.availability ==
+                                                                            1 &&
+                                                                          item.status ==
+                                                                            "Submitted" &&
+                                                                          item.graded ==
+                                                                            0 &&
+                                                                          (item.submitted_at !=
+                                                                          null
+                                                                            ? _vm.checkDate(
+                                                                                item.submitted_at
+                                                                              ) >
+                                                                              _vm.checkDate(
+                                                                                item.to_date
+                                                                              )
+                                                                            : false)
+                                                                        ? _c(
+                                                                            "span",
+                                                                            {
+                                                                              staticClass:
+                                                                                "red--text"
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "Submitted Late: " +
+                                                                                  _vm._s(
+                                                                                    _vm.format_date(
+                                                                                      item.submitted_at
+                                                                                    )
+                                                                                  )
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        : item.availability ==
+                                                                            0 &&
+                                                                          item.status ==
+                                                                            "Submitted" &&
+                                                                          item.graded ==
+                                                                            0
+                                                                        ? _c(
+                                                                            "span",
+                                                                            {
+                                                                              staticClass:
+                                                                                "success--text"
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "Submitted"
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        : item.graded
+                                                                        ? _c(
+                                                                            "span",
+                                                                            {
+                                                                              staticClass:
+                                                                                "success--text"
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "Graded"
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        : item.status ==
+                                                                          "Submitting"
+                                                                        ? _c(
+                                                                            "span",
+                                                                            {
+                                                                              staticClass:
+                                                                                "blue--text"
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "Submitting..."
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        : item.status ==
+                                                                            "" ||
+                                                                          item.status ==
+                                                                            null
+                                                                        ? _c(
+                                                                            "span",
+                                                                            {
+                                                                              staticClass:
+                                                                                "red--text"
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "No Submission"
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        : _vm._e()
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ]
+                                                          }
+                                                        }
+                                                      ],
+                                                      null,
+                                                      true
+                                                    )
                                                   },
                                                   [
-                                                    _c("v-list-item-title", [
-                                                      _vm._v(
-                                                        "\r\n                                             " +
-                                                          _vm._s(
-                                                            item.firstName +
-                                                              " " +
-                                                              item.lastName
-                                                          ) +
-                                                          "\r\n                                        "
-                                                      )
-                                                    ]),
                                                     _vm._v(" "),
-                                                    _c(
-                                                      "v-list-item-subtitle",
-                                                      {
-                                                        staticClass:
-                                                          "success--text"
-                                                      },
-                                                      [
-                                                        item.graded == 1
-                                                          ? _c(
-                                                              "v-icon",
-                                                              {
-                                                                attrs: {
-                                                                  small: "",
-                                                                  color:
-                                                                    "success"
-                                                                }
-                                                              },
-                                                              [
-                                                                _vm._v(
-                                                                  "mdi-check"
+                                                    _c("span", [
+                                                      item.status == "Submitted"
+                                                        ? _c("span", [
+                                                            _c("span", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  item.firstName +
+                                                                    " " +
+                                                                    item.lastName
                                                                 )
-                                                              ]
+                                                              )
+                                                            ]),
+                                                            _c("br"),
+                                                            _vm._v(
+                                                              "\r\n                                                 Submitted: " +
+                                                                _vm._s(
+                                                                  _vm.format_date(
+                                                                    item.updated_at
+                                                                  )
+                                                                ) +
+                                                                "\r\n                                            "
                                                             )
-                                                          : _vm._e(),
-                                                        _vm._v(" "),
-                                                        item.availability ==
-                                                          1 &&
-                                                        item.status ==
-                                                          "Submitted" &&
-                                                        item.graded == 0 &&
-                                                        (item.submitted_at !=
-                                                        null
-                                                          ? item.submitted_at <=
-                                                            item.to_date
-                                                          : false)
-                                                          ? _c(
-                                                              "span",
-                                                              {
-                                                                staticClass:
-                                                                  "success--text"
-                                                              },
-                                                              [
-                                                                _vm._v(
-                                                                  "Submitted"
+                                                          ])
+                                                        : item.status == "" ||
+                                                          item.status == null
+                                                        ? _c("span", [
+                                                            _c("span", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  item.firstName +
+                                                                    " " +
+                                                                    item.lastName
                                                                 )
-                                                              ]
+                                                              )
+                                                            ]),
+                                                            _c("br"),
+                                                            _vm._v(
+                                                              "\r\n                                                 No Submission\r\n                                            "
                                                             )
-                                                          : item.availability ==
-                                                              1 &&
-                                                            item.status ==
-                                                              "Submitted" &&
-                                                            item.graded == 0 &&
-                                                            (item.submitted_at !=
-                                                            null
-                                                              ? item.submitted_at >
-                                                                item.to_date
-                                                              : false)
-                                                          ? _c(
-                                                              "span",
-                                                              {
-                                                                staticClass:
-                                                                  "red--text"
-                                                              },
-                                                              [
-                                                                _vm._v(
-                                                                  "Submitted Late"
-                                                                )
-                                                              ]
-                                                            )
-                                                          : item.availability ==
-                                                              0 &&
-                                                            item.status ==
-                                                              "Submitted" &&
-                                                            item.graded == 0
-                                                          ? _c(
-                                                              "span",
-                                                              {
-                                                                staticClass:
-                                                                  "success--text"
-                                                              },
-                                                              [
-                                                                _vm._v(
-                                                                  "Submitted"
-                                                                )
-                                                              ]
-                                                            )
-                                                          : item.graded
-                                                          ? _c(
-                                                              "span",
-                                                              {
-                                                                staticClass:
-                                                                  "success--text"
-                                                              },
-                                                              [_vm._v("Graded")]
-                                                            )
-                                                          : item.status ==
-                                                            "Submitting"
-                                                          ? _c(
-                                                              "span",
-                                                              {
-                                                                staticClass:
-                                                                  "blue--text"
-                                                              },
-                                                              [
-                                                                _vm._v(
-                                                                  "Submitting..."
-                                                                )
-                                                              ]
-                                                            )
-                                                          : item.status == "" ||
-                                                            item.status == null
-                                                          ? _c(
-                                                              "span",
-                                                              {
-                                                                staticClass:
-                                                                  "red--text"
-                                                              },
-                                                              [
-                                                                _vm._v(
-                                                                  "No Submission"
-                                                                )
-                                                              ]
-                                                            )
-                                                          : _vm._e()
-                                                      ],
-                                                      1
-                                                    )
-                                                  ],
-                                                  1
+                                                          ])
+                                                        : _vm._e()
+                                                    ])
+                                                  ]
                                                 ),
                                                 _vm._v(" "),
                                                 item.status != null &&

@@ -135,10 +135,10 @@
                                         <v-list-item-content>
                                             <v-list-item-title class="font-weight-medium">
                                                 {{ViewDetails.firstName +' '+ViewDetails.lastName }}</v-list-item-title>
-                                                <v-tooltip top>
+                                                <v-tooltip color="green" top>
                                                     <template v-slot:activator="{ on, attrs }">
                                                         <v-list-item-subtitle v-bind="attrs" v-on="on"
-                                                            v-if="ViewDetails.status != null && ViewDetails.status != ''&&  ViewDetails.status != 'Taking'">
+                                                            v-if="ViewDetails.status != null && ViewDetails.status != '' &&  ViewDetails.status != 'Taking'">
                                                             Submitted: {{format_date(ViewDetails.updated_at)}}
                                                         </v-list-item-subtitle>
                                                     </template>

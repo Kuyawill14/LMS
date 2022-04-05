@@ -137,9 +137,22 @@
                                                         </v-list-item-avatar>
                                                     
                                                         <v-list-item-content>
+                                                            
                                                             <v-list-item-title class="font-weight-medium">{{CheckData.firstName +' '+CheckData.lastName}}</v-list-item-title>
-                                                            <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 0" :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.submitted_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
-                                                             <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 1" class="success--text" ><v-icon  small color="success">mdi-check</v-icon> Graded </v-list-item-subtitle>
+                                                            <v-tooltip color="green" top>
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                     <v-list-item-subtitle v-bind="attrs" v-on="on" v-if="CheckData.status != null && CheckData.status != '' &&  CheckData.status != 'Taking' && CheckData.graded == 0" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.submitted_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
+                                                                </template>
+                                                                <span>Submitted: {{format_date(CheckData.updated_at)}}</span>
+                                                            </v-tooltip>
+                                                            <v-tooltip top>
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                    <v-list-item-subtitle v-bind="attrs" v-on="on" v-if="CheckData.Submitted_Answers != null && CheckData.graded == 1" class="success--text" ><v-icon  small color="success">mdi-check</v-icon> Graded </v-list-item-subtitle>
+                                                                </template>
+                                                                <span>Submitted: {{format_date(CheckData.updated_at)}}</span>
+                                                            </v-tooltip>
+                                                           
+                                                            
                                                         </v-list-item-content>
                                                        <!--  @keyup="validate" -->
                                                         <v-list-item-action style="max-width:250px !important"  class="mt-4">
@@ -1009,14 +1022,13 @@ const pdfviewer = () => import('./pdfviewer');
     beforeDestroy(){
         this.$emit('closeDialog');
     },
-    created(){
-        if(this.CheckData.status != null && this.CheckData.status != ''){
+    mounted(){
+         if(this.CheckData.status != null && this.CheckData.status != ''){
             this.getSubmittedAnswer();
-            
         }
-        
+    },
+    created(){
         this.$emit('isMounted');
-        //setTimeout(() => (this.info = false), 5000);
     }
   
   }

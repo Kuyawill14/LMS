@@ -330,7 +330,7 @@ Route::middleware('auth:sanctum')->withoutMiddleware('throttle:api')->prefix('/q
     Route::delete('/remove_destructor/{id}', [ObjectiveController::class, 'removeDestructor']);
     
     Route::put('/update_destructor/{id}', [ObjectiveController::class, 'UpdateDestructor']);
-    Route::put('/save_all_question/{id}', [ObjectiveController::class, 'SaveAllQuestion']);
+Route::put('/save_all_question/{id}', [ObjectiveController::class, 'SaveAllQuestion']);
   
     Route::put('/delete_selected_question/{id}', [ObjectiveController::class, 'DeleteSelectedQuestion']);
     Route::put('/store_duplicate_question/{id}', [ObjectiveController::class, 'StoreDuplicateQuestion']);

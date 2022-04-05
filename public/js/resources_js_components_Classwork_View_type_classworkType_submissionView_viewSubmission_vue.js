@@ -500,6 +500,16 @@ __webpack_require__.r(__webpack_exports__);
                   });
                 });
 
+                Ans_list.SubQuestion.forEach(function (sub_ques) {
+                  var c_count = 0;
+                  Ans_list.SubAnswer.forEach(function (sub_ans) {
+                    if (sub_ques.Correct_Answer == sub_ans.SubChoice_id) {
+                      sub_ques.correct_ans_letter = _this.Alphabet[c_count];
+                    }
+
+                    c_count++;
+                  });
+                });
                 Ans_list.SubQuestion.forEach(function (sub) {
                   if (sub.isCheck == null) {
                     var string = sub.Ans_Letter != null ? sub.Ans_Letter.replace(/\./g, '') : sub.Ans_Letter;

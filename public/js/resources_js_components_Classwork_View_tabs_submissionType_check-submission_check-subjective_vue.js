@@ -527,6 +527,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1255,12 +1268,13 @@ var pdfviewer = function pdfviewer() {
   beforeDestroy: function beforeDestroy() {
     this.$emit('closeDialog');
   },
-  created: function created() {
+  mounted: function mounted() {
     if (this.CheckData.status != null && this.CheckData.status != '') {
       this.getSubmittedAnswer();
     }
-
-    this.$emit('isMounted'); //setTimeout(() => (this.info = false), 5000);
+  },
+  created: function created() {
+    this.$emit('isMounted');
   }
 });
 
@@ -2159,75 +2173,163 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(" "),
-                                                  _vm.CheckData
-                                                    .Submitted_Answers !=
-                                                    null &&
-                                                  _vm.CheckData.graded == 0
-                                                    ? _c(
-                                                        "v-list-item-subtitle",
+                                                  _c(
+                                                    "v-tooltip",
+                                                    {
+                                                      attrs: {
+                                                        color: "green",
+                                                        top: ""
+                                                      },
+                                                      scopedSlots: _vm._u([
                                                         {
-                                                          class:
-                                                            _vm.CheckData
-                                                              .status ==
-                                                            "Submitted"
-                                                              ? "success--text"
-                                                              : ""
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            " " +
-                                                              _vm._s(
-                                                                _vm.CheckData
-                                                                  .status ==
-                                                                  "Submitted"
-                                                                  ? "Submitted: " +
-                                                                      _vm.format_date(
-                                                                        _vm
-                                                                          .CheckData
-                                                                          .submitted_at
+                                                          key: "activator",
+                                                          fn: function(ref) {
+                                                            var on = ref.on
+                                                            var attrs =
+                                                              ref.attrs
+                                                            return [
+                                                              _vm.CheckData
+                                                                .status !=
+                                                                null &&
+                                                              _vm.CheckData
+                                                                .status != "" &&
+                                                              _vm.CheckData
+                                                                .status !=
+                                                                "Taking" &&
+                                                              _vm.CheckData
+                                                                .graded == 0
+                                                                ? _c(
+                                                                    "v-list-item-subtitle",
+                                                                    _vm._g(
+                                                                      _vm._b(
+                                                                        {},
+                                                                        "v-list-item-subtitle",
+                                                                        attrs,
+                                                                        false
+                                                                      ),
+                                                                      on
+                                                                    ),
+                                                                    [
+                                                                      _vm._v(
+                                                                        " " +
+                                                                          _vm._s(
+                                                                            _vm
+                                                                              .CheckData
+                                                                              .status ==
+                                                                              "Submitted"
+                                                                              ? "Submitted: " +
+                                                                                  _vm.format_date(
+                                                                                    _vm
+                                                                                      .CheckData
+                                                                                      .submitted_at
+                                                                                  )
+                                                                              : _vm
+                                                                                  .CheckData
+                                                                                  .status ==
+                                                                                "Submitting"
+                                                                              ? "Submitting..."
+                                                                              : ""
+                                                                          )
                                                                       )
-                                                                  : _vm
-                                                                      .CheckData
-                                                                      .status ==
-                                                                    "Submitting"
-                                                                  ? "Submitting..."
-                                                                  : ""
-                                                              )
-                                                          )
-                                                        ]
-                                                      )
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  _vm.CheckData
-                                                    .Submitted_Answers !=
-                                                    null &&
-                                                  _vm.CheckData.graded == 1
-                                                    ? _c(
-                                                        "v-list-item-subtitle",
-                                                        {
-                                                          staticClass:
-                                                            "success--text"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "v-icon",
-                                                            {
-                                                              attrs: {
-                                                                small: "",
-                                                                color: "success"
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "mdi-check"
-                                                              )
+                                                                    ]
+                                                                  )
+                                                                : _vm._e()
                                                             ]
-                                                          ),
-                                                          _vm._v(" Graded ")
-                                                        ],
-                                                        1
-                                                      )
-                                                    : _vm._e()
+                                                          }
+                                                        }
+                                                      ])
+                                                    },
+                                                    [
+                                                      _vm._v(" "),
+                                                      _c("span", [
+                                                        _vm._v(
+                                                          "Submitted: " +
+                                                            _vm._s(
+                                                              _vm.format_date(
+                                                                _vm.CheckData
+                                                                  .updated_at
+                                                              )
+                                                            )
+                                                        )
+                                                      ])
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-tooltip",
+                                                    {
+                                                      attrs: { top: "" },
+                                                      scopedSlots: _vm._u([
+                                                        {
+                                                          key: "activator",
+                                                          fn: function(ref) {
+                                                            var on = ref.on
+                                                            var attrs =
+                                                              ref.attrs
+                                                            return [
+                                                              _vm.CheckData
+                                                                .Submitted_Answers !=
+                                                                null &&
+                                                              _vm.CheckData
+                                                                .graded == 1
+                                                                ? _c(
+                                                                    "v-list-item-subtitle",
+                                                                    _vm._g(
+                                                                      _vm._b(
+                                                                        {
+                                                                          staticClass:
+                                                                            "success--text"
+                                                                        },
+                                                                        "v-list-item-subtitle",
+                                                                        attrs,
+                                                                        false
+                                                                      ),
+                                                                      on
+                                                                    ),
+                                                                    [
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        {
+                                                                          attrs: {
+                                                                            small:
+                                                                              "",
+                                                                            color:
+                                                                              "success"
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "mdi-check"
+                                                                          )
+                                                                        ]
+                                                                      ),
+                                                                      _vm._v(
+                                                                        " Graded "
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                : _vm._e()
+                                                            ]
+                                                          }
+                                                        }
+                                                      ])
+                                                    },
+                                                    [
+                                                      _vm._v(" "),
+                                                      _c("span", [
+                                                        _vm._v(
+                                                          "Submitted: " +
+                                                            _vm._s(
+                                                              _vm.format_date(
+                                                                _vm.CheckData
+                                                                  .updated_at
+                                                              )
+                                                            )
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
                                                 ],
                                                 1
                                               ),

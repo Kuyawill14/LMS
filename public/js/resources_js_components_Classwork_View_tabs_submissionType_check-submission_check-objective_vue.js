@@ -2884,7 +2884,10 @@ var render = function() {
                                           _c(
                                             "v-tooltip",
                                             {
-                                              attrs: { top: "" },
+                                              attrs: {
+                                                color: "green",
+                                                top: ""
+                                              },
                                               scopedSlots: _vm._u([
                                                 {
                                                   key: "activator",

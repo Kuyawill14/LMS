@@ -142,29 +142,45 @@
                                                 </v-img>
                                             </v-avatar>
                                         </v-list-item-avatar>
-                                        <v-list-item-content @click="ViewSubmision(item, i)">
-                                            <v-list-item-title>
-                                                {{item.firstName +' '+item.lastName}}
-                                            </v-list-item-title>
-                                            <v-list-item-subtitle>
-                                                <v-icon left small color="success" v-if="item.status == 'Submitted'">
-                                                    mdi-check</v-icon>
-                                                <span class="success--text"  v-if="item.availability == 1 && item.status == 'Submitted' && (item.submitted_at != null ? item.submitted_at <= item.to_date : true)">Submitted</span>
-                                                <span class="red--text"  v-else-if="item.availability == 1 && item.status == 'Submitted' && (item.submitted_at != null ? item.submitted_at > item.to_date : false)">Submitted Late</span>
-                                                <span class="success--text"  v-else-if="item.availability == 0 && item.status == 'Submitted'">Submitted</span>
-                                                <span class="blue--text" v-else-if="item.status == 'Taking'"></span>
-                                                <span class="red--text" v-else-if="item.status == '' || item.status == null">No Submission</span>
-                                            </v-list-item-subtitle>
-                                        </v-list-item-content>
+                                        <v-tooltip :color="item.status == 'Submitted' ? 'green' : ''" top>
+                                            <template v-slot:activator="{ on, attrs }">
+                                            <v-list-item-content v-bind="attrs" v-on="on" @click="ViewSubmision(item, i)">
+                                                <v-list-item-title>
+                                                    {{item.firstName +' '+item.lastName}}
+                                                </v-list-item-title>
+                                                <v-list-item-subtitle>
+                                                    <span class="success--text"  v-if="item.availability == 1 && item.status == 'Submitted' && (item.submitted_at != null ? checkDate(item.submitted_at) <= checkDate(item.to_date) : true)">Submitted: {{format_date(item.submitted_at)}}</span>
+                                                    <span class="red--text"  v-else-if="item.availability == 1 && item.status == 'Submitted' && (item.submitted_at != null ? checkDate(item.submitted_at) > checkDate(item.to_date) : false)">Submitted Late: {{format_date(item.submitted_at)}}</span>
+                                                    <span class="success--text"  v-else-if="item.availability == 0 && item.status == 'Submitted'">Submitted: {{format_date(item.submitted_at)}}</span>
+                                                    <span class="blue--text" v-else-if="item.status == 'Taking'"></span>
+                                                    <span class="red--text" v-else-if="item.status == '' || item.status == null">No Submission</span>
+                                                </v-list-item-subtitle>
+                                            </v-list-item-content>
+                                          </template>
+                                            <span >
+                                                <span v-if="item.status == 'Submitted'">
+                                                    <span>{{item.firstName +' '+item.lastName}}</span><br>
+                                                    Submitted: {{format_date(item.updated_at)}}
+                                                </span>
+                                                <span v-else-if="item.status == '' || item.status == null">
+                                                    <span>{{item.firstName +' '+item.lastName}}</span><br>
+                                                    No Submission
+                                                </span>
+                                            
+                                            </span>
+                                    </v-tooltip>
                                         <v-list-item-action style="max-width:150px !important">
-                                            <v-text-field v-if="item.status == 'Submitted'" hide-details
+                                            <v-text-field readonly  v-if="item.status == 'Submitted'" hide-details
                                                 class="ma-0 pa-0" label="Score" rounded :loading="isSavingScore"
                                                 @keyup="SaveScore(item.id, item.points)" v-model="item.points" dense
                                                 outlined type="number" :suffix="'/' +classworkDetails.points"
                                                 :max="classworkDetails.points"
                                                 :maxlength="classworkDetails.points.toString().length" min="0">
                                             </v-text-field>
-
+                                           <!--  <v-chip  outlined v-if="item.status == 'Submitted'" class="ma-2" color="success"
+                                                >
+                                                Score : {{item.points +' / '+ classworkDetails.points}}
+                                            </v-chip> -->
                                             <v-chip v-if="item.status == 'Taking'" class="ma-2" color="blue"
                                                 text-color="white">
                                                 Taking...
@@ -236,6 +252,7 @@
     </div>
 </template>
 <script>
+    import moment from 'moment-timezone';
     const resetConfirmation = () => import('../dialogs/resetConfirmation')
     const checkobjective = () => import('./check-submission/check-objective')
     const resetStudentSubmissionDialog = () => import('./resetAllSubmission/resetStudentSubmissionDialog')
@@ -626,6 +643,17 @@
                 });
                 //} */
 
+            },
+            format_date(value) {
+                if (value) {
+                    //return moment(String(value)).format('MM/d/YYYY, hh:mm A')
+                    return moment(String(value)).tz("Asia/Manila").format('MM/d/YYYY, hh:mm A');
+                }
+            },
+            checkDate(value) {
+                if (value) {
+                    return moment(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+                }
             },
 
 
