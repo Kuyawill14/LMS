@@ -54,13 +54,7 @@
                         </v-col>
 
                         <v-col  ma-0 pa-0 class="text-left pb-0 mb-0" cols="12">
-                               <!--  <v-container ma-0 pa-0 class="d-flex">
-                                <v-checkbox
-                                class="pa-0 ma-0"
-                                v-model="EnableDue"
-                                label="Always Available"
-                                ></v-checkbox>
-                                </v-container> -->
+
 
                                 <v-radio-group :rules="rules" hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="availability">
                                 <v-radio
@@ -71,16 +65,6 @@
                                 ></v-radio>
                                 </v-radio-group>
                         </v-col>
-                   
-                       <!--  <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
-                                <v-container ma-0 pa-0 class="d-flex">
-                                <v-checkbox
-                                class="pa-0 ma-0"
-                                v-model="EnableDue"
-                                label="Set Date"
-                                ></v-checkbox>
-                                </v-container>
-                        </v-col> -->
 
                          <v-col v-if="availability == 'Set date & time'"  class="pb-0 mb-0"  cols="12">
                              <v-row class="mt-0 pt-0 mb-0 pb-0">
@@ -174,7 +158,7 @@
                                     ></v-checkbox>
                                 </v-col>
 
-                             <v-col v-if="showAns"  class="text-left pl-7 pa-0 ma-0" cols="12">
+                             <!-- <v-col v-if="showAns"  class="text-left pl-7 pa-0 ma-0" cols="12">
                                 <v-radio-group :rules="rules" class="ml-12 mt-0 pt-0 mb-0 pb-0" v-model="showAnsType">
                                 <v-radio
                                     v-for="(n, index) in InputShowAnswer"
@@ -183,9 +167,9 @@
                                     :value="InputShowAnswer[index]"
                                 ></v-radio>
                                 </v-radio-group>
-                            </v-col>
+                            </v-col> -->
 
-                            <v-col v-if="showAnsType == 'Set Date'" class="pt-0 mt-0 pb-0 mb-0" cols="12">
+                            <!-- <v-col v-if="showAnsType == 'Set Date'" class="pt-0 mt-0 pb-0 mb-0" cols="12">
                                 <v-row>
                                     <v-col cols="6">
                                          <v-datetime-picker label="From"
@@ -228,7 +212,7 @@
                                     </v-col>
                                 </v-row>
                                
-                            </v-col>
+                            </v-col> -->
                             
 
                            
@@ -313,9 +297,9 @@ export default {
             },
            
             showAns: false,
-            ReviewAnswer: false,
+            ReviewAnswer: true,
             EnableDue: false,
-            response_late:false,
+            response_late:true,
             availability: null,
             availability_date: null,
             showAnsType:'After Classwork Done',

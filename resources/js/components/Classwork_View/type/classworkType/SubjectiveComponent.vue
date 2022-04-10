@@ -282,7 +282,7 @@
                                 </v-menu>
                              </div>
                              <div v-if="classworkDetails.availability == 1">
-                               <div v-if="(!classworkDetails.graded && classworkDetails.publish == null &&  (classworkDetails.availability == 1 ? format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date): true)) || classworkDetails.allow_resubmit == 1">
+                               <div v-if="(!classworkDetails.graded && classworkDetails.publish == null &&  format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date)) || classworkDetails.allow_resubmit == 1">
                                   <v-menu max-width="250" v-if="isResubmit || (classworkDetails.status == 'Submitting' || classworkDetails.status == null)" transition="scale-transition" offset-y>
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-btn
@@ -318,41 +318,41 @@
                                     </v-list>
                                   </v-menu>
                               </div>
-
-                              <div v-if="classworkDetails.response_late == 1 && (format_date1(classworkDetails.currentDate) > format_date1(classworkDetails.from_date))">
-                                     <v-menu max-width="250" v-if="isResubmit || (classworkDetails.status == 'Submitting' || classworkDetails.status == null)" transition="scale-transition" offset-y>
-                                      <template v-slot:activator="{ on, attrs }">
-                                        <v-btn
-                                        :loading="isUploadSaving"
-                                          block
-                                          class="pl-12 pr-12 pb-3 pt-3"
-                                          color="primary"
-                                          dark
-                                          :disabled="classworkDetails.availability == 1 && (format_date1(classworkDetails.currentDate) < format_date1(classworkDetails.from_date))"
-                                          outlined
-                                          v-bind="attrs"
-                                          v-on="on"
-                                        >
-                                        {{attrs.expanded}}
-                                          {{isUploadSaving ? 'Uploading..' : 'Add'}} <v-icon right>mdi-plus</v-icon>
-                                        </v-btn>
-                                      </template>
-                                      <v-list nav dense>
-                                      <v-list-item link @click="IsTypeAnswer = !IsTypeAnswer, editTextData.title = '',editTextData.text = '',isTypeAnswerType = 'add'" >
-                                            <v-icon color="red" left>mdi-text</v-icon>Write Answer
-                                      </v-list-item>
-                                        <v-list-item link  @click="UploadFile()">
-                                              <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
+                        
+                                <div v-if="classworkDetails.response_late == 1 && format_date1(classworkDetails.currentDate) >= format_date1(classworkDetails.to_date)">
+                                      <v-menu max-width="250" v-if="isResubmit || (classworkDetails.status == 'Submitting' || classworkDetails.status == null)" transition="scale-transition" offset-y>
+                                        <template v-slot:activator="{ on, attrs }">
+                                          <v-btn
+                                          :loading="isUploadSaving"
+                                            block
+                                            class="pl-12 pr-12 pb-3 pt-3"
+                                            color="primary"
+                                            dark
+                                            :disabled="classworkDetails.availability == 1 && (format_date1(classworkDetails.currentDate) < format_date1(classworkDetails.from_date))"
+                                            outlined
+                                            v-bind="attrs"
+                                            v-on="on"
+                                          >
+                                          {{attrs.expanded}}
+                                            {{isUploadSaving ? 'Uploading..' : 'Add'}} <v-icon right>mdi-plus</v-icon>
+                                          </v-btn>
+                                        </template>
+                                        <v-list nav dense>
+                                        <v-list-item link @click="IsTypeAnswer = !IsTypeAnswer, editTextData.title = '',editTextData.text = '',isTypeAnswerType = 'add'" >
+                                              <v-icon color="red" left>mdi-text</v-icon>Write Answer
                                         </v-list-item>
-                                          <v-list-item link @click="AttachLink = !AttachLink" >
-                                                <v-icon color="blue" left>mdi-link-variant</v-icon>Attach Link
-                                        </v-list-item>
-                                        <v-list-item link @click="driveIconClicked()" >
-                                              <v-icon color="green" left>mdi-google-drive</v-icon>Google Drive
-                                        </v-list-item>
-                                      </v-list>
-                                </v-menu>
-                              </div>
+                                          <v-list-item link  @click="UploadFile()">
+                                                <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
+                                          </v-list-item>
+                                            <v-list-item link @click="AttachLink = !AttachLink" >
+                                                  <v-icon color="blue" left>mdi-link-variant</v-icon>Attach Link
+                                          </v-list-item>
+                                          <v-list-item link @click="driveIconClicked()" >
+                                                <v-icon color="green" left>mdi-google-drive</v-icon>Google Drive
+                                          </v-list-item>
+                                        </v-list>
+                                  </v-menu>
+                                </div>
                              </div>
                           </v-col>
 

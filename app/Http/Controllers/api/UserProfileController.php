@@ -40,13 +40,8 @@ class UserProfileController extends Controller
         $currentUser = auth('sanctum')->user();
         $userDetails  = auth('sanctum')->user()->tbl_userDetails;
         $department = auth('sanctum')->user()->tbl_user_departments;
-        //$user_sessions = DB::table('sessions')->where('user_id', $currentUser->id)->get();
-
         $userDetails->email = $currentUser->email;
         $userDetails->role = $currentUser->role;
-        //$userDetails->profile_pic = str_replace('.cdn', '', $userDetails->profile_pic);
-        // $userDetails->sessions =  $user_sessions;
-        // $userDetails->current_sessions = Session::getId();
         $userDetails->department_id = $department != null ? $department->department_id : null;
 
         if($currentUser->email == 'isueorange@gmail.com'){
@@ -60,15 +55,6 @@ class UserProfileController extends Controller
 
 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
  
  
     /**
@@ -77,9 +63,31 @@ class UserProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function fetchAllUploadedFiles()
     {
-        //
+        $userId = auth('sanctum')->id();
+        if(auth("sanctum")->user()->role == "Teacher"){
+            $files = tbl_classwork::where('tbl_classworks.user_id', $userId)
+            ->select('tbl_classworks.attachment')
+            ->whereNotNull('tbl_classworks.attachment')
+            ->get();
+            return $files;
+        }
+        elseif(auth("sanctum")->user()->role == "Student"){
+            $files = tbl_Submission::where('tbl_submissions.user_id', $userId )
+            ->select('tbl_submissions.Submitted_Answers as attachment')
+            ->leftjoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_submissions.classwork_id')
+            ->where('tbl_classworks.type', 'Subjective Type')
+            ->get();
+            
+            foreach($files as $item){
+                $item['attachment'] = unserialize($item['attachment']);
+            }
+            return $files;
+        }
+      
+
+       
     }
 
     /**

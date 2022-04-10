@@ -330,7 +330,7 @@ Route::middleware('auth:sanctum')->withoutMiddleware('throttle:api')->prefix('/q
     Route::delete('/remove_destructor/{id}', [ObjectiveController::class, 'removeDestructor']);
     
     Route::put('/update_destructor/{id}', [ObjectiveController::class, 'UpdateDestructor']);
-Route::put('/save_all_question/{id}', [ObjectiveController::class, 'SaveAllQuestion']);
+    Route::put('/save_all_question/{id}', [ObjectiveController::class, 'SaveAllQuestion']);
   
     Route::put('/delete_selected_question/{id}', [ObjectiveController::class, 'DeleteSelectedQuestion']);
     Route::put('/store_duplicate_question/{id}', [ObjectiveController::class, 'StoreDuplicateQuestion']);
@@ -390,8 +390,11 @@ Route::middleware('auth:sanctum')->prefix('/profile')->group(function () {
     Route::get('/mycalendar', [UserProfileController::class, 'FetchCalendarSched']);
     Route::get('/taskToday', [UserProfileController::class, 'FetchTodayTask']);
     Route::get('/datetoday', [UserProfileController::class, 'FetchDatetoday']);
-    
+    Route::get('/backpack', [UserProfileController::class, 'fetchAllUploadedFiles']);
 });
+
+
+
 
 
 //User Archive 
@@ -501,11 +504,13 @@ Route::prefix('/activitylog')->group(function() {
 
 //Course overview
 Route::prefix('/course/overview')->group(function() {
-    Route::get('/all/{id}', [CourseOverviewController::class, 'overview']);
+    Route::get('/all/{id}', [CourseOverviewController::class, 'fetchAllFUploadediles']);
    
    
     
 });
+
+
 
 
 /* Route::group([

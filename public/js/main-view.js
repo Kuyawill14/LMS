@@ -762,6 +762,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 var mainNavbar = function mainNavbar() {
   return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/main-navbar */ "./resources/js/components/layout/navigation/main-navbar.vue"));
 };
@@ -11438,6 +11442,41 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-divider", { staticClass: "my-3" }),
                                   _vm._v(" "),
+                                  _vm.role == "Student" || _vm.role == "Teacher"
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            depressed: "",
+                                            rounded: "",
+                                            text: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$router.push({
+                                                name: "backpack"
+                                              })
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              attrs: { color: "info", left: "" }
+                                            },
+                                            [_vm._v("mdi-bag-personal")]
+                                          ),
+                                          _vm._v(
+                                            " Backpack\n                            "
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c("v-divider", { staticClass: "my-3" }),
+                                  _vm._v(" "),
                                   _c(
                                     "v-btn",
                                     {
@@ -11449,9 +11488,11 @@ var render = function() {
                                       on: { click: _vm.logout }
                                     },
                                     [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("mdi-power")
-                                      ]),
+                                      _c(
+                                        "v-icon",
+                                        { attrs: { color: "red", left: "" } },
+                                        [_vm._v("mdi-power")]
+                                      ),
                                       _vm._v(
                                         " Logout\n                            "
                                       )
@@ -11490,7 +11531,7 @@ var render = function() {
                     "v-navigation-drawer",
                     {
                       attrs: {
-                        "expand-on-hover": _vm.$vuetify.breakpoint.lgAndUp,
+                        width: "233",
                         clipped: _vm.$vuetify.breakpoint.lgAndUp,
                         app: ""
                       },

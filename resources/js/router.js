@@ -17,7 +17,7 @@ import restricted_pages_routes from "./routes/restricted_pages_routes";
 import archive_page_routes from "./routes/archive_page_routes";
 import classwork_overview_page_routes from "./routes/classwork_overview_page_routes";
 import security_guard_routes from "./routes/security_guard_routes";
-
+import backpack_routes from "./routes/backpack_routes";
 
 Vue.use(Router);
 const router = new Router({
@@ -91,6 +91,10 @@ const router = new Router({
 
                 //Classwork Preview Routes
                 ...classwork_preview_routes,
+
+
+                //file backpack
+                ...backpack_routes
 
 
             ],

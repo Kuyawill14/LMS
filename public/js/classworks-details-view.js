@@ -3303,22 +3303,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['multiplePublishDetails', 'datetoday'],
@@ -3380,9 +3364,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         min: null
       },
       showAns: false,
-      ReviewAnswer: false,
+      ReviewAnswer: true,
       EnableDue: false,
-      response_late: false,
+      response_late: true,
       availability: null,
       availability_date: null,
       showAnsType: 'After Classwork Done',
@@ -41833,180 +41817,6 @@ var render = function() {
                                   expression: "showAns"
                                 }
                               })
-                            ],
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.showAns
-                        ? _c(
-                            "v-col",
-                            {
-                              staticClass: "text-left pl-7 pa-0 ma-0",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _c(
-                                "v-radio-group",
-                                {
-                                  staticClass: "ml-12 mt-0 pt-0 mb-0 pb-0",
-                                  attrs: { rules: _vm.rules },
-                                  model: {
-                                    value: _vm.showAnsType,
-                                    callback: function($$v) {
-                                      _vm.showAnsType = $$v
-                                    },
-                                    expression: "showAnsType"
-                                  }
-                                },
-                                _vm._l(_vm.InputShowAnswer, function(n, index) {
-                                  return _c("v-radio", {
-                                    key: index,
-                                    attrs: {
-                                      label: _vm.InputShowAnswer[index],
-                                      value: _vm.InputShowAnswer[index]
-                                    }
-                                  })
-                                }),
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.showAnsType == "Set Date"
-                        ? _c(
-                            "v-col",
-                            {
-                              staticClass: "pt-0 mt-0 pb-0 mb-0",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _c(
-                                "v-row",
-                                [
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "6" } },
-                                    [
-                                      _c(
-                                        "v-datetime-picker",
-                                        {
-                                          staticClass: "mt-0 pt-0",
-                                          attrs: {
-                                            label: "From",
-                                            "text-field-props":
-                                              _vm.textFieldProps,
-                                            "date-picker-props":
-                                              _vm.FromdateAnswerProps,
-                                            "time-picker-props":
-                                              _vm.FromtimeAnswerProps,
-                                            "time-format": "HH:mm",
-                                            color: "primary"
-                                          },
-                                          on: {
-                                            input: function($event) {
-                                              return _vm.setShowAnswerToDateStart()
-                                            }
-                                          },
-                                          model: {
-                                            value: _vm.showAnswerDateFrom,
-                                            callback: function($$v) {
-                                              _vm.showAnswerDateFrom = $$v
-                                            },
-                                            expression: "showAnswerDateFrom"
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "template",
-                                            { slot: "dateIcon" },
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-calendar")
-                                              ])
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "template",
-                                            { slot: "timeIcon" },
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-clock")
-                                              ])
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        2
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "6" } },
-                                    [
-                                      _c(
-                                        "v-datetime-picker",
-                                        {
-                                          staticClass: "mt-0 pt-0",
-                                          attrs: {
-                                            label: "To",
-                                            disabled:
-                                              _vm.showAnswerDateFrom == null,
-                                            "text-field-props":
-                                              _vm.textFieldProps,
-                                            "date-picker-props":
-                                              _vm.TodateAnswerProps,
-                                            "time-picker-props":
-                                              _vm.TotimeAnswerProps,
-                                            "time-format": "HH:mm",
-                                            color: "primary"
-                                          },
-                                          model: {
-                                            value: _vm.ShowAnswerDateTo,
-                                            callback: function($$v) {
-                                              _vm.ShowAnswerDateTo = $$v
-                                            },
-                                            expression: "ShowAnswerDateTo"
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "template",
-                                            { slot: "dateIcon" },
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-calendar")
-                                              ])
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "template",
-                                            { slot: "timeIcon" },
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-clock")
-                                              ])
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        2
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
                             ],
                             1
                           )

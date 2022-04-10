@@ -3186,17 +3186,14 @@ var render = function() {
                                                 (!_vm.classworkDetails.graded &&
                                                   _vm.classworkDetails
                                                     .publish == null &&
-                                                  (_vm.classworkDetails
-                                                    .availability == 1
-                                                    ? _vm.format_date1(
-                                                        _vm.classworkDetails
-                                                          .currentDate
-                                                      ) <=
-                                                      _vm.format_date1(
-                                                        _vm.classworkDetails
-                                                          .to_date
-                                                      )
-                                                    : true)) ||
+                                                  _vm.format_date1(
+                                                    _vm.classworkDetails
+                                                      .currentDate
+                                                  ) <=
+                                                    _vm.format_date1(
+                                                      _vm.classworkDetails
+                                                        .to_date
+                                                    )) ||
                                                 _vm.classworkDetails
                                                   .allow_resubmit == 1
                                                   ? _c(
@@ -3499,10 +3496,9 @@ var render = function() {
                                                 _vm.format_date1(
                                                   _vm.classworkDetails
                                                     .currentDate
-                                                ) >
+                                                ) >=
                                                   _vm.format_date1(
-                                                    _vm.classworkDetails
-                                                      .from_date
+                                                    _vm.classworkDetails.to_date
                                                   )
                                                   ? _c(
                                                       "div",
@@ -3579,11 +3575,11 @@ var render = function() {
                                                                             ),
                                                                             [
                                                                               _vm._v(
-                                                                                "\r\n                                        " +
+                                                                                "\r\n                                          " +
                                                                                   _vm._s(
                                                                                     attrs.expanded
                                                                                   ) +
-                                                                                  "\r\n                                          " +
+                                                                                  "\r\n                                            " +
                                                                                   _vm._s(
                                                                                     _vm.isUploadSaving
                                                                                       ? "Uploading.."
@@ -3614,7 +3610,7 @@ var render = function() {
                                                                   ],
                                                                   null,
                                                                   false,
-                                                                  2000770276
+                                                                  198741476
                                                                 )
                                                               },
                                                               [
@@ -3667,7 +3663,7 @@ var render = function() {
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          "Write Answer\r\n                                      "
+                                                                          "Write Answer\r\n                                        "
                                                                         )
                                                                       ],
                                                                       1
@@ -3704,7 +3700,7 @@ var render = function() {
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          " Upload File\r\n                                        "
+                                                                          " Upload File\r\n                                          "
                                                                         )
                                                                       ],
                                                                       1
@@ -3743,7 +3739,7 @@ var render = function() {
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          "Attach Link\r\n                                        "
+                                                                          "Attach Link\r\n                                          "
                                                                         )
                                                                       ],
                                                                       1
@@ -3782,7 +3778,7 @@ var render = function() {
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          "Google Drive\r\n                                        "
+                                                                          "Google Drive\r\n                                          "
                                                                         )
                                                                       ],
                                                                       1

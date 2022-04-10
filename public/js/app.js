@@ -2130,8 +2130,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
 /* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/nprogress/nprogress.css */ "./node_modules/nprogress/nprogress.css");
@@ -2150,6 +2150,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _routes_archive_page_routes__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./routes/archive_page_routes */ "./resources/js/routes/archive_page_routes.js");
 /* harmony import */ var _routes_classwork_overview_page_routes__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./routes/classwork_overview_page_routes */ "./resources/js/routes/classwork_overview_page_routes.js");
 /* harmony import */ var _routes_security_guard_routes__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./routes/security_guard_routes */ "./resources/js/routes/security_guard_routes.js");
+/* harmony import */ var _routes_backpack_routes__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./routes/backpack_routes */ "./resources/js/routes/backpack_routes.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2181,8 +2182,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_17__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_18__.default);
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_18__.default({
+
+vue__WEBPACK_IMPORTED_MODULE_18__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_19__.default);
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_19__.default({
   mode: "history",
   routes: [, {
     path: "",
@@ -2223,7 +2225,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_18__.default({
           replace: true
         });
       }
-    }].concat(_toConsumableArray(_routes_security_guard_routes__WEBPACK_IMPORTED_MODULE_16__.default), _toConsumableArray(_routes_admin_routes__WEBPACK_IMPORTED_MODULE_10__.default), _toConsumableArray(_routes_program_chair_routes__WEBPACK_IMPORTED_MODULE_11__.default), _toConsumableArray(_routes_campus_director_routes__WEBPACK_IMPORTED_MODULE_9__.default), _toConsumableArray(_routes_course_page_routes__WEBPACK_IMPORTED_MODULE_7__.default), _toConsumableArray(_routes_profile_routes__WEBPACK_IMPORTED_MODULE_6__.default), _toConsumableArray(_routes_notification_invites_routes__WEBPACK_IMPORTED_MODULE_12__.default), _toConsumableArray(_routes_archive_page_routes__WEBPACK_IMPORTED_MODULE_14__.default), _toConsumableArray(_routes_classwork_overview_page_routes__WEBPACK_IMPORTED_MODULE_15__.default), _toConsumableArray(_routes_classwork_preview_routes__WEBPACK_IMPORTED_MODULE_5__.default))
+    }].concat(_toConsumableArray(_routes_security_guard_routes__WEBPACK_IMPORTED_MODULE_16__.default), _toConsumableArray(_routes_admin_routes__WEBPACK_IMPORTED_MODULE_10__.default), _toConsumableArray(_routes_program_chair_routes__WEBPACK_IMPORTED_MODULE_11__.default), _toConsumableArray(_routes_campus_director_routes__WEBPACK_IMPORTED_MODULE_9__.default), _toConsumableArray(_routes_course_page_routes__WEBPACK_IMPORTED_MODULE_7__.default), _toConsumableArray(_routes_profile_routes__WEBPACK_IMPORTED_MODULE_6__.default), _toConsumableArray(_routes_notification_invites_routes__WEBPACK_IMPORTED_MODULE_12__.default), _toConsumableArray(_routes_archive_page_routes__WEBPACK_IMPORTED_MODULE_14__.default), _toConsumableArray(_routes_classwork_overview_page_routes__WEBPACK_IMPORTED_MODULE_15__.default), _toConsumableArray(_routes_classwork_preview_routes__WEBPACK_IMPORTED_MODULE_5__.default), _toConsumableArray(_routes_backpack_routes__WEBPACK_IMPORTED_MODULE_17__.default))
   }].concat(_toConsumableArray(_routes_examination_routes__WEBPACK_IMPORTED_MODULE_8__.default), _toConsumableArray(_routes_auth_routes__WEBPACK_IMPORTED_MODULE_3__.default), _toConsumableArray(_routes_testing_routes__WEBPACK_IMPORTED_MODULE_4__.default), _toConsumableArray(_routes_restricted_pages_routes__WEBPACK_IMPORTED_MODULE_13__.default))
 });
 router.beforeEach(function (to, from, next) {
@@ -2549,6 +2551,28 @@ var routes = [{
       });
     }
   }
+}];
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
+
+/***/ }),
+
+/***/ "./resources/js/routes/backpack_routes.js":
+/*!************************************************!*\
+  !*** ./resources/js/routes/backpack_routes.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var routes = [{
+  path: "/backpack",
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_components_backpack_filebackpack_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/backpack/filebackpack */ "./resources/js/components/backpack/filebackpack.vue"));
+  },
+  name: "backpack"
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 
@@ -42689,7 +42713,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

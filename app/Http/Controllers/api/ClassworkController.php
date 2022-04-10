@@ -557,7 +557,7 @@ class ClassworkController extends Controller
                 ]);
             }
            
-            $classworkDetails->attachment = $classworkDetails->attachment != null ? unserialize($classworkDetails->attachment) : [];
+            //$classworkDetails->attachment = $classworkDetails->attachment != null && $classworkDetails->attachment != '' ? unserialize($classworkDetails->attachment) : [];
         }
         else{
 

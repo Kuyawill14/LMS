@@ -72,9 +72,13 @@
                                 <v-icon left>mdi-account-multiple-plus</v-icon> Class Invite
                             </v-btn>
                             </v-badge> -->
+                            <v-divider class="my-3"></v-divider>
+                                <v-btn v-if="role == 'Student' || role == 'Teacher'" depressed @click="$router.push({name:'backpack'})" rounded text>
+                                    <v-icon color="info" left>mdi-bag-personal</v-icon> Backpack
+                                </v-btn>
                                 <v-divider class="my-3"></v-divider>
                                 <v-btn @click="logout" depressed rounded text>
-                                    <v-icon left>mdi-power</v-icon> Logout
+                                    <v-icon color="red" left>mdi-power</v-icon> Logout
                                 </v-btn>
                             </div>
                         </v-list-item-content>
@@ -87,7 +91,7 @@
         <!-- :expand-on-hover="$vuetify.breakpoint.lgAndUp" -->
         <!--  ######### sidebar ################ -->
         <div v-if="navBarType != 'classwork-preview' && navBarType != 'classwork_overview'  && UserDetails.role != 'ProgramChair'  && UserDetails.role != 'SecurityGuard'">
-            <v-navigation-drawer :expand-on-hover="$vuetify.breakpoint.lgAndUp" v-model="drawer"
+            <v-navigation-drawer width="233" v-model="drawer"
                 :clipped="$vuetify.breakpoint.lgAndUp"
                 v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed == 1 " app>
                 <mainNavbar :role="role" :drawer="drawer"
