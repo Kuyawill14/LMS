@@ -26,6 +26,19 @@
                     </v-list-item-content>
                 </v-list-item>
 
+                    <v-list-item link :to="{name: 'e-library'}" exact>
+                    <v-list-item-action>
+                        <v-icon>mdi-contacts</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            E-Library
+                            
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+
 
                  <!--  <v-list-item link :to="{name: 'backpack'}" exact>
                     <v-list-item-action>

@@ -707,6 +707,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role']
 });
@@ -2556,6 +2569,31 @@ var render = function() {
                         _vm.role == "Student" ? "Classes" : "Course Page"
                       ) +
                       "\n                        \n                    "
+                  )
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-list-item",
+          { attrs: { link: "", to: { name: "e-library" }, exact: "" } },
+          [
+            _c(
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
+              [
+                _c("v-list-item-title", [
+                  _vm._v(
+                    "\n                        E-Library\n                        \n                    "
                   )
                 ])
               ],

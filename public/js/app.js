@@ -2043,7 +2043,7 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
-  key: "865de026959fe9de27a8",
+  key: "05597b24c42e8d5d33ef",
   cluster: "ap1",
   forceTLS: true
 });
@@ -2214,6 +2214,15 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_19__.default({
       });
     },
     children: [{
+      path: "e-library",
+      component: function component() {
+        return __webpack_require__.e(/*! import() | Dashboard */ "Dashboard").then(__webpack_require__.bind(__webpack_require__, /*! ./components/e-library/e-libraryComponent */ "./resources/js/components/e-library/e-libraryComponent.vue"));
+      },
+      name: "e-library",
+      beforeEnter: function beforeEnter(to, from, next) {
+        next();
+      }
+    }, {
       path: "",
       component: function component() {
         return __webpack_require__.e(/*! import() | Dashboard */ "Dashboard").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/dashboardComponent */ "./resources/js/components/dashboard/dashboardComponent.vue"));
