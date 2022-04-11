@@ -55,9 +55,7 @@ const router = new Router({
                     component: () =>
                         import ( /* webpackChunkName: "Dashboard" */ "./components/e-library/e-libraryComponent"),
                     name: "e-library",
-                    beforeEnter: (to, from, next) => {
-                        next();
-                    }
+
                 },
 
                 {

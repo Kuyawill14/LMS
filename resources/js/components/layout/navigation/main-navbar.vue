@@ -28,7 +28,7 @@
 
                     <v-list-item link :to="{name: 'e-library'}" exact>
                     <v-list-item-action>
-                        <v-icon>mdi-contacts</v-icon>
+                        <v-icon>mdi-book-multiple</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title>
