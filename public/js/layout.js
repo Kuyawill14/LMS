@@ -2584,7 +2584,7 @@ var render = function() {
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-book-multiple")])],
               1
             ),
             _vm._v(" "),

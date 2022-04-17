@@ -2218,10 +2218,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_19__.default({
       component: function component() {
         return __webpack_require__.e(/*! import() | Dashboard */ "Dashboard").then(__webpack_require__.bind(__webpack_require__, /*! ./components/e-library/e-libraryComponent */ "./resources/js/components/e-library/e-libraryComponent.vue"));
       },
-      name: "e-library",
-      beforeEnter: function beforeEnter(to, from, next) {
-        next();
-      }
+      name: "e-library"
     }, {
       path: "",
       component: function component() {
