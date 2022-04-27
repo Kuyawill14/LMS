@@ -191,7 +191,8 @@ class TeacherProfileController extends Controller
         ->select('tbl_classworks.id', 'tbl_classworks.title', 'tbl_classworks.type', 'tbl_classworks.instruction', 'tbl_classworks.attachment','tbl_classworks.created_at',
         'tbl_classworks.duration','tbl_classworks.points')->get();
         foreach($Classwork as $item){
-            $item->attachment = unserialize($item->attachment);
+            //$item->attachment = $item->attachment != null && $item->attachment != '' ? unserialize($item->attachment) : $item->attachment;
+            
             $submissionCount = tbl_Submission::where('tbl_submissions.classwork_id', $item->id)
             ->where('tbl_submissions.status', 'Submitted')->count();
             $item->submittion_count =  $submissionCount;
