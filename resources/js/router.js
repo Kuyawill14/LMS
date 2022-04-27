@@ -48,7 +48,17 @@ const router = new Router({
                     });
                 })
             },
-            children: [{
+            children: [
+
+                {
+                    path: "e-library",
+                    component: () =>
+                        import ( /* webpackChunkName: "Dashboard" */ "./components/e-library/e-libraryComponent"),
+                    name: "e-library",
+
+                },
+
+                {
                     path: "",
                     component: () =>
                         import ( /* webpackChunkName: "Dashboard" */ "./components/dashboard/dashboardComponent"),

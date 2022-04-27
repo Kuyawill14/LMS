@@ -16,6 +16,16 @@
  */
 
 /*!
+ * Viewer.js v1.10.4
+ * https://fengyuanchen.github.io/viewerjs
+ *
+ * Copyright 2015-present Chen Fengyuan
+ * Released under the MIT license
+ *
+ * Date: 2022-02-13T08:40:00.127Z
+ */
+
+/*!
  * vue-element-loading v2.0.2
  * (c) 2019-present biig_pongsatorn <biig_pongsatorn@hotmail.com>
  * Released under the MIT License.
