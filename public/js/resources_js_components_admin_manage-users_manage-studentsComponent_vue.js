@@ -305,20 +305,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      page: null,
+      current_page: null,
       dialog_multi_user: false,
       IsBulkadding: false,
       department: [],
@@ -382,6 +375,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       },
       StudentList: [],
+      TotalStudent: null,
       headers: [{
         value: 'isActive'
       }, {
@@ -420,7 +414,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       loading: true,
       json_users_file: null,
       json_users_text_area: null,
-      department_id: null
+      department_id: null,
+      isGetting: false
     };
   },
   computed: {
@@ -433,21 +428,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v) || item.student_id.toString().includes(v);
           }); //.includes(v) : item.student_id.toString().includes(v))
         });
-        /* 
-                             return this.StudentList.filter((item) => {
-                                return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
-                                    .includes(v) || item.lastName.toLowerCase()
-                                    .includes(v) || item.user_id.toString()
-                                    .includes(v))
-                            }) */
       } else {
         return this.StudentList;
       }
     }
   },
   methods: {
-    addBulk: function addBulk() {
+    changePage: function changePage(page) {
       var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(page != _this2.current_page)) {
+                  _context.next = 4;
+                  break;
+                }
+
+                _this2.isGetting = true;
+                _context.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/admin/users/all/".concat(_this2.user_type, "?page=").concat(page)).then(function (res) {
+                  _this2.StudentList = res.data.data;
+                  _this2.TotalStudent = res.data.total;
+                  _this2.page = res.data.current_page;
+                  _this2.current_page = res.data.current_page;
+                  _this2.loading = false;
+                  _this2.isGetting = false;
+                });
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    addBulk: function addBulk() {
+      var _this3 = this;
 
       if (this.department != null && (this.json_users_file != null || this.json_users_text_area != null)) {
         var json_users_data = this.json_users_file != null ? this.json_users_file : JSON.parse(this.json_users_text_area);
@@ -460,29 +480,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           console.log(response);
 
           if (response.status == 200) {
-            _this2.$refs.RegisterForm.reset();
+            _this3.$refs.RegisterForm.reset();
 
-            _this2.getStudent().then(function () {
-              _this2.valid = true;
-              _this2.dialog_multi_user = false;
+            _this3.getStudent().then(function () {
+              _this3.valid = true;
+              _this3.dialog_multi_user = false;
 
-              _this2.toastSuccess('User successfully Added!');
+              _this3.toastSuccess('User successfully Added!');
 
-              _this2.IsBulkadding = false; // this.json_users_text_area = null;
+              _this3.IsBulkadding = false; // this.json_users_text_area = null;
               // this.json_users_file = null;
             });
           } else {
-            _this2.IsBulkadding = false;
+            _this3.IsBulkadding = false;
 
-            _this2.toastError('Something went wrong!'); // this.$refs.RegisterForm.reset();
+            _this3.toastError('Something went wrong!'); // this.$refs.RegisterForm.reset();
             // this.json_users_text_area = null;
             // this.json_users_file = null;
 
           }
         })["catch"](function (err) {
-          _this2.IsBulkadding = false;
+          _this3.IsBulkadding = false;
 
-          _this2.toastError('Something went wrong!'); // this.$refs.RegisterForm.reset();
+          _this3.toastError('Something went wrong!'); // this.$refs.RegisterForm.reset();
           // this.json_users_text_area = null;
           // this.json_users_file = null;
 
@@ -497,7 +517,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     readFile: function readFile(file) {
-      var _this3 = this;
+      var _this4 = this;
 
       var reader = new FileReader();
 
@@ -517,8 +537,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             return [h, fields[i]];
           })); // 4️⃣
         });
-        _this3.json_users_file = output;
-        console.log(_this3.json_users_file);
+        _this4.json_users_file = output;
+        console.log(_this4.json_users_file);
       };
 
       reader.readAsText(file);
@@ -527,10 +547,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.dialog_multi_user = true;
     },
     fetchDeparmentList: function fetchDeparmentList() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/department/all').then(function (res) {
-        _this4.department = res.data;
+        _this5.department = res.data;
       });
     },
     SetPassword: function SetPassword(lastname) {
@@ -568,16 +588,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.Deldialog = true;
     },
     updatePass: function updatePass() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.isConfirmReset = true;
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/users/reset-password/' + this.IsResetting_id).then(function (res) {
-        _this5.toastSuccess(res.data);
+        _this6.toastSuccess(res.data);
 
         alert(res.data);
-        _this5.isConfirmReset = false;
-        _this5.IsResetting = false;
-        _this5.ResetPassworddialog = false;
+        _this6.isConfirmReset = false;
+        _this6.IsResetting = false;
+        _this6.ResetPassworddialog = false;
       });
     },
     OpenupdatePassDialog: function OpenupdatePassDialog(id) {
@@ -586,65 +606,65 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.IsResetting = true;
     },
     deleteUser: function deleteUser() {
-      var _this6 = this;
+      var _this7 = this;
 
       this.IsDeleting = true;
       axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/admin/users/remove/' + this.delId).then(function (res) {
         if (res.status == 200) {
-          _this6.StudentList.splice(_this6.deleteIndex, 1);
+          _this7.StudentList.splice(_this7.deleteIndex, 1);
 
-          _this6.toastSuccess('User Successfully removed!');
+          _this7.toastSuccess('User Successfully removed!');
 
-          _this6.IsDeleting = false;
+          _this7.IsDeleting = false;
         } else {
-          _this6.toastError('Something went wrong!');
+          _this7.toastError('Something went wrong!');
 
-          _this6.IsDeleting = false;
+          _this7.IsDeleting = false;
         }
 
-        _this6.Deldialog = false;
+        _this7.Deldialog = false;
 
-        _this6.$store.dispatch('fetchAllTeachers');
+        _this7.$store.dispatch('fetchAllTeachers');
       });
     },
     updateTeacherDetails: function updateTeacherDetails() {
       this.$store.dispatch('updateTeacher', this.form);
     },
     VerifyUser: function VerifyUser(id) {
-      var _this7 = this;
+      var _this8 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _this7.isVerifying = true;
+                _this8.isVerifying = true;
                 axios__WEBPACK_IMPORTED_MODULE_1___default().put('/api/admin/verifyUser/' + id).then(function (res) {
                   if (res.data.success == true) {
-                    _this7.markAsVerify(id);
+                    _this8.markAsVerify(id);
 
-                    _this7.form.verified = 'Verified';
+                    _this8.form.verified = 'Verified';
 
-                    _this7.toastSuccess('User Successfully Verified!');
+                    _this8.toastSuccess('User Successfully Verified!');
 
-                    _this7.isVerifying = false;
+                    _this8.isVerifying = false;
                   } else {
-                    _this7.toastError('Something went wrong!');
+                    _this8.toastError('Something went wrong!');
 
-                    _this7.isVerifying = false;
+                    _this8.isVerifying = false;
                   }
                 })["catch"](function (e) {
-                  _this7.toastError('Something went wrong!');
+                  _this8.toastError('Something went wrong!');
 
-                  _this7.isVerifying = false;
+                  _this8.isVerifying = false;
                 });
 
               case 2:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
       }))();
     },
     markAsVerify: function markAsVerify(id) {
@@ -655,7 +675,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     validate: function validate() {
-      var _this8 = this;
+      var _this9 = this;
 
       this.IsAddUpdating = true;
 
@@ -664,28 +684,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           this.form.role = 'Student';
           this.form.password_confirmation = this.form.password;
           this.form.post('/api/admin/users/add/' + this.user_type).then(function (res) {
-            _this8.$refs.RegisterForm.reset();
+            _this9.$refs.RegisterForm.reset();
 
-            _this8.valid = true;
-            _this8.dialog = false;
-            _this8.IsAddUpdating = false;
+            _this9.valid = true;
+            _this9.dialog = false;
+            _this9.IsAddUpdating = false;
 
-            _this8.StudentList.unshift(res.data);
+            _this9.StudentList.unshift(res.data);
 
-            _this8.toastSuccess('User Successfully Added!');
+            _this9.toastSuccess('User Successfully Added!');
           });
         }
 
         if (this.type == 'edit') {
           this.form.post('/api/admin/users/update/' + this.form.user_id).then(function () {
             //////console.log(this.StudentList[this.updateIndex])
-            _this8.updateDataInfrontEnd(_this8.form);
+            _this9.updateDataInfrontEnd(_this9.form);
 
-            _this8.valid = true;
-            _this8.dialog = false;
-            _this8.IsAddUpdating = false;
+            _this9.valid = true;
+            _this9.dialog = false;
+            _this9.IsAddUpdating = false;
 
-            _this8.toastSuccess('User Successfully Updated!');
+            _this9.toastSuccess('User Successfully Updated!');
           });
         }
       } else {
@@ -696,24 +716,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.IsAddUpdating = false;
     },
     getStudent: function getStudent() {
-      var _this9 = this;
+      var _this10 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/users/all/' + _this9.user_type).then(function (res) {
-                  _this9.StudentList = res.data;
-                  _this9.loading = false;
+                axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/users/all/' + _this10.user_type).then(function (res) {
+                  _this10.StudentList = res.data;
+                  /*    this.TotalStudent = res.data.total
+                     this.page = res.data.current_page;
+                     this.current_page = res.data.current_page; */
+
+                  _this10.loading = false;
                 });
 
               case 1:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     },
     updateDataInfrontEnd: function updateDataInfrontEnd(data) {
@@ -1059,7 +1083,8 @@ var render = function() {
                                                       item.isActive != 0
                                                         ? "Online"
                                                         : "Oflline"
-                                                    )
+                                                    ) +
+                                                      "\n                                    "
                                                   )
                                                 ]
                                               )
@@ -1247,7 +1272,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          188704215
+                          284978286
                         )
                       })
                     ],

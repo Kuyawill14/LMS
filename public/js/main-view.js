@@ -11531,7 +11531,10 @@ var render = function() {
                     "v-navigation-drawer",
                     {
                       attrs: {
-                        width: "233",
+                        width:
+                          _vm.role == "Student" || _vm.role == "Teacher"
+                            ? "233"
+                            : "240",
                         clipped: _vm.$vuetify.breakpoint.lgAndUp,
                         app: ""
                       },

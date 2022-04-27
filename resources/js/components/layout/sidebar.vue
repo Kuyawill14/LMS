@@ -91,7 +91,7 @@
         <!-- :expand-on-hover="$vuetify.breakpoint.lgAndUp" -->
         <!--  ######### sidebar ################ -->
         <div v-if="navBarType != 'classwork-preview' && navBarType != 'classwork_overview'  && UserDetails.role != 'ProgramChair'  && UserDetails.role != 'SecurityGuard'">
-            <v-navigation-drawer width="233" v-model="drawer"
+            <v-navigation-drawer :width="role == 'Student' || role == 'Teacher' ? '233' : '240'" v-model="drawer"
                 :clipped="$vuetify.breakpoint.lgAndUp"
                 v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed == 1 " app>
                 <mainNavbar :role="role" :drawer="drawer"

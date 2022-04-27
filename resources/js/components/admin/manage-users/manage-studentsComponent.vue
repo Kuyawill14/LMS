@@ -36,22 +36,20 @@
                         Students
 
                         <v-spacer></v-spacer>
-                        
                              <v-text-field v-model="search" placeholder="Student ID, Last Name" append-icon="mdi-magnify" label="Search" single-line
                                 hide-details>
                             </v-text-field>
-                        
-                       
                     </v-card-title>
 
-                    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
+                    <v-data-table  :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item, i) in items" :key="item.id">
                                     <td style="width:7%">
                                         <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon>
                                         <span
-                                            :class="item.isActive != 0 ? 'success--text' : ''">{{item.isActive != 0 ? 'Online' : 'Oflline'}}</span>
+                                            :class="item.isActive != 0 ? 'success--text' : ''">{{item.isActive != 0 ? 'Online' : 'Oflline'}}
+                                        </span>
 
                                     </td>
                                     <td> {{item.student_id}}</td>
@@ -91,18 +89,20 @@
                                 <tr v-if="StudentList.length == 0">
                                     <td colspan="42" class="text-center"> No data available</td>
                                 </tr>
-
-
-
                             </tbody>
                         </template>
                     </v-data-table>
 
+                   <!--   <div class="text-center pt-2 d-flex justify-end">
+                        <v-pagination
+                            v-model="page"
+                            :total-visible="5"
+                            @input="changePage"
+                            :length="TotalStudent">
+                        </v-pagination>
+                        </div> -->
+
                 </v-card>
-
-
-
-
             </v-col>
         </v-row>
 
@@ -173,12 +173,6 @@
 
 
 
-                          <!--   <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <HasError class="error--text" :form="form" field="department" />
-                                <v-select :items="department" item-value="id" v-model="form.department" item-text="name"
-                                    return-object label="Department"  outlined></v-select>
-                            </v-col> -->
-
                             <v-col v-if="form.verified == null && type == 'edit'" class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <v-btn @click="VerifyUser(form.user_id)" block :disabled="isVerifying" rounded large
                                     color="primary">
@@ -188,9 +182,6 @@
                             </v-col>
 
                         </v-row>
-
-
-
                     </v-form>
                 </v-container>
                 <v-card-actions>
@@ -300,6 +291,8 @@
     export default {
         data: function () {
             return {
+                page: null,
+                current_page: null,
                 dialog_multi_user: false,
                 IsBulkadding: false,
 
@@ -358,6 +351,7 @@
                     min: v => (v && v.length >= 6) || "min 6 characters"
                 },
                 StudentList: [],
+                TotalStudent: null,
                 headers: [{
                         value: 'isActive',
                     },
@@ -410,6 +404,7 @@
                 json_users_file: null,
                 json_users_text_area: null,
                 department_id: null,
+                isGetting: false
 
             }
 
@@ -424,21 +419,28 @@
                             .includes(v))
                             //.includes(v) : item.student_id.toString().includes(v))
                     })
-/* 
-                     return this.StudentList.filter((item) => {
-                        return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
-                            .includes(v) || item.lastName.toLowerCase()
-                            .includes(v) || item.user_id.toString()
-                            .includes(v))
-                    }) */
                 } else {
                     return this.StudentList;
                 }
 
             },
         },
-
+        
         methods: {
+            async changePage(page){
+                 if(page != this.current_page){
+                    this.isGetting = true;
+                    await axios.get(`/api/admin/users/all/${this.user_type}?page=${page}`)
+                    .then((res)=>{
+                        this.StudentList = res.data.data;
+                        this.TotalStudent = res.data.total
+                        this.page = res.data.current_page;
+                        this.current_page = res.data.current_page;
+                        this.loading = false;
+                        this.isGetting = false;
+                    })
+                }
+            },
             addBulk() {
 
                 if (this.department != null && (this.json_users_file != null || this
@@ -680,6 +682,9 @@
                 axios.get('/api/admin/users/all/' + this.user_type)
                     .then(res => {
                         this.StudentList = res.data;
+                     /*    this.TotalStudent = res.data.total
+                        this.page = res.data.current_page;
+                        this.current_page = res.data.current_page; */
                         this.loading = false;
                     })
             },

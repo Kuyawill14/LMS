@@ -356,35 +356,6 @@
                              </div>
                           </v-col>
 
-                          <!--  <v-col v-if="!classworkDetails.graded && classworkDetails.publish == null &&  (classworkDetails.availability == 1 ? format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date): true)" class="ma-0 pa-0 mb-4 " cols="12" >
-                            <v-menu max-width="250" v-if="isResubmit || (classworkDetails.status == 'Submitting' || classworkDetails.status == null)" transition="scale-transition" offset-y>
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                  :loading="isUploadSaving"
-                                    block
-                                    class="pl-12 pr-12 pb-3 pt-3"
-                                    color="primary"
-                                    dark
-                                    :disabled="classworkDetails.availability == 1 && (format_date1(classworkDetails.currentDate) < format_date1(classworkDetails.from_date))"
-                                    outlined
-                                    v-bind="attrs"
-                                    v-on="on"
-                                  >
-                                  {{attrs.expanded}}
-                                    {{isUploadSaving ? 'Uploading..' : 'Add'}} <v-icon right>mdi-plus</v-icon>
-                                  </v-btn>
-                                </template>
-                                <v-list nav dense>
-                                  <v-list-item link  @click="UploadFile()">
-                                        <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
-                                  </v-list-item>
-                                    <v-list-item link @click="AttachLink = !AttachLink" >
-                                          <v-icon left>mdi-link-variant</v-icon>Attach Link
-                                  </v-list-item>
-                                </v-list>
-                              </v-menu>
-                          </v-col> -->
-
                           
 
                            <v-col v-if="classworkDetails.availability == 0" class="ma-0 pa-0 mb-1 " cols="12" >
