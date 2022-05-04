@@ -880,7 +880,7 @@ import axios from 'axios';
                 }
             },
             fetchQuestions() {
-                //this.ViewDetails.points = 0;
+
                 this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then((res) => {
 
                     let Submitted_length = this.ViewDetails.Submitted_Answers.length;
@@ -1276,7 +1276,6 @@ import axios from 'axios';
                     .then((res)=>{
                         this.CheckScore(this.ViewDetails.id)  
                     })
-                    //this.ReSaveScore();
                     this.isLoaded = true;
                     this.$emit('isMounted');
                     
@@ -1866,13 +1865,12 @@ import axios from 'axios';
                     this.toastError('Something went wrong');
                 })
             },
-             CheckScore(sub_id){
+            CheckScore(sub_id){
                  if(sub_id != null){
                     if(this.ViewDetails.status == 'Submitted'){
                         axios.get('/api/question/StudentScore/'+sub_id)
                         .then(res=>{
                             this.ViewDetails.points = res.data.toFixed();
-                            //this.ReSaveScore(res.data);
                         })  
                     }
                  }

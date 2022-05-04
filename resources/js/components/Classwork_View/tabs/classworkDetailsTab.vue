@@ -596,7 +596,10 @@
                     size: size,
                     extension: this.extension
                 });
-
+                
+                if(this.Details.attachment == null)this.Details.attachment = [];
+                    
+            
                 this.Details.attachment.push({
                     name: fileName,
                     size: size,

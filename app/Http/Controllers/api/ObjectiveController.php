@@ -83,7 +83,8 @@ class ObjectiveController extends Controller
                 if(auth('sanctum')->user()->role == 'Student'){
 
                     if($cl->type == 'Multiple Choice'){
-                        $tempData2  = $tempData1->shuffle();
+                        //$tempData2  = $tempData1->shuffle();
+                        $tempData2  = $tempData1;
                         $FinalAnswer[] =  $tempData2;
                     }
                     else{
@@ -1643,7 +1644,6 @@ class ObjectiveController extends Controller
         $score = 0;
         if($Submission){
             $SubmittedAnswer = unserialize($Submission->Submitted_Answers);
-            //return $SubmittedAnswer;
 
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $Submission->classwork_id)
             ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points' ,'tbl_questions.sensitivity')
@@ -1695,8 +1695,6 @@ class ObjectiveController extends Controller
                                             $tempUserAns = $tempUserAns != null ? str_replace('&nbsp;', '', $tempUserAns) : $tempUserAns;
                                             $tempOtherAns = $tempOtherAns != null ? str_replace('&nbsp;', '', $tempOtherAns) : $tempOtherAns;
 
-                                        /*  $tempUserAns = str_replace(' ', '', $tempUserAns);
-                                            $tempOtherAns = str_replace(' ', '', $tempOtherAns); */
                                             $tempUserAns = $tempUserAns != null ? trim($tempUserAns) : $tempUserAns;
                                             $tempOtherAns = $tempOtherAns != null ? trim($tempOtherAns) : $tempUserAns;
                                             //$test[] = $tempOtherAns;
@@ -1754,7 +1752,6 @@ class ObjectiveController extends Controller
                             }
                         }
                         elseif($cl['type'] == 'Essay'){
-                            //$score += $cl['score'];
                             if(array_key_exists("score",$cl)){
                                 $score += $cl['score'];
                             }
@@ -1768,18 +1765,11 @@ class ObjectiveController extends Controller
                 }
  
             }
-
-            //return $SubmittedAnswer;
-            //$Submission->Submitted_Answers = serialize($SubmittedAnswer);
             $Submission->points = $score;
             $Submission->save();
-            //return $test;
             return $Submission->points;
-
         }
         return;
-
-       
     }
 
     public function DeleteQuestionAttachment(Request $request, $id){

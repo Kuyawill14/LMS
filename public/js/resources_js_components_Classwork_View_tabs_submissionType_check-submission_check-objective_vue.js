@@ -900,7 +900,6 @@ var resetConfirmation = function resetConfirmation() {
     fetchQuestions: function fetchQuestions() {
       var _this = this;
 
-      //this.ViewDetails.points = 0;
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
         var Submitted_length = _this.ViewDetails.Submitted_Answers.length;
         var Question_length = _this.getAll_questions.Question.length;
@@ -1251,8 +1250,7 @@ var resetConfirmation = function resetConfirmation() {
         details.score = _this.ViewDetails.points;
         axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/markAnswer/' + _this.ViewDetails.id, details).then(function (res) {
           _this.CheckScore(_this.ViewDetails.id);
-        }); //this.ReSaveScore();
-
+        });
         _this.isLoaded = true;
 
         _this.$emit('isMounted');
@@ -1959,7 +1957,7 @@ var resetConfirmation = function resetConfirmation() {
       if (sub_id != null) {
         if (this.ViewDetails.status == 'Submitted') {
           axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/question/StudentScore/' + sub_id).then(function (res) {
-            _this14.ViewDetails.points = res.data.toFixed(); //this.ReSaveScore(res.data);
+            _this14.ViewDetails.points = res.data.toFixed();
           });
         }
       }

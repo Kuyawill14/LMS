@@ -278,7 +278,7 @@ export default {
             FromtimeProps: {
                 useSeconds: false,
                 ampmInTitle: true,
-                min: moment(this.datetoday).tz("Asia/Manila").format('h:mm')
+                min: null
             },
             FromtimeAnswerProps: {
                 useSeconds: false,
