@@ -453,7 +453,7 @@ class TeacherController extends Controller
 
         $Answers = tbl_Submission::find($id);
         if($Answers){
-            //$Answers->Submitted_Answers = serialize($request->answer);
+            $Answers->Submitted_Answers = serialize($request->answer);
             $Answers->points = $request->score;
             $Answers->save();
             return 'Successufully saved!';
