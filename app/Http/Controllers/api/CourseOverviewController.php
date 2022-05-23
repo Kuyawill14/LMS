@@ -23,6 +23,7 @@ class CourseOverviewController extends Controller
      */
     public function overview($id)
     {
+        //return '1222'
         $overview = [];
         $userId = auth('sanctum')->id();
 
@@ -67,6 +68,8 @@ class CourseOverviewController extends Controller
             'tbl_subject_courses.school_year_id',
             'tbl_subject_courses.semester_id'
             )
+
+
             ->selectRaw($class_count)
             ->selectRaw($classwork_count)
             ->selectRaw($sub_module_count)

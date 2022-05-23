@@ -504,7 +504,7 @@ Route::prefix('/activitylog')->group(function() {
 
 //Course overview
 Route::prefix('/course/overview')->group(function() {
-    Route::get('/all/{id}', [CourseOverviewController::class, 'fetchAllFUploadediles']);
+    Route::get('/all/{id}', [CourseOverviewController::class, 'overview']);
    
    
     

@@ -1272,6 +1272,7 @@ import axios from 'axios';
                     let details = {};
                     details.answer = this.ViewDetails.Submitted_Answers;
                     details.score = this.ViewDetails.points;
+                    details.check = false;
                     axios.put('/api/teacher/markAnswer/'+this.ViewDetails.id, details)
                     .then((res)=>{
                         this.CheckScore(this.ViewDetails.id)  
@@ -1671,6 +1672,7 @@ import axios from 'axios';
                 let details = {};
                 details.answer = this.ViewDetails.Submitted_Answers;
                 details.score = this.ViewDetails.points;
+                details.check = false;
                 axios.put('/api/teacher/markAnswer/'+this.ViewDetails.id, details)
                 .then((res)=>{
                     
@@ -1943,6 +1945,7 @@ import axios from 'axios';
                                         let details = {};
                                         details.answer = this.ViewDetails.Submitted_Answers;
                                         details.score = this.ViewDetails.points;
+                                        details.check = true;
                                         axios.put('/api/teacher/markAnswer/'+this.ViewDetails.id, details)
                                         .then((res)=>{
                                             item.user_ans_id = item.answer_id;
