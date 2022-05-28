@@ -1181,7 +1181,7 @@ var resetConfirmation = function resetConfirmation() {
                     var string = sub.Ans_Letter != null ? sub.Ans_Letter.replace(/\./g, '') : sub.Ans_Letter;
                     var letter = string != null ? string.trim() : null;
 
-                    if (letter != null ? letter.toUpperCase() == sub.correct_ans_letter.toUpperCase() : false) {
+                    if (letter != null ? letter.toUpperCase() == (sub.correct_ans_letter != null ? sub.correct_ans_letter.toUpperCase() : sub.correct_ans_letter) : false) {
                       match_check[_counter2] = true;
 
                       _this.ViewDetails.Submitted_Answers.forEach(function (submi_ans) {
@@ -1248,6 +1248,7 @@ var resetConfirmation = function resetConfirmation() {
         var details = {};
         details.answer = _this.ViewDetails.Submitted_Answers;
         details.score = _this.ViewDetails.points;
+        details.check = false;
         axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/markAnswer/' + _this.ViewDetails.id, details).then(function (res) {
           _this.CheckScore(_this.ViewDetails.id);
         });
@@ -1543,7 +1544,7 @@ var resetConfirmation = function resetConfirmation() {
                   var string = sub.Ans_Letter != null ? sub.Ans_Letter.replace(/\./g, '') : sub.Ans_Letter;
                   var letter = string != null ? string.trim() : string;
 
-                  if (letter != null ? letter.toUpperCase() == sub.correct_ans_letter.toUpperCase() : false) {
+                  if (letter != null ? letter.toUpperCase() == (sub.correct_ans_letter != null ? sub.correct_ans_letter.toUpperCase() : sub.correct_ans_letter) : false) {
                     match_check[_counter4] = true;
 
                     _this2.ViewDetails.Submitted_Answers.forEach(function (submi_ans) {
@@ -1610,6 +1611,7 @@ var resetConfirmation = function resetConfirmation() {
       var details = {};
       details.answer = this.ViewDetails.Submitted_Answers;
       details.score = this.ViewDetails.points;
+      details.check = false;
       axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/markAnswer/' + this.ViewDetails.id, details).then(function (res) {});
       this.CheckScore(this.ViewDetails.id);
       this.isLoaded = true; //this.ReSaveScore();
@@ -2089,6 +2091,7 @@ var resetConfirmation = function resetConfirmation() {
                             var details = {};
                             details.answer = _this18.ViewDetails.Submitted_Answers;
                             details.score = _this18.ViewDetails.points;
+                            details.check = true;
                             axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/markAnswer/' + _this18.ViewDetails.id, details).then(function (res) {
                               item.user_ans_id = item.answer_id;
                             });

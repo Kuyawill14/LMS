@@ -1215,7 +1215,7 @@ import axios from 'axios';
                                         if(sub.isCheck == null){
                                             let string = sub.Ans_Letter != null ? sub.Ans_Letter.replace(/\./g,'') : sub.Ans_Letter;
                                             let letter = string != null ? string.trim() : null;
-                                            if(letter != null ? letter.toUpperCase() == sub.correct_ans_letter.toUpperCase() : false){
+                                            if(letter != null ? letter.toUpperCase() == (sub.correct_ans_letter != null ? sub.correct_ans_letter.toUpperCase() : sub.correct_ans_letter) : false){
                                                 match_check[counter] = true;
                                                 this.ViewDetails.Submitted_Answers.forEach(submi_ans => {
                                                     if(submi_ans.Question_id == this.getAll_questions.Question[i].id){
@@ -1612,7 +1612,7 @@ import axios from 'axios';
                                         if(sub.isCheck == null){
                                             let string = sub.Ans_Letter != null ? sub.Ans_Letter.replace(/\./g,'') : sub.Ans_Letter;
                                             let letter = string != null ? string.trim() : string;
-                                            if(letter != null ? letter.toUpperCase() == sub.correct_ans_letter.toUpperCase() : false){
+                                            if(letter != null ? letter.toUpperCase() == (sub.correct_ans_letter != null ? sub.correct_ans_letter.toUpperCase() : sub.correct_ans_letter): false){
                                                 match_check[counter] = true;
                                                 this.ViewDetails.Submitted_Answers.forEach(submi_ans => {
                                                     if(submi_ans.Question_id == this.getAll_questions.Question[i].id){
