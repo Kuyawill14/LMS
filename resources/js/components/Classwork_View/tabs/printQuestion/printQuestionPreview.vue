@@ -278,7 +278,6 @@ export default {
     },
     methods:{
          dowloadCopy(type){
-            this.isDownloading = true;
             this.isDownloadType = type;
             this.generateReport();
         },
