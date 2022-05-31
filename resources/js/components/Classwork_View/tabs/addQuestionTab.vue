@@ -114,7 +114,75 @@
     </div>
 </v-hover>
 
+<v-hover v-slot="{ hover }">
+    <div>
+        <v-app-bar
+       v-if="!isloading && Qlength != 0 && $vuetify.breakpoint.mdAndUp"
+        @click="GenerateCopy"
+        :elevation="hover ? '10' : '2'"
+        :style="$vuetify.breakpoint.mdAndUp && !fab  ? 
+        'position: fixed !important;z-index: 2;width: 130px !important;top: 24.5em !important;margin-left: 1em !important;cursor:pointer;' : 
+        $vuetify.breakpoint.mdAndUp && fab ?
+        'position: fixed !important;width: 130px !important;z-index: 2;top:20.5em !important;margin-left: 1em !important;cursor:pointer;' : ''"
+        dense clipped-right shaped class="fixed-bar" floating  color="secondary"  >
+            <v-chip
+            small
+            style="cursor:pointer;"
+            color="secondary"
+            text-color="white">
+            <v-icon style="font-size:1.3rem" left>mdi-download</v-icon>
+            <span class="font-weight-bold pl-2">
+                DOWNLOAD
+            </span>
+            </v-chip>
+        </v-app-bar>
+    </div>
+</v-hover>
 
+
+    <div v-if="!$vuetify.breakpoint.mdAndUp" id="settings-wrapper">
+        <v-menu
+        style="min-width: 100px; top: 55px; left: 1513px; transform-origin: right top; z-index: 8;"
+        v-model="menu"
+        offset-y
+        close-on-content-click
+        :nudge-width="180">
+        <template v-slot:activator="{ on, attrs }">
+             <div tabindex="0"  v-bind="attrs" v-on="on"
+                class="py-2 px-4 v-card v-card--flat v-card--link v-sheet theme--dark" 
+                id="settings" 
+                style="min-width: 100px; background-color: rgba(0, 0, 0, 0.3); border-color: rgba(0, 0, 0, 0.3); position: fixed; top: 115px; right: -35px; border-radius: 8px; z-index: 1;">
+                    <v-icon style="font-size: 36px;" dark>mdi-cog</v-icon>
+                </div>
+        </template>
+
+        <v-card>
+            <v-list>
+            <v-list-item>
+                 <v-list-item-content>
+                    <v-btn @click="studenView()" large dark color="success"><v-icon left>mdi-eye</v-icon> Preview</v-btn>
+                   
+                </v-list-item-content>
+            </v-list-item>
+
+             <v-list-item>
+                 <v-list-item-content>
+                    <v-btn @click="$router.push({name: 'question-analytics',query: {clwk: $route.query.clwk} })" large dark color="red"><v-icon left>mdi-poll</v-icon> Analytics</v-btn>
+                   
+                </v-list-item-content>
+            </v-list-item>
+
+             <v-list-item>
+                 <v-list-item-content>
+                    <v-btn @click="GenerateCopy" large dark color="secondary"><v-icon left>mdi-download</v-icon> Download</v-btn>
+                </v-list-item-content>
+            </v-list-item>
+
+          
+            </v-list>
+        </v-card>
+        </v-menu>
+    </div>
 
 
 
@@ -180,12 +248,19 @@
     ></v-progress-circular>
 </v-overlay>
 
+<v-overlay :value="isGeneratingCopy">
+    <v-progress-circular
+        indeterminate
+        size="80">Generating
+    </v-progress-circular>
+</v-overlay>
+
 
 <v-overlay :value="isDuplicating || isUploading">
     <v-progress-circular
         indeterminate
         size="80">
-            {{isUploading ? 'Uploading' : isDuplicating && !isDeleting ? 'Duplicating' : isDuplicating && isDeleting ? 'Removing' : ''}}
+            {{isUploading ? 'Uploading' : isDuplicating && !isDeleting ? 'Duplicating' : isDuplicating && isDeleting ? 'Removing' :  ''}}
     </v-progress-circular>
 </v-overlay>
 
@@ -802,6 +877,14 @@
     <v-dialog v-model="isHaveSubmissionDialog"  max-width="550">
           <warningDialog v-if="isHaveSubmissionDialog"></warningDialog>
     </v-dialog>
+
+    <!--  <div> -->
+         <v-dialog v-model="isPrintingQuestion" max-width="300">
+              <printQuestion  :classworkDetails="classworkDetails" ref="myChild" :Question="getAll_questions" ></printQuestion>
+         </v-dialog>
+         
+    <!-- </div> -->
+    
 </div>
     
 </div>
@@ -814,6 +897,7 @@ const deleteDialogQuestion = () => import('./dialogs/deleteDialogQuestion')
 const warningDialog = () => import('./dialogs/warningDialog')
 const viewQuestion = () => import('./viewQuestion')
 const studentViewForTeacher = () => import('./TeacherQuizPreview/StudentViewForTeacher')
+const printQuestion = () => import('./printQuestion/printQuestionPreview')
 export default {
     props:['classworkDetails'],
     components:{
@@ -821,7 +905,8 @@ export default {
         viewQuestion,
         deleteDialogQuestion,
         studentViewForTeacher,
-        warningDialog
+        warningDialog,
+        printQuestion
     },
     data(){
         return{
@@ -914,6 +999,12 @@ export default {
             isDeletingAttachment: false,
             isDeletingAttachment_index: null,
             fileCount: 4,
+             fav: true,
+            menu: false,
+            message: false,
+            hints: true,
+            isGeneratingCopy: false,
+            isPrintingQuestion: false
         }
     },
     watch: {
@@ -929,6 +1020,12 @@ export default {
     },
     computed: mapGetters(["getAll_questions"]),
     methods:{
+        GenerateCopy(){
+            this.isPrintingQuestion = true;
+            /* this.isGeneratingCopy = true;
+            this.$refs.myChild.generateReport();
+            setTimeout(() => (this.isGeneratingCopy = false), 1000); */
+        },
         ImageUploader(main_index, sub_index){
             this.$refs['uploader'+main_index+''+sub_index][0].$refs.input.click()
         },

@@ -1021,6 +1021,89 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1043,6 +1126,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_TeacherQuizPreview_StudentViewForTeacher_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./TeacherQuizPreview/StudentViewForTeacher */ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue"));
 };
 
+var printQuestion = function printQuestion() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_printQuestion_printQuestionPreview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./printQuestion/printQuestionPreview */ "./resources/js/components/Classwork_View/tabs/printQuestion/printQuestionPreview.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
   components: {
@@ -1050,7 +1137,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
     viewQuestion: viewQuestion,
     deleteDialogQuestion: deleteDialogQuestion,
     studentViewForTeacher: studentViewForTeacher,
-    warningDialog: warningDialog
+    warningDialog: warningDialog,
+    printQuestion: printQuestion
   },
   data: function data() {
     return {
@@ -1145,7 +1233,13 @@ var studentViewForTeacher = function studentViewForTeacher() {
       isUploading: false,
       isDeletingAttachment: false,
       isDeletingAttachment_index: null,
-      fileCount: 4
+      fileCount: 4,
+      fav: true,
+      menu: false,
+      message: false,
+      hints: true,
+      isGeneratingCopy: false,
+      isPrintingQuestion: false
     };
   },
   watch: {
@@ -1161,6 +1255,12 @@ var studentViewForTeacher = function studentViewForTeacher() {
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getAll_questions"]),
   methods: {
+    GenerateCopy: function GenerateCopy() {
+      this.isPrintingQuestion = true;
+      /* this.isGeneratingCopy = true;
+      this.$refs.myChild.generateReport();
+      setTimeout(() => (this.isGeneratingCopy = false), 1000); */
+    },
     ImageUploader: function ImageUploader(main_index, sub_index) {
       this.$refs['uploader' + main_index + '' + sub_index][0].$refs.input.click();
     },
@@ -36585,6 +36685,309 @@ var render = function() {
               ])
             }),
             _vm._v(" "),
+            _c("v-hover", {
+              scopedSlots: _vm._u([
+                {
+                  key: "default",
+                  fn: function(ref) {
+                    var hover = ref.hover
+                    return [
+                      _c(
+                        "div",
+                        [
+                          !_vm.isloading &&
+                          _vm.Qlength != 0 &&
+                          _vm.$vuetify.breakpoint.mdAndUp
+                            ? _c(
+                                "v-app-bar",
+                                {
+                                  staticClass: "fixed-bar",
+                                  style:
+                                    _vm.$vuetify.breakpoint.mdAndUp && !_vm.fab
+                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 24.5em !important;margin-left: 1em !important;cursor:pointer;"
+                                      : _vm.$vuetify.breakpoint.mdAndUp &&
+                                        _vm.fab
+                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top:20.5em !important;margin-left: 1em !important;cursor:pointer;"
+                                      : "",
+                                  attrs: {
+                                    elevation: hover ? "10" : "2",
+                                    dense: "",
+                                    "clipped-right": "",
+                                    shaped: "",
+                                    floating: "",
+                                    color: "secondary"
+                                  },
+                                  on: { click: _vm.GenerateCopy }
+                                },
+                                [
+                                  _c(
+                                    "v-chip",
+                                    {
+                                      staticStyle: { cursor: "pointer" },
+                                      attrs: {
+                                        small: "",
+                                        color: "secondary",
+                                        "text-color": "white"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          staticStyle: {
+                                            "font-size": "1.3rem"
+                                          },
+                                          attrs: { left: "" }
+                                        },
+                                        [_vm._v("mdi-download")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        {
+                                          staticClass: "font-weight-bold pl-2"
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\r\n                DOWNLOAD\r\n            "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ]
+                  }
+                }
+              ])
+            }),
+            _vm._v(" "),
+            !_vm.$vuetify.breakpoint.mdAndUp
+              ? _c(
+                  "div",
+                  { attrs: { id: "settings-wrapper" } },
+                  [
+                    _c(
+                      "v-menu",
+                      {
+                        staticStyle: {
+                          "min-width": "100px",
+                          top: "55px",
+                          left: "1513px",
+                          "transform-origin": "right top",
+                          "z-index": "8"
+                        },
+                        attrs: {
+                          "offset-y": "",
+                          "close-on-content-click": "",
+                          "nudge-width": 180
+                        },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "div",
+                                    _vm._g(
+                                      _vm._b(
+                                        {
+                                          staticClass:
+                                            "py-2 px-4 v-card v-card--flat v-card--link v-sheet theme--dark",
+                                          staticStyle: {
+                                            "min-width": "100px",
+                                            "background-color":
+                                              "rgba(0, 0, 0, 0.3)",
+                                            "border-color":
+                                              "rgba(0, 0, 0, 0.3)",
+                                            position: "fixed",
+                                            top: "115px",
+                                            right: "-35px",
+                                            "border-radius": "8px",
+                                            "z-index": "1"
+                                          },
+                                          attrs: {
+                                            tabindex: "0",
+                                            id: "settings"
+                                          }
+                                        },
+                                        "div",
+                                        attrs,
+                                        false
+                                      ),
+                                      on
+                                    ),
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          staticStyle: { "font-size": "36px" },
+                                          attrs: { dark: "" }
+                                        },
+                                        [_vm._v("mdi-cog")]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ]
+                              }
+                            }
+                          ],
+                          null,
+                          false,
+                          1777172717
+                        ),
+                        model: {
+                          value: _vm.menu,
+                          callback: function($$v) {
+                            _vm.menu = $$v
+                          },
+                          expression: "menu"
+                        }
+                      },
+                      [
+                        _vm._v(" "),
+                        _c(
+                          "v-card",
+                          [
+                            _c(
+                              "v-list",
+                              [
+                                _c(
+                                  "v-list-item",
+                                  [
+                                    _c(
+                                      "v-list-item-content",
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              large: "",
+                                              dark: "",
+                                              color: "success"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.studenView()
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              { attrs: { left: "" } },
+                                              [_vm._v("mdi-eye")]
+                                            ),
+                                            _vm._v(" Preview")
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-list-item",
+                                  [
+                                    _c(
+                                      "v-list-item-content",
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              large: "",
+                                              dark: "",
+                                              color: "red"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.$router.push({
+                                                  name: "question-analytics",
+                                                  query: {
+                                                    clwk: _vm.$route.query.clwk
+                                                  }
+                                                })
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              { attrs: { left: "" } },
+                                              [_vm._v("mdi-poll")]
+                                            ),
+                                            _vm._v(" Analytics")
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-list-item",
+                                  [
+                                    _c(
+                                      "v-list-item-content",
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              large: "",
+                                              dark: "",
+                                              color: "secondary"
+                                            },
+                                            on: { click: _vm.GenerateCopy }
+                                          },
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              { attrs: { left: "" } },
+                                              [_vm._v("mdi-download")]
+                                            ),
+                                            _vm._v(" Download")
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
             _c(
               "div",
               { attrs: { transition: "slide-y-reverse-transition" } },
@@ -36834,6 +37237,19 @@ var render = function() {
                 _c("v-progress-circular", {
                   attrs: { indeterminate: "", size: "64" }
                 })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-overlay",
+              { attrs: { value: _vm.isGeneratingCopy } },
+              [
+                _c(
+                  "v-progress-circular",
+                  { attrs: { indeterminate: "", size: "80" } },
+                  [_vm._v("Generating\r\n    ")]
+                )
               ],
               1
             ),
@@ -40062,6 +40478,30 @@ var render = function() {
                 }
               },
               [_vm.isHaveSubmissionDialog ? _c("warningDialog") : _vm._e()],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-dialog",
+              {
+                attrs: { "max-width": "300" },
+                model: {
+                  value: _vm.isPrintingQuestion,
+                  callback: function($$v) {
+                    _vm.isPrintingQuestion = $$v
+                  },
+                  expression: "isPrintingQuestion"
+                }
+              },
+              [
+                _c("printQuestion", {
+                  ref: "myChild",
+                  attrs: {
+                    classworkDetails: _vm.classworkDetails,
+                    Question: _vm.getAll_questions
+                  }
+                })
+              ],
               1
             )
           ],
