@@ -40499,6 +40499,11 @@ var render = function() {
                   attrs: {
                     classworkDetails: _vm.classworkDetails,
                     Question: _vm.getAll_questions
+                  },
+                  on: {
+                    CloseDialog: function($event) {
+                      _vm.isPrintingQuestion = false
+                    }
                   }
                 })
               ],

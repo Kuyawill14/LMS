@@ -237,6 +237,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -259,13 +261,14 @@ __webpack_require__.r(__webpack_exports__);
       },
       isDownloadType: null,
       isDownloading: false,
+      isloading: false,
       inputCheck: ['True', 'False'],
       Alphabet: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     };
   },
   methods: {
     dowloadCopy: function dowloadCopy(type) {
-      this.isDownloading = true;
+      this.isloading = true;
       this.isDownloadType = type;
       this.generateReport();
     },
@@ -11154,6 +11157,9 @@ var render = function() {
                                 {
                                   attrs: {
                                     color: "success",
+                                    loading:
+                                      _vm.isloading &&
+                                      _vm.isDownloadType == "answer_key",
                                     dark: "",
                                     large: "",
                                     block: ""
@@ -11212,6 +11218,9 @@ var render = function() {
                               _vm._b(
                                 {
                                   attrs: {
+                                    loading:
+                                      _vm.isloading &&
+                                      _vm.isDownloadType == "questioner",
                                     color: "red",
                                     dark: "",
                                     large: "",
@@ -11254,6 +11263,16 @@ var render = function() {
         _vm._v(" "),
         _c(
           "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.isDownloading,
+                expression: "isDownloading"
+              }
+            ]
+          },
           [
             _c(
               "VueHtml2pdf",
@@ -11271,6 +11290,11 @@ var render = function() {
                   "pdf-orientation": "portrait",
                   "pdf-content-width": "800px",
                   "html-to-pdf-options": _vm.pdfOptions
+                },
+                on: {
+                  hasDownloaded: function($event) {
+                    _vm.$emit("CloseDialog"), (_vm.isloading = false)
+                  }
                 }
               },
               [

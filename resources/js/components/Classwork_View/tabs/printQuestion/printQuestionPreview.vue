@@ -10,7 +10,7 @@
 
                     <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
-                            <v-btn color="success" v-bind="attrs" v-on="on" dark large block @click="dowloadCopy('answer_key')">
+                            <v-btn color="success" :loading="isloading && isDownloadType == 'answer_key'" v-bind="attrs" v-on="on" dark large block @click="dowloadCopy('answer_key')">
                                 Download Answer Key
                             </v-btn>
                         </template>
@@ -23,7 +23,7 @@
 
                       <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
-                            <v-btn color="red" v-bind="attrs" v-on="on" dark large block @click="dowloadCopy('questioner')">
+                            <v-btn :loading="isloading && isDownloadType == 'questioner'" color="red" v-bind="attrs" v-on="on" dark large block @click="dowloadCopy('questioner')">
                                 Download Questioner
                             </v-btn>
                         </template>
@@ -35,7 +35,7 @@
                   <VueHtml2pdf :show-layout="false"  :enable-download="true" :preview-modal="false"
                     :paginate-elements-by-height="1248" :filename="classworkDetails.title" :pdf-quality="2" :manual-pagination="true"
                     pdf-format="legal" pdf-orientation="portrait" pdf-content-width="800px" :html-to-pdf-options="pdfOptions"
-                
+                    @hasDownloaded="$emit('CloseDialog'),isloading = false"
                     ref="html2Pdf">
                     <section slot="pdf-content">
 
@@ -245,6 +245,7 @@ export default {
             },
             isDownloadType: null,
             isDownloading: false,
+            isloading: false,
             inputCheck:['True','False'],
             Alphabet: [
                 "A",
@@ -278,6 +279,7 @@ export default {
     },
     methods:{
          dowloadCopy(type){
+            this.isloading = true;
             this.isDownloadType = type;
             this.generateReport();
         },

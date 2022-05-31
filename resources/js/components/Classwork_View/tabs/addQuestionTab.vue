@@ -880,7 +880,7 @@
 
     <!--  <div> -->
          <v-dialog v-model="isPrintingQuestion" max-width="300">
-              <printQuestion  :classworkDetails="classworkDetails" ref="myChild" :Question="getAll_questions" ></printQuestion>
+              <printQuestion v-on:CloseDialog="isPrintingQuestion = false"  :classworkDetails="classworkDetails" ref="myChild" :Question="getAll_questions" ></printQuestion>
          </v-dialog>
          
     <!-- </div> -->
