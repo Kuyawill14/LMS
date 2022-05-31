@@ -4,6 +4,8 @@
               
             <v-card class="pa-3">
                  <div>
+
+                  
                     
 
                     <v-tooltip top>
@@ -29,7 +31,7 @@
                     </v-tooltip>
                 </div>
             </v-card>
-             <div >
+            <div v-show="isDownloading" >
                   <VueHtml2pdf :show-layout="false"  :enable-download="true" :preview-modal="false"
                     :paginate-elements-by-height="1248" :filename="classworkDetails.title" :pdf-quality="2" :manual-pagination="true"
                     pdf-format="legal" pdf-orientation="portrait" pdf-content-width="800px" :html-to-pdf-options="pdfOptions"
@@ -275,7 +277,7 @@ export default {
         }
     },
     methods:{
-        dowloadCopy(type){
+         dowloadCopy(type){
             this.isDownloading = true;
             this.isDownloadType = type;
             this.generateReport();
