@@ -525,6 +525,8 @@ class ClassworkController extends Controller
         $classworkDetails;
         if(auth('sanctum')->user()->role != 'Student'){
             $classworkDetails = tbl_classwork::where('tbl_classworks.id',$id)
+            ->select('tbl_classworks.*', 'tbl_subject_courses.course_code','tbl_subject_courses.course_name')
+            ->leftJoin('tbl_subject_courses', 'tbl_subject_courses.id','=','tbl_classworks.course_id')
             ->where('tbl_classworks.user_id', $userId)
             ->where('tbl_classworks.deleted_at', null)
             ->first();

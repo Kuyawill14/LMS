@@ -248,12 +248,7 @@
     ></v-progress-circular>
 </v-overlay>
 
-<v-overlay :value="isGeneratingCopy">
-    <v-progress-circular
-        indeterminate
-        size="80">Generating
-    </v-progress-circular>
-</v-overlay>
+
 
 
 <v-overlay :value="isDuplicating || isUploading">
