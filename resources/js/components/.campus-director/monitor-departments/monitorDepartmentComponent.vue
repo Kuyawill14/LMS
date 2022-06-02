@@ -37,8 +37,7 @@
 
                     
                     <v-card-text class="text--primary">
-                        <div>Total Students: {{department.total_students}}</div>
-                        <div>Total Instructors: {{department.total_teachers}}</div>
+                        <div>Total Faculty: {{department.total_teachers}}</div>
 
                     </v-card-text>
 

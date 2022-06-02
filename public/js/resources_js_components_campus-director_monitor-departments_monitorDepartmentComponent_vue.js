@@ -66,7 +66,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -342,14 +341,7 @@ var render = function() {
                   _c("v-card-text", { staticClass: "text--primary" }, [
                     _c("div", [
                       _vm._v(
-                        "Total Students: " + _vm._s(department.total_students)
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", [
-                      _vm._v(
-                        "Total Instructors: " +
-                          _vm._s(department.total_teachers)
+                        "Total Faculty: " + _vm._s(department.total_teachers)
                       )
                     ])
                   ])

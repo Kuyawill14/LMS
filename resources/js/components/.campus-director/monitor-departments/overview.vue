@@ -28,12 +28,12 @@
                             <tbody>
                                 <tr v-for="item in items" :key="item.id">
 
-                                    <td> {{item.user_id}} </td>
-                                    <td> {{item.lastName + ', ' + item.firstName + ' ' + item.middleName }} </td>
-                                    <td class="text-center"> {{item.overview.total_courses}}</td>
-                                    <td class="text-center"> {{item.overview.total_classes}} </td>
-                                    <td class="text-center"> {{item.overview.total_modules}} </td>
-                                    <td class="text-center"> {{item.overview.total_classwork}} </td>
+                                    <td> {{item['item'] = item.user_id}} </td>
+                                    <td> {{item['name'] = item.lastName + ', ' + item.firstName + ' ' + item.middleName }} </td>
+                                    <td class="text-center"> {{item['course_count']  = item.overview.total_courses}}</td>
+                                    <td class="text-center"> {{item['total_classes']  = item.overview.total_classes}} </td>
+                                    <td class="text-center"> {{item['sub_modules_count'] = item.overview.total_modules}} </td>
+                                    <td class="text-center"> {{item['classwork_count']  = item.overview.total_classwork}} </td>
                                     <td class="text-center">
                                         <v-btn icon color="success" link
                                             :to="{name: 'departmentMonitorTeacher_id', query: {id: item.user_id}}">
@@ -87,7 +87,7 @@
                     },
                     {
                         text: 'Name',
-                        value: 'firstName',
+                        value: 'name',
                         align: 'start',
                     },
                     {

@@ -117,8 +117,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -136,7 +134,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       align: 'start'
     }, {
       text: 'Name',
-      value: 'firstName',
+      value: 'name',
       align: 'start'
     }, {
       text: 'Total Courses',
@@ -511,7 +509,7 @@ var render = function() {
                         "v-card-title",
                         [
                           _vm._v(
-                            "\n                    Teachers\n\n                    "
+                            "\n                    Teacherss\n\n                    "
                           ),
                           _c("v-spacer"),
                           _vm._v(" "),
@@ -557,7 +555,10 @@ var render = function() {
                                               _c("td", [
                                                 _vm._v(
                                                   " " +
-                                                    _vm._s(item.user_id) +
+                                                    _vm._s(
+                                                      (item["id"] =
+                                                        item.user_id)
+                                                    ) +
                                                     " "
                                                 )
                                               ]),
@@ -566,11 +567,12 @@ var render = function() {
                                                 _vm._v(
                                                   " " +
                                                     _vm._s(
-                                                      item.lastName +
+                                                      (item["name"] =
+                                                        item.lastName +
                                                         ", " +
                                                         item.firstName +
                                                         " " +
-                                                        item.middleName
+                                                        item.middleName)
                                                     ) +
                                                     " "
                                                 )
@@ -582,19 +584,10 @@ var render = function() {
                                                 [
                                                   _vm._v(
                                                     " " +
-                                                      _vm._s(item.course_count)
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "td",
-                                                { staticClass: "text-center" },
-                                                [
-                                                  _vm._v(
-                                                    " " +
-                                                      _vm._s(item.class_count) +
-                                                      " "
+                                                      _vm._s(
+                                                        (item["course_count"] =
+                                                          item.course_count)
+                                                      )
                                                   )
                                                 ]
                                               ),
@@ -606,7 +599,8 @@ var render = function() {
                                                   _vm._v(
                                                     " " +
                                                       _vm._s(
-                                                        item.sub_modules_count
+                                                        (item["total_classes"] =
+                                                          item.class_count)
                                                       ) +
                                                       " "
                                                   )
@@ -620,7 +614,27 @@ var render = function() {
                                                   _vm._v(
                                                     " " +
                                                       _vm._s(
-                                                        item.classwork_count
+                                                        (item[
+                                                          "sub_modules_count"
+                                                        ] =
+                                                          item.sub_modules_count)
+                                                      ) +
+                                                      " "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "td",
+                                                { staticClass: "text-center" },
+                                                [
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(
+                                                        (item[
+                                                          "classwork_count"
+                                                        ] =
+                                                          item.classwork_count)
                                                       ) +
                                                       " "
                                                   )
@@ -683,7 +697,7 @@ var render = function() {
                               ],
                               null,
                               false,
-                              2112978852
+                              52961367
                             )
                           })
                         : _vm._e()

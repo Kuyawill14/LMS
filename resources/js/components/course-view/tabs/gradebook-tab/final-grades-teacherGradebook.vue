@@ -1,11 +1,8 @@
 <template>
     <div>
-
         <v-card-title>
             Final Grades
-
-
-            <v-spacer></v-spacer>
+           <v-spacer></v-spacer>
             <div width="50%">
                             <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
                                 hide-details>

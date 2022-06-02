@@ -109,11 +109,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       summarryLoading: true,
       department: []
     }, _defineProperty(_ref, "summarryLoading", true), _defineProperty(_ref, "cardheaders", [{
-      title: 'Total Teacher',
-      count: 0,
-      icon: ''
-    }, {
-      title: 'Total student',
+      title: 'Total Faculty',
       count: 0,
       icon: ''
     }]), _defineProperty(_ref, "windowSize", ''), _defineProperty(_ref, "sizeTimer", false), _ref;
@@ -126,8 +122,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.get('/api/department/data/' + this.$route.params.id).then(function (res) {
         if (res.status == 200) {
           _this.department = res.data;
-          _this.cardheaders[0].count = _this.department.total_teachers;
-          _this.cardheaders[1].count = _this.department.total_students;
+          _this.cardheaders[0].count = _this.department.total_teachers; // this.cardheaders[1].count = this.department.total_students;
+
           _this.summarryLoading = false;
         }
       });
@@ -506,7 +502,13 @@ var render = function() {
                     "v-col",
                     {
                       key: index,
-                      attrs: { cols: "12", lg: "6", md: "6", sm: "6", xs: "6" }
+                      attrs: {
+                        cols: "12",
+                        lg: "12",
+                        md: "12",
+                        sm: "12",
+                        xs: "12"
+                      }
                     },
                     [
                       _c(

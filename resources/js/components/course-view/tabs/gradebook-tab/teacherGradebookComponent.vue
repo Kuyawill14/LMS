@@ -1,5 +1,8 @@
 <template>
     <div>
+
+        <!-- <gradingSheet :students="filteredItems" id="gradingSheet" :grading_criteria="get_gradingCriteria"/> -->
+
         <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
             <template v-slot:item="{ item }">
                 <v-breadcrumbs-item :to="{name: item.link}" :disabled="item.disabled">
@@ -18,6 +21,13 @@
                         Download Grades
                     </v-btn>
 
+
+                    <!-- <v-btn @click="test('gradingSheet')">
+                        <v-icon color="grey lighten-1" left>
+                            download
+                        </v-icon>
+                        Download Grading Sheet
+                    </v-btn> -->
 
                 </div>
             </v-col>
@@ -254,6 +264,7 @@
 
 
 <script>
+    import gradingSheet from './gradingSheet/gradingSheetComponent'
     import excel from 'vue-excel-export'
     const finalGradesGrades = () => import('./final-grades-teacherGradebook.vue')
     Vue.use(excel)
@@ -327,7 +338,9 @@
             }
         },
         components: {
-            finalGradesGrades
+            finalGradesGrades,
+            gradingSheet
+        
         },
 
         methods: {

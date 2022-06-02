@@ -1814,7 +1814,9 @@ var render = function() {
                   "v-list-item-content",
                   [
                     _c("v-list-item-title", [
-                      _vm._v("\n                    Go Back\n                ")
+                      _vm._v(
+                        "\n                        Go Back\n                    "
+                      )
                     ])
                   ],
                   1
@@ -1827,29 +1829,6 @@ var render = function() {
         _vm.$route.name == "departmentMonitorTeacher_id"
           ? _c("v-divider")
           : _vm._e(),
-        _vm._v(" "),
-        _c(
-          "v-list-item",
-          { attrs: { link: "", to: { name: "dashboard" }, exact: "" } },
-          [
-            _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-view-dashboard")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v("\n                    Dashboard\n                ")
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        ),
         _vm._v(" "),
         _c(
           "v-list-item",
@@ -1872,7 +1851,7 @@ var render = function() {
               [
                 _c("v-list-item-title", [
                   _vm._v(
-                    "\n                    Monitor Department\n                "
+                    "\n                        Monitor Department\n                    "
                   )
                 ])
               ],

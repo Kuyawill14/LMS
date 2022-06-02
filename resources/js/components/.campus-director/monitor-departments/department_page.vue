@@ -37,7 +37,7 @@
                 </v-row>
 
                 <v-row>
-                    <v-col v-for="(item, index) in cardheaders" :key="index" cols="12" lg="6" md="6" sm="6" xs="6">
+                    <v-col v-for="(item, index) in cardheaders" :key="index" cols="12" lg="12" md="12" sm="12" xs="12">
 
                         <v-card>
                             <v-skeleton-loader v-if="summarryLoading" :loading="summarryLoading"
@@ -94,15 +94,11 @@
                 department: [],
                 summarryLoading: true,
                 cardheaders: [{
-                        title: 'Total Teacher',
+                        title: 'Total Faculty',
                         count: 0,
                         icon: ''
                     },
-                    {
-                        title: 'Total student',
-                        count: 0,
-                        icon: ''
-                    },
+              
 
                 ],
                 windowSize: '',
@@ -124,7 +120,7 @@
                         if (res.status == 200) {
                             this.department = res.data;
                             this.cardheaders[0].count = this.department.total_teachers;
-                            this.cardheaders[1].count = this.department.total_students;
+                            // this.cardheaders[1].count = this.department.total_students;
                             this.summarryLoading = false;
                         }
                     })
