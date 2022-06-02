@@ -1099,11 +1099,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 var deleteDialog = function deleteDialog() {
@@ -37237,19 +37232,6 @@ var render = function() {
                 _c("v-progress-circular", {
                   attrs: { indeterminate: "", size: "64" }
                 })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-overlay",
-              { attrs: { value: _vm.isGeneratingCopy } },
-              [
-                _c(
-                  "v-progress-circular",
-                  { attrs: { indeterminate: "", size: "80" } },
-                  [_vm._v("Generating\r\n    ")]
-                )
               ],
               1
             ),

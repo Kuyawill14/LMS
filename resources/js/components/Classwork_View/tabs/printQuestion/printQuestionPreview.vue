@@ -1,13 +1,16 @@
 <template>
     <div>
+
+        <v-overlay :value="isloading">
+            <v-progress-circular
+                indeterminate
+                size="80">Generating
+            </v-progress-circular>
+        </v-overlay>
         <div>
-              
-            <v-card class="pa-3">
+            
+            <v-card v-if="!isloading" class="pa-3">
                  <div>
-
-                  
-                    
-
                     <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn color="success" :loading="isloading && isDownloadType == 'answer_key'" v-bind="attrs" v-on="on" dark large block @click="dowloadCopy('answer_key')">
@@ -31,24 +34,27 @@
                     </v-tooltip>
                 </div>
             </v-card>
-            <div v-show="isDownloading" >
+            
+            <div v-show="isDownloading">
+            
                   <VueHtml2pdf :show-layout="false"  :enable-download="true" :preview-modal="false"
-                    :paginate-elements-by-height="1248" :filename="classworkDetails.title" :pdf-quality="2" :manual-pagination="true"
-                    pdf-format="legal" pdf-orientation="portrait" pdf-content-width="800px" :html-to-pdf-options="pdfOptions"
-                    @hasDownloaded="$emit('CloseDialog'),isloading = false"
+                    :paginate-elements-by-height="1100" :filename="classworkDetails.title" :pdf-quality="2" :manual-pagination="false"
+                    pdf-format="a4" pdf-orientation="portrait" pdf-content-width="800px" :html-to-pdf-options="pdfOptions"
+                    @hasDownloaded="closeDialog()" 
                     ref="html2Pdf">
                     <section slot="pdf-content">
 
 
-                        <div style="width: 90%;" id="tablePrint">
+                        <div style="width: 90%;" >
 
-                            <div  style="text-align:center;font-weight:bold;font-size:20px;margin-bottom:4%">
-                                {{classworkDetails.title}} 
-                                <small></small>
+                            <div  style="text-align:center;">
+                                
+                                <div style="text-align:center;font-weight:bold;font-size:20px;">{{classworkDetails.title}} </div>
+                                 <small> {{'('+classworkDetails.course_code+' - '+classworkDetails.course_name+')'}} </small>
                             </div>
-
+                           
+                            <br><br>
                             <div>
-                            
                                 <span style="display:flex"><b style="margin-right:1%">Instruction: </b> <span v-html="classworkDetails.instruction"></span></span>
                             </div>
                             <br>
@@ -64,7 +70,7 @@
                             
                         <v-row v-for="(question, mainIndex) in Question.Question" :key="mainIndex">
                             <v-col cols="12" >
-                                <div style="display:flex;justify-content: space-between;">
+                                <div :style="isDownloadType == 'answer_key' ? 'display:flex;justify-content: space-between' : 'display:flex'">
                                     <span style="display:flex;padding-right:1%">
                                         <span style="padding-right:5px;font-weight:600">Q{{mainIndex+1}}. </span>
                                         <span v-html="question.question"  class="post-content"></span>
@@ -72,7 +78,7 @@
                                     
                                     <div style="font-size: 12px">
                                     <span v-if="isDownloadType == 'answer_key'" style="font-weight:bold">{{question.type}}</span>
-                                        <span >{{'('+question.points+')'}}</span>
+                                        <span >{{'('+question.points+' points)'}}</span>
                                     </div>
                                 </div>
                             </v-col>
@@ -163,10 +169,10 @@
                                     <v-container>
                                         <v-row>
                                             <v-col class="font-weight-bold" cols="7">
-                                                Column A<small style="font-weight:600">(question)</small>
+                                                Column A<!-- <small style="font-weight:600">(question)</small> -->
                                             </v-col>
                                             <v-col class="font-weight-bold" cols="5">
-                                                Column B<small style="font-weight:600">(answers)</small>
+                                                Column B<!-- <small style="font-weight:600">(answers)</small> -->
                                             </v-col>
                                         </v-row>
                                     </v-container>
@@ -177,7 +183,15 @@
                                         <v-row>
                                             <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="7">
                                                 <div style="display:flex"> 
-                                                    <span v-if="isDownloadType == 'answer_key'" style="margin-right:2%;font-weight:600;color:red">{{Alphabet[i]+' - '}}</span>
+                                                
+
+                                                     <div   style="text-align:center;">
+                                                        <span style="font-size:12px">
+                                                            <span  style="margin-right:2%;font-weight:600;color:red">{{ isDownloadType == 'answer_key' ? Alphabet[i] : ' '}}</span>
+                                                            <div style="width:50px;border-bottom: 1px solid black"></div>
+                                                           
+                                                        </span>
+                                                    </div>
                                                     <span style="margin-right:2%;">{{(i+1+'. ')}}</span>
                                                     <span style="font-weight:600" v-html="List.sub_question" class="subquestion-content"></span>
                                                 </div>
@@ -194,7 +208,7 @@
                             </v-col>
 
                             <v-col cols="12" v-if="question.type == 'Essay'">
-                                <div style="margin-top:50px"> </div>  
+                                <div style="margin-top:20%"> </div>  
                             </v-col>
                         </v-row>
                     
@@ -203,14 +217,40 @@
                         <br>
                         <hr>
                             <br>
-                        <div v-if="isDownloadType == 'answer_key'" style="float:right">
-                                <div style="text-align:center;margin-top:25%">
-                                    <span style="font-size:18px">
-                                        <span style="font-weight:bold">{{get_CurrentUser.firstName +' '+get_CurrentUser.middleName+' '+get_CurrentUser.lastName}}</span>
-                                        <div style="margin:auto;width:300px;border-bottom: 1px solid black"></div>
-                                        Faculty name
-                                    </span>
-                                </div>
+                        <div  >
+                            <v-row>
+                                <v-col cols="6">
+                                    <div style="text-align:center;margin-top:25%">
+                                        <span style="font-size:18px">
+                                        
+                                            <div style="margin:auto;width:300px;border-bottom: 1px solid black"></div>
+                                            <span>Faculty</span>
+                                        </span>
+                                    </div>
+                                </v-col>
+
+                                  <v-col cols="6">
+                                       <div style="text-align:center;margin-top:25%">
+                                        <span style="font-size:18px">
+                                        
+                                            <div style="margin:auto;width:300px;border-bottom: 1px solid black"></div>
+                                            <span>Program chair</span>
+                                        </span>
+                                    </div>
+                                    </v-col>
+                                     <v-col cols="12">
+                                       <div style="text-align:center;margin-top:15%">
+                                        <span style="font-size:18px">
+                                        
+                                            <div style="margin:auto;width:300px;border-bottom: 1px solid black"></div>
+                                            <span>Dean</span>
+                                        </span>
+                                    </div>
+                                </v-col>
+                            </v-row>
+                              
+
+                            
                         </div>
                         
                         </div>
@@ -232,15 +272,16 @@ export default {
     data(){
         return{
             pdfOptions:{
-                margin:[10,11],
+                margin:[10,10],
                 filename: this.classworkDetails.title,
                 jsPDF:{
                     orientation: 'p',
                     unit: 'mm',
-                    format: 'legal',
+                    format: 'a4',
                     putOnlyUsedFonts:true,
                     floatPrecision: 16, // or "smart", default is 16
-                }
+                },
+                pagebreak: { mode: ['avoid-all']}
           
             },
             isDownloadType: null,
@@ -282,6 +323,11 @@ export default {
             this.isloading = true;
             this.isDownloadType = type;
             this.generateReport();
+        },
+        closeDialog(){
+            this.$emit('CloseDialog');
+            
+            setTimeout(() => (this.isloading = false), 1000);
         },
         formatDate(value){
             if(value)return moment(String(value)).tz("Asia/Manila").format('MM/d/YYYY, hh:mm A');

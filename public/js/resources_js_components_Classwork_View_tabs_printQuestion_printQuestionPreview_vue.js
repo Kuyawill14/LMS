@@ -239,6 +239,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -248,15 +288,18 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       pdfOptions: {
-        margin: [10, 11],
+        margin: [10, 10],
         filename: this.classworkDetails.title,
         jsPDF: {
           orientation: 'p',
           unit: 'mm',
-          format: 'legal',
+          format: 'a4',
           putOnlyUsedFonts: true,
           floatPrecision: 16 // or "smart", default is 16
 
+        },
+        pagebreak: {
+          mode: ['avoid-all']
         }
       },
       isDownloadType: null,
@@ -271,6 +314,14 @@ __webpack_require__.r(__webpack_exports__);
       this.isloading = true;
       this.isDownloadType = type;
       this.generateReport();
+    },
+    closeDialog: function closeDialog() {
+      var _this = this;
+
+      this.$emit('CloseDialog');
+      setTimeout(function () {
+        return _this.isloading = false;
+      }, 1000);
     },
     formatDate: function formatDate(value) {
       if (value) return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('MM/d/YYYY, hh:mm A');
@@ -11131,203 +11182,245 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      [
-        _c("v-card", { staticClass: "pa-3" }, [
+  return _c(
+    "div",
+    [
+      _c(
+        "v-overlay",
+        { attrs: { value: _vm.isloading } },
+        [
           _c(
-            "div",
-            [
-              _c(
-                "v-tooltip",
-                {
-                  attrs: { top: "" },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "activator",
-                      fn: function(ref) {
-                        var on = ref.on
-                        var attrs = ref.attrs
-                        return [
-                          _c(
-                            "v-btn",
-                            _vm._g(
-                              _vm._b(
-                                {
-                                  attrs: {
-                                    color: "success",
-                                    loading:
-                                      _vm.isloading &&
-                                      _vm.isDownloadType == "answer_key",
-                                    dark: "",
-                                    large: "",
-                                    block: ""
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.dowloadCopy("answer_key")
-                                    }
-                                  }
-                                },
-                                "v-btn",
-                                attrs,
-                                false
-                              ),
-                              on
-                            ),
-                            [
-                              _vm._v(
-                                "\n                            Download Answer Key\n                        "
-                              )
-                            ]
-                          )
-                        ]
-                      }
-                    }
-                  ])
-                },
-                [
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v("Download all question with the correct answers")
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "text-center mt-2 mb-2" }, [
-                _c("span", { staticClass: "font-weight-medium " }, [
-                  _vm._v("Or")
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-tooltip",
-                {
-                  attrs: { top: "" },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "activator",
-                      fn: function(ref) {
-                        var on = ref.on
-                        var attrs = ref.attrs
-                        return [
-                          _c(
-                            "v-btn",
-                            _vm._g(
-                              _vm._b(
-                                {
-                                  attrs: {
-                                    loading:
-                                      _vm.isloading &&
-                                      _vm.isDownloadType == "questioner",
-                                    color: "red",
-                                    dark: "",
-                                    large: "",
-                                    block: ""
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.dowloadCopy("questioner")
-                                    }
-                                  }
-                                },
-                                "v-btn",
-                                attrs,
-                                false
-                              ),
-                              on
-                            ),
-                            [
-                              _vm._v(
-                                "\n                            Download Questioner\n                        "
-                              )
-                            ]
-                          )
-                        ]
-                      }
-                    }
-                  ])
-                },
-                [
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v("Download all question without the correct answers")
-                  ])
-                ]
-              )
-            ],
-            1
+            "v-progress-circular",
+            { attrs: { indeterminate: "", size: "80" } },
+            [_vm._v("Generating\n        ")]
           )
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.isDownloading,
-                expression: "isDownloading"
-              }
-            ]
-          },
-          [
-            _c(
-              "VueHtml2pdf",
-              {
-                ref: "html2Pdf",
-                attrs: {
-                  "show-layout": false,
-                  "enable-download": true,
-                  "preview-modal": false,
-                  "paginate-elements-by-height": 1248,
-                  filename: _vm.classworkDetails.title,
-                  "pdf-quality": 2,
-                  "manual-pagination": true,
-                  "pdf-format": "legal",
-                  "pdf-orientation": "portrait",
-                  "pdf-content-width": "800px",
-                  "html-to-pdf-options": _vm.pdfOptions
-                },
-                on: {
-                  hasDownloaded: function($event) {
-                    _vm.$emit("CloseDialog"), (_vm.isloading = false)
-                  }
-                }
-              },
-              [
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        [
+          !_vm.isloading
+            ? _c("v-card", { staticClass: "pa-3" }, [
                 _c(
-                  "section",
-                  { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
+                  "div",
                   [
                     _c(
-                      "div",
+                      "v-tooltip",
                       {
-                        staticStyle: { width: "90%" },
-                        attrs: { id: "tablePrint" }
+                        attrs: { top: "" },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "v-btn",
+                                    _vm._g(
+                                      _vm._b(
+                                        {
+                                          attrs: {
+                                            color: "success",
+                                            loading:
+                                              _vm.isloading &&
+                                              _vm.isDownloadType ==
+                                                "answer_key",
+                                            dark: "",
+                                            large: "",
+                                            block: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.dowloadCopy(
+                                                "answer_key"
+                                              )
+                                            }
+                                          }
+                                        },
+                                        "v-btn",
+                                        attrs,
+                                        false
+                                      ),
+                                      on
+                                    ),
+                                    [
+                                      _vm._v(
+                                        "\n                            Download Answer Key\n                        "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              }
+                            }
+                          ],
+                          null,
+                          false,
+                          1547946240
+                        )
                       },
                       [
-                        _c(
-                          "div",
-                          {
-                            staticStyle: {
-                              "text-align": "center",
-                              "font-weight": "bold",
-                              "font-size": "20px",
-                              "margin-bottom": "4%"
-                            }
-                          },
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "Download all question with the correct answers"
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "text-center mt-2 mb-2" }, [
+                      _c("span", { staticClass: "font-weight-medium " }, [
+                        _vm._v("Or")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "v-tooltip",
+                      {
+                        attrs: { top: "" },
+                        scopedSlots: _vm._u(
                           [
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "v-btn",
+                                    _vm._g(
+                                      _vm._b(
+                                        {
+                                          attrs: {
+                                            loading:
+                                              _vm.isloading &&
+                                              _vm.isDownloadType ==
+                                                "questioner",
+                                            color: "red",
+                                            dark: "",
+                                            large: "",
+                                            block: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.dowloadCopy(
+                                                "questioner"
+                                              )
+                                            }
+                                          }
+                                        },
+                                        "v-btn",
+                                        attrs,
+                                        false
+                                      ),
+                                      on
+                                    ),
+                                    [
+                                      _vm._v(
+                                        "\n                            Download Questioner\n                        "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              }
+                            }
+                          ],
+                          null,
+                          false,
+                          3721675298
+                        )
+                      },
+                      [
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "Download all question without the correct answers"
+                          )
+                        ])
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.isDownloading,
+                  expression: "isDownloading"
+                }
+              ]
+            },
+            [
+              _c(
+                "VueHtml2pdf",
+                {
+                  ref: "html2Pdf",
+                  attrs: {
+                    "show-layout": false,
+                    "enable-download": true,
+                    "preview-modal": false,
+                    "paginate-elements-by-height": 1100,
+                    filename: _vm.classworkDetails.title,
+                    "pdf-quality": 2,
+                    "manual-pagination": false,
+                    "pdf-format": "a4",
+                    "pdf-orientation": "portrait",
+                    "pdf-content-width": "800px",
+                    "html-to-pdf-options": _vm.pdfOptions
+                  },
+                  on: {
+                    hasDownloaded: function($event) {
+                      return _vm.closeDialog()
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "section",
+                    { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
+                    [
+                      _c("div", { staticStyle: { width: "90%" } }, [
+                        _c("div", { staticStyle: { "text-align": "center" } }, [
+                          _c(
+                            "div",
+                            {
+                              staticStyle: {
+                                "text-align": "center",
+                                "font-weight": "bold",
+                                "font-size": "20px"
+                              }
+                            },
+                            [_vm._v(_vm._s(_vm.classworkDetails.title) + " ")]
+                          ),
+                          _vm._v(" "),
+                          _c("small", [
                             _vm._v(
-                              "\n                            " +
-                                _vm._s(_vm.classworkDetails.title) +
-                                " \n                            "
-                            ),
-                            _c("small")
-                          ]
-                        ),
+                              " " +
+                                _vm._s(
+                                  "(" +
+                                    _vm.classworkDetails.course_code +
+                                    " - " +
+                                    _vm.classworkDetails.course_name +
+                                    ")"
+                                ) +
+                                " "
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _c("br"),
                         _vm._v(" "),
                         _c("div", [
                           _c("span", { staticStyle: { display: "flex" } }, [
@@ -11398,10 +11491,10 @@ var render = function() {
                                   _c(
                                     "div",
                                     {
-                                      staticStyle: {
-                                        display: "flex",
-                                        "justify-content": "space-between"
-                                      }
+                                      style:
+                                        _vm.isDownloadType == "answer_key"
+                                          ? "display:flex;justify-content: space-between"
+                                          : "display:flex"
                                     },
                                     [
                                       _c(
@@ -11462,7 +11555,9 @@ var render = function() {
                                           _c("span", [
                                             _vm._v(
                                               _vm._s(
-                                                "(" + question.points + ")"
+                                                "(" +
+                                                  question.points +
+                                                  " points)"
                                               )
                                             )
                                           ])
@@ -11944,15 +12039,6 @@ var render = function() {
                                                     [
                                                       _vm._v(
                                                         "\n                                            Column A"
-                                                      ),
-                                                      _c(
-                                                        "small",
-                                                        {
-                                                          staticStyle: {
-                                                            "font-weight": "600"
-                                                          }
-                                                        },
-                                                        [_vm._v("(question)")]
                                                       )
                                                     ]
                                                   ),
@@ -11967,15 +12053,6 @@ var render = function() {
                                                     [
                                                       _vm._v(
                                                         "\n                                            Column B"
-                                                      ),
-                                                      _c(
-                                                        "small",
-                                                        {
-                                                          staticStyle: {
-                                                            "font-weight": "600"
-                                                          }
-                                                        },
-                                                        [_vm._v("(answers)")]
                                                       )
                                                     ]
                                                   )
@@ -12024,33 +12101,68 @@ var render = function() {
                                                               }
                                                             },
                                                             [
-                                                              _vm.isDownloadType ==
-                                                              "answer_key"
-                                                                ? _c(
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticStyle: {
+                                                                    "text-align":
+                                                                      "center"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
                                                                     "span",
                                                                     {
                                                                       staticStyle: {
-                                                                        "margin-right":
-                                                                          "2%",
-                                                                        "font-weight":
-                                                                          "600",
-                                                                        color:
-                                                                          "red"
+                                                                        "font-size":
+                                                                          "12px"
                                                                       }
                                                                     },
                                                                     [
+                                                                      _c(
+                                                                        "span",
+                                                                        {
+                                                                          staticStyle: {
+                                                                            "margin-right":
+                                                                              "2%",
+                                                                            "font-weight":
+                                                                              "600",
+                                                                            color:
+                                                                              "red"
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            _vm._s(
+                                                                              _vm.isDownloadType ==
+                                                                                "answer_key"
+                                                                                ? _vm
+                                                                                    .Alphabet[
+                                                                                    i
+                                                                                  ]
+                                                                                : " "
+                                                                            )
+                                                                          )
+                                                                        ]
+                                                                      ),
                                                                       _vm._v(
-                                                                        _vm._s(
-                                                                          _vm
-                                                                            .Alphabet[
-                                                                            i
-                                                                          ] +
-                                                                            " - "
-                                                                        )
+                                                                        " "
+                                                                      ),
+                                                                      _c(
+                                                                        "div",
+                                                                        {
+                                                                          staticStyle: {
+                                                                            width:
+                                                                              "50px",
+                                                                            "border-bottom":
+                                                                              "1px solid black"
+                                                                          }
+                                                                        }
                                                                       )
                                                                     ]
                                                                   )
-                                                                : _vm._e(),
+                                                                ]
+                                                              ),
                                                               _vm._v(" "),
                                                               _c(
                                                                 "span",
@@ -12164,7 +12276,7 @@ var render = function() {
                                 question.type == "Essay"
                                   ? _c("v-col", { attrs: { cols: "12" } }, [
                                       _c("div", {
-                                        staticStyle: { "margin-top": "50px" }
+                                        staticStyle: { "margin-top": "20%" }
                                       })
                                     ])
                                   : _vm._e()
@@ -12183,68 +12295,124 @@ var render = function() {
                         _vm._v(" "),
                         _c("br"),
                         _vm._v(" "),
-                        _vm.isDownloadType == "answer_key"
-                          ? _c("div", { staticStyle: { float: "right" } }, [
-                              _c(
-                                "div",
-                                {
-                                  staticStyle: {
-                                    "text-align": "center",
-                                    "margin-top": "25%"
-                                  }
-                                },
-                                [
+                        _c(
+                          "div",
+                          [
+                            _c(
+                              "v-row",
+                              [
+                                _c("v-col", { attrs: { cols: "6" } }, [
                                   _c(
-                                    "span",
-                                    { staticStyle: { "font-size": "18px" } },
+                                    "div",
+                                    {
+                                      staticStyle: {
+                                        "text-align": "center",
+                                        "margin-top": "25%"
+                                      }
+                                    },
                                     [
                                       _c(
                                         "span",
                                         {
-                                          staticStyle: { "font-weight": "bold" }
+                                          staticStyle: { "font-size": "18px" }
                                         },
                                         [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.get_CurrentUser.firstName +
-                                                " " +
-                                                _vm.get_CurrentUser.middleName +
-                                                " " +
-                                                _vm.get_CurrentUser.lastName
-                                            )
-                                          )
+                                          _c("div", {
+                                            staticStyle: {
+                                              margin: "auto",
+                                              width: "300px",
+                                              "border-bottom": "1px solid black"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("span", [_vm._v("Faculty")])
                                         ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("div", {
-                                        staticStyle: {
-                                          margin: "auto",
-                                          width: "300px",
-                                          "border-bottom": "1px solid black"
-                                        }
-                                      }),
-                                      _vm._v(
-                                        "\n                                    Faculty name\n                                "
                                       )
                                     ]
                                   )
-                                ]
-                              )
-                            ])
-                          : _vm._e()
-                      ]
-                    )
-                  ]
-                )
-              ]
-            )
-          ],
-          1
-        )
-      ],
-      1
-    )
-  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("v-col", { attrs: { cols: "6" } }, [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticStyle: {
+                                        "text-align": "center",
+                                        "margin-top": "25%"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "span",
+                                        {
+                                          staticStyle: { "font-size": "18px" }
+                                        },
+                                        [
+                                          _c("div", {
+                                            staticStyle: {
+                                              margin: "auto",
+                                              width: "300px",
+                                              "border-bottom": "1px solid black"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("span", [_vm._v("Program chair")])
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("v-col", { attrs: { cols: "12" } }, [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticStyle: {
+                                        "text-align": "center",
+                                        "margin-top": "15%"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "span",
+                                        {
+                                          staticStyle: { "font-size": "18px" }
+                                        },
+                                        [
+                                          _c("div", {
+                                            staticStyle: {
+                                              margin: "auto",
+                                              width: "300px",
+                                              "border-bottom": "1px solid black"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("span", [_vm._v("Dean")])
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    ]
+                  )
+                ]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
