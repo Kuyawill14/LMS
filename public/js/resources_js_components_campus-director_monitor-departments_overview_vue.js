@@ -89,7 +89,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       align: 'start'
     }, {
       text: 'Name',
-      value: 'firstName',
+      value: 'name',
       align: 'start'
     }, {
       text: 'Total Courses',
@@ -418,7 +418,10 @@ var render = function() {
                                               _c("td", [
                                                 _vm._v(
                                                   " " +
-                                                    _vm._s(item.user_id) +
+                                                    _vm._s(
+                                                      (item["item"] =
+                                                        item.user_id)
+                                                    ) +
                                                     " "
                                                 )
                                               ]),
@@ -427,11 +430,12 @@ var render = function() {
                                                 _vm._v(
                                                   " " +
                                                     _vm._s(
-                                                      item.lastName +
+                                                      (item["name"] =
+                                                        item.lastName +
                                                         ", " +
                                                         item.firstName +
                                                         " " +
-                                                        item.middleName
+                                                        item.middleName)
                                                     ) +
                                                     " "
                                                 )
@@ -444,8 +448,8 @@ var render = function() {
                                                   _vm._v(
                                                     " " +
                                                       _vm._s(
-                                                        item.overview
-                                                          .total_courses
+                                                        (item["course_count"] =
+                                                          item.overview.total_courses)
                                                       )
                                                   )
                                                 ]
@@ -458,8 +462,8 @@ var render = function() {
                                                   _vm._v(
                                                     " " +
                                                       _vm._s(
-                                                        item.overview
-                                                          .total_classes
+                                                        (item["total_classes"] =
+                                                          item.overview.total_classes)
                                                       ) +
                                                       " "
                                                   )
@@ -473,8 +477,10 @@ var render = function() {
                                                   _vm._v(
                                                     " " +
                                                       _vm._s(
-                                                        item.overview
-                                                          .total_modules
+                                                        (item[
+                                                          "sub_modules_count"
+                                                        ] =
+                                                          item.overview.total_modules)
                                                       ) +
                                                       " "
                                                   )
@@ -488,8 +494,10 @@ var render = function() {
                                                   _vm._v(
                                                     " " +
                                                       _vm._s(
-                                                        item.overview
-                                                          .total_classwork
+                                                        (item[
+                                                          "classwork_count"
+                                                        ] =
+                                                          item.overview.total_classwork)
                                                       ) +
                                                       " "
                                                   )
@@ -552,7 +560,7 @@ var render = function() {
                               ],
                               null,
                               false,
-                              953689320
+                              268121571
                             )
                           })
                         : _vm._e()

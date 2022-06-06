@@ -69,9 +69,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['students', 'grading_criteria', 'floader'],
@@ -298,7 +295,7 @@ var render = function() {
       _c(
         "v-card-title",
         [
-          _vm._v("\n        Final Grades\n\n\n        "),
+          _vm._v("\n        Final Grades\n       "),
           _c("v-spacer"),
           _vm._v(" "),
           _c(

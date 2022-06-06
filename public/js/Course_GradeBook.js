@@ -1,5 +1,148 @@
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["Course_GradeBook"],{
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      table_1: 24
+    };
+  },
+  props: ['students', 'grading_criteria'],
+  methods: {
+    transmuteFinalGrade: function transmuteFinalGrade(grade) {
+      var eq = "5.0";
+
+      if (grade >= 98) {
+        eq = "1.0";
+      } else if (grade >= 95) {
+        eq = "1.25";
+      } else if (grade >= 92) {
+        eq = "1.5";
+      } else if (grade >= 89) {
+        eq = "1.75";
+      } else if (grade >= 86) {
+        eq = "2.0";
+      } else if (grade >= 83) {
+        eq = "2.25";
+      } else if (grade >= 80) {
+        eq = "2.5";
+      } else if (grade >= 77) {
+        eq = " 2.75";
+      } else if (grade >= 75) {
+        eq = "3.0";
+      } else {
+        eq = "5.0";
+      }
+
+      return eq.toString();
+    },
+    sumPercentage: function sumPercentage(arr) {
+      var total = 0;
+
+      for (var i = 0; i < arr.length; i++) {
+        total += arr[i]['grade_percentage'];
+      }
+
+      return total.toFixed(2);
+    },
+    sumTransmutedGrade: function sumTransmutedGrade(arr) {
+      var total = 0;
+
+      for (var i = 0; i < arr.length; i++) {
+        total += arr[i]['transmuted_grade_percentage'];
+      }
+
+      return total.toFixed(2);
+    }
+  },
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["allStudentFinalGrades", "get_gradingCriteria"])), {}, {
+    filteredItems: function filteredItems() {
+      if (this.students.length > 24) {
+        return this.students.slice(0, 24);
+      }
+    }
+  })
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=script&lang=js& ***!
@@ -11,8 +154,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_excel_export__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-excel-export */ "./node_modules/vue-excel-export/index.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _gradingSheet_gradingSheetComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gradingSheet/gradingSheetComponent */ "./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue");
+/* harmony import */ var vue_excel_export__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-excel-export */ "./node_modules/vue-excel-export/index.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -274,13 +418,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 var finalGradesGrades = function finalGradesGrades() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_gradebook-tab_final-grades-teacherGradebook_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./final-grades-teacherGradebook.vue */ "./resources/js/components/course-view/tabs/gradebook-tab/final-grades-teacherGradebook.vue"));
 };
 
-Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
+Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_1__.default);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -322,7 +477,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       sortDesc: false
     };
   },
-  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades", "AllStudentClassworkGradesFortable", "getClassesNames"])), {}, {
+  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getcourseInfo"])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades", "AllStudentClassworkGradesFortable", "getClassesNames"])), {}, {
     filteredItems: function filteredItems() {
       var _this = this;
 
@@ -338,7 +493,8 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
     }
   }),
   components: {
-    finalGradesGrades: finalGradesGrades
+    finalGradesGrades: finalGradesGrades,
+    gradingSheet: _gradingSheet_gradingSheetComponent__WEBPACK_IMPORTED_MODULE_0__.default
   },
   methods: {
     f_grades_headers: function f_grades_headers() {},
@@ -1335,6 +1491,45 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue ***!
+  \*******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _gradingSheetComponent_vue_vue_type_template_id_33358dd3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gradingSheetComponent.vue?vue&type=template&id=33358dd3& */ "./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue?vue&type=template&id=33358dd3&");
+/* harmony import */ var _gradingSheetComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gradingSheetComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _gradingSheetComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _gradingSheetComponent_vue_vue_type_template_id_33358dd3___WEBPACK_IMPORTED_MODULE_0__.render,
+  _gradingSheetComponent_vue_vue_type_template_id_33358dd3___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue":
 /*!**********************************************************************************************!*\
   !*** ./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue ***!
@@ -1373,6 +1568,22 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 if (false) { var api; }
 component.options.__file = "resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_gradingSheetComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./gradingSheetComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_gradingSheetComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -1438,6 +1649,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue?vue&type=template&id=33358dd3&":
+/*!**************************************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue?vue&type=template&id=33358dd3& ***!
+  \**************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_gradingSheetComponent_vue_vue_type_template_id_33358dd3___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_gradingSheetComponent_vue_vue_type_template_id_33358dd3___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_gradingSheetComponent_vue_vue_type_template_id_33358dd3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./gradingSheetComponent.vue?vue&type=template&id=33358dd3& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue?vue&type=template&id=33358dd3&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec&scoped=true&":
 /*!*****************************************************************************************************************************************!*\
   !*** ./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec&scoped=true& ***!
@@ -1483,6 +1711,213 @@ var render = function() {
   )
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue?vue&type=template&id=33358dd3&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/gradingSheet/gradingSheetComponent.vue?vue&type=template&id=33358dd3& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "d-flex" }, [
+    _c(
+      "table",
+      { staticClass: "table table-bordered", attrs: { border: "1" } },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _vm._l(24, function(index) {
+          return _c("tr", { key: index }, [
+            index <= 24 ? _c("td", [_vm._v(_vm._s(index))]) : _vm._e(),
+            _vm._v(" "),
+            index <= 24
+              ? _c("td", [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        index <= 24
+                          ? _vm.students[index].lastName +
+                              ", " +
+                              _vm.students[index].firstName
+                          : ""
+                      )
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            index <= 24
+              ? _c("td", [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        index <= 24
+                          ? _vm.sumTransmutedGrade(
+                              _vm.allStudentFinalGrades(_vm.students[index].id)
+                            )
+                          : ""
+                      )
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            index <= 24
+              ? _c("td", [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        index <= 24
+                          ? _vm.transmuteFinalGrade(
+                              _vm.sumTransmutedGrade(
+                                _vm.allStudentFinalGrades(
+                                  _vm.students[index].id
+                                )
+                              )
+                            )
+                          : ""
+                      ) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.students.length != index + 23
+              ? _c("td", [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.students.length > index + 23 ? index + 24 : "")
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.students.length != index + 23
+              ? _c("td", [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        _vm.students.length - 1 >= index + 23
+                          ? _vm.students[index + 23].lastName +
+                              ", " +
+                              _vm.students[index + 23].firstName
+                          : ""
+                      ) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.students.length != index + 23
+              ? _c("td", [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        _vm.students.length - 1 >= index + 23
+                          ? _vm.sumTransmutedGrade(
+                              _vm.allStudentFinalGrades(
+                                _vm.students[index + 23].id
+                              )
+                            )
+                          : ""
+                      ) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.students.length != index + 23
+              ? _c("td", [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        _vm.students.length - 1 >= index + 23
+                          ? _vm.transmuteFinalGrade(
+                              _vm.sumTransmutedGrade(
+                                _vm.allStudentFinalGrades(
+                                  _vm.students[index + 23].id
+                                )
+                              )
+                            )
+                          : ""
+                      ) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.students.length == index + 23
+              ? _c(
+                  "td",
+                  {
+                    staticStyle: { "text-align": "center" },
+                    attrs: { colspan: "4" }
+                  },
+                  [_vm._v("***NOTHING FOLLOWS***")]
+                )
+              : _vm._e()
+          ])
+        })
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { attrs: { colspan: "8" } }, [
+        _c("img", {
+          attrs: {
+            src: "https://isu-orange.com/images/isu_logo1.png",
+            height: "100",
+            alt: ""
+          }
+        }),
+        _vm._v(" "),
+        _c("h3", [_vm._v("GRADE SHEET ")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { staticClass: "pa-3", attrs: { colspan: "2" } }, [
+        _vm._v("Name of Students")
+      ]),
+      _vm._v(" "),
+      _c("th", { staticClass: "pa-3" }, [_vm._v("Final Grade")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "pa-3" }, [_vm._v("Remarks")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "pa-3", attrs: { colspan: "2" } }, [
+        _vm._v("Name of Students")
+      ]),
+      _vm._v(" "),
+      _c("th", { staticClass: "pa-3" }, [_vm._v("Final Grade")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "pa-3" }, [_vm._v("Remarks")])
+    ])
+  }
+]
 render._withStripped = true
 
 

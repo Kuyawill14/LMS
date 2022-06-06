@@ -17,7 +17,7 @@
             <v-divider  v-if="$route.name == 'departmentMonitorTeacher_id'"></v-divider>
 
 
-
+<!-- 
 
             <v-list-item link :to="{name: 'dashboard'}" exact>
                 <v-list-item-action>
@@ -28,7 +28,7 @@
                         Dashboard
                     </v-list-item-title>
                 </v-list-item-content>
-            </v-list-item>
+            </v-list-item> -->
 
 
             <v-list-item link :to="{name: 'campus_director-monitor_deparments'}" exact>

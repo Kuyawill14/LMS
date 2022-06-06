@@ -2226,10 +2226,14 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_19__.default({
       },
       name: "dashboard",
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.UserRole != 'SecurityGuard') next();else next({
-          path: '/vaccination',
-          replace: true
-        });
+        if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.UserRole != 'CampusDirector') {
+          next();
+        } else {
+          next({
+            path: '/departments',
+            replace: true
+          });
+        }
       }
     }].concat(_toConsumableArray(_routes_security_guard_routes__WEBPACK_IMPORTED_MODULE_16__.default), _toConsumableArray(_routes_admin_routes__WEBPACK_IMPORTED_MODULE_10__.default), _toConsumableArray(_routes_program_chair_routes__WEBPACK_IMPORTED_MODULE_11__.default), _toConsumableArray(_routes_campus_director_routes__WEBPACK_IMPORTED_MODULE_9__.default), _toConsumableArray(_routes_course_page_routes__WEBPACK_IMPORTED_MODULE_7__.default), _toConsumableArray(_routes_profile_routes__WEBPACK_IMPORTED_MODULE_6__.default), _toConsumableArray(_routes_notification_invites_routes__WEBPACK_IMPORTED_MODULE_12__.default), _toConsumableArray(_routes_archive_page_routes__WEBPACK_IMPORTED_MODULE_14__.default), _toConsumableArray(_routes_classwork_overview_page_routes__WEBPACK_IMPORTED_MODULE_15__.default), _toConsumableArray(_routes_classwork_preview_routes__WEBPACK_IMPORTED_MODULE_5__.default), _toConsumableArray(_routes_backpack_routes__WEBPACK_IMPORTED_MODULE_17__.default))
   }].concat(_toConsumableArray(_routes_examination_routes__WEBPACK_IMPORTED_MODULE_8__.default), _toConsumableArray(_routes_auth_routes__WEBPACK_IMPORTED_MODULE_3__.default), _toConsumableArray(_routes_testing_routes__WEBPACK_IMPORTED_MODULE_4__.default), _toConsumableArray(_routes_restricted_pages_routes__WEBPACK_IMPORTED_MODULE_13__.default))
@@ -42719,7 +42723,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

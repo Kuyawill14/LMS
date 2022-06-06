@@ -64,8 +64,12 @@ const router = new Router({
                         import ( /* webpackChunkName: "Dashboard" */ "./components/dashboard/dashboardComponent"),
                     name: "dashboard",
                     beforeEnter: (to, from, next) => {
-                        if (store.state.CurrentUser.UserRole != 'SecurityGuard') next()
-                        else next({ path: '/vaccination', replace: true })
+                        if (store.state.CurrentUser.UserRole != 'CampusDirector') {
+                            next()
+                        } else {
+                            next({ path: '/departments', replace: true })
+                        }
+
                     }
                 },
 
