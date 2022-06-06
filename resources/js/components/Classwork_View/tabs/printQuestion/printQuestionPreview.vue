@@ -35,18 +35,21 @@
                 </div>
             </v-card>
             
+         <!--    v-show="isDownloading"
+            @hasDownloaded="closeDialog()"  -->
             <div v-show="isDownloading">
             
                   <VueHtml2pdf :show-layout="false"  :enable-download="true" :preview-modal="false"
-                    :paginate-elements-by-height="1100" :filename="classworkDetails.title" :pdf-quality="2" :manual-pagination="false"
-                    pdf-format="a4" pdf-orientation="portrait" pdf-content-width="800px" :html-to-pdf-options="pdfOptions"
+                    :paginate-elements-by-height="1000" :filename="classworkDetails.title" :pdf-quality="2" :manual-pagination="false"
+                    pdf-format="a4" pdf-orientation="portrait" pdf-content-width="780px" :html-to-pdf-options="pdfOptions" 
                     @hasDownloaded="closeDialog()" 
                     ref="html2Pdf">
+                    
                     <section slot="pdf-content">
 
-
-                        <div style="width: 90%;" >
-
+                        <div>
+                        
+                        <section style="width:90%" class="pdf-item" >
                             <div  style="text-align:center;">
                                 
                                 <div style="text-align:center;font-weight:bold;font-size:20px;">{{classworkDetails.title}} </div>
@@ -65,154 +68,155 @@
                             
                             </div>
                             <br>
-                        <div style="margin-top:6%">
-                    
+                        </section>
                             
-                        <v-row v-for="(question, mainIndex) in Question.Question" :key="mainIndex">
-                            <v-col cols="12" >
-                                <div :style="isDownloadType == 'answer_key' ? 'display:flex;justify-content: space-between' : 'display:flex'">
-                                    <span style="display:flex;padding-right:1%">
-                                        <span style="padding-right:5px;font-weight:600">Q{{mainIndex+1}}. </span>
-                                        <span v-html="question.question"  class="post-content"></span>
-                                    </span>
-                                    
-                                    <div style="font-size: 12px">
-                                    <span v-if="isDownloadType == 'answer_key'" style="font-weight:bold">{{question.type}}</span>
-                                        <span >{{'('+question.points+' points)'}}</span>
-                                    </div>
-                                </div>
-                            </v-col>
-                            <v-col cols="12" v-if="question.type == 'Multiple Choice'">
-                                <div v-if="isDownloadType == 'answer_key'" style="margin-left:15px">
-                                    <div v-if="question.isNew">
-                                        <div v-for="(Ans, i) in Question.Answer[mainIndex].options" :key="i"  >
-                                            <div :style="question.answer == Ans.id ? 'color:red;display:flex;font-weight:600' : 'display:flex'">
-                                                <span style="margin-right:4px" >{{Alphabet[i]}}.</span>
-                                                <span v-html="Ans.Choice" class="post-content"></span>
-                                            </div>
+                        <section style="width:90%" v-for="(question, mainIndex) in Question.Question" :key="mainIndex" class="pdf-item">
+                    
+                            <v-row >
+                                <v-col cols="12" >
+                                    <div :style="isDownloadType == 'answer_key' ? 'display:flex;justify-content: space-between' : 'display:flex'">
+                                        <span style="display:flex;padding-right:1%">
+                                            <span style="padding-right:5px;font-weight:600">Q{{mainIndex+1}}. </span>
+                                            <span v-html="question.question"  class="post-content"></span>
+                                        </span>
+                                        
+                                        <div style="font-size: 12px">
+                                        <span v-if="isDownloadType == 'answer_key'" style="font-weight:bold">{{question.type}}</span>
+                                            <span >{{'('+question.points+' points)'}}</span>
                                         </div>
                                     </div>
-
-                                    <div v-else>
-                                        <div v-for="(Ans, i) in Question.Answer[mainIndex].options" :key="i"  >
-                                            <div :style="question.answer == Ans.Choice ? 'color:red;display:flex;font-weight:600' : 'display:flex'">
-                                                <span style="margin-right:4px" >{{Alphabet[i]}}.</span>
-                                                <span v-html="Ans.Choice" class="post-content"></span>
+                                </v-col>
+                                <v-col cols="12" v-if="question.type == 'Multiple Choice'">
+                                    <div v-if="isDownloadType == 'answer_key'" style="margin-left:15px">
+                                        <div v-if="question.isNew">
+                                            <div v-for="(Ans, i) in Question.Answer[mainIndex].options" :key="i"  >
+                                                <div :style="question.answer == Ans.id ? 'color:red;display:flex;font-weight:600' : 'display:flex'">
+                                                    <span style="margin-right:4px" >{{Alphabet[i]}}.</span>
+                                                    <span v-html="Ans.Choice" class="post-content"></span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>  
-                                </div>
 
-                                <div v-else style="margin-left:15px">
-                                    <div v-if="question.isNew">
-                                        <div v-for="(Ans, i) in Question.Answer[mainIndex].options" :key="i"  >
-                                            <div style="display:flex">
-                                                <span style="margin-right:4px" >{{Alphabet[i]}}.</span>
-                                                <span v-html="Ans.Choice" class="post-content"></span>
+                                        <div v-else>
+                                            <div v-for="(Ans, i) in Question.Answer[mainIndex].options" :key="i"  >
+                                                <div :style="question.answer == Ans.Choice ? 'color:red;display:flex;font-weight:600' : 'display:flex'">
+                                                    <span style="margin-right:4px" >{{Alphabet[i]}}.</span>
+                                                    <span v-html="Ans.Choice" class="post-content"></span>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </div>
+
+                                    <div v-else style="margin-left:15px">
+                                        <div v-if="question.isNew">
+                                            <div v-for="(Ans, i) in Question.Answer[mainIndex].options" :key="i"  >
+                                                <div style="display:flex">
+                                                    <span style="margin-right:4px" >{{Alphabet[i]}}.</span>
+                                                    <span v-html="Ans.Choice" class="post-content"></span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div v-else>
-                                        <div v-for="(Ans, i) in Question.Answer[mainIndex].options" :key="i"  >
-                                            <div style="display:flex">
-                                                <span style="margin-right:4px" >{{Alphabet[i]}}.</span>
-                                                <span v-html="Ans.Choice" class="post-content"></span>
+                                        <div v-else>
+                                            <div v-for="(Ans, i) in Question.Answer[mainIndex].options" :key="i"  >
+                                                <div style="display:flex">
+                                                    <span style="margin-right:4px" >{{Alphabet[i]}}.</span>
+                                                    <span v-html="Ans.Choice" class="post-content"></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>  
-                                </div>
-                            </v-col>
+                                        </div>  
+                                    </div>
+                                </v-col>
 
-                            <v-col cols="12" v-if="question.type == 'Identification'">
-                                <div v-if="isDownloadType == 'answer_key'" style="margin-left:15px">
-                                    <div class="mb-3 black--text">
-                                        Correct Answers:
-                                    </div>
-                                    <div v-if=" Question.Answer[mainIndex].options.length == 0" style="line-height:1.4;display:flex" sclass="ma-0 pa-0 pl-3">
-                                        <span style="padding-right:4px">&bull; </span>
-                                        <span v-html="question.answer" class="post-content"></span>
-                                    </div>
-                                    <div v-else style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 pl-3">
-                                        <div style="display:flex" v-for="Answer in  Question.Answer[mainIndex].options" :key="Answer.id">
+                                <v-col cols="12" v-if="question.type == 'Identification'">
+                                    <div v-if="isDownloadType == 'answer_key'" style="margin-left:15px">
+                                        <div class="mb-3 black--text">
+                                            Correct Answers:
+                                        </div>
+                                        <div v-if=" Question.Answer[mainIndex].options.length == 0" style="line-height:1.4;display:flex" sclass="ma-0 pa-0 pl-3">
                                             <span style="padding-right:4px">&bull; </span>
-                                            <span v-html="Answer.Choice" class="post-content"></span>
+                                            <span v-html="question.answer" class="post-content"></span>
+                                        </div>
+                                        <div v-else style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 pl-3">
+                                            <div style="display:flex" v-for="Answer in  Question.Answer[mainIndex].options" :key="Answer.id">
+                                                <span style="padding-right:4px">&bull; </span>
+                                                <span v-html="Answer.Choice" class="post-content"></span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div v-else style="margin-top:25px"></div>
-                            </v-col>
+                                    <div v-else style="margin-top:25px"></div>
+                                </v-col>
 
-                            <v-col cols="12" v-if="question.type == 'True or False'">
-                            
-                                <div v-if="isDownloadType == 'answer_key'" style="margin-left:15px">
-                                    <div v-for="(x, n) in inputCheck" :key="n"  >
-                                        <div :style="question.answer == inputCheck[n] ? 'color:red;display:flex;font-weight:600' : 'display:flex'">
-                                            
-                                            <span>{{inputCheck[n]}}</span>
-                                        </div>
-                                    </div>
-                                </div>  
-
-                                 <div v-else style="margin-left:15px">
-                                    <div v-for="(x, n) in inputCheck" :key="n"  >
-                                        <div style="display:flex">
-                                            
-                                            <span>{{inputCheck[n]}}</span>
-                                        </div>
-                                    </div>
-                                </div>  
-                            </v-col>
-
-                            <v-col cols="12" v-if="question.type == 'Matching type'">
-                            <div>
-                                    <v-container>
-                                        <v-row>
-                                            <v-col class="font-weight-bold" cols="7">
-                                                Column A<!-- <small style="font-weight:600">(question)</small> -->
-                                            </v-col>
-                                            <v-col class="font-weight-bold" cols="5">
-                                                Column B<!-- <small style="font-weight:600">(answers)</small> -->
-                                            </v-col>
-                                        </v-row>
-                                    </v-container>
-                                    <div class="mb-5">
-                                            <v-divider></v-divider>
-                                    </div>
-                                    <v-container class="mb-0 pb-0 pt-2 pb-3" v-for="(List, i) in Question.Answer[mainIndex].SubQuestion" :key="List.id">
-                                        <v-row>
-                                            <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="7">
-                                                <div style="display:flex"> 
+                                <v-col cols="12" v-if="question.type == 'True or False'">
+                                
+                                    <div v-if="isDownloadType == 'answer_key'" style="margin-left:15px">
+                                        <div v-for="(x, n) in inputCheck" :key="n"  >
+                                            <div :style="question.answer == inputCheck[n] ? 'color:red;display:flex;font-weight:600' : 'display:flex'">
                                                 
+                                                <span>{{inputCheck[n]}}</span>
+                                            </div>
+                                        </div>
+                                    </div>  
 
-                                                     <div   style="text-align:center;">
-                                                        <span style="font-size:12px">
-                                                            <span  style="margin-right:2%;font-weight:600;color:red">{{ isDownloadType == 'answer_key' ? Alphabet[i] : ' '}}</span>
-                                                            <div style="width:50px;border-bottom: 1px solid black"></div>
-                                                           
-                                                        </span>
+                                    <div v-else style="margin-left:15px">
+                                        <div v-for="(x, n) in inputCheck" :key="n"  >
+                                            <div style="display:flex">
+                                                
+                                                <span>{{inputCheck[n]}}</span>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </v-col>
+
+                                <v-col cols="12" v-if="question.type == 'Matching type'">
+                                    <div>
+                                        <v-container>
+                                            <v-row>
+                                                <v-col class="font-weight-bold" cols="7">
+                                                    Column A<!-- <small style="font-weight:600">(question)</small> -->
+                                                </v-col>
+                                                <v-col class="font-weight-bold" cols="5">
+                                                    Column B<!-- <small style="font-weight:600">(answers)</small> -->
+                                                </v-col>
+                                            </v-row>
+                                        </v-container>
+                                        <div class="mb-5">
+                                                <v-divider></v-divider>
+                                        </div>
+                                        <v-container class="mb-0 pb-0 pt-2 pb-3" v-for="(List, i) in Question.Answer[mainIndex].SubQuestion" :key="List.id">
+                                            <v-row>
+                                                <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="7">
+                                                    <div style="display:flex"> 
+                                                    
+
+                                                        <div   style="text-align:center;">
+                                                            <span style="font-size:12px">
+                                                                <span  style="margin-right:2%;font-weight:600;color:red">{{ isDownloadType == 'answer_key' ? Alphabet[i] : ' '}}</span>
+                                                                <div style="width:50px;border-bottom: 1px solid black"></div>
+                                                            
+                                                            </span>
+                                                        </div>
+                                                        <span style="margin-right:2%;">{{(i+1+'. ')}}</span>
+                                                        <span style="font-weight:600" v-html="List.sub_question" class="subquestion-content"></span>
                                                     </div>
-                                                    <span style="margin-right:2%;">{{(i+1+'. ')}}</span>
-                                                    <span style="font-weight:600" v-html="List.sub_question" class="subquestion-content"></span>
-                                                </div>
-                                            </v-col>
-                                            <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5">
-                                                <div style="display:flex"> 
-                                                    <span style="margin-right:2%;">{{(Alphabet[i]+'. ')}}</span>
-                                                    <span style="font-weight:600" v-html="Question.Answer[mainIndex].SubAnswer[i].Choice" class="subchoices-content"></span>
-                                                </div>
-                                            </v-col>
-                                        </v-row>
-                                    </v-container>
-                            </div>
-                            </v-col>
+                                                </v-col>
+                                                <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5">
+                                                    <div style="display:flex"> 
+                                                        <span style="margin-right:2%;">{{(Alphabet[i]+'. ')}}</span>
+                                                        <span style="font-weight:600" v-html="Question.Answer[mainIndex].SubAnswer[i].Choice" class="subchoices-content"></span>
+                                                    </div>
+                                                </v-col>
+                                            </v-row>
+                                        </v-container>
+                                </div>
+                                </v-col>
 
-                            <v-col cols="12" v-if="question.type == 'Essay'">
-                                <div style="margin-top:20%"> </div>  
-                            </v-col>
-                        </v-row>
-                    
-                    </div>
+                                <v-col cols="12" v-if="question.type == 'Essay'">
+                                    <div style="margin-top:20%"> </div>  
+                                </v-col>
+                            </v-row>
+                        
+                        </section>
                         <br>
                         <br>
                         <hr>
@@ -234,7 +238,7 @@
                                         <span style="font-size:18px">
                                         
                                             <div style="margin:auto;width:300px;border-bottom: 1px solid black"></div>
-                                            <span>Program chair</span>
+                                            <span>Program Chair</span>
                                         </span>
                                     </div>
                                     </v-col>
@@ -254,6 +258,7 @@
                         </div>
                         
                         </div>
+                        
                     </section>
                 </VueHtml2pdf>
              </div>
@@ -272,11 +277,11 @@ export default {
     data(){
         return{
             pdfOptions:{
-                margin:[10,10],
+                margin: 0.4,
                 filename: this.classworkDetails.title,
                 jsPDF:{
                     orientation: 'p',
-                    unit: 'mm',
+                    unit: 'in',
                     format: 'a4',
                     putOnlyUsedFonts:true,
                     floatPrecision: 16, // or "smart", default is 16

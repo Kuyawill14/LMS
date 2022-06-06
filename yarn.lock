@@ -6974,7 +6974,7 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
 
-vue-html2pdf@^1.7.0:
+vue-html2pdf@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/vue-html2pdf/-/vue-html2pdf-1.8.0.tgz#c69a2c285ac4de88245435cd36d64075e1a1f23e"
   integrity sha512-8/eH6rZUcMERgvq9a1JZjn680sD/RVLf398PikscxYMKNzqrLVjEmk/CHO7mXAyxE7Z/MCnLdmjE3fAJrEs2Xg==

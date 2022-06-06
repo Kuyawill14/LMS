@@ -279,6 +279,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -288,11 +293,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       pdfOptions: {
-        margin: [10, 10],
+        margin: 0.4,
         filename: this.classworkDetails.title,
         jsPDF: {
           orientation: 'p',
-          unit: 'mm',
+          unit: 'in',
           format: 'a4',
           putOnlyUsedFonts: true,
           floatPrecision: 16 // or "smart", default is 16
@@ -11370,13 +11375,13 @@ var render = function() {
                     "show-layout": false,
                     "enable-download": true,
                     "preview-modal": false,
-                    "paginate-elements-by-height": 1100,
+                    "paginate-elements-by-height": 1000,
                     filename: _vm.classworkDetails.title,
                     "pdf-quality": 2,
                     "manual-pagination": false,
                     "pdf-format": "a4",
                     "pdf-orientation": "portrait",
-                    "pdf-content-width": "800px",
+                    "pdf-content-width": "780px",
                     "html-to-pdf-options": _vm.pdfOptions
                   },
                   on: {
@@ -11390,697 +11395,684 @@ var render = function() {
                     "section",
                     { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
                     [
-                      _c("div", { staticStyle: { width: "90%" } }, [
-                        _c("div", { staticStyle: { "text-align": "center" } }, [
+                      _c(
+                        "div",
+                        [
                           _c(
-                            "div",
+                            "section",
                             {
-                              staticStyle: {
-                                "text-align": "center",
-                                "font-weight": "bold",
-                                "font-size": "20px"
-                              }
+                              staticClass: "pdf-item",
+                              staticStyle: { width: "90%" }
                             },
-                            [_vm._v(_vm._s(_vm.classworkDetails.title) + " ")]
+                            [
+                              _c(
+                                "div",
+                                { staticStyle: { "text-align": "center" } },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticStyle: {
+                                        "text-align": "center",
+                                        "font-weight": "bold",
+                                        "font-size": "20px"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(_vm.classworkDetails.title) + " "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("small", [
+                                    _vm._v(
+                                      " " +
+                                        _vm._s(
+                                          "(" +
+                                            _vm.classworkDetails.course_code +
+                                            " - " +
+                                            _vm.classworkDetails.course_name +
+                                            ")"
+                                        ) +
+                                        " "
+                                    )
+                                  ])
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("br"),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("div", [
+                                _c(
+                                  "span",
+                                  { staticStyle: { display: "flex" } },
+                                  [
+                                    _c(
+                                      "b",
+                                      { staticStyle: { "margin-right": "1%" } },
+                                      [_vm._v("Instruction: ")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("span", {
+                                      domProps: {
+                                        innerHTML: _vm._s(
+                                          _vm.classworkDetails.instruction
+                                        )
+                                      }
+                                    })
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("hr"),
+                              _vm._v(" "),
+                              _vm.isDownloadType == "answer_key"
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticStyle: {
+                                        display: "flex",
+                                        "justify-content": "space-between"
+                                      }
+                                    },
+                                    [
+                                      _c("div", [
+                                        _c("b", [_vm._v("Date created: ")]),
+                                        _vm._v(
+                                          "  " +
+                                            _vm._s(
+                                              _vm.formatDate(
+                                                _vm.classworkDetails.created_at
+                                              )
+                                            )
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", [
+                                        _c("b", [_vm._v("Total points: ")]),
+                                        _vm._v(
+                                          "  " +
+                                            _vm._s(_vm.classworkDetails.points)
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c("br")
+                            ]
                           ),
                           _vm._v(" "),
-                          _c("small", [
-                            _vm._v(
-                              " " +
-                                _vm._s(
-                                  "(" +
-                                    _vm.classworkDetails.course_code +
-                                    " - " +
-                                    _vm.classworkDetails.course_name +
-                                    ")"
-                                ) +
-                                " "
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("br"),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("div", [
-                          _c("span", { staticStyle: { display: "flex" } }, [
-                            _c("b", { staticStyle: { "margin-right": "1%" } }, [
-                              _vm._v("Instruction: ")
-                            ]),
-                            _vm._v(" "),
-                            _c("span", {
-                              domProps: {
-                                innerHTML: _vm._s(
-                                  _vm.classworkDetails.instruction
-                                )
-                              }
-                            })
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("hr"),
-                        _vm._v(" "),
-                        _vm.isDownloadType == "answer_key"
-                          ? _c(
-                              "div",
-                              {
-                                staticStyle: {
-                                  display: "flex",
-                                  "justify-content": "space-between"
-                                }
-                              },
-                              [
-                                _c("div", [
-                                  _c("b", [_vm._v("Date created: ")]),
-                                  _vm._v(
-                                    "  " +
-                                      _vm._s(
-                                        _vm.formatDate(
-                                          _vm.classworkDetails.created_at
-                                        )
-                                      )
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", [
-                                  _c("b", [_vm._v("Total points: ")]),
-                                  _vm._v(
-                                    "  " + _vm._s(_vm.classworkDetails.points)
-                                  )
-                                ])
-                              ]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticStyle: { "margin-top": "6%" } },
                           _vm._l(_vm.Question.Question, function(
                             question,
                             mainIndex
                           ) {
                             return _c(
-                              "v-row",
-                              { key: mainIndex },
+                              "section",
+                              {
+                                key: mainIndex,
+                                staticClass: "pdf-item",
+                                staticStyle: { width: "90%" }
+                              },
                               [
-                                _c("v-col", { attrs: { cols: "12" } }, [
-                                  _c(
-                                    "div",
-                                    {
-                                      style:
-                                        _vm.isDownloadType == "answer_key"
-                                          ? "display:flex;justify-content: space-between"
-                                          : "display:flex"
-                                    },
-                                    [
+                                _c(
+                                  "v-row",
+                                  [
+                                    _c("v-col", { attrs: { cols: "12" } }, [
                                       _c(
-                                        "span",
+                                        "div",
                                         {
-                                          staticStyle: {
-                                            display: "flex",
-                                            "padding-right": "1%"
-                                          }
+                                          style:
+                                            _vm.isDownloadType == "answer_key"
+                                              ? "display:flex;justify-content: space-between"
+                                              : "display:flex"
                                         },
                                         [
                                           _c(
                                             "span",
                                             {
                                               staticStyle: {
-                                                "padding-right": "5px",
-                                                "font-weight": "600"
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "Q" +
-                                                  _vm._s(mainIndex + 1) +
-                                                  ". "
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("span", {
-                                            staticClass: "post-content",
-                                            domProps: {
-                                              innerHTML: _vm._s(
-                                                question.question
-                                              )
-                                            }
-                                          })
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticStyle: { "font-size": "12px" }
-                                        },
-                                        [
-                                          _vm.isDownloadType == "answer_key"
-                                            ? _c(
-                                                "span",
-                                                {
-                                                  staticStyle: {
-                                                    "font-weight": "bold"
-                                                  }
-                                                },
-                                                [_vm._v(_vm._s(question.type))]
-                                              )
-                                            : _vm._e(),
-                                          _vm._v(" "),
-                                          _c("span", [
-                                            _vm._v(
-                                              _vm._s(
-                                                "(" +
-                                                  question.points +
-                                                  " points)"
-                                              )
-                                            )
-                                          ])
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                question.type == "Multiple Choice"
-                                  ? _c("v-col", { attrs: { cols: "12" } }, [
-                                      _vm.isDownloadType == "answer_key"
-                                        ? _c(
-                                            "div",
-                                            {
-                                              staticStyle: {
-                                                "margin-left": "15px"
-                                              }
-                                            },
-                                            [
-                                              question.isNew
-                                                ? _c(
-                                                    "div",
-                                                    _vm._l(
-                                                      _vm.Question.Answer[
-                                                        mainIndex
-                                                      ].options,
-                                                      function(Ans, i) {
-                                                        return _c(
-                                                          "div",
-                                                          { key: i },
-                                                          [
-                                                            _c(
-                                                              "div",
-                                                              {
-                                                                style:
-                                                                  question.answer ==
-                                                                  Ans.id
-                                                                    ? "color:red;display:flex;font-weight:600"
-                                                                    : "display:flex"
-                                                              },
-                                                              [
-                                                                _c(
-                                                                  "span",
-                                                                  {
-                                                                    staticStyle: {
-                                                                      "margin-right":
-                                                                        "4px"
-                                                                    }
-                                                                  },
-                                                                  [
-                                                                    _vm._v(
-                                                                      _vm._s(
-                                                                        _vm
-                                                                          .Alphabet[
-                                                                          i
-                                                                        ]
-                                                                      ) + "."
-                                                                    )
-                                                                  ]
-                                                                ),
-                                                                _vm._v(" "),
-                                                                _c("span", {
-                                                                  staticClass:
-                                                                    "post-content",
-                                                                  domProps: {
-                                                                    innerHTML: _vm._s(
-                                                                      Ans.Choice
-                                                                    )
-                                                                  }
-                                                                })
-                                                              ]
-                                                            )
-                                                          ]
-                                                        )
-                                                      }
-                                                    ),
-                                                    0
-                                                  )
-                                                : _c(
-                                                    "div",
-                                                    _vm._l(
-                                                      _vm.Question.Answer[
-                                                        mainIndex
-                                                      ].options,
-                                                      function(Ans, i) {
-                                                        return _c(
-                                                          "div",
-                                                          { key: i },
-                                                          [
-                                                            _c(
-                                                              "div",
-                                                              {
-                                                                style:
-                                                                  question.answer ==
-                                                                  Ans.Choice
-                                                                    ? "color:red;display:flex;font-weight:600"
-                                                                    : "display:flex"
-                                                              },
-                                                              [
-                                                                _c(
-                                                                  "span",
-                                                                  {
-                                                                    staticStyle: {
-                                                                      "margin-right":
-                                                                        "4px"
-                                                                    }
-                                                                  },
-                                                                  [
-                                                                    _vm._v(
-                                                                      _vm._s(
-                                                                        _vm
-                                                                          .Alphabet[
-                                                                          i
-                                                                        ]
-                                                                      ) + "."
-                                                                    )
-                                                                  ]
-                                                                ),
-                                                                _vm._v(" "),
-                                                                _c("span", {
-                                                                  staticClass:
-                                                                    "post-content",
-                                                                  domProps: {
-                                                                    innerHTML: _vm._s(
-                                                                      Ans.Choice
-                                                                    )
-                                                                  }
-                                                                })
-                                                              ]
-                                                            )
-                                                          ]
-                                                        )
-                                                      }
-                                                    ),
-                                                    0
-                                                  )
-                                            ]
-                                          )
-                                        : _c(
-                                            "div",
-                                            {
-                                              staticStyle: {
-                                                "margin-left": "15px"
-                                              }
-                                            },
-                                            [
-                                              question.isNew
-                                                ? _c(
-                                                    "div",
-                                                    _vm._l(
-                                                      _vm.Question.Answer[
-                                                        mainIndex
-                                                      ].options,
-                                                      function(Ans, i) {
-                                                        return _c(
-                                                          "div",
-                                                          { key: i },
-                                                          [
-                                                            _c(
-                                                              "div",
-                                                              {
-                                                                staticStyle: {
-                                                                  display:
-                                                                    "flex"
-                                                                }
-                                                              },
-                                                              [
-                                                                _c(
-                                                                  "span",
-                                                                  {
-                                                                    staticStyle: {
-                                                                      "margin-right":
-                                                                        "4px"
-                                                                    }
-                                                                  },
-                                                                  [
-                                                                    _vm._v(
-                                                                      _vm._s(
-                                                                        _vm
-                                                                          .Alphabet[
-                                                                          i
-                                                                        ]
-                                                                      ) + "."
-                                                                    )
-                                                                  ]
-                                                                ),
-                                                                _vm._v(" "),
-                                                                _c("span", {
-                                                                  staticClass:
-                                                                    "post-content",
-                                                                  domProps: {
-                                                                    innerHTML: _vm._s(
-                                                                      Ans.Choice
-                                                                    )
-                                                                  }
-                                                                })
-                                                              ]
-                                                            )
-                                                          ]
-                                                        )
-                                                      }
-                                                    ),
-                                                    0
-                                                  )
-                                                : _c(
-                                                    "div",
-                                                    _vm._l(
-                                                      _vm.Question.Answer[
-                                                        mainIndex
-                                                      ].options,
-                                                      function(Ans, i) {
-                                                        return _c(
-                                                          "div",
-                                                          { key: i },
-                                                          [
-                                                            _c(
-                                                              "div",
-                                                              {
-                                                                staticStyle: {
-                                                                  display:
-                                                                    "flex"
-                                                                }
-                                                              },
-                                                              [
-                                                                _c(
-                                                                  "span",
-                                                                  {
-                                                                    staticStyle: {
-                                                                      "margin-right":
-                                                                        "4px"
-                                                                    }
-                                                                  },
-                                                                  [
-                                                                    _vm._v(
-                                                                      _vm._s(
-                                                                        _vm
-                                                                          .Alphabet[
-                                                                          i
-                                                                        ]
-                                                                      ) + "."
-                                                                    )
-                                                                  ]
-                                                                ),
-                                                                _vm._v(" "),
-                                                                _c("span", {
-                                                                  staticClass:
-                                                                    "post-content",
-                                                                  domProps: {
-                                                                    innerHTML: _vm._s(
-                                                                      Ans.Choice
-                                                                    )
-                                                                  }
-                                                                })
-                                                              ]
-                                                            )
-                                                          ]
-                                                        )
-                                                      }
-                                                    ),
-                                                    0
-                                                  )
-                                            ]
-                                          )
-                                    ])
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                question.type == "Identification"
-                                  ? _c("v-col", { attrs: { cols: "12" } }, [
-                                      _vm.isDownloadType == "answer_key"
-                                        ? _c(
-                                            "div",
-                                            {
-                                              staticStyle: {
-                                                "margin-left": "15px"
+                                                display: "flex",
+                                                "padding-right": "1%"
                                               }
                                             },
                                             [
                                               _c(
-                                                "div",
+                                                "span",
                                                 {
-                                                  staticClass:
-                                                    "mb-3 black--text"
+                                                  staticStyle: {
+                                                    "padding-right": "5px",
+                                                    "font-weight": "600"
+                                                  }
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                    Correct Answers:\n                                "
+                                                    "Q" +
+                                                      _vm._s(mainIndex + 1) +
+                                                      ". "
                                                   )
                                                 ]
                                               ),
                                               _vm._v(" "),
-                                              _vm.Question.Answer[mainIndex]
-                                                .options.length == 0
+                                              _c("span", {
+                                                staticClass: "post-content",
+                                                domProps: {
+                                                  innerHTML: _vm._s(
+                                                    question.question
+                                                  )
+                                                }
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticStyle: {
+                                                "font-size": "12px"
+                                              }
+                                            },
+                                            [
+                                              _vm.isDownloadType == "answer_key"
                                                 ? _c(
-                                                    "div",
+                                                    "span",
                                                     {
                                                       staticStyle: {
-                                                        "line-height": "1.4",
-                                                        display: "flex"
-                                                      },
-                                                      attrs: {
-                                                        sclass: "ma-0 pa-0 pl-3"
+                                                        "font-weight": "bold"
                                                       }
                                                     },
                                                     [
-                                                      _c(
-                                                        "span",
-                                                        {
-                                                          staticStyle: {
-                                                            "padding-right":
-                                                              "4px"
-                                                          }
-                                                        },
-                                                        [_vm._v("• ")]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c("span", {
-                                                        staticClass:
-                                                          "post-content",
-                                                        domProps: {
-                                                          innerHTML: _vm._s(
-                                                            question.answer
-                                                          )
-                                                        }
-                                                      })
+                                                      _vm._v(
+                                                        _vm._s(question.type)
+                                                      )
                                                     ]
                                                   )
-                                                : _c(
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    "(" +
+                                                      question.points +
+                                                      " points)"
+                                                  )
+                                                )
+                                              ])
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    question.type == "Multiple Choice"
+                                      ? _c("v-col", { attrs: { cols: "12" } }, [
+                                          _vm.isDownloadType == "answer_key"
+                                            ? _c(
+                                                "div",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "15px"
+                                                  }
+                                                },
+                                                [
+                                                  question.isNew
+                                                    ? _c(
+                                                        "div",
+                                                        _vm._l(
+                                                          _vm.Question.Answer[
+                                                            mainIndex
+                                                          ].options,
+                                                          function(Ans, i) {
+                                                            return _c(
+                                                              "div",
+                                                              { key: i },
+                                                              [
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    style:
+                                                                      question.answer ==
+                                                                      Ans.id
+                                                                        ? "color:red;display:flex;font-weight:600"
+                                                                        : "display:flex"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticStyle: {
+                                                                          "margin-right":
+                                                                            "4px"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            _vm
+                                                                              .Alphabet[
+                                                                              i
+                                                                            ]
+                                                                          ) +
+                                                                            "."
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c("span", {
+                                                                      staticClass:
+                                                                        "post-content",
+                                                                      domProps: {
+                                                                        innerHTML: _vm._s(
+                                                                          Ans.Choice
+                                                                        )
+                                                                      }
+                                                                    })
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          }
+                                                        ),
+                                                        0
+                                                      )
+                                                    : _c(
+                                                        "div",
+                                                        _vm._l(
+                                                          _vm.Question.Answer[
+                                                            mainIndex
+                                                          ].options,
+                                                          function(Ans, i) {
+                                                            return _c(
+                                                              "div",
+                                                              { key: i },
+                                                              [
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    style:
+                                                                      question.answer ==
+                                                                      Ans.Choice
+                                                                        ? "color:red;display:flex;font-weight:600"
+                                                                        : "display:flex"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticStyle: {
+                                                                          "margin-right":
+                                                                            "4px"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            _vm
+                                                                              .Alphabet[
+                                                                              i
+                                                                            ]
+                                                                          ) +
+                                                                            "."
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c("span", {
+                                                                      staticClass:
+                                                                        "post-content",
+                                                                      domProps: {
+                                                                        innerHTML: _vm._s(
+                                                                          Ans.Choice
+                                                                        )
+                                                                      }
+                                                                    })
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          }
+                                                        ),
+                                                        0
+                                                      )
+                                                ]
+                                              )
+                                            : _c(
+                                                "div",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "15px"
+                                                  }
+                                                },
+                                                [
+                                                  question.isNew
+                                                    ? _c(
+                                                        "div",
+                                                        _vm._l(
+                                                          _vm.Question.Answer[
+                                                            mainIndex
+                                                          ].options,
+                                                          function(Ans, i) {
+                                                            return _c(
+                                                              "div",
+                                                              { key: i },
+                                                              [
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticStyle: {
+                                                                      display:
+                                                                        "flex"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticStyle: {
+                                                                          "margin-right":
+                                                                            "4px"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            _vm
+                                                                              .Alphabet[
+                                                                              i
+                                                                            ]
+                                                                          ) +
+                                                                            "."
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c("span", {
+                                                                      staticClass:
+                                                                        "post-content",
+                                                                      domProps: {
+                                                                        innerHTML: _vm._s(
+                                                                          Ans.Choice
+                                                                        )
+                                                                      }
+                                                                    })
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          }
+                                                        ),
+                                                        0
+                                                      )
+                                                    : _c(
+                                                        "div",
+                                                        _vm._l(
+                                                          _vm.Question.Answer[
+                                                            mainIndex
+                                                          ].options,
+                                                          function(Ans, i) {
+                                                            return _c(
+                                                              "div",
+                                                              { key: i },
+                                                              [
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticStyle: {
+                                                                      display:
+                                                                        "flex"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticStyle: {
+                                                                          "margin-right":
+                                                                            "4px"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            _vm
+                                                                              .Alphabet[
+                                                                              i
+                                                                            ]
+                                                                          ) +
+                                                                            "."
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c("span", {
+                                                                      staticClass:
+                                                                        "post-content",
+                                                                      domProps: {
+                                                                        innerHTML: _vm._s(
+                                                                          Ans.Choice
+                                                                        )
+                                                                      }
+                                                                    })
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          }
+                                                        ),
+                                                        0
+                                                      )
+                                                ]
+                                              )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    question.type == "Identification"
+                                      ? _c("v-col", { attrs: { cols: "12" } }, [
+                                          _vm.isDownloadType == "answer_key"
+                                            ? _c(
+                                                "div",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "15px"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
                                                     "div",
                                                     {
                                                       staticClass:
-                                                        "Subtitle-1 ma-0 pa-0 pl-3",
-                                                      staticStyle: {
-                                                        "line-height": "1.4"
-                                                      }
-                                                    },
-                                                    _vm._l(
-                                                      _vm.Question.Answer[
-                                                        mainIndex
-                                                      ].options,
-                                                      function(Answer) {
-                                                        return _c(
-                                                          "div",
-                                                          {
-                                                            key: Answer.id,
-                                                            staticStyle: {
-                                                              display: "flex"
-                                                            }
-                                                          },
-                                                          [
-                                                            _c(
-                                                              "span",
-                                                              {
-                                                                staticStyle: {
-                                                                  "padding-right":
-                                                                    "4px"
-                                                                }
-                                                              },
-                                                              [_vm._v("• ")]
-                                                            ),
-                                                            _vm._v(" "),
-                                                            _c("span", {
-                                                              staticClass:
-                                                                "post-content",
-                                                              domProps: {
-                                                                innerHTML: _vm._s(
-                                                                  Answer.Choice
-                                                                )
-                                                              }
-                                                            })
-                                                          ]
-                                                        )
-                                                      }
-                                                    ),
-                                                    0
-                                                  )
-                                            ]
-                                          )
-                                        : _c("div", {
-                                            staticStyle: {
-                                              "margin-top": "25px"
-                                            }
-                                          })
-                                    ])
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                question.type == "True or False"
-                                  ? _c("v-col", { attrs: { cols: "12" } }, [
-                                      _vm.isDownloadType == "answer_key"
-                                        ? _c(
-                                            "div",
-                                            {
-                                              staticStyle: {
-                                                "margin-left": "15px"
-                                              }
-                                            },
-                                            _vm._l(_vm.inputCheck, function(
-                                              x,
-                                              n
-                                            ) {
-                                              return _c("div", { key: n }, [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    style:
-                                                      question.answer ==
-                                                      _vm.inputCheck[n]
-                                                        ? "color:red;display:flex;font-weight:600"
-                                                        : "display:flex"
-                                                  },
-                                                  [
-                                                    _c("span", [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          _vm.inputCheck[n]
-                                                        )
-                                                      )
-                                                    ])
-                                                  ]
-                                                )
-                                              ])
-                                            }),
-                                            0
-                                          )
-                                        : _c(
-                                            "div",
-                                            {
-                                              staticStyle: {
-                                                "margin-left": "15px"
-                                              }
-                                            },
-                                            _vm._l(_vm.inputCheck, function(
-                                              x,
-                                              n
-                                            ) {
-                                              return _c("div", { key: n }, [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticStyle: {
-                                                      display: "flex"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("span", [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          _vm.inputCheck[n]
-                                                        )
-                                                      )
-                                                    ])
-                                                  ]
-                                                )
-                                              ])
-                                            }),
-                                            0
-                                          )
-                                    ])
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                question.type == "Matching type"
-                                  ? _c("v-col", { attrs: { cols: "12" } }, [
-                                      _c(
-                                        "div",
-                                        [
-                                          _c(
-                                            "v-container",
-                                            [
-                                              _c(
-                                                "v-row",
-                                                [
-                                                  _c(
-                                                    "v-col",
-                                                    {
-                                                      staticClass:
-                                                        "font-weight-bold",
-                                                      attrs: { cols: "7" }
+                                                        "mb-3 black--text"
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                            Column A"
+                                                        "\n                                        Correct Answers:\n                                    "
                                                       )
                                                     ]
                                                   ),
                                                   _vm._v(" "),
-                                                  _c(
-                                                    "v-col",
-                                                    {
-                                                      staticClass:
-                                                        "font-weight-bold",
-                                                      attrs: { cols: "5" }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\n                                            Column B"
+                                                  _vm.Question.Answer[mainIndex]
+                                                    .options.length == 0
+                                                    ? _c(
+                                                        "div",
+                                                        {
+                                                          staticStyle: {
+                                                            "line-height":
+                                                              "1.4",
+                                                            display: "flex"
+                                                          },
+                                                          attrs: {
+                                                            sclass:
+                                                              "ma-0 pa-0 pl-3"
+                                                          }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "span",
+                                                            {
+                                                              staticStyle: {
+                                                                "padding-right":
+                                                                  "4px"
+                                                              }
+                                                            },
+                                                            [_vm._v("• ")]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c("span", {
+                                                            staticClass:
+                                                              "post-content",
+                                                            domProps: {
+                                                              innerHTML: _vm._s(
+                                                                question.answer
+                                                              )
+                                                            }
+                                                          })
+                                                        ]
                                                       )
-                                                    ]
-                                                  )
-                                                ],
-                                                1
+                                                    : _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "Subtitle-1 ma-0 pa-0 pl-3",
+                                                          staticStyle: {
+                                                            "line-height": "1.4"
+                                                          }
+                                                        },
+                                                        _vm._l(
+                                                          _vm.Question.Answer[
+                                                            mainIndex
+                                                          ].options,
+                                                          function(Answer) {
+                                                            return _c(
+                                                              "div",
+                                                              {
+                                                                key: Answer.id,
+                                                                staticStyle: {
+                                                                  display:
+                                                                    "flex"
+                                                                }
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticStyle: {
+                                                                      "padding-right":
+                                                                        "4px"
+                                                                    }
+                                                                  },
+                                                                  [_vm._v("• ")]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c("span", {
+                                                                  staticClass:
+                                                                    "post-content",
+                                                                  domProps: {
+                                                                    innerHTML: _vm._s(
+                                                                      Answer.Choice
+                                                                    )
+                                                                  }
+                                                                })
+                                                              ]
+                                                            )
+                                                          }
+                                                        ),
+                                                        0
+                                                      )
+                                                ]
                                               )
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
+                                            : _c("div", {
+                                                staticStyle: {
+                                                  "margin-top": "25px"
+                                                }
+                                              })
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    question.type == "True or False"
+                                      ? _c("v-col", { attrs: { cols: "12" } }, [
+                                          _vm.isDownloadType == "answer_key"
+                                            ? _c(
+                                                "div",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "15px"
+                                                  }
+                                                },
+                                                _vm._l(_vm.inputCheck, function(
+                                                  x,
+                                                  n
+                                                ) {
+                                                  return _c("div", { key: n }, [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        style:
+                                                          question.answer ==
+                                                          _vm.inputCheck[n]
+                                                            ? "color:red;display:flex;font-weight:600"
+                                                            : "display:flex"
+                                                      },
+                                                      [
+                                                        _c("span", [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              _vm.inputCheck[n]
+                                                            )
+                                                          )
+                                                        ])
+                                                      ]
+                                                    )
+                                                  ])
+                                                }),
+                                                0
+                                              )
+                                            : _c(
+                                                "div",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "15px"
+                                                  }
+                                                },
+                                                _vm._l(_vm.inputCheck, function(
+                                                  x,
+                                                  n
+                                                ) {
+                                                  return _c("div", { key: n }, [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticStyle: {
+                                                          display: "flex"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("span", [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              _vm.inputCheck[n]
+                                                            )
+                                                          )
+                                                        ])
+                                                      ]
+                                                    )
+                                                  ])
+                                                }),
+                                                0
+                                              )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    question.type == "Matching type"
+                                      ? _c("v-col", { attrs: { cols: "12" } }, [
                                           _c(
                                             "div",
-                                            { staticClass: "mb-5" },
-                                            [_c("v-divider")],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _vm._l(
-                                            _vm.Question.Answer[mainIndex]
-                                              .SubQuestion,
-                                            function(List, i) {
-                                              return _c(
+                                            [
+                                              _c(
                                                 "v-container",
-                                                {
-                                                  key: List.id,
-                                                  staticClass:
-                                                    "mb-0 pb-0 pt-2 pb-3"
-                                                },
                                                 [
                                                   _c(
                                                     "v-row",
@@ -12089,114 +12081,12 @@ var render = function() {
                                                         "v-col",
                                                         {
                                                           staticClass:
-                                                            "mb-1 pb-0 pt-0 mt-0",
+                                                            "font-weight-bold",
                                                           attrs: { cols: "7" }
                                                         },
                                                         [
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticStyle: {
-                                                                display: "flex"
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "div",
-                                                                {
-                                                                  staticStyle: {
-                                                                    "text-align":
-                                                                      "center"
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _c(
-                                                                    "span",
-                                                                    {
-                                                                      staticStyle: {
-                                                                        "font-size":
-                                                                          "12px"
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _c(
-                                                                        "span",
-                                                                        {
-                                                                          staticStyle: {
-                                                                            "margin-right":
-                                                                              "2%",
-                                                                            "font-weight":
-                                                                              "600",
-                                                                            color:
-                                                                              "red"
-                                                                          }
-                                                                        },
-                                                                        [
-                                                                          _vm._v(
-                                                                            _vm._s(
-                                                                              _vm.isDownloadType ==
-                                                                                "answer_key"
-                                                                                ? _vm
-                                                                                    .Alphabet[
-                                                                                    i
-                                                                                  ]
-                                                                                : " "
-                                                                            )
-                                                                          )
-                                                                        ]
-                                                                      ),
-                                                                      _vm._v(
-                                                                        " "
-                                                                      ),
-                                                                      _c(
-                                                                        "div",
-                                                                        {
-                                                                          staticStyle: {
-                                                                            width:
-                                                                              "50px",
-                                                                            "border-bottom":
-                                                                              "1px solid black"
-                                                                          }
-                                                                        }
-                                                                      )
-                                                                    ]
-                                                                  )
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "span",
-                                                                {
-                                                                  staticStyle: {
-                                                                    "margin-right":
-                                                                      "2%"
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      i +
-                                                                        1 +
-                                                                        ". "
-                                                                    )
-                                                                  )
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c("span", {
-                                                                staticClass:
-                                                                  "subquestion-content",
-                                                                staticStyle: {
-                                                                  "font-weight":
-                                                                    "600"
-                                                                },
-                                                                domProps: {
-                                                                  innerHTML: _vm._s(
-                                                                    List.sub_question
-                                                                  )
-                                                                }
-                                                              })
-                                                            ]
+                                                          _vm._v(
+                                                            "\n                                                Column A"
                                                           )
                                                         ]
                                                       ),
@@ -12205,57 +12095,12 @@ var render = function() {
                                                         "v-col",
                                                         {
                                                           staticClass:
-                                                            "mb-1 pb-0 pt-0 mt-0",
+                                                            "font-weight-bold",
                                                           attrs: { cols: "5" }
                                                         },
                                                         [
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticStyle: {
-                                                                display: "flex"
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "span",
-                                                                {
-                                                                  staticStyle: {
-                                                                    "margin-right":
-                                                                      "2%"
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      _vm
-                                                                        .Alphabet[
-                                                                        i
-                                                                      ] + ". "
-                                                                    )
-                                                                  )
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c("span", {
-                                                                staticClass:
-                                                                  "subchoices-content",
-                                                                staticStyle: {
-                                                                  "font-weight":
-                                                                    "600"
-                                                                },
-                                                                domProps: {
-                                                                  innerHTML: _vm._s(
-                                                                    _vm.Question
-                                                                      .Answer[
-                                                                      mainIndex
-                                                                    ].SubAnswer[
-                                                                      i
-                                                                    ].Choice
-                                                                  )
-                                                                }
-                                                              })
-                                                            ]
+                                                          _vm._v(
+                                                            "\n                                                Column B"
                                                           )
                                                         ]
                                                       )
@@ -12264,142 +12109,362 @@ var render = function() {
                                                   )
                                                 ],
                                                 1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "mb-5" },
+                                                [_c("v-divider")],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(
+                                                _vm.Question.Answer[mainIndex]
+                                                  .SubQuestion,
+                                                function(List, i) {
+                                                  return _c(
+                                                    "v-container",
+                                                    {
+                                                      key: List.id,
+                                                      staticClass:
+                                                        "mb-0 pb-0 pt-2 pb-3"
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-row",
+                                                        [
+                                                          _c(
+                                                            "v-col",
+                                                            {
+                                                              staticClass:
+                                                                "mb-1 pb-0 pt-0 mt-0",
+                                                              attrs: {
+                                                                cols: "7"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticStyle: {
+                                                                    display:
+                                                                      "flex"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "div",
+                                                                    {
+                                                                      staticStyle: {
+                                                                        "text-align":
+                                                                          "center"
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "span",
+                                                                        {
+                                                                          staticStyle: {
+                                                                            "font-size":
+                                                                              "12px"
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "span",
+                                                                            {
+                                                                              staticStyle: {
+                                                                                "margin-right":
+                                                                                  "2%",
+                                                                                "font-weight":
+                                                                                  "600",
+                                                                                color:
+                                                                                  "red"
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                _vm._s(
+                                                                                  _vm.isDownloadType ==
+                                                                                    "answer_key"
+                                                                                    ? _vm
+                                                                                        .Alphabet[
+                                                                                        i
+                                                                                      ]
+                                                                                    : " "
+                                                                                )
+                                                                              )
+                                                                            ]
+                                                                          ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _c(
+                                                                            "div",
+                                                                            {
+                                                                              staticStyle: {
+                                                                                width:
+                                                                                  "50px",
+                                                                                "border-bottom":
+                                                                                  "1px solid black"
+                                                                              }
+                                                                            }
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "span",
+                                                                    {
+                                                                      staticStyle: {
+                                                                        "margin-right":
+                                                                          "2%"
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        _vm._s(
+                                                                          i +
+                                                                            1 +
+                                                                            ". "
+                                                                        )
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c("span", {
+                                                                    staticClass:
+                                                                      "subquestion-content",
+                                                                    staticStyle: {
+                                                                      "font-weight":
+                                                                        "600"
+                                                                    },
+                                                                    domProps: {
+                                                                      innerHTML: _vm._s(
+                                                                        List.sub_question
+                                                                      )
+                                                                    }
+                                                                  })
+                                                                ]
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-col",
+                                                            {
+                                                              staticClass:
+                                                                "mb-1 pb-0 pt-0 mt-0",
+                                                              attrs: {
+                                                                cols: "5"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticStyle: {
+                                                                    display:
+                                                                      "flex"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "span",
+                                                                    {
+                                                                      staticStyle: {
+                                                                        "margin-right":
+                                                                          "2%"
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        _vm._s(
+                                                                          _vm
+                                                                            .Alphabet[
+                                                                            i
+                                                                          ] +
+                                                                            ". "
+                                                                        )
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c("span", {
+                                                                    staticClass:
+                                                                      "subchoices-content",
+                                                                    staticStyle: {
+                                                                      "font-weight":
+                                                                        "600"
+                                                                    },
+                                                                    domProps: {
+                                                                      innerHTML: _vm._s(
+                                                                        _vm
+                                                                          .Question
+                                                                          .Answer[
+                                                                          mainIndex
+                                                                        ]
+                                                                          .SubAnswer[
+                                                                          i
+                                                                        ].Choice
+                                                                      )
+                                                                    }
+                                                                  })
+                                                                ]
+                                                              )
+                                                            ]
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                }
                                               )
-                                            }
+                                            ],
+                                            2
                                           )
-                                        ],
-                                        2
-                                      )
-                                    ])
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                question.type == "Essay"
-                                  ? _c("v-col", { attrs: { cols: "12" } }, [
-                                      _c("div", {
-                                        staticStyle: { "margin-top": "20%" }
-                                      })
-                                    ])
-                                  : _vm._e()
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    question.type == "Essay"
+                                      ? _c("v-col", { attrs: { cols: "12" } }, [
+                                          _c("div", {
+                                            staticStyle: { "margin-top": "20%" }
+                                          })
+                                        ])
+                                      : _vm._e()
+                                  ],
+                                  1
+                                )
                               ],
                               1
                             )
                           }),
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("hr"),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          [
-                            _c(
-                              "v-row",
-                              [
-                                _c("v-col", { attrs: { cols: "6" } }, [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticStyle: {
-                                        "text-align": "center",
-                                        "margin-top": "25%"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "span",
-                                        {
-                                          staticStyle: { "font-size": "18px" }
-                                        },
-                                        [
-                                          _c("div", {
-                                            staticStyle: {
-                                              margin: "auto",
-                                              width: "300px",
-                                              "border-bottom": "1px solid black"
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c("span", [_vm._v("Faculty")])
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "6" } }, [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticStyle: {
-                                        "text-align": "center",
-                                        "margin-top": "25%"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "span",
-                                        {
-                                          staticStyle: { "font-size": "18px" }
-                                        },
-                                        [
-                                          _c("div", {
-                                            staticStyle: {
-                                              margin: "auto",
-                                              width: "300px",
-                                              "border-bottom": "1px solid black"
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c("span", [_vm._v("Program chair")])
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "12" } }, [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticStyle: {
-                                        "text-align": "center",
-                                        "margin-top": "15%"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "span",
-                                        {
-                                          staticStyle: { "font-size": "18px" }
-                                        },
-                                        [
-                                          _c("div", {
-                                            staticStyle: {
-                                              margin: "auto",
-                                              width: "300px",
-                                              "border-bottom": "1px solid black"
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c("span", [_vm._v("Dean")])
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ])
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ])
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("hr"),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            [
+                              _c(
+                                "v-row",
+                                [
+                                  _c("v-col", { attrs: { cols: "6" } }, [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticStyle: {
+                                          "text-align": "center",
+                                          "margin-top": "25%"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "span",
+                                          {
+                                            staticStyle: { "font-size": "18px" }
+                                          },
+                                          [
+                                            _c("div", {
+                                              staticStyle: {
+                                                margin: "auto",
+                                                width: "300px",
+                                                "border-bottom":
+                                                  "1px solid black"
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c("span", [_vm._v("Faculty")])
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-col", { attrs: { cols: "6" } }, [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticStyle: {
+                                          "text-align": "center",
+                                          "margin-top": "25%"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "span",
+                                          {
+                                            staticStyle: { "font-size": "18px" }
+                                          },
+                                          [
+                                            _c("div", {
+                                              staticStyle: {
+                                                margin: "auto",
+                                                width: "300px",
+                                                "border-bottom":
+                                                  "1px solid black"
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c("span", [
+                                              _vm._v("Program Chair")
+                                            ])
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-col", { attrs: { cols: "12" } }, [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticStyle: {
+                                          "text-align": "center",
+                                          "margin-top": "15%"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "span",
+                                          {
+                                            staticStyle: { "font-size": "18px" }
+                                          },
+                                          [
+                                            _c("div", {
+                                              staticStyle: {
+                                                margin: "auto",
+                                                width: "300px",
+                                                "border-bottom":
+                                                  "1px solid black"
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c("span", [_vm._v("Dean")])
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        2
+                      )
                     ]
                   )
                 ]
