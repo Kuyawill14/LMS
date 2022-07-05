@@ -177,7 +177,7 @@ class StudentController extends Controller
                 
             $StatusUpdate = tbl_Submission::find($request->Submission_id);
             if($StatusUpdate){
-                $TempOldAttach = $StatusUpdate->Submitted_Answers = unserialize($StatusUpdate->Submitted_Answers);
+                $TempOldAttach = $StatusUpdate->Submitted_Answers != null ? unserialize($StatusUpdate->Submitted_Answers) : $StatusUpdate->Submitted_Answers;
                 $file = $request->file('file');
                 if($file){
                     //$newFile = $file->store('public/upload/classworkSubmission/'.$userId);
