@@ -286,6 +286,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -515,7 +518,7 @@ __webpack_require__.r(__webpack_exports__);
                     var string = sub.Ans_Letter != null ? sub.Ans_Letter.replace(/\./g, '') : sub.Ans_Letter;
                     var letter = string != null ? string.trim() : null;
 
-                    if (letter != null ? letter.toUpperCase() == sub.correct_ans_letter.toUpperCase() : false) {
+                    if (letter != null && letter != '' && _this.classworkDetails.showAnswer == true ? letter.toUpperCase() == sub.correct_ans_letter.toUpperCase() : false) {
                       match_check[counter] = true;
 
                       _this.classworkDetails.Submitted_Answers.forEach(function (submi_ans) {
@@ -1290,45 +1293,57 @@ var render = function() {
                                         }
                                       },
                                       [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass:
-                                              "subtitle-2 font-weight-bold"
-                                          },
-                                          [_vm._v("Correct Answer(s)")]
-                                        ),
-                                        _vm._v(" "),
-                                        _vm._l(
-                                          _vm.QuestionAndAnswer.Answer[index],
-                                          function(Ans, i) {
-                                            return _c(
+                                        _vm.classworkDetails.showAnswer == true
+                                          ? _c(
                                               "div",
-                                              {
-                                                key: i,
-                                                staticClass:
-                                                  " ma-0 pa-0 d-flex pl-3 success--text"
-                                              },
                                               [
                                                 _c(
-                                                  "span",
-                                                  { staticClass: "pr-2" },
-                                                  [_vm._v("• ")]
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "subtitle-2 font-weight-bold"
+                                                  },
+                                                  [_vm._v("Correct Answer(s)")]
                                                 ),
                                                 _vm._v(" "),
-                                                _c("span", {
-                                                  staticClass:
-                                                    "post-content pa-0 ma-0",
-                                                  domProps: {
-                                                    innerHTML: _vm._s(
-                                                      Ans.Choice
+                                                _vm._l(
+                                                  _vm.QuestionAndAnswer.Answer[
+                                                    index
+                                                  ],
+                                                  function(Ans, i) {
+                                                    return _c(
+                                                      "div",
+                                                      {
+                                                        key: i,
+                                                        staticClass:
+                                                          " ma-0 pa-0 d-flex pl-3 success--text"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass: "pr-2"
+                                                          },
+                                                          [_vm._v("• ")]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c("span", {
+                                                          staticClass:
+                                                            "post-content pa-0 ma-0",
+                                                          domProps: {
+                                                            innerHTML: _vm._s(
+                                                              Ans.Choice
+                                                            )
+                                                          }
+                                                        })
+                                                      ]
                                                     )
                                                   }
-                                                })
-                                              ]
+                                                )
+                                              ],
+                                              2
                                             )
-                                          }
-                                        ),
+                                          : _vm._e(),
                                         _vm._v(" "),
                                         _c(
                                           "div",
@@ -1368,8 +1383,7 @@ var render = function() {
                                               : _vm._e()
                                           ]
                                         )
-                                      ],
-                                      2
+                                      ]
                                     )
                                   ],
                                   1

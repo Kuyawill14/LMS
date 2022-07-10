@@ -310,9 +310,10 @@
                                                         <v-list class="pl-3">
                                                             <v-list-item class="ma-0 pa-0">
                                                                 <v-list-item-content class="ma-0 pa-0">
-                                                                    <editor 
+                                                                    <editor
+                                                                        @focus="isExamStart = false"
                                                                         class="Identificationeditor"
-                                                                        @change="SelectAnswer()"
+                                                                        @change="SelectAnswer(),isExamStart = true"
                                                                         v-model="FinalAnswers[index].Answer"
                                                                         id="editor-container" placeholder="Answer"
                                                                          :options="options"></editor>
@@ -387,8 +388,10 @@
                                                                                     hide-details
                                                                                     outlined
                                                                                     dense
+                                                                                
+                                                                                    @focus="isExamStart = false"
                                                                                     v-model="FinalAnswers[index].Answer[i].Ans_letter"
-                                                                                    @change="SelectMatch(item.id, index, i)"
+                                                                                    @change="SelectMatch(item.id, index, i),isExamStart = true"
                                                                                     class="centered-input pt-0 mt-0">
                                                                                     </v-text-field>
                                                                                 </div>
@@ -421,9 +424,9 @@
                                                     <v-col ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
                                                         <!--    <v-card style="width:100%;min-height:200px" class="mb-3"> -->
                                                         <editor 
-                                                     
+                                                            @focus="isExamStart = false"
                                                             class="Essayeditor"
-                                                            @change="SelectAnswer()"
+                                                            @change="SelectAnswer(),isExamStart = true"
                                                             v-model="FinalAnswers[index].Answer" id="editor-container"
                                                             placeholder="Essay"  :options="Essayoptions">
                                                         </editor>
@@ -808,14 +811,17 @@
 
                                     //this.getAll_questions.Question[x].isdisabled = AnswersList[j].Answer == null ? false : true;
                                     details.Question.push(this.getAll_questions.Question[x]);
-                                    details.Answer.push(this.getAll_questions.Answer[x]);
+                                    //details.Answer.push(this.getAll_questions.Answer[x]);
                                     
 
                                     if (this.getAll_questions.Question[x].type == 'Identification' || this
                                         .getAll_questions.Question[x].type == 'Multiple Choice' || this
                                         .getAll_questions.Question[x].type == 'True or False' || this
                                         .getAll_questions.Question[x].type == 'Essay') {
+                                            
 
+                                        
+                                        details.Answer.push(this.getAll_questions.Answer[x]);
                                         this.FinalAnswers.push({
                                             Answer: AnswersList[j].Answer,
                                             Question_id: AnswersList[j].Question_id,
@@ -828,16 +834,38 @@
                                         let Ans = new Array();
                                         let Choices_id = new Array();
                                         let Quest_Pattern = {};
-                                        Quest_Pattern.SubQuestion = [];
-                                        Quest_Pattern.SubAnswer = [];
+                                        Quest_Pattern.SubQuestion = AnswersList[j].question_pattern.SubQuestion;
+                                        Quest_Pattern.SubAnswer = AnswersList[j].question_pattern.SubAnswer;
+                                      
+                                        details.Answer.push({
+                                            Destructors: this.getAll_questions.Answer[x].Destructors,
+                                            SubAnswer: [],
+                                            SubQuestion: [],
+                                            options: this.getAll_questions.Answer[x].options,
+                                        });
 
+                                        for (let jj = 0; jj < Quest_Pattern.SubAnswer.length; jj++) {
+                                            this.getAll_questions.Answer[x].SubAnswer.forEach(sub_ans => {
+                                                if(Quest_Pattern.SubAnswer[jj].id == sub_ans.id){
+                                                    details.Answer[j].SubAnswer[jj] = sub_ans;
+                                                }
+        
+                                            })
+                                        }
 
+                                        for (let jj = 0; jj < Quest_Pattern.SubQuestion.length; jj++) {
+                                            this.getAll_questions.Answer[x].SubQuestion.forEach(sub_ques => {
+                                                if(Quest_Pattern.SubQuestion[jj].id == sub_ques.id){
+                                                    details.Answer[j].SubQuestion[jj] = sub_ques;
+                                                }
+        
+                                            })
+                                        }
+                                    
+                                    
                                         this.getAll_questions.Answer[x].SubAnswer.forEach(item => {
                                             Choices_id.push({
                                                 choice_id: item.id
-                                            })
-                                            Quest_Pattern.SubAnswer.push({
-                                                id: item.id
                                             })
                                         });
 
@@ -849,14 +877,9 @@
                                                 subquestion_id: item.id,
                                                 Answers: AnswersList[j].Answer[counter].Answers,
                                             })
-
-                                            Quest_Pattern.SubQuestion.push({
-                                                id: item.id
-                                            })
                                             counter++;
-
-
                                         });
+                                        
                                         this.FinalAnswers.push({
                                             Answer: Ans,
                                             Choices_id: Choices_id,
@@ -874,7 +897,6 @@
                         }
                         this.questionIndex = this.questionIndex > (this.TotalQuestion-1) ? 0 : this.questionIndex;
                         this.Question_List = details;
-                        console.log(this.Question_List);
                     }
                     /* this.isLoading = false; */
                     setTimeout(() => {this.isLoading = false}, 100);

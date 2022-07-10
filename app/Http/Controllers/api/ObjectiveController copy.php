@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Models\tbl_Questions;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
@@ -40,7 +41,7 @@ class ObjectiveController extends Controller
         if(auth('sanctum')->user()->role == 'Student'){
 
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
-            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points')
+            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.isNew','tbl_questions.attachments')
             ->orderBy('created_at','ASC')
             ->whereNotNull('tbl_questions.question')
             ->get();
@@ -49,7 +50,7 @@ class ObjectiveController extends Controller
         else{
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
             ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type',
-            'tbl_questions.answer','tbl_questions.points','tbl_questions.sensitivity')
+            'tbl_questions.answer','tbl_questions.points','tbl_questions.sensitivity','tbl_questions.isNew','tbl_questions.attachments')
             ->orderBy('created_at','ASC')
             ->get();
             $temQuest = $Questions;
@@ -58,12 +59,20 @@ class ObjectiveController extends Controller
         $FinalAnswer = array();
         $tempQuestion = new Collection();
         $tempAnswer = new Collection();
-        foreach($temQuest as $cl){            
+        foreach($temQuest as $cl){
+            $tempanswer;
+
+            if($cl->isNew && $cl->type == 'Multiple Choice'){
+                $tempanswer = intval($cl->answer);
+            }else{
+                $tempanswer = $cl->answer;
+            }
+            $cl->answer = $tempanswer;
+
+
             $tempData1;
-            $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
-            ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
-            ->whereNotNull('tbl_sub_questions.answer_id')
-            ->get();
+            $tempSubQuestion;
+            
 
             if($cl->type != 'Matching type'){
                 $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
@@ -74,7 +83,8 @@ class ObjectiveController extends Controller
                 if(auth('sanctum')->user()->role == 'Student'){
 
                     if($cl->type == 'Multiple Choice'){
-                        $tempData2  = $tempData1->shuffle();
+                        //$tempData2  = $tempData1->shuffle();
+                        $tempData2  = $tempData1;
                         $FinalAnswer[] =  $tempData2;
                     }
                     else{
@@ -91,17 +101,35 @@ class ObjectiveController extends Controller
 
             }
             else{
+                $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
+                ->whereNotNull('tbl_sub_questions.answer_id')
+                ->get();
+
+
                 $tempData1 = [];
                 $Destructors;
+                $count = 0;
                 foreach($tempSubQuestion as $item){
-                    $tempData1[] = $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                    
+                    $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
                     ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
                     ->where('tbl_choices.isDestructor', false)
                     ->first();
-                    if(auth('sanctum')->user()->role == 'Student'){
-                        $item->answer_id = null;
+
+                    if($data){
+                        $tempData1[] = $data;
+                        if(auth('sanctum')->user()->role == 'Student'){
+                            $item->answer_id = null;
+                        }
+                    }else{
+                        $tempSubQuestion->splice($count, 1);
                     }
+                    $count++;  
                 }
+
+
+
         
                 if(auth('sanctum')->user()->role == 'Student'){
                     $des = tbl_choice::where('tbl_choices.question_id',$cl->id)
@@ -124,8 +152,6 @@ class ObjectiveController extends Controller
                     ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
                     ->where('tbl_choices.isDestructor', true)
                     ->get();
-
-
                     }
                     
                 $tmp =  ['options'=> [], "SubQuestion"=>$temQues , "SubAnswer"=>$tempAns, "Destructors"=>$Destructors];
@@ -157,18 +183,23 @@ class ObjectiveController extends Controller
 
                 $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
                 ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.sensitivity',
-                'tbl_questions.answer','tbl_questions.points')
+                'tbl_questions.answer','tbl_questions.points','tbl_questions.isNew','tbl_questions.attachments')
                 ->orderBy('created_at','DESC')
                 ->get();
 
                 $temQuest = $Questions;        
                 foreach($temQuest as $cl){
+                    $tempanswer;
+                    if($cl->isNew && $cl->type == 'Multiple Choice'){
+                        $tempanswer = intval($cl->answer);
+                    }else{
+                        $tempanswer = $cl->answer;
+                    }
+                    $cl->answer = $tempanswer;
                 
                     $tempData1;
                     $tempData1;
-                    $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
-                    ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
-                    ->get();
+                    
         
                     if($cl->type != 'Matching type'){
                         $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
@@ -179,21 +210,31 @@ class ObjectiveController extends Controller
                         $FinalAnswer[] =  $tempData1;
                     }
                     else{
+                        $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                        ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
+                        ->get();
+                    
                         $tempData1 = [];
                         $tmp = array();
+                        $count = 0;
                         foreach($tempSubQuestion as $item){
-                            $tempData1[] = $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                            $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
                             ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
                             ->where('tbl_choices.isDestructor', false)
                             ->first();
 
-                            if(auth('sanctum')->user()->role == 'Student'){
-                                $item->answer_id = null;
+                            if($data){
+                                $tempData1[] = $data;
+                             /*    if(auth('sanctum')->user()->role == 'Student'){
+                                    $item->answer_id = null;
+                                } */
+                            }else{
+                                $tempSubQuestion->splice($count, 1);
                             }
+                            $count++;
+
                         }
                         
-
-
                         $destruc = tbl_choice::where('tbl_choices.question_id',$cl->id)
                             ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
                             ->where('tbl_choices.isDestructor', true)
@@ -207,8 +248,7 @@ class ObjectiveController extends Controller
                         $FinalAnswer[] = $tmp;
                     }
                 }
-
-                $temQuest = $temQuest1;
+                //$temQuest = $FinalAnswer;
 
             }
             else if($checkShowAnswer->showAnswerType == true){
@@ -217,19 +257,25 @@ class ObjectiveController extends Controller
 
                     $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
                     ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.sensitivity',
-                    'tbl_questions.answer','tbl_questions.points')
+                    'tbl_questions.answer','tbl_questions.points','tbl_questions.isNew','tbl_questions.attachments')
                     ->orderBy('created_at','DESC')
                     ->get();
                     $temQuest = $Questions;
 
             
                     foreach($temQuest as $cl){
+
+                        $tempanswer;
+                        if($cl->isNew && $cl->type == 'Multiple Choice'){
+                            $tempanswer = intval($cl->answer);
+                        }else{
+                            $tempanswer = $cl->answer;
+                        }
+                        $cl->answer = $tempanswer;
                     
                         $tempData1;
                         $tempData1;
-                        $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
-                        ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
-                        ->get();
+                        
             
                         if($cl->type != 'Matching type'){
 
@@ -242,17 +288,29 @@ class ObjectiveController extends Controller
                             $FinalAnswer[] =  $tempData1;
                         }
                         else{
+                            $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                            ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
+                            ->get();
+
                             $tempData1 = [];
+                            $count = 0;
                             $tmp = array();
                             foreach($tempSubQuestion as $item){
-                                $tempData1[] = $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                            
+                                $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
                                 ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
                                 ->where('tbl_choices.isDestructor', false)
                                 ->first();
 
-                                if(auth('sanctum')->user()->role == 'Student'){
-                                    $item->answer_id = null;
+                                if($data){
+                                    $tempData1[] = $data;
+                                   /*  if(auth('sanctum')->user()->role == 'Student'){
+                                        $item->answer_id = null;
+                                    } */
+                                }else{
+                                    $tempSubQuestion->splice($count, 1);
                                 }
+                                $count++;
                             }
 
                             $destruc = tbl_choice::where('tbl_choices.question_id',$cl->id)
@@ -271,7 +329,8 @@ class ObjectiveController extends Controller
                 }
                 else{
                     $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
-                    ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.sensitivity')
+                    ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.sensitivity',
+                    'tbl_questions.isNew','tbl_questions.attachments')
                     ->orderBy('created_at','DESC')
                     ->get();
                     $temQuest = $Questions;            
@@ -302,16 +361,41 @@ class ObjectiveController extends Controller
             
             
                         if($cl->type != 'Matching type'){
-                            $tempData2;
-                            if(auth('sanctum')->user()->role == 'Student'){
-                                $tempData2  = $tempData1;
-                            }
-                            else{
-                                $tempData2 = $tempData1;
-                            }
+
+                            $tempData2 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                            ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                            ->where('tbl_choices.isDestructor', false)
+                            ->get();
+
                             $FinalAnswer[] =  $tempData2;
                         }
                         else{
+
+                            $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                            ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
+                            ->get();
+                        
+                            $tempData1 = [];
+                            $tmp = array();
+                            $count = 0;
+                            foreach($tempSubQuestion as $item){
+                                $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                                ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                                ->where('tbl_choices.isDestructor', false)
+                                ->first();
+
+                                if($data){
+                                    $tempData1[] = $data;
+                                    if(auth('sanctum')->user()->role == 'Student'){
+                                        $item->answer_id = null;
+                                    }
+                                }else{
+                                    $tempSubQuestion->splice($count, 1);
+                                }
+                                $count++;
+                            }
+
+
                             $tmp = array();
                             if(auth('sanctum')->user()->role == 'Student'){
                                 $tempAns =  $tempData1;
@@ -342,14 +426,12 @@ class ObjectiveController extends Controller
 
             }
 
-
-
-            
             
         }
         else{
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
-            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.sensitivity')
+            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points'
+            ,'tbl_questions.sensitivity','tbl_questions.isNew','tbl_questions.attachments')
             ->orderBy('created_at','DESC')
             ->get();
             $temQuest = $Questions;
@@ -380,16 +462,40 @@ class ObjectiveController extends Controller
     
     
                 if($cl->type != 'Matching type'){
-                    $tempData2;
-                    if(auth('sanctum')->user()->role == 'Student'){
-                        $tempData2  = $tempData1;
-                    }
-                    else{
-                        $tempData2 = $tempData1;
-                    }
+                    $tempData2 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->where('tbl_choices.isDestructor', false)
+                    ->get();
+
                     $FinalAnswer[] =  $tempData2;
                 }
                 else{
+
+                    $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                    ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
+                    ->get();
+                
+                    $tempData1 = [];
+                    $tmp = array();
+                    $count = 0;
+                    foreach($tempSubQuestion as $item){
+                        $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                        ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                        ->where('tbl_choices.isDestructor', false)
+                        ->first();
+
+                        if($data){
+                            $tempData1[] = $data;
+                            if(auth('sanctum')->user()->role == 'Student'){
+                                $item->answer_id = null;
+                            }
+                        }else{
+                            $tempSubQuestion->splice($count, 1);
+                        }
+                        $count++;
+                    }
+
+
                     $tmp = array();
                     if(auth('sanctum')->user()->role == 'Student'){
                         $tempAns =  $tempData1;
@@ -399,6 +505,16 @@ class ObjectiveController extends Controller
                         $tempAns =  $tempData1;
                         $temQues = $tempSubQuestion;  
                     } 
+
+                    $destruc = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->where('tbl_choices.isDestructor', true)
+                    ->get();
+
+                    foreach($destruc as $des){
+                        array_push($tempAns, $des);
+                    }
+
                     $tmp =  ["SubQuestion"=>$temQues , "SubAnswer"=>$tempAns];
                     $FinalAnswer[] = $tmp;    
                 }     
@@ -541,6 +657,7 @@ class ObjectiveController extends Controller
         $newQuestion->answer = '<p>Option 1</p>';
         $newQuestion->points = 1;
         $newQuestion->type = "Multiple Choice";
+        $newQuestion->isNew = true;
         $newQuestion->save();
 
         if(!$newQuestion){
@@ -557,6 +674,10 @@ class ObjectiveController extends Controller
 
         $choices_id = [];
         $choices_id[0] = $QuestionChoice->id;
+
+
+        $newQuestion->answer = $QuestionChoice->id;;
+        $newQuestion->save();
 
         /* for ($i=0; $i < 4; $i++) { 
             $QuestionChoice  = new tbl_choice;
@@ -714,33 +835,55 @@ class ObjectiveController extends Controller
     {
 
         //return   $request;
-
         $counter = 0;
         $question_id = array();
         $answer_id = array();
+        $correct_answer_id = array();
         $totalPoints = 0;
+        DB::beginTransaction();
         foreach($request->question as $mainItem){
             $newQuestion  = new tbl_Questions;
             $newQuestion->classwork_id = $id;
             $newQuestion->question = $mainItem['question'];
-            $newQuestion->answer =  $mainItem['answer'];
             $newQuestion->points = $mainItem['points'];
             $newQuestion->type =  $mainItem['type'];
             $newQuestion->sensitivity = $mainItem['sensitivity'];
+            $newQuestion->isNew = $mainItem['isNew'];
+            $newQuestion->attachments = $mainItem['attachments'] != null ? serialize($mainItem['attachments']) : null;
             $newQuestion->save();
             $question_id[] =   $newQuestion->id;
      
            
             if($mainItem['type'] != 'Matching type'){
                 $choices_id = array();
-                foreach($request->answer[$counter]['options'] as $choices_Item){
-                    $NewChoice  = new tbl_choice;
-                    $NewChoice->question_id = $newQuestion->id;
-                    $NewChoice->Choice = $choices_Item['Choice'];
-                    $NewChoice->save();
-                    $choices_id[] = $NewChoice->id;
+                if($mainItem['type'] == 'Multiple Choice' || $mainItem['type'] == 'Identification' ){
+                    foreach($request->answer[$counter]['options'] as $choices_Item){
+                        $NewChoice  = new tbl_choice;
+                        $NewChoice->question_id = $newQuestion->id;
+                        $NewChoice->Choice = $choices_Item['Choice'];
+                        $NewChoice->save();
+
+                        $newQuestion->answer = $mainItem['isNew'] ? $NewChoice->id : $mainItem['answer'];
+                        $newQuestion->update();
+                        $choices_id[] = $NewChoice->id;
+                       /*  if($mainItem['isNew']){
+                            if($mainItem['answer'] == $choices_Item['id']){
+                                $newQuestion->answer = $NewChoice->id;
+                                $newQuestion->save();
+                            }
+                        }else{
+                            $newQuestion->answer = $mainItem['answer'];
+                            $newQuestion->save();
+                            
+                        } */
+                    }
                     
+                }else{
+                    $newQuestion->answer = $mainItem['answer'];
+                    $newQuestion->save();
                 }
+               
+
                 $answer_id[] = ['options_id' =>  $choices_id, 'SubQuestion_id' =>[], 'SubAnswer_id'=>[], 'Destructors_id'=>[]];
             }
             else{
@@ -749,11 +892,13 @@ class ObjectiveController extends Controller
                 $sub_answer_id = array();
                 $destructors = array();
                 foreach($request->answer[$counter]['SubAnswer'] as $sub_question){
+
                     $QuestionChoice  = new tbl_choice;
                     $QuestionChoice->question_id = $newQuestion->id;
                     $QuestionChoice->isDestructor = false;
                     $QuestionChoice->Choice = $sub_question['Choice'];
                     $QuestionChoice->save();
+
                     $sub_answer_id[] = $QuestionChoice->id;
 
                     $SubQuestion = new tbl_SubQuestion;
@@ -777,17 +922,28 @@ class ObjectiveController extends Controller
                 $answer_id[] = ['options_id' =>[], 'SubQuestion_id' => $sub_question_id, 'SubAnswer_id'=> $sub_answer_id,'Destructors_id'=>$destructors];
             }
 
-            $totalPoints += $mainItem['points'];
-            $counter++;
+
+            if($mainItem['isNew']){
+                $correct_answer_id[] = $mainItem['type'] != 'Multiple Choice' ? $newQuestion->answer : intval($newQuestion->answer);
+            }else{
+                $correct_answer_id[] = $newQuestion->answer;
+            }
             
+            //$totalPoints += $mainItem['points'];
+            $totalPoints = intval( $totalPoints) + intval($mainItem['points']);
+            $counter++;
+
         }
 
         $NewPoints = tbl_classwork::find($id);
-        $tmp_points = ($NewPoints->points + $totalPoints);
+        $tmp_points = (intval($NewPoints->points)  + intval($totalPoints));
         $NewPoints->points = $tmp_points;
         $NewPoints->save();
+
+        DB::commit();
+        return ["answer_id"=> $answer_id , "question_id"=>$question_id, "question_answer_id"=> $correct_answer_id];   
     
-        return ["answer_id"=> $answer_id , "question_id"=>$question_id];      
+          
     }
         
     
@@ -927,10 +1083,8 @@ class ObjectiveController extends Controller
      */
     public function SaveAllQuestion(Request $request, $id)
     {
+
         //return $request;
-        //return $request->Answer[3];
-        //return $request;
-        //return $request->Answer[3]['SubQuestion'];
         $currentIndex = 0;
         $totalPoints = 0;
         foreach($request->Question as $mainItem){
@@ -941,6 +1095,7 @@ class ObjectiveController extends Controller
                 $checkQuestion->points = $mainItem['points'] == '' || $mainItem['points'] == null ? 0 : $mainItem['points'];
                 $checkQuestion->sensitivity = $mainItem['sensitivity'];
                 $checkQuestion->type = $mainItem['type'];
+                $checkQuestion->attachments = serialize($mainItem['attachments']);
                 $checkQuestion->save();
 
                 if($mainItem['type'] == 'Multiple Choice' || $mainItem['type'] == 'Identification'){
@@ -999,7 +1154,7 @@ class ObjectiveController extends Controller
                 }
             }
             $currentIndex++;
-            $totalPoints += $checkQuestion->points;
+            $totalPoints = intval( $totalPoints) + intval($checkQuestion->points);
             
 
 
@@ -1063,72 +1218,14 @@ class ObjectiveController extends Controller
      */
     public function storeAnswer(Request $request, $id)
     {
-            //return  $request;
-            $userId = auth('sanctum')->id();
-            $StoreAnwers = tbl_Submission::find($id);
-            if($StoreAnwers){
-                $checkClasswork = tbl_classwork::find($StoreAnwers->classwork_id);
-                if($checkClasswork->isNew == null){
-                    $StoreAnwers->Submitted_Answers = serialize($request->data);
-                    $StoreAnwers->save();
-                }
-                else{
-                    
-                    //return $request->data;
-                    foreach($request->data as $item){
-                        if($item['type'] == 'Multiple Choice' || $item['type'] == 'Identification' || $item['type'] == 'True or False' || $item['type'] == 'Essay' ){
 
-                            $checkSubmitted = tbl_Submitted_Answer::where('classwork_id', $checkClasswork->id)
-                            ->where('question_id', $item['Question_id'])
-                            ->where('user_id', $userId)
-                            ->first();
-
-                            if($checkSubmitted){
-                                $checkSubmitted->answer = $item['Answer'];
-                                $checkSubmitted->save();
-                            }
-                            else{
-                                $SubmittedAnswer  = new tbl_Submitted_Answer;
-                                $SubmittedAnswer->question_id = $item['Question_id'];
-                                $SubmittedAnswer->user_id = $userId;
-                                $SubmittedAnswer->classwork_id = $checkClasswork->id;
-                                $SubmittedAnswer->type = $item['type'];
-                                $SubmittedAnswer->answer = $item['Answer'];
-                                $SubmittedAnswer->save();
-                            }
-
-                        }
-                        else{
-                          
-                                $checkSubmitted = tbl_Submitted_Answer::where('classwork_id', $checkClasswork->id)
-                                ->where('question_id', $item['Question_id'])
-                                ->where('user_id', $userId)
-                                ->first();
-
-                                if($checkSubmitted){
-                                    $checkSubmitted->answer = serialize($item['Answer']);
-                                    $checkSubmitted->Choices_id = serialize($item['Choices_id']);
-                                    $checkSubmitted->save();
-                                }
-                                else{
-                                    $SubmittedAnswer  = new tbl_Submitted_Answer;
-                                    $SubmittedAnswer->question_id = $item['Question_id'];
-                                    $SubmittedAnswer->user_id = $userId;
-                                    $SubmittedAnswer->classwork_id = $checkClasswork->id;
-                                    $SubmittedAnswer->type = $item['type'];
-                                    $SubmittedAnswer->answer = serialize($item['Answer']);
-                                    $SubmittedAnswer->Choices_id = serialize($item['Choices_id']) ;
-                                    $SubmittedAnswer->save();
-                                }
-                             
-                        }
-                        
-                    }
-                }
-               
-            }
-       
-       
+        $StoreAnwers = tbl_Submission::find($id);
+        if($StoreAnwers){
+            $StoreAnwers->Submitted_Answers = serialize($request->data);
+            $StoreAnwers->current_question =  $request->current_question;
+            $StoreAnwers->save();
+            return;
+        }
     }
 
     /**
@@ -1377,11 +1474,12 @@ class ObjectiveController extends Controller
         $userId = auth('sanctum')->id();
         $classwordDetails = tbl_classwork::find($id);
         $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
-        ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points' ,'tbl_questions.sensitivity')
+        ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points' ,'tbl_questions.sensitivity','tbl_questions.isNEw')
         ->get();
 
         $score = 0;
-        foreach($request->item as $cl){
+        $submittedAnswer = $request->item;
+        foreach($submittedAnswer as $cl){
                 foreach($Questions as $ques){
                 if($ques['id'] == $cl['Question_id']){
 
@@ -1390,8 +1488,19 @@ class ObjectiveController extends Controller
                         $userAns = $ques['sensitivity'] ? $cl['Answer'] : strtolower($cl['Answer']);
                         $questionAns = $ques['sensitivity'] ? $ques['answer'] : strtolower($ques['answer']);
 
+                    
                         if($cl['type'] == 'Identification'){
-                            if($questionAns == $userAns){
+                            $questionAns =  $questionAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $questionAns) : $questionAns;
+                            $questionAns = $questionAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $questionAns) : $questionAns;
+                            $questionAns = $questionAns != null ? str_replace('&nbsp;', '', $questionAns) : $questionAns;
+                            $questionAns = $questionAns != null ? trim($questionAns) : $questionAns;
+    
+                            $userAns =  $userAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $userAns) : $userAns;
+                            $userAns = $userAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $userAns) : $userAns;
+                            $userAns = $userAns != null ? str_replace('&nbsp;', '', $userAns) : $userAns;
+                            $userAns = $userAns != null ? trim($userAns) : $userAns;
+
+                            if(trim($questionAns, " ") == trim($userAns, " ")){
                                 $score += $ques['points'];
                             }
                             else{
@@ -1399,6 +1508,10 @@ class ObjectiveController extends Controller
                                 $check = false;
                                 foreach($answer_list as $answer){
                                     $other_answer =  $ques['sensitivity'] ? $answer->Choice : strtolower($answer->Choice);
+                                    $other_answer =  $other_answer != null ? str_replace(array('<p>', '</p>'), array('', ''),  $other_answer) : $other_answer;
+                                    $other_answer = $other_answer != null ? str_replace(array('<p>', '</p>'), array('', ''),  $other_answer) : $other_answer;
+                                    $other_answer = $other_answer != null ? str_replace('&nbsp;', '', $other_answer) : $other_answer;
+                                    $other_answer = $other_answer != null ? trim($other_answer) : $other_answer;
                                     if($other_answer == $userAns){
                                         $check = true;
                                     }
@@ -1407,6 +1520,16 @@ class ObjectiveController extends Controller
                                 if($check == true){
                                     $score += $ques['points'];
                                 }
+                            }
+                        }
+                        else if($cl['type'] == 'Multiple Choice'){
+                            if($ques->isNew){
+                                $answerID = intval($userAns);
+                                $question_ans = intval($questionAns);
+                                $score = $answerID == $question_ans ? ($score + $ques['points']) : $score;  
+
+                            }else{
+                                $score = $questionAns == $userAns ? ($score + $ques['points']) : $score;  
                             }
                         }
                         else{
@@ -1427,6 +1550,7 @@ class ObjectiveController extends Controller
                 }
             }
         }
+    
 
         $UpdateStatus = tbl_Submission::where("tbl_submissions.user_id",$userId)
         ->where('tbl_submissions.classwork_id', $id)
@@ -1435,7 +1559,8 @@ class ObjectiveController extends Controller
             $UpdateStatus->status = 'Submitted';
             $UpdateStatus->points = $score;
             $UpdateStatus->timeSpent = $request->timeSpent;
-            $UpdateStatus->Submitted_Answers = serialize($request->item);
+            $UpdateStatus->allow_resubmit = false;
+            $UpdateStatus->Submitted_Answers = serialize($submittedAnswer);
             $UpdateStatus->submitted_at = date('Y-m-d H:i:s');
             $UpdateStatus->update();
         }   
@@ -1516,43 +1641,103 @@ class ObjectiveController extends Controller
     {
         $userId = auth('sanctum')->id();
         $Submission = tbl_Submission::find($id);
-
+        $score = 0;
         if($Submission){
             $SubmittedAnswer = unserialize($Submission->Submitted_Answers);
-        
+
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $Submission->classwork_id)
             ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points' ,'tbl_questions.sensitivity')
             ->get();
-
-            $score = 0;
+            $test = array();
+            $counter2 = 0;
             foreach($SubmittedAnswer as $cl){
-                    foreach($Questions as $ques){
+
+                foreach($Questions as $ques){
                     if($ques['id'] == $cl['Question_id']){
                         if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False'){
                             $userAns = $ques['sensitivity'] ? $cl['Answer'] : strtolower($cl['Answer']);
                             $questionAns = $ques['sensitivity'] ? $ques['answer'] : strtolower($ques['answer']);
 
                             if($cl['type'] == 'Identification'){
-                                if($questionAns == $userAns){
-                                    $score += $ques['points'];
-                                }
-                                else{
-                                    $answer_list = tbl_choice::where('question_id', $ques['id'])->get();
-                                    $check = false;
-                                    foreach($answer_list as $answer){
-                                        $other_answer =  $ques['sensitivity'] ? $answer->Choice : strtolower($answer->Choice);
-                                        if($other_answer == $userAns){
-                                            $check = true;
-                                        }
-                                    }
 
-                                    if($check == true){
+                                if(array_key_exists("check",$cl)){
+                                    if($cl['check'] == true){
                                         $score += $ques['points'];
                                     }
+                                }else{
+                                    $answer_list = tbl_choice::where('question_id', $ques['id'])->get();
+                                    if(count($answer_list) == 0){
+
+                                        $temp1ans = $questionAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $questionAns) : $questionAns;
+                                        $temp1ans = $temp1ans != null ? str_replace('&nbsp;', '', $temp1ans) : $temp1ans;
+                                        //$temp1ans = str_replace(' ', '', $temp1ans);
+                                        $temp1ans = $temp1ans != null ? trim($temp1ans) : $temp1ans;
+
+                                        $temp1UserAns = str_replace(array('<p>', '</p>'), array('', ''),  $userAns);
+                                        $temp1UserAns = str_replace('&nbsp;', '', $temp1UserAns);
+                                        //$temp1UserAns = str_replace(' ', '', $temp1UserAns);
+                                        $temp1UserAns = trim($temp1UserAns);
+
+                                        if($temp1ans == $temp1UserAns){
+                                            $score += $ques['points'];
+                                        }
+
+                                    }else{
+                                        $check = false;
+                                        $count = 0;
+                                    
+                                        foreach($answer_list as $answer){
+                                            $other_answer =  $ques['sensitivity'] ? $answer->Choice : strtolower($answer->Choice);
+
+                                            $tempOtherAns = $other_answer != null  ? str_replace(array('<p>', '</p>'), array('', ''),  $other_answer) : $other_answer;
+                                            $tempUserAns = $userAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $userAns) : $userAns;
+            
+                                            $tempUserAns = $tempUserAns != null ? str_replace('&nbsp;', '', $tempUserAns) : $tempUserAns;
+                                            $tempOtherAns = $tempOtherAns != null ? str_replace('&nbsp;', '', $tempOtherAns) : $tempOtherAns;
+
+                                            $tempUserAns = $tempUserAns != null ? trim($tempUserAns) : $tempUserAns;
+                                            $tempOtherAns = $tempOtherAns != null ? trim($tempOtherAns) : $tempUserAns;
+                                            //$test[] = $tempOtherAns;
+                                            
+                                            if($tempOtherAns == $tempUserAns){
+                                                $check = true;
+                                            
+                                            }
+                                            //$count++;
+                                        }
+
+                                        if($check == true){
+                                            $score += $ques['points'];
+                                            $check = false;
+                                        }
+                                    }
                                 }
+                               
+                            }
+                            elseif($cl['type'] == 'Multiple Choice'){
+
+                                if(array_key_exists("check",$cl)){
+                                    $score =  $cl['check'] == true ? $score + $ques['points'] : $score;
+                                }
+                                else{
+                                    if($ques->isNew){
+                                        $answerID = intval($userAns);
+                                        $question_ans = intval($questionAns);
+                                        $score = $answerID == $question_ans ? ($score + $ques['points']) : $score;  
+                                    }else{
+                                        $score = $questionAns == $userAns ? ($score + $ques['points']) : $score;  
+                                    }
+                                }
+                                
                             }
                             else{
-                                $score = $questionAns == $userAns ? ($score + $ques['points']) : $score;  
+                                if(array_key_exists("check",$cl)){
+                                    $score =  $cl['check'] == true ? $score + $ques['points'] : $score;
+                                }
+                                else{
+                                    $score = $questionAns == $userAns ? ($score + $ques['points']) : $score;  
+                                }
+                                
                             }           
                         }
                         elseif($cl['type'] == 'Matching type'){
@@ -1566,23 +1751,55 @@ class ObjectiveController extends Controller
                                 }
                             }
                         }
-                        else if($cl['type'] == 'Essay'){
-                            $score += $cl['score'];
-                            /* if($cl['check'] == true){
-                                $score += $ques['points'];
-                            } */
+                        elseif($cl['type'] == 'Essay'){
+                            if(array_key_exists("score",$cl)){
+                                $score += $cl['score'];
+                            }
+                            else{
+                                $cl['score'] = 0;
+                                $cl['check'] = true;
+                                $score +=0;
+                            }
                         }
                     }
                 }
+ 
             }
             $Submission->points = $score;
             $Submission->save();
             return $Submission->points;
-
         }
         return;
+    }
 
+    public function DeleteQuestionAttachment(Request $request, $id){
+        //return $request;
+        try {
+
+            $quetion = tbl_Questions::find($id);
+            if($quetion){
+                $data = $quetion->attachments;
+                array_splice($data, $request->index,1);
+                $quetion->attachments = count($data) != 0 ? serialize($data) : null;
+                $quetion->save();
+
+                $path =  str_replace(\Config::get('app.do_url').'/', "", $request->link);
+                Storage::disk('DO_spaces')->delete($path);
+                return response()->json([
+                    "message" => "File successfully remove",
+                    "success" => true
+                ]);
+            }
+
+          } catch (\Exception $e) {
+          
+            return response()->json([
+                "message" => "Failed",
+                "success" => false
+            ]);
+          }
        
+        
     }
  
 }

@@ -126,14 +126,17 @@
 
                   <v-container ma-0 pa-0 v-if="item.type == 'Identification'">
                       <v-container ntainer ma-0 pa-0 class="pl-3 mt-0 pt-0">
-                          <div class="subtitle-2 font-weight-bold">Correct Answer(s)</div>
-                            <div v-for="(Ans, i) in QuestionAndAnswer.Answer[index]"
-                                :key="i"
-                                class=" ma-0 pa-0 d-flex pl-3 success--text">
-                                <span class="pr-2">&bull; </span>
-                                <span v-html="Ans.Choice"
-                                    class="post-content pa-0 ma-0"></span>
-                            </div>
+                        <div v-if="classworkDetails.showAnswer == true">
+                            <div  class="subtitle-2 font-weight-bold">Correct Answer(s)</div>
+                                <div v-for="(Ans, i) in QuestionAndAnswer.Answer[index]"
+                                    :key="i"
+                                    class=" ma-0 pa-0 d-flex pl-3 success--text">
+                                    <span class="pr-2">&bull; </span>
+                                    <span v-html="Ans.Choice"
+                                        class="post-content pa-0 ma-0"></span>
+                                </div>
+                        </div>
+                          
 
                         <div class="subtitle-2 font-weight-bold">Your Answer</div>
                         <div class="subtitle-1 d-flex item ml-4 mt-0 pt-0">
@@ -511,6 +514,8 @@ import moment from 'moment/src/moment';
                                         });
                                     });
 
+                               
+
                                     Ans_list.SubQuestion.forEach(sub_ques => {
                                         let c_count = 0;
                                         Ans_list.SubAnswer.forEach(sub_ans => {
@@ -526,7 +531,7 @@ import moment from 'moment/src/moment';
                                             let string = sub.Ans_Letter != null ? sub.Ans_Letter.replace(/\./g,'') : sub.Ans_Letter;
                                             let letter = string != null ? string.trim() : null;
 
-                                            if(letter != null ? letter.toUpperCase() == sub.correct_ans_letter.toUpperCase() : false){
+                                            if(letter != null && letter != '' && this.classworkDetails.showAnswer == true ? letter.toUpperCase() ==  sub.correct_ans_letter.toUpperCase() : false){
                                                 match_check[counter] = true;
                                                 this.classworkDetails.Submitted_Answers.forEach(submi_ans => {
                                                     if(submi_ans.Question_id == this.QuestionAndAnswer.Question[i].id){

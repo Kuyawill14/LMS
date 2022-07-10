@@ -28,6 +28,121 @@ use App\Notifications\SendPushNotification;
 
 class ObjectiveController extends Controller
 {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function fetchQuestionIds($id){
+        
+       
+
+        $QuestionsId = tbl_Questions::where('tbl_questions.classwork_id', $id)
+        ->Select('tbl_questions.id','tbl_questions.type')
+        ->orderBy('created_at','ASC')
+        ->whereNotNull('tbl_questions.question')
+        ->get();
+        $temQuest = $QuestionsId->shuffle();
+
+        return  $temQuest;
+       
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function GetQuestion($id){
+        
+        $Questions = tbl_Questions::where('tbl_questions.id', $id)
+        ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.isNew','tbl_questions.attachments')
+        ->whereNotNull('tbl_questions.question')
+        ->first();
+
+
+        if($Questions->type != 'Matching type'){
+            $Choices = tbl_choice::where('tbl_choices.question_id',$Questions->id)
+            ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+            ->where('tbl_choices.isDestructor', false)
+            ->get();
+           
+            $FinalAnswer =  ['options'=> $Choices, 'SubQuestion'=> [], 'SubAnswer'=> [],'Destructors'=>[]];
+
+            $Questions->Choices = $FinalAnswer;
+
+        }
+        else{
+            $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$Questions->id)
+            ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
+            ->whereNotNull('tbl_sub_questions.answer_id')
+            ->get();
+
+
+            $tempData1 = [];
+            $Destructors;
+            $count = 0;
+            foreach($tempSubQuestion as $item){
+                
+                $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                ->where('tbl_choices.isDestructor', false)
+                ->first();
+
+                if($data){
+                    $tempData1[] = $data;
+                    if(auth('sanctum')->user()->role == 'Student'){
+                        $item->answer_id = null;
+                    }
+                }else{
+                    $tempSubQuestion->splice($count, 1);
+                }
+                $count++;  
+            }
+    
+            if(auth('sanctum')->user()->role == 'Student'){
+                $des = tbl_choice::where('tbl_choices.question_id',$Questions->id)
+                ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                ->where('tbl_choices.isDestructor', true)
+                ->get();
+
+                foreach($des as $destruc){
+                    array_push($tempData1, $destruc);
+                }
+                $tempAns =  Arr::shuffle($tempData1);
+                $temQues = $tempSubQuestion->shuffle();
+                $Destructors = [];
+            }
+            else{
+                $tempAns =  $tempData1;
+                $temQues = $tempSubQuestion;
+
+                $Destructors = tbl_choice::where('tbl_choices.question_id',$Questions->id)
+                ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                ->where('tbl_choices.isDestructor', true)
+                ->get();
+                }
+                
+            $tmp =  ['options'=> [], "SubQuestion"=>$temQues , "SubAnswer"=>$tempAns, "Destructors"=>$Destructors];
+            $FinalAnswer = $tmp;
+
+            $Questions->Choices = $FinalAnswer;
+        }
+     
+
+        return $Questions;
+    }
+
+
+
+
+
+
+
    /**
      * Store a newly created resource in storage.
      *

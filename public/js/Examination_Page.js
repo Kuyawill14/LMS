@@ -945,6 +945,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1317,81 +1320,107 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             data: _this8.FinalAnswers
           });
         } else {
-          var details = {};
-          details.Question = [];
-          details.Answer = [];
-          _this8.TotalQuestion = 0;
+          (function () {
+            var details = {};
+            details.Question = [];
+            details.Answer = [];
+            _this8.TotalQuestion = 0;
 
-          var _loop = function _loop(j) {
-            for (var x = 0; x < _this8.getAll_questions.Question.length; x++) {
-              if (AnswersList[j].Question_id == _this8.getAll_questions.Question[x].id) {
-                //this.getAll_questions.Question[x].isdisabled = AnswersList[j].Answer == null ? false : true;
-                details.Question.push(_this8.getAll_questions.Question[x]);
-                details.Answer.push(_this8.getAll_questions.Answer[x]);
+            var _loop = function _loop(j) {
+              for (var x = 0; x < _this8.getAll_questions.Question.length; x++) {
+                if (AnswersList[j].Question_id == _this8.getAll_questions.Question[x].id) {
+                  //this.getAll_questions.Question[x].isdisabled = AnswersList[j].Answer == null ? false : true;
+                  details.Question.push(_this8.getAll_questions.Question[x]); //details.Answer.push(this.getAll_questions.Answer[x]);
 
-                if (_this8.getAll_questions.Question[x].type == 'Identification' || _this8.getAll_questions.Question[x].type == 'Multiple Choice' || _this8.getAll_questions.Question[x].type == 'True or False' || _this8.getAll_questions.Question[x].type == 'Essay') {
-                  _this8.FinalAnswers.push({
-                    Answer: AnswersList[j].Answer,
-                    Question_id: AnswersList[j].Question_id,
-                    answer_id: null,
-                    type: AnswersList[j].type,
-                    timeConsume: AnswersList[j].timeConsume
-                  });
-                } else if (_this8.getAll_questions.Question[x].type == 'Matching type') {
-                  (function () {
-                    var Ans = new Array();
-                    var Choices_id = new Array();
-                    var Quest_Pattern = {};
-                    Quest_Pattern.SubQuestion = [];
-                    Quest_Pattern.SubAnswer = [];
-
-                    _this8.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
-                      Choices_id.push({
-                        choice_id: item.id
-                      });
-                      Quest_Pattern.SubAnswer.push({
-                        id: item.id
-                      });
-                    });
-
-                    var counter = 0;
-
-                    _this8.getAll_questions.Answer[x].SubQuestion.forEach(function (item) {
-                      Ans.push({
-                        Ans_letter: AnswersList[j].Answer[counter].Ans_letter,
-                        Ans_id: AnswersList[j].Answer[counter].Ans_id,
-                        subquestion_id: item.id,
-                        Answers: AnswersList[j].Answer[counter].Answers
-                      });
-                      Quest_Pattern.SubQuestion.push({
-                        id: item.id
-                      });
-                      counter++;
-                    });
+                  if (_this8.getAll_questions.Question[x].type == 'Identification' || _this8.getAll_questions.Question[x].type == 'Multiple Choice' || _this8.getAll_questions.Question[x].type == 'True or False' || _this8.getAll_questions.Question[x].type == 'Essay') {
+                    details.Answer.push(_this8.getAll_questions.Answer[x]);
 
                     _this8.FinalAnswers.push({
-                      Answer: Ans,
-                      Choices_id: Choices_id,
-                      question_pattern: Quest_Pattern,
+                      Answer: AnswersList[j].Answer,
                       Question_id: AnswersList[j].Question_id,
+                      answer_id: null,
                       type: AnswersList[j].type,
                       timeConsume: AnswersList[j].timeConsume
                     });
-                  })();
+                  } else if (_this8.getAll_questions.Question[x].type == 'Matching type') {
+                    (function () {
+                      var Ans = new Array();
+                      var Choices_id = new Array();
+                      var Quest_Pattern = {};
+                      Quest_Pattern.SubQuestion = AnswersList[j].question_pattern.SubQuestion;
+                      Quest_Pattern.SubAnswer = AnswersList[j].question_pattern.SubAnswer;
+                      details.Answer.push({
+                        Destructors: _this8.getAll_questions.Answer[x].Destructors,
+                        SubAnswer: [],
+                        SubQuestion: [],
+                        options: _this8.getAll_questions.Answer[x].options
+                      });
+
+                      var _loop2 = function _loop2(jj) {
+                        _this8.getAll_questions.Answer[x].SubAnswer.forEach(function (sub_ans) {
+                          if (Quest_Pattern.SubAnswer[jj].id == sub_ans.id) {
+                            details.Answer[j].SubAnswer[jj] = sub_ans;
+                          }
+                        });
+                      };
+
+                      for (var jj = 0; jj < Quest_Pattern.SubAnswer.length; jj++) {
+                        _loop2(jj);
+                      }
+
+                      var _loop3 = function _loop3(_jj) {
+                        _this8.getAll_questions.Answer[x].SubQuestion.forEach(function (sub_ques) {
+                          if (Quest_Pattern.SubQuestion[_jj].id == sub_ques.id) {
+                            details.Answer[j].SubQuestion[_jj] = sub_ques;
+                          }
+                        });
+                      };
+
+                      for (var _jj = 0; _jj < Quest_Pattern.SubQuestion.length; _jj++) {
+                        _loop3(_jj);
+                      }
+
+                      _this8.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
+                        Choices_id.push({
+                          choice_id: item.id
+                        });
+                      });
+
+                      var counter = 0;
+
+                      _this8.getAll_questions.Answer[x].SubQuestion.forEach(function (item) {
+                        Ans.push({
+                          Ans_letter: AnswersList[j].Answer[counter].Ans_letter,
+                          Ans_id: AnswersList[j].Answer[counter].Ans_id,
+                          subquestion_id: item.id,
+                          Answers: AnswersList[j].Answer[counter].Answers
+                        });
+                        counter++;
+                      });
+
+                      _this8.FinalAnswers.push({
+                        Answer: Ans,
+                        Choices_id: Choices_id,
+                        question_pattern: Quest_Pattern,
+                        Question_id: AnswersList[j].Question_id,
+                        type: AnswersList[j].type,
+                        timeConsume: AnswersList[j].timeConsume
+                      });
+                    })();
+                  }
                 }
               }
+
+              _this8.TotalQuestion++;
+            };
+
+            for (var j = 0; j < AnswersList.length; j++) {
+              _loop(j);
             }
 
-            _this8.TotalQuestion++;
-          };
-
-          for (var j = 0; j < AnswersList.length; j++) {
-            _loop(j);
-          }
-
-          _this8.questionIndex = _this8.questionIndex > _this8.TotalQuestion - 1 ? 0 : _this8.questionIndex;
-          _this8.Question_List = details;
-          console.log(_this8.Question_List);
+            _this8.questionIndex = _this8.questionIndex > _this8.TotalQuestion - 1 ? 0 : _this8.questionIndex;
+            _this8.Question_List = details;
+          })();
         }
         /* this.isLoading = false; */
 
@@ -26382,10 +26411,16 @@ var render = function() {
                                                                                       _vm.options
                                                                                   },
                                                                                   on: {
+                                                                                    focus: function(
+                                                                                      $event
+                                                                                    ) {
+                                                                                      _vm.isExamStart = false
+                                                                                    },
                                                                                     change: function(
                                                                                       $event
                                                                                     ) {
-                                                                                      return _vm.SelectAnswer()
+                                                                                      _vm.SelectAnswer(),
+                                                                                        (_vm.isExamStart = true)
                                                                                     }
                                                                                   },
                                                                                   model: {
@@ -26870,14 +26905,20 @@ var render = function() {
                                                                                                         ""
                                                                                                     },
                                                                                                     on: {
+                                                                                                      focus: function(
+                                                                                                        $event
+                                                                                                      ) {
+                                                                                                        _vm.isExamStart = false
+                                                                                                      },
                                                                                                       change: function(
                                                                                                         $event
                                                                                                       ) {
-                                                                                                        return _vm.SelectMatch(
+                                                                                                        _vm.SelectMatch(
                                                                                                           item.id,
                                                                                                           index,
                                                                                                           i
-                                                                                                        )
+                                                                                                        ),
+                                                                                                          (_vm.isExamStart = true)
                                                                                                       }
                                                                                                     },
                                                                                                     model: {
@@ -27118,10 +27159,16 @@ var render = function() {
                                                                         _vm.Essayoptions
                                                                     },
                                                                     on: {
+                                                                      focus: function(
+                                                                        $event
+                                                                      ) {
+                                                                        _vm.isExamStart = false
+                                                                      },
                                                                       change: function(
                                                                         $event
                                                                       ) {
-                                                                        return _vm.SelectAnswer()
+                                                                        _vm.SelectAnswer(),
+                                                                          (_vm.isExamStart = true)
                                                                       }
                                                                     },
                                                                     model: {

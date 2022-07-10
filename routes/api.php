@@ -302,11 +302,21 @@ Route::middleware('auth:sanctum')->prefix('/objective-logs')->group(function () 
   
 });
 
+Route::prefix('/quiz')->group(function () {
+    Route::get('/question_id/{id}', [ObjectiveController::class, 'fetchQuestionIds']);
+    Route::get('/question/{id}', [ObjectiveController::class, 'GetQuestion']);
+
+});
+
 
 //Objective Questions
 /* middleware('auth:sanctum')-> */
 Route::middleware('auth:sanctum')->withoutMiddleware('throttle:api')->prefix('/question')->group(function () {
+
+
+    
     Route::get('/all/{id}', [ObjectiveController::class, 'fetctQuestions']);
+    
 
     Route::get('/StudentScore/{id}', [ObjectiveController::class, 'CheckStudentScore']);
     /* Route::get('/all/{id}', [ObjectiveController::class, 'checker']); */

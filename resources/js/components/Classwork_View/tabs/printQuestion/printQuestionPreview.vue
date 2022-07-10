@@ -42,8 +42,7 @@
                   <VueHtml2pdf :show-layout="false"  :enable-download="true" :preview-modal="false"
                     :paginate-elements-by-height="1000" :filename="classworkDetails.title" :pdf-quality="2" :manual-pagination="false"
                     pdf-format="a4" pdf-orientation="portrait" pdf-content-width="780px" :html-to-pdf-options="pdfOptions" 
-                    @hasDownloaded="closeDialog()" 
-                    ref="html2Pdf">
+                    @hasDownloaded="closeDialog()" ref="html2Pdf">
                     
                     <section slot="pdf-content">
 
