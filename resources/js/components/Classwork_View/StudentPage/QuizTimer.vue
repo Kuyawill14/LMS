@@ -2,7 +2,7 @@
     <div>
       <div v-if="EndDate">
           <countdown ref="QuizTimer" @progress="handleCountdownProgress"
-          @abort="getTimeSpent" @end="EndTimer" :time="EndDate" :interval="100" tag="p" v-slot="{hours, minutes, seconds }">
+          @abort="getTimeSpent"  :time="2 * 24 * 60 * 60 * 1000" :interval="100" tag="p" v-slot="{hours, minutes, seconds }">
             <template> 
                 <div class="d-flex justify-center mt-0 pt-0">
                     <div class="text-center">

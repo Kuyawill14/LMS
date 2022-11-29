@@ -1099,6 +1099,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1125,6 +1142,10 @@ var printQuestion = function printQuestion() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_printQuestion_printQuestionPreview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./printQuestion/printQuestionPreview */ "./resources/js/components/Classwork_View/tabs/printQuestion/printQuestionPreview.vue"));
 };
 
+var addQuestionDialog = function addQuestionDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_addQuestionDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/addQuestionDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/addQuestionDialog.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
   components: {
@@ -1133,7 +1154,8 @@ var printQuestion = function printQuestion() {
     deleteDialogQuestion: deleteDialogQuestion,
     studentViewForTeacher: studentViewForTeacher,
     warningDialog: warningDialog,
-    printQuestion: printQuestion
+    printQuestion: printQuestion,
+    addQuestionDialog: addQuestionDialog
   },
   data: function data() {
     return {
@@ -1234,7 +1256,8 @@ var printQuestion = function printQuestion() {
       message: false,
       hints: true,
       isGeneratingCopy: false,
-      isPrintingQuestion: false
+      isPrintingQuestion: false,
+      ExistingQuestionDialog: false
     };
   },
   watch: {
@@ -3662,6 +3685,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -36314,90 +36343,192 @@ var render = function() {
           "div",
           { staticClass: "pa-1" },
           [
-            _c("v-hover", {
-              scopedSlots: _vm._u([
-                {
-                  key: "default",
-                  fn: function(ref) {
-                    var hover = ref.hover
-                    return [
-                      _c(
-                        "div",
-                        [
-                          !_vm.isloading &&
-                          _vm.Qlength != 0 &&
-                          _vm.$vuetify.breakpoint.mdAndUp &&
-                          !_vm.isHaveSubmission
-                            ? _c(
-                                "v-app-bar",
-                                {
-                                  staticClass: "fixed-bar",
-                                  style:
-                                    _vm.$vuetify.breakpoint.mdAndUp && !_vm.fab
-                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 4.5em !important;margin-left: 1em !important;cursor:pointer;"
-                                      : _vm.$vuetify.breakpoint.mdAndUp &&
-                                        _vm.fab
-                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top: 4.5em !important;margin-left: 1em !important;cursor:pointer;"
-                                      : "",
-                                  attrs: {
-                                    elevation: hover ? "10" : "2",
-                                    dense: "",
-                                    "clipped-right": "",
-                                    shaped: "",
-                                    floating: "",
-                                    color: "blue"
-                                  },
-                                  on: { click: _vm.AddNewQuestion }
-                                },
-                                [
-                                  _c(
-                                    "v-chip",
-                                    {
-                                      staticStyle: { cursor: "pointer" },
-                                      attrs: {
-                                        small: "",
-                                        color: "blue",
-                                        "text-color": "white"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "v-icon",
-                                        {
-                                          staticStyle: {
-                                            "font-size": "1.5rem"
-                                          },
-                                          attrs: { left: "" }
-                                        },
-                                        [_vm._v("mdi-plus")]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "span",
-                                        {
-                                          staticClass: "font-weight-bold pl-2"
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\r\n                ADD\r\n            "
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e()
-                        ],
-                        1
-                      )
-                    ]
+            _c(
+              "v-menu",
+              {
+                attrs: {
+                  bottom: "",
+                  "offset-y": "",
+                  absolute: "",
+                  "max-width": "350"
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "activator",
+                    fn: function(ref) {
+                      var on = ref.on
+                      var attrs = ref.attrs
+                      return [
+                        _c("v-hover", {
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "default",
+                                fn: function(ref) {
+                                  var hover = ref.hover
+                                  return [
+                                    _c(
+                                      "div",
+                                      [
+                                        !_vm.isloading &&
+                                        _vm.Qlength != 0 &&
+                                        _vm.$vuetify.breakpoint.mdAndUp &&
+                                        !_vm.isHaveSubmission
+                                          ? _c(
+                                              "v-app-bar",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    staticClass: "fixed-bar",
+                                                    style:
+                                                      _vm.$vuetify.breakpoint
+                                                        .mdAndUp && !_vm.fab
+                                                        ? "position: fixed !important;z-index: 2;width: 130px !important;top: 4.5em !important;margin-left: 1em !important;cursor:pointer;"
+                                                        : _vm.$vuetify
+                                                            .breakpoint
+                                                            .mdAndUp && _vm.fab
+                                                        ? "position: fixed !important;width: 130px !important;z-index: 2;top: 4.5em !important;margin-left: 1em !important;cursor:pointer;"
+                                                        : "",
+                                                    attrs: {
+                                                      elevation: hover
+                                                        ? "10"
+                                                        : "2",
+                                                      dense: "",
+                                                      "clipped-right": "",
+                                                      shaped: "",
+                                                      floating: "",
+                                                      color: "blue"
+                                                    }
+                                                  },
+                                                  "v-app-bar",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              ),
+                                              [
+                                                _c(
+                                                  "v-chip",
+                                                  {
+                                                    staticStyle: {
+                                                      cursor: "pointer"
+                                                    },
+                                                    attrs: {
+                                                      small: "",
+                                                      color: "blue",
+                                                      "text-color": "white"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        staticStyle: {
+                                                          "font-size": "1.5rem"
+                                                        },
+                                                        attrs: { left: "" }
+                                                      },
+                                                      [_vm._v("mdi-plus")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "font-weight-bold pl-2"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\r\n                    ADD\r\n                "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          : _vm._e()
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            true
+                          )
+                        })
+                      ]
+                    }
                   }
-                }
-              ])
-            }),
+                ])
+              },
+              [
+                _vm._v(" "),
+                _c(
+                  "v-list",
+                  { attrs: { nav: "", rounded: "" } },
+                  [
+                    _c(
+                      "v-list-item",
+                      { on: { click: _vm.AddNewQuestion } },
+                      [
+                        _c(
+                          "v-list-item-title",
+                          [
+                            _c(
+                              "v-icon",
+                              {
+                                staticStyle: { "font-size": "1.5rem" },
+                                attrs: { left: "" }
+                              },
+                              [_vm._v("mdi-plus")]
+                            ),
+                            _vm._v(" New Question")
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item",
+                      {
+                        on: {
+                          click: function($event) {
+                            _vm.ExistingQuestionDialog = true
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "v-list-item-title",
+                          [
+                            _c(
+                              "v-icon",
+                              {
+                                staticStyle: { "font-size": "1.5rem" },
+                                attrs: { left: "" }
+                              },
+                              [_vm._v("mdi-plus")]
+                            ),
+                            _vm._v(" Exisiting Question")
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
             _vm._v(" "),
             _c("v-hover", {
               scopedSlots: _vm._u([
@@ -40490,6 +40621,33 @@ var render = function() {
                 })
               ],
               1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-dialog",
+              {
+                attrs: {
+                  "max-width": "600",
+                  transition: "dialog-bottom-transition"
+                },
+                model: {
+                  value: _vm.ExistingQuestionDialog,
+                  callback: function($$v) {
+                    _vm.ExistingQuestionDialog = $$v
+                  },
+                  expression: "ExistingQuestionDialog"
+                }
+              },
+              [
+                _c("addQuestionDialog", {
+                  on: {
+                    CloseDialog: function($event) {
+                      _vm.ExistingQuestionDialog = false
+                    }
+                  }
+                })
+              ],
+              1
             )
           ],
           1
@@ -43008,6 +43166,45 @@ var render = function() {
                                                             ? "Accepting late"
                                                             : "Not accepting late"
                                                         )
+                                                      ),
+                                                      _c("br"),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-medium"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "Grading criteria: "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          details.details
+                                                            .criteria_name
+                                                        )
+                                                      ),
+                                                      _c("br")
+                                                    ])
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                details.details.availability ==
+                                                2
+                                                  ? _c("div", [
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-medium"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "Availability: Not available"
+                                                          )
+                                                        ]
                                                       ),
                                                       _c("br"),
                                                       _vm._v(" "),

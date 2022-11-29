@@ -175,6 +175,12 @@
                                                 <span class="font-weight-medium">Grading criteria: </span>{{details.details.criteria_name}}<br>
                                               
                                             </div>
+                                            <div v-if="details.details.availability == 2">
+                                                <span class="font-weight-medium">Availability: Not available</span><br>
+                                               
+                                                <span class="font-weight-medium">Grading criteria: </span>{{details.details.criteria_name}}<br>
+                                              
+                                            </div>
                                          </div>
 
                                          <div v-if="details.details == null">

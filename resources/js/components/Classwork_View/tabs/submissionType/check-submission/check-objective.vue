@@ -166,8 +166,73 @@
                                     </v-btn>
                                 </v-col> -->
 
-                                 <v-col  cols="12" class="ma-0 pa-0 pb-2 mt-1 d-flex">                   
-                                    <v-tooltip color="green" max-width="350" bottom>
+                                 <v-col  cols="12" class="ma-0 pa-0 pb-2 mt-1 d-flex"> 
+
+                                      <v-menu  open-on-hover bottom offset-y>
+                                        <template v-slot:activator="{ on, attrs }">
+                                             <v-btn text block v-bind="attrs" v-on="on" rounded dark small  
+                                                color="secondary" ><v-icon left>mdi-cog</v-icon> Settings
+                                            </v-btn>
+                                        </template>
+
+                                        <v-list nav>
+                                            <v-list-item @click="AllowResubmitDialog = true" v-if="ViewDetails.status == 'Submitted'">
+                                                 <v-tooltip max-width="350" bottom>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                <v-list-item-title v-bind="attrs" v-on="on">
+                                                    <span ><v-icon color="green" left>mdi-file-document-edit-outline</v-icon>Allow Retake</span>
+                                                </v-list-item-title>
+                                                </template>
+                                                <span> Allow Retake<br>
+                                                    This student will able to take the quiz again.
+                                                </span>
+                                            </v-tooltip>
+                                            </v-list-item>
+
+                                            <v-list-item @click="AllowResubmitDialog = true"   v-if="ViewDetails.status == null && ViewDetails.availability == 1 
+                                            && (CheckFormatDue(DateToday) > CheckFormatDue(ViewDetails.to_date)) && (ViewDetails.allow_resubmit == 0 || ViewDetails.allow_resubmit == null)">
+                                                <v-tooltip max-width="350" bottom>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                <v-list-item-title v-bind="attrs" v-on="on">
+                                                    <span ><v-icon color="green" left>mdi-file-document-edit-outline</v-icon>Allowed to make Submission</span>
+                                                </v-list-item-title>
+                                                 </template>
+                                                    <span> Allowed Submission<br>
+                                                        This student will able to take the quiz even if the classwork is already due.
+                                                    </span>
+                                                </v-tooltip>
+                                            </v-list-item>
+
+                                            <v-list-item v-if="ViewDetails.allow_resubmit == 1">
+                                                <v-tooltip max-width="350" bottom>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                    <v-list-item-title v-bind="attrs" v-on="on">
+                                                        <span ><v-icon color="green" left>mdi-file-document-edit-outline</v-icon>Allowed for retake</span>
+                                                    </v-list-item-title>
+                                                    </template>
+                                                    <span> Allowed for retake<br>
+                                                        This student is allowed to retake the quiz.
+                                                    </span>
+                                                </v-tooltip>
+                                            </v-list-item>
+
+                                            <v-list-item @click="dialog = !dialog" v-if="ViewDetails.status != null">
+                                                <v-tooltip max-width="350" bottom>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-list-item-title v-bind="attrs" v-on="on">
+                                                            <span ><v-icon color="red" left>mdi-restart</v-icon>Reset Submission</span>
+                                                            
+                                                        </v-list-item-title>
+                                                     </template>
+                                                     <span>Reset Submission<br>
+                                                        Note: You can't undo this once you've reset the student submission,
+                                                        the submitted answer of this student will be remove.
+                                                    </span>
+                                                 </v-tooltip>
+                                            </v-list-item>
+                                        </v-list>
+                                        </v-menu>                
+                                   <!--  <v-tooltip color="green" max-width="350" bottom>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn v-bind="attrs" v-on="on" rounded dark small  v-if="ViewDetails.status == 'Submitted'"
                                                 @click="AllowResubmitDialog = true" color="green" ><v-icon left>mdi-file-document-edit-outline</v-icon> Allow Retake
@@ -214,7 +279,7 @@
                                             Note: You can't undo this once you've reset the student submission,
                                             the submitted answer of this student will be remove.
                                         </span>
-                                    </v-tooltip>
+                                    </v-tooltip> -->
                                 </v-col>
                             </v-card>
 
@@ -341,12 +406,26 @@
                             </v-row>
                         </v-card>
 
-                        <v-card v-if="ViewDetails.status != null">
+                        <v-card class="d-flex" v-if="ViewDetails.status != null">
                             <v-tabs background-color="" center-active centered v-model="tab">
                                 <v-tab>Answers</v-tab>
                                 <v-tab @click="fetchStudentActivity">Activities</v-tab>
 
                             </v-tabs>
+                            <v-tooltip v-if="$vuetify.breakpoint.mdAndUp" top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn class="mr-2 mt-2" rounded
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    icon 
+                                    @click="GenerateCopy"
+                                    text>
+                                <v-icon dark>mdi-download</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Download Student Answer</span>
+                        </v-tooltip>
+                           
                         </v-card>
                         <v-tabs-items v-model="tab" class="mt-2">
                             <v-tab-item>
@@ -794,12 +873,21 @@
             </v-col>
 
         </v-row>
+        <div v-if="isLoaded">
+            <!-- <v-dialog v-model="isPrintingAnswer" max-width="300"> -->
+                <printStudentAnswer :Question="getAll_questions" :Answers="SubmittedAnswer" 
+                :Details="ViewDetails"
+                :CheckAnswer="Check" :classworkDetails="classworkDetails"  ref="MainChild"  ></printStudentAnswer>
+           <!--  </v-dialog> -->
+        </div>
+        
 
     </div>
 </template>
 <script>
     import moment from 'moment-timezone';
     const resetConfirmation = () => import('../../dialogs/resetConfirmation')
+    const printStudentAnswer = () => import('../../printQuestion/printStudentAnswer')
     import {
         mapGetters,
         mapActions
@@ -809,7 +897,8 @@ import axios from 'axios';
     export default {
         props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex","CheckDataSection", 'Class_id'],
         components: {
-            resetConfirmation
+            resetConfirmation,
+            printStudentAnswer
         },
         data() {
             return {
@@ -856,12 +945,18 @@ import axios from 'axios';
                 EssayOldPoints: [],
                 Question_Type:['All Type', 'Multiple Choice', 'Identification', 'True or False', 'Matching Type', 'Essay'],
                 selected_type: 'All Type',
-                AllowResubmitDialog: false
+                AllowResubmitDialog: false,
+                isPrintingAnswer:false,
                 
             }
         },
         computed: mapGetters(['get_CurrentUser', 'getAll_questions']),
         methods: {
+            GenerateCopy(){
+            this.isPrintingAnswer = true;
+            this.$refs.MainChild.generateReport();
+          
+            },
             CheckFormatDue(value){
                 if (value) {
                     return moment(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');

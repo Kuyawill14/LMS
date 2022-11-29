@@ -15,6 +15,7 @@ use App\Models\Tbl_class;
 use App\Models\tbl_userclass;
 use App\Models\tbl_student_sub_module_progress;
 use App\Models\tbl_sub_modules;
+use App\Models\tbl_main_modules;
 use App\Models\tbl_Submission;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
@@ -65,12 +66,41 @@ class UserProfileController extends Controller
      */
     public function fetchAllUploadedFiles()
     {
+
+
+        
+
+      /*   $files2 = tbl_main_modules::where('tbl_main_modules.created_by', 217)
+        ->select('tbl_main_modules.id','tbl_sub_modules.id as sub_module_id','tbl_sub_modules.type','tbl_sub_modules.file_attachment as attachment')
+        ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.main_module_id','=','tbl_main_modules.id')
+        ->whereNotNull('tbl_sub_modules.file_attachment')
+        ->get();
+
+
+        $files = tbl_classwork::where('tbl_classworks.user_id', 217)
+        ->select('tbl_classworks.attachment')
+        ->whereNotNull('tbl_classworks.attachment')
+        ->get();
+        $files2->push($files);
+        return $files2;
+ */
+
+
+
         $userId = auth('sanctum')->id();
         if(auth("sanctum")->user()->role == "Teacher"){
             $files = tbl_classwork::where('tbl_classworks.user_id', $userId)
             ->select('tbl_classworks.attachment')
             ->whereNotNull('tbl_classworks.attachment')
             ->get();
+
+
+            $files2 = tbl_classwork::where('tbl_main_modules.created_by', $userId)
+            ->select('tbl_classworks.attachment')
+            ->whereNotNull('tbl_classworks.attachment')
+            ->get();
+
+
             return $files;
         }
         elseif(auth("sanctum")->user()->role == "Student"){

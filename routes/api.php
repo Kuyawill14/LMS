@@ -309,6 +309,8 @@ Route::prefix('/quiz')->group(function () {
 });
 
 
+Route::get('/question_bank/list_all', [ObjectiveController::class, 'QuestionBankList']);
+
 //Objective Questions
 /* middleware('auth:sanctum')-> */
 Route::middleware('auth:sanctum')->withoutMiddleware('throttle:api')->prefix('/question')->group(function () {
@@ -316,6 +318,7 @@ Route::middleware('auth:sanctum')->withoutMiddleware('throttle:api')->prefix('/q
 
     
     Route::get('/all/{id}', [ObjectiveController::class, 'fetctQuestions']);
+   
     
 
     Route::get('/StudentScore/{id}', [ObjectiveController::class, 'CheckStudentScore']);
@@ -391,7 +394,7 @@ Route::middleware('auth:sanctum')->prefix('/submission')->group(function () {
 
 //User Profile 
 /* middleware('auth:sanctum')-> */
-Route::middleware('auth:sanctum')->prefix('/profile')->group(function () {
+Route::/* middleware('auth:sanctum')-> */prefix('/profile')->group(function () {
     Route::get('/details', [UserProfileController::class, 'index']);
     Route::post('/profile_picture', [UserProfileController::class, 'updatePicture']);
     Route::post('/updateDetails', [UserProfileController::class, 'updateDetails']);

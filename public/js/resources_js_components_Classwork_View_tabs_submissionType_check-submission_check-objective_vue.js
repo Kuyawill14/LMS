@@ -823,10 +823,101 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
+};
+
+var printStudentAnswer = function printStudentAnswer() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_printQuestion_printStudentAnswer_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../../printQuestion/printStudentAnswer */ "./resources/js/components/Classwork_View/tabs/printQuestion/printStudentAnswer.vue"));
 };
 
 
@@ -834,7 +925,8 @@ var resetConfirmation = function resetConfirmation() {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex", "CheckDataSection", 'Class_id'],
   components: {
-    resetConfirmation: resetConfirmation
+    resetConfirmation: resetConfirmation,
+    printStudentAnswer: printStudentAnswer
   },
   data: function data() {
     return {
@@ -877,11 +969,16 @@ var resetConfirmation = function resetConfirmation() {
       EssayOldPoints: [],
       Question_Type: ['All Type', 'Multiple Choice', 'Identification', 'True or False', 'Matching Type', 'Essay'],
       selected_type: 'All Type',
-      AllowResubmitDialog: false
+      AllowResubmitDialog: false,
+      isPrintingAnswer: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['get_CurrentUser', 'getAll_questions']),
   methods: {
+    GenerateCopy: function GenerateCopy() {
+      this.isPrintingAnswer = true;
+      this.$refs.MainChild.generateReport();
+    },
     CheckFormatDue: function CheckFormatDue(value) {
       if (value) {
         return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
@@ -3007,12 +3104,12 @@ var render = function() {
                                 },
                                 [
                                   _c(
-                                    "v-tooltip",
+                                    "v-menu",
                                     {
                                       attrs: {
-                                        color: "green",
-                                        "max-width": "350",
-                                        bottom: ""
+                                        "open-on-hover": "",
+                                        bottom: "",
+                                        "offset-y": ""
                                       },
                                       scopedSlots: _vm._u([
                                         {
@@ -3021,299 +3118,425 @@ var render = function() {
                                             var on = ref.on
                                             var attrs = ref.attrs
                                             return [
-                                              _vm.ViewDetails.status ==
-                                              "Submitted"
-                                                ? _c(
+                                              _c(
+                                                "v-btn",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      attrs: {
+                                                        text: "",
+                                                        block: "",
+                                                        rounded: "",
+                                                        dark: "",
+                                                        small: "",
+                                                        color: "secondary"
+                                                      }
+                                                    },
                                                     "v-btn",
-                                                    _vm._g(
-                                                      _vm._b(
-                                                        {
-                                                          attrs: {
-                                                            rounded: "",
-                                                            dark: "",
-                                                            small: "",
-                                                            color: "green"
-                                                          },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              _vm.AllowResubmitDialog = true
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                ),
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    { attrs: { left: "" } },
+                                                    [_vm._v("mdi-cog")]
+                                                  ),
+                                                  _vm._v(
+                                                    " Settings\n                                        "
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ])
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list",
+                                        { attrs: { nav: "" } },
+                                        [
+                                          _vm.ViewDetails.status == "Submitted"
+                                            ? _c(
+                                                "v-list-item",
+                                                {
+                                                  on: {
+                                                    click: function($event) {
+                                                      _vm.AllowResubmitDialog = true
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-tooltip",
+                                                    {
+                                                      attrs: {
+                                                        "max-width": "350",
+                                                        bottom: ""
+                                                      },
+                                                      scopedSlots: _vm._u(
+                                                        [
+                                                          {
+                                                            key: "activator",
+                                                            fn: function(ref) {
+                                                              var on = ref.on
+                                                              var attrs =
+                                                                ref.attrs
+                                                              return [
+                                                                _c(
+                                                                  "v-list-item-title",
+                                                                  _vm._g(
+                                                                    _vm._b(
+                                                                      {},
+                                                                      "v-list-item-title",
+                                                                      attrs,
+                                                                      false
+                                                                    ),
+                                                                    on
+                                                                  ),
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              color:
+                                                                                "green",
+                                                                              left:
+                                                                                ""
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "mdi-file-document-edit-outline"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "Allow Retake"
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
                                                             }
                                                           }
-                                                        },
-                                                        "v-btn",
-                                                        attrs,
-                                                        false
-                                                      ),
-                                                      on
-                                                    ),
-                                                    [
-                                                      _c(
-                                                        "v-icon",
-                                                        { attrs: { left: "" } },
-                                                        [
-                                                          _vm._v(
-                                                            "mdi-file-document-edit-outline"
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(
-                                                        " Allow Retake\n                                        "
+                                                        ],
+                                                        null,
+                                                        false,
+                                                        1724709245
                                                       )
-                                                    ],
-                                                    1
+                                                    },
+                                                    [
+                                                      _vm._v(" "),
+                                                      _c("span", [
+                                                        _vm._v(" Allow Retake"),
+                                                        _c("br"),
+                                                        _vm._v(
+                                                          "\n                                                This student will able to take the quiz again.\n                                            "
+                                                        )
+                                                      ])
+                                                    ]
                                                   )
-                                                : _vm._e()
-                                            ]
-                                          }
-                                        }
-                                      ])
-                                    },
-                                    [
-                                      _vm._v(" "),
-                                      _c("span", [
-                                        _vm._v("Allow Retake"),
-                                        _c("br"),
-                                        _vm._v(
-                                          "\n                                        This student will able to take the quiz again.\n                                    "
-                                        )
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tooltip",
-                                    {
-                                      attrs: {
-                                        color: "info",
-                                        "max-width": "350",
-                                        bottom: ""
-                                      },
-                                      scopedSlots: _vm._u([
-                                        {
-                                          key: "activator",
-                                          fn: function(ref) {
-                                            var on = ref.on
-                                            var attrs = ref.attrs
-                                            return [
-                                              _vm.ViewDetails.status == null &&
-                                              _vm.ViewDetails.availability ==
-                                                1 &&
-                                              _vm.CheckFormatDue(
-                                                _vm.DateToday
-                                              ) >
-                                                _vm.CheckFormatDue(
-                                                  _vm.ViewDetails.to_date
-                                                ) &&
-                                              (_vm.ViewDetails.allow_resubmit ==
-                                                0 ||
-                                                _vm.ViewDetails
-                                                  .allow_resubmit == null)
-                                                ? _c(
-                                                    "v-btn",
-                                                    _vm._g(
-                                                      _vm._b(
-                                                        {
-                                                          attrs: {
-                                                            block: "",
-                                                            rounded: "",
-                                                            dark: "",
-                                                            small: "",
-                                                            color: "info"
-                                                          },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              _vm.AllowResubmitDialog = true
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.ViewDetails.status == null &&
+                                          _vm.ViewDetails.availability == 1 &&
+                                          _vm.CheckFormatDue(_vm.DateToday) >
+                                            _vm.CheckFormatDue(
+                                              _vm.ViewDetails.to_date
+                                            ) &&
+                                          (_vm.ViewDetails.allow_resubmit ==
+                                            0 ||
+                                            _vm.ViewDetails.allow_resubmit ==
+                                              null)
+                                            ? _c(
+                                                "v-list-item",
+                                                {
+                                                  on: {
+                                                    click: function($event) {
+                                                      _vm.AllowResubmitDialog = true
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-tooltip",
+                                                    {
+                                                      attrs: {
+                                                        "max-width": "350",
+                                                        bottom: ""
+                                                      },
+                                                      scopedSlots: _vm._u(
+                                                        [
+                                                          {
+                                                            key: "activator",
+                                                            fn: function(ref) {
+                                                              var on = ref.on
+                                                              var attrs =
+                                                                ref.attrs
+                                                              return [
+                                                                _c(
+                                                                  "v-list-item-title",
+                                                                  _vm._g(
+                                                                    _vm._b(
+                                                                      {},
+                                                                      "v-list-item-title",
+                                                                      attrs,
+                                                                      false
+                                                                    ),
+                                                                    on
+                                                                  ),
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              color:
+                                                                                "green",
+                                                                              left:
+                                                                                ""
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "mdi-file-document-edit-outline"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "Allowed to make Submission"
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
                                                             }
                                                           }
-                                                        },
-                                                        "v-btn",
-                                                        attrs,
-                                                        false
-                                                      ),
-                                                      on
-                                                    ),
-                                                    [
-                                                      _c(
-                                                        "v-icon",
-                                                        { attrs: { left: "" } },
-                                                        [
-                                                          _vm._v(
-                                                            "mdi-file-document-edit-outline"
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(
-                                                        " Allow to make Submission\n                                        "
+                                                        ],
+                                                        null,
+                                                        false,
+                                                        3885520833
                                                       )
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e()
-                                            ]
-                                          }
-                                        }
-                                      ])
-                                    },
-                                    [
-                                      _vm._v(" "),
-                                      _c("span", [
-                                        _vm._v("Allow Submission"),
-                                        _c("br"),
-                                        _vm._v(
-                                          "\n                                        This student will able to take the quiz even if the classwork is already due.\n                                    "
-                                        )
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tooltip",
-                                    {
-                                      attrs: {
-                                        color: "success",
-                                        "max-width": "350",
-                                        bottom: ""
-                                      },
-                                      scopedSlots: _vm._u([
-                                        {
-                                          key: "activator",
-                                          fn: function(ref) {
-                                            var on = ref.on
-                                            var attrs = ref.attrs
-                                            return [
-                                              _vm.ViewDetails.allow_resubmit ==
-                                              1
-                                                ? _c(
-                                                    "v-btn",
-                                                    _vm._g(
-                                                      _vm._b(
-                                                        {
-                                                          staticStyle: {
-                                                            cursor: "crosshair"
-                                                          },
-                                                          attrs: {
-                                                            disabled: "",
-                                                            block: "",
-                                                            rounded: "",
-                                                            small: "",
-                                                            color: "success"
-                                                          }
-                                                        },
-                                                        "v-btn",
-                                                        attrs,
-                                                        false
-                                                      ),
-                                                      on
-                                                    ),
+                                                    },
                                                     [
-                                                      _c(
-                                                        "v-icon",
-                                                        { attrs: { left: "" } },
-                                                        [
-                                                          _vm._v(
-                                                            "mdi-file-document-edit-outline"
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(
-                                                        " Allowed for retake\n                                        "
-                                                      )
-                                                    ],
-                                                    1
+                                                      _vm._v(" "),
+                                                      _c("span", [
+                                                        _vm._v(
+                                                          " Allowed Submission"
+                                                        ),
+                                                        _c("br"),
+                                                        _vm._v(
+                                                          "\n                                                    This student will able to take the quiz even if the classwork is already due.\n                                                "
+                                                        )
+                                                      ])
+                                                    ]
                                                   )
-                                                : _vm._e()
-                                            ]
-                                          }
-                                        }
-                                      ])
-                                    },
-                                    [
-                                      _vm._v(" "),
-                                      _c("span", [
-                                        _vm._v("Allowed for retake"),
-                                        _c("br"),
-                                        _vm._v(
-                                          "\n                                        This student is allowed to retake the quiz.\n                                    "
-                                        )
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("v-spacer"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tooltip",
-                                    {
-                                      attrs: {
-                                        color: "red",
-                                        "max-width": "350",
-                                        bottom: ""
-                                      },
-                                      scopedSlots: _vm._u([
-                                        {
-                                          key: "activator",
-                                          fn: function(ref) {
-                                            var on = ref.on
-                                            var attrs = ref.attrs
-                                            return [
-                                              _vm.ViewDetails.status != null
-                                                ? _c(
-                                                    "v-btn",
-                                                    _vm._g(
-                                                      _vm._b(
-                                                        {
-                                                          attrs: {
-                                                            rounded: "",
-                                                            dark: "",
-                                                            small: "",
-                                                            loading:
-                                                              _vm.isReseting,
-                                                            color: "red"
-                                                          },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              _vm.dialog = !_vm.dialog
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.ViewDetails.allow_resubmit == 1
+                                            ? _c(
+                                                "v-list-item",
+                                                [
+                                                  _c(
+                                                    "v-tooltip",
+                                                    {
+                                                      attrs: {
+                                                        "max-width": "350",
+                                                        bottom: ""
+                                                      },
+                                                      scopedSlots: _vm._u(
+                                                        [
+                                                          {
+                                                            key: "activator",
+                                                            fn: function(ref) {
+                                                              var on = ref.on
+                                                              var attrs =
+                                                                ref.attrs
+                                                              return [
+                                                                _c(
+                                                                  "v-list-item-title",
+                                                                  _vm._g(
+                                                                    _vm._b(
+                                                                      {},
+                                                                      "v-list-item-title",
+                                                                      attrs,
+                                                                      false
+                                                                    ),
+                                                                    on
+                                                                  ),
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              color:
+                                                                                "green",
+                                                                              left:
+                                                                                ""
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "mdi-file-document-edit-outline"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "Allowed for retake"
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
                                                             }
                                                           }
-                                                        },
-                                                        "v-btn",
-                                                        attrs,
-                                                        false
-                                                      ),
-                                                      on
-                                                    ),
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v("mdi-restart")
-                                                      ]),
-                                                      _vm._v(
-                                                        " Reset Submission\n                                        "
+                                                        ],
+                                                        null,
+                                                        false,
+                                                        1747057159
                                                       )
-                                                    ],
-                                                    1
+                                                    },
+                                                    [
+                                                      _vm._v(" "),
+                                                      _c("span", [
+                                                        _vm._v(
+                                                          " Allowed for retake"
+                                                        ),
+                                                        _c("br"),
+                                                        _vm._v(
+                                                          "\n                                                    This student is allowed to retake the quiz.\n                                                "
+                                                        )
+                                                      ])
+                                                    ]
                                                   )
-                                                : _vm._e()
-                                            ]
-                                          }
-                                        }
-                                      ])
-                                    },
-                                    [
-                                      _vm._v(" "),
-                                      _c("span", [
-                                        _vm._v("Reset Submission"),
-                                        _c("br"),
-                                        _vm._v(
-                                          "\n                                        Note: You can't undo this once you've reset the student submission,\n                                        the submitted answer of this student will be remove.\n                                    "
-                                        )
-                                      ])
-                                    ]
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.ViewDetails.status != null
+                                            ? _c(
+                                                "v-list-item",
+                                                {
+                                                  on: {
+                                                    click: function($event) {
+                                                      _vm.dialog = !_vm.dialog
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-tooltip",
+                                                    {
+                                                      attrs: {
+                                                        "max-width": "350",
+                                                        bottom: ""
+                                                      },
+                                                      scopedSlots: _vm._u(
+                                                        [
+                                                          {
+                                                            key: "activator",
+                                                            fn: function(ref) {
+                                                              var on = ref.on
+                                                              var attrs =
+                                                                ref.attrs
+                                                              return [
+                                                                _c(
+                                                                  "v-list-item-title",
+                                                                  _vm._g(
+                                                                    _vm._b(
+                                                                      {},
+                                                                      "v-list-item-title",
+                                                                      attrs,
+                                                                      false
+                                                                    ),
+                                                                    on
+                                                                  ),
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              color:
+                                                                                "red",
+                                                                              left:
+                                                                                ""
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "mdi-restart"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "Reset Submission"
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            }
+                                                          }
+                                                        ],
+                                                        null,
+                                                        false,
+                                                        654274322
+                                                      )
+                                                    },
+                                                    [
+                                                      _vm._v(" "),
+                                                      _c("span", [
+                                                        _vm._v(
+                                                          "Reset Submission"
+                                                        ),
+                                                        _c("br"),
+                                                        _vm._v(
+                                                          "\n                                                    Note: You can't undo this once you've reset the student submission,\n                                                    the submitted answer of this student will be remove.\n                                                "
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
                                   )
                                 ],
                                 1
@@ -3917,6 +4140,7 @@ var render = function() {
                       _vm.ViewDetails.status != null
                         ? _c(
                             "v-card",
+                            { staticClass: "d-flex" },
                             [
                               _c(
                                 "v-tabs",
@@ -3944,7 +4168,70 @@ var render = function() {
                                   )
                                 ],
                                 1
-                              )
+                              ),
+                              _vm._v(" "),
+                              _vm.$vuetify.breakpoint.mdAndUp
+                                ? _c(
+                                    "v-tooltip",
+                                    {
+                                      attrs: { top: "" },
+                                      scopedSlots: _vm._u(
+                                        [
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              var attrs = ref.attrs
+                                              return [
+                                                _c(
+                                                  "v-btn",
+                                                  _vm._g(
+                                                    _vm._b(
+                                                      {
+                                                        staticClass:
+                                                          "mr-2 mt-2",
+                                                        attrs: {
+                                                          rounded: "",
+                                                          icon: "",
+                                                          text: ""
+                                                        },
+                                                        on: {
+                                                          click:
+                                                            _vm.GenerateCopy
+                                                        }
+                                                      },
+                                                      "v-btn",
+                                                      attrs,
+                                                      false
+                                                    ),
+                                                    on
+                                                  ),
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      { attrs: { dark: "" } },
+                                                      [_vm._v("mdi-download")]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        null,
+                                        false,
+                                        1796942482
+                                      )
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v("Download Student Answer")
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
                             ],
                             1
                           )
@@ -6433,7 +6720,26 @@ var render = function() {
           )
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _vm.isLoaded
+        ? _c(
+            "div",
+            [
+              _c("printStudentAnswer", {
+                ref: "MainChild",
+                attrs: {
+                  Question: _vm.getAll_questions,
+                  Answers: _vm.SubmittedAnswer,
+                  Details: _vm.ViewDetails,
+                  CheckAnswer: _vm.Check,
+                  classworkDetails: _vm.classworkDetails
+                }
+              })
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )

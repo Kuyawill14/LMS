@@ -19,10 +19,12 @@ use App\Models\tbl_student_main_grades;
 use App\Models\tbl_Submitted_Answer;
 use App\Models\tbl_student_course_subject_grades;
 use App\Models\tbl_userDetails;
+use App\Models\tbl_teacher_course;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use App\Events\NewNotification;
+
 use Notification;
 use App\Notifications\SendPushNotification;
 
@@ -1914,6 +1916,31 @@ class ObjectiveController extends Controller
             ]);
           }
        
+        
+    }
+
+    public function QuestionBankList(){
+
+        $userId = 4; //auth("sanctum")->id();
+       /*  $allCourseSubject = tbl_teacher_course::whereNull("tbl_teacher_courses.deleted_at")
+        ->where("tbl_teacher_courses.user_id", $userId)->select('tbl_teacher_courses.course_id')->get();
+        return $allCourseSubject; */
+        
+        $classworks = tbl_classwork::where('tbl_classworks.user_id', $userId)->select('tbl_classworks.id')->get();
+        $classwork_ids = array();
+        foreach($classworks as $cl){
+            $classwork_ids[] = $cl->id;
+        }
+
+
+        $QuestionsList = tbl_Questions::whereIn('tbl_questions.classwork_id', $classwork_ids)
+        ->Select('tbl_questions.id','tbl_questions.question')
+        ->orderBy('created_at','ASC')
+        ->whereNotNull('tbl_questions.question')
+        ->get();
+       
+         return $QuestionsList;
+
         
     }
  

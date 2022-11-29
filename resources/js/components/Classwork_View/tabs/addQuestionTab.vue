@@ -6,31 +6,44 @@
 </div>
 
 <div class="pa-1" v-else>
-
-<v-hover v-slot="{ hover }">
+   <v-menu bottom  offset-y absolute max-width="350">
+        <template v-slot:activator="{ on, attrs }">
+<v-hover 
+ v-slot="{ hover }">
     <div>
-        <v-app-bar
-       v-if="!isloading && Qlength != 0 && $vuetify.breakpoint.mdAndUp && !isHaveSubmission"
-        @click="AddNewQuestion"
-        :elevation="hover ? '10' : '2'"
-        :style="$vuetify.breakpoint.mdAndUp && !fab ? 
-        'position: fixed !important;z-index: 2;width: 130px !important;top: 4.5em !important;margin-left: 1em !important;cursor:pointer;' : 
-        $vuetify.breakpoint.mdAndUp && fab ?
-        'position: fixed !important;width: 130px !important;z-index: 2;top: 4.5em !important;margin-left: 1em !important;cursor:pointer;' : ''"
-        dense clipped-right shaped class="fixed-bar" floating  color="blue"  >
-            <v-chip
-            small
-            style="cursor:pointer;"
-            color="blue"
-            text-color="white">
-                <v-icon style="font-size:1.5rem" left>mdi-plus</v-icon>
-            <span class="font-weight-bold pl-2">
-                ADD
-            </span>
-            </v-chip>
+    <!--   @click="AddNewQuestion" -->
+        <v-app-bar 
+        v-if="!isloading && Qlength != 0 && $vuetify.breakpoint.mdAndUp && !isHaveSubmission"
+            v-bind="attrs" v-on="on"
+            :elevation="hover ? '10' : '2'"
+            :style="$vuetify.breakpoint.mdAndUp && !fab ? 
+            'position: fixed !important;z-index: 2;width: 130px !important;top: 4.5em !important;margin-left: 1em !important;cursor:pointer;' : 
+            $vuetify.breakpoint.mdAndUp && fab ?
+            'position: fixed !important;width: 130px !important;z-index: 2;top: 4.5em !important;margin-left: 1em !important;cursor:pointer;' : ''"
+            dense clipped-right shaped class="fixed-bar" floating  color="blue"  >
+                <v-chip
+                small
+                style="cursor:pointer;"
+                color="blue"
+                text-color="white">
+                    <v-icon style="font-size:1.5rem" left>mdi-plus</v-icon>
+                <span class="font-weight-bold pl-2">
+                    ADD
+                </span>
+                </v-chip>
         </v-app-bar>
     </div>
 </v-hover>
+   </template>
+    <v-list nav rounded>
+        <v-list-item @click="AddNewQuestion">
+            <v-list-item-title> <v-icon style="font-size:1.5rem" left>mdi-plus</v-icon> New Question</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="ExistingQuestionDialog = true">
+            <v-list-item-title><v-icon style="font-size:1.5rem" left>mdi-plus</v-icon> Exisiting Question</v-list-item-title>
+        </v-list-item>
+    </v-list>
+</v-menu>
 
 <v-hover v-slot="{ hover }">
     <div>
@@ -879,6 +892,10 @@
          </v-dialog>
          
     <!-- </div> -->
+    <v-dialog  max-width="600" transition="dialog-bottom-transition" v-model="ExistingQuestionDialog" >
+        <addQuestionDialog v-on:CloseDialog="ExistingQuestionDialog = false"></addQuestionDialog>
+    </v-dialog>
+    
     
 </div>
     
@@ -893,6 +910,7 @@ const warningDialog = () => import('./dialogs/warningDialog')
 const viewQuestion = () => import('./viewQuestion')
 const studentViewForTeacher = () => import('./TeacherQuizPreview/StudentViewForTeacher')
 const printQuestion = () => import('./printQuestion/printQuestionPreview')
+const addQuestionDialog = () => import('./dialogs/addQuestionDialog')
 export default {
     props:['classworkDetails'],
     components:{
@@ -901,7 +919,8 @@ export default {
         deleteDialogQuestion,
         studentViewForTeacher,
         warningDialog,
-        printQuestion
+        printQuestion,
+        addQuestionDialog
     },
     data(){
         return{
@@ -999,7 +1018,8 @@ export default {
             message: false,
             hints: true,
             isGeneratingCopy: false,
-            isPrintingQuestion: false
+            isPrintingQuestion: false,
+            ExistingQuestionDialog: false
         }
     },
     watch: {

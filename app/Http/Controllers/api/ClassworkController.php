@@ -131,8 +131,8 @@ class ClassworkController extends Controller
             })
             ->leftJoin('tbl_main_grade_categories', 'tbl_main_grade_categories.id', '=', 'tbl_class_classworks.grading_criteria')
             ->where('tbl_userclasses.user_id','=', $userId)
-            ->where('tbl_class_classworks.from_date', '<=', date('Y-m-d H:i:s'))
             ->where('tbl_class_classworks.availability', '!=',2)
+            ->where('tbl_class_classworks.from_date', '<=', date('Y-m-d H:i:s'))
             ->orderBy('created_at', 'DESC')
             ->get();
 
@@ -1017,7 +1017,7 @@ class ClassworkController extends Controller
         $DuplicateClasswork->instruction =  $checkClasswork->instruction;
         $DuplicateClasswork->duration =  $checkClasswork->duration;
         $DuplicateClasswork->points =  $checkClasswork->points;
-        $DuplicateClasswork->attachment = $checkClasswork->attachment;
+        $DuplicateClasswork->attachment = serialize($checkClasswork->attachment);
         $DuplicateClasswork->save();
 
 
